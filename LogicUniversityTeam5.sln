@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicUniversityTeam5", "LogicUniversityTeam5\LogicUniversityTeam5.csproj", "{48B0C39F-F037-4DC4-9260-C9E1891BD04A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicUniversityTeam5Test", "LogicUniversityTeam5Test\LogicUniversityTeam5Test.csproj", "{AF124AD6-82C2-41E3-8992-972C2120BE77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{48B0C39F-F037-4DC4-9260-C9E1891BD04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48B0C39F-F037-4DC4-9260-C9E1891BD04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48B0C39F-F037-4DC4-9260-C9E1891BD04A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF124AD6-82C2-41E3-8992-972C2120BE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF124AD6-82C2-41E3-8992-972C2120BE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF124AD6-82C2-41E3-8992-972C2120BE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF124AD6-82C2-41E3-8992-972C2120BE77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
