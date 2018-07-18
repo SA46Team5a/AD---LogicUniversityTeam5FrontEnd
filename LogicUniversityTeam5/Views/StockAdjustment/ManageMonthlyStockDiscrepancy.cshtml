@@ -1,0 +1,144 @@
+﻿@model LogicUniversityTeam5.Models.ItemAndVoucher
+@{
+    ViewBag.Title = "Manage monthly stock discrepancy";
+}
+<table>
+    <thead>
+        <tr>
+            <th scope="col" class="text-left">Stationery Description</th>
+            <th scope="col" class="text-left">Quantity to be adjusted</th>
+            <th scope="col" class="text-left">Amount</br></th>
+            <th scope="col" class="text-center col-4">Reason</th>
+            <th scope="col" class="text-left">Date of Report</th>
+        </tr>
+    </thead>
+    @using (Html.BeginForm("Method", "Model", FormMethod.Post))
+    {
+        <tbody>
+            @foreach (var item in Model.stockVoucher)
+            {
+            <tr>
+                @{var gap = item.actualcount - item.originalcount;
+                    int count = 0;}
+                <td>
+                    @Html.DisplayFor(m => Model.item[count].ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => gap)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ItemCost)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => item.Reason, new { @class = "form-control col-4" })
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.RaisedByDate)
+                </td>
+                <td class="text-center">
+                    @Html.CheckBoxFor(m=> Model.isSelected[count],new { @style = "width: 15px; height: 15px;" , @id = "HighlighterBlue" }) >
+                </td>
+            </tr>
+                 count++;
+             }
+        </tbody>
+
+    }
+</table>
+@*<div class="container">
+        <h1 class="text-center">Discrepancy Item</h1>
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-8">
+                <table id="MonthlyStockDiscrepancy" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-left ">Stationery Description</th>
+                            <th scope="col" class="text-left">Quantity to be adjusted</th>
+                            <th scope="col" class="text-left">Amount</br>(in $)</th>
+                            <th scope="col" class="text-center col-4">Reason</th>
+                            <th scope="col" class="text-left">Date of Report</th>
+                            <th scope="col" class="text-left">Select</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Highlighter Blue</td>
+                            <td>-10 Boxes</td>
+                            <td>200</td>
+                            <td><input type="text" class="form-control" id="reason_text" placeholder="damaged"></td>
+                            <td>01/07/2019</td>
+                            <td class="text-center">
+                                <input type="checkbox" class="form-check-input" style="width: 15px; height: 15px;" id="HighlighterBlue">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>File-Blue plain</td>
+                            <td>-20 Each</td>
+                            <td>160</td>
+                            <td><input type="text" class="form-control" id="reason_text" placeholder="Broken"></td>
+                            <td>01/07/2019</td>
+                            <td class="text-center">
+                                <input type="checkbox" class="form-check-input"  id="FileBlueplain">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Hole Puncher 3 holes</td>
+                            <td>+3 Each</td>
+                            <td>60</td>
+                            <td><input type="text" class="form-control" id="reason_text" placeholder="damaged"></td>
+                            <td>01/07/2019</td>
+                            <td class="text-center">
+                                <input type="checkbox" class="form-check-input" style="width: 25px; height: 25px;" id="HolePuncher3holes">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Ballpoint black pen</td>
+                            <td>-10 Dozen</td>
+                            <td>200</td>
+                            <td><input type="text" class="form-control" id="reason_text" placeholder="Broken"></td>
+                            <td>01/07/2019</td>
+                            <td class="text-center">
+                                <input type="checkbox" class="form-check-input" style="width: 25px; height: 25px;" id="Ballpointblackpen">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-4 text-center">
+                <input type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModalconfirm" id="btn_Confirm"
+                       value="Confirm" />
+            </div>
+            <div class="modal fade" id="myModalconfirm" role="dialog">
+                <div class="modal-dialog">
+                     Modal content
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <h6 class="modal-title text-right">Submission Adjustment Vouchers</h6>
+                        </div>
+                        <div class="modal-body text-left">
+                            <p>The stock levels and the reason for discrepancies will be saves. Do you wish to continue?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row justify-content-md ">
+                                <div class="col-6 text-center"><button data-dismiss="modal" class="btn btn-default">Cancel</button></div>
+                                <div class="col-6 text-right "><button type="submit" class="btn btn-primary">Ok</button></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-4 text-center">
+                <button id="btn_back" class="btn btn-secondary">Back</button>
+            </div>
+        </div>
+    </div>*@
+
+
