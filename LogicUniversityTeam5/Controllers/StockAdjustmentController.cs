@@ -20,10 +20,8 @@ namespace LogicUniversityTeam5.Controllers
             //List<StockVoucher> vouchers = stockService.getOpenVouchers();
             //combine.item = db.Items.ToList;
             //foreach(StockVoucher v in vouchers)
-            //{ ;
-            //  combine.isSelected.Add(new Dictionary<int,bool>{
-            //     {v.ItemId, false }
-            //  }); }
+            //{ 
+            //  combine.isSelected.Add(v.ItemId, false); }
             ItemAndVoucher combine = new ItemAndVoucher();
             combine.item = getitems();
             combine.stockVoucher = getstockvoucher();
@@ -34,13 +32,13 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult ManageMonthlyStockDiscrepancy(ItemAndVoucher model)
         {
             //stockUpdateService =  new UpdateStockManagementService();
-            //List<StockVoucher> vouchers = stockService.getOpenVouchers();
-            //foreach(StockVoucher v in vouchers)
-            //{ combine.item.Add(db.Items.ItemName)}
-            ItemAndVoucher combine = new ItemAndVoucher();
-            combine.item = getitems();
-            combine.stockVoucher = getstockvoucher();
-            return View("Home");
+            //foreach(KeyValuePair<int, false> entry in model.isSelected)
+            //{ 
+            //      if (entry.value == true){
+            //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
+            //      stockUpdateService.closeVoucher(sv);
+            //}
+            return View("Index","HomeController");
         }
 
         // Retrieving Mock Data from here

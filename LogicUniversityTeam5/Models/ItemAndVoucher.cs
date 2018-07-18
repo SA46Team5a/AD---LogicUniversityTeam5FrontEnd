@@ -9,7 +9,6 @@ namespace LogicUniversityTeam5.Models
     {
         public List<Items> item { get; set; }
         public List<StockVoucher> stockVoucher { get; set; }
-
         public List<Dictionary<int,bool>> isSelected { get; set; }
 
     }
