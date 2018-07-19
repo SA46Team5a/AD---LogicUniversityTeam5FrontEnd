@@ -200,7 +200,7 @@
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\Order\ItemCatalogueController.cs" />
+    <Compile Include="Controllers\CreateOrdersController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\Requisition\RequisitionController.cs" />
     <Compile Include="Controllers\StockAdjustmentController.cs" />
@@ -292,13 +292,14 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Requisition\ManageRequisition.cshtml" />
     <Content Include="Views\Requisition\Index.cshtml" />
-    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\CreateOrders\Index.cshtml" />
     <Content Include="Views\StockAdjustment\ManageMonthlyStockDiscrepancy.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Order\" />
     <Folder Include="Models\ViewModels\" />
   </ItemGroup>
   <ItemGroup>

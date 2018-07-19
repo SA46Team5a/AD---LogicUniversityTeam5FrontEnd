@@ -7,13 +7,14 @@ using LogicUniversityTeam5.Models;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
-    public class ItemCatalogueController : Controller
+    public class CreateOrdersController : Controller
     {
         // GET: ItemCatalogue
         public ActionResult ItemCatalogue()
         {
             ordertest combine = new ordertest();
             combine.order = getorderitems();
+
 
 
 
