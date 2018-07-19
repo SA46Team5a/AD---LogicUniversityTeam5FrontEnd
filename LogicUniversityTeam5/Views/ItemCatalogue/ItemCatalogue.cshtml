@@ -1,0 +1,139 @@
+﻿@model LogicUniversityTeam5.Models.ordertest
+@{
+    ViewBag.Title = "ItemCatalogue";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col" class="text-left">Category</th>
+            <th scope="col" class="text-left">Description</th>
+            <th scope="col" class="text-left">Reorder level</th>
+            <th scope="col" class="text-center col-4">Current Stock</th>
+            <th scope="col" class="text-left">Reorder Quantity</th>
+            <th scope="col" class="text-left">Reorder</th>
+        </tr>
+    </thead>
+    @using (Html.BeginForm("Method", "Model", FormMethod.Post))
+    {
+        <tbody>
+            @foreach (var item in Model.order)
+            {
+                <tr>
+
+                    <td>
+                        <p>@item.category  </p>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.reorderlevel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.currentstock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.recorderquantity)
+                    </td>
+                    <td class="text-center">
+                        <button id="btn_add" class="btn btn-primary">Add</button>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    }
+</table>
+@*<div class="container">
+        <h1 class="text-center">Item Catalogue</h1>
+        <div class="row justify-content-md-center mt-3">
+            <span class="my-auto">
+                Category
+            </span>
+            <div class="col-3 text-center">
+                <select class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                        placeholder="Department">
+                    <option value="0">Pencil</option>
+                    <option value="1">Pen</option>
+                    <option value="2">Envelope</option>
+                </select>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3 align-self-center">
+            <span class="my-auto">
+                Description
+            </span>
+            <div class="col-6 text-center">
+                <input class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                       placeholder="Search for Description">
+                </input>
+            </div>
+            <div class="invalid-feedback">
+                Please provide a category.
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-9 text-center">
+                <button id="btn_search" type="button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        <div class="mt-6 mb-6"> </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-9 text-center">
+                <table id="ItemCatalogueTable" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Category</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Reorder Level</th>
+                            <th scope="col">Current Stock</th>
+                            <th scope="col">Reorder Quantity</th>
+                            <th scope="col">Reorder</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pencil</td>
+                            <td>2B Pencil</td>
+                            <td>50</td>
+                            <td>20</td>
+                            <td>50</td>
+                            <td>
+                                <button id="btn_add" class="btn btn-primary">Add</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pen</td>
+                            <td>Blue Pen</td>
+                            <td>50</td>
+                            <td>40</td>
+                            <td>50</td>
+                            <td>
+                                <button id="btn_search" class="btn btn-primary">Add</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ruler</td>
+                            <td>Ruler"6"</td>
+                            <td>30</td>
+                            <td>39</td>
+                            <td>50</td>
+                            <td>
+                                <button id="btn_search" class="btn btn-primary">Add</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3 col 8">
+            <div class="col-4 text-center">
+                <button id="btn_cancel" class="btn btn-secondary">Cancel</button>
+            </div>
+            <div class="col-4 text-center">
+                <button id="btn_next" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+    </div>*@
+
