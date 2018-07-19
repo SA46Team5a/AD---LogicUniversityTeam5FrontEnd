@@ -5,8 +5,11 @@ using System.Web;
 
 namespace LogicUniversityTeam5.Models
 {
-    public class ordertest
+    public class Category
     {
-        public List<OrderItem> order { get; set; }
+        public string CategoryName { get; set; }
+        public string CategoryId { get; set; }
+        
+        
     }
 }

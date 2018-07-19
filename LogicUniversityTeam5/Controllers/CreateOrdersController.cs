@@ -14,10 +14,6 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
             ordertest combine = new ordertest();
             combine.order = getorderitems();
-
-
-
-
             return View(combine);
         }
         public List<OrderItem> getorderitems()
