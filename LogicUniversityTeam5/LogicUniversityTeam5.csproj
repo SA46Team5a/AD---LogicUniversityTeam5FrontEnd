@@ -223,10 +223,11 @@
     <Compile Include="Models\Admin\AccountViewModels.cs" />
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
+    <Compile Include="Models\ItemCatalogue.cs" />
     <Compile Include="Models\Items.cs" />
-    <Compile Include="Models\OrderItem.cs" />
-    <Compile Include="Models\ordertest.cs" />
+    <Compile Include="Models\Stocklevel.cs" />
     <Compile Include="Models\StockVoucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
