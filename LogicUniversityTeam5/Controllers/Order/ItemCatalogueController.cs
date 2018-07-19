@@ -41,7 +41,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
             List<Stocklevel> stockleve = new List<Stocklevel>();
             stockleve.Add( new Stocklevel() { Reorderlevel=30, Currentstock=38, ReorderQuantity=50});
-            stockleve.Add(new Stocklevel() { Reorderlevel = 30, Currentstock = 35, ReorderQuantity = 50 });
+            stockleve.Add(new Stocklevel() { Reorderlevel = 37, Currentstock = 35, ReorderQuantity = 50 });
             return stockleve;
         }
     }
