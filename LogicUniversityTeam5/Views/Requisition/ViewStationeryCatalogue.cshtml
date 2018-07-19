@@ -1,0 +1,100 @@
+﻿@model IEnumerable<ServiceLayer.DataAccess.StockCountItem>
+@{
+    ViewBag.Title = "ViewStationeryCatalogue";
+}
+
+<body>
+    @using (Html.BeginForm("ViewStationeryCatalogue", "Requisition", FormMethod.Post))
+    {
+        <div class="container">
+            <div class="row justify-content-md-center pb-5">
+                <h1 class="text-center mb=3">Stationery Catalogue</h1>
+            </div>
+            <div class="row justify-content-md-center my-auto">
+                <div class="align-middle">
+                    Category:
+                </div>
+                <div class="form-group col-md-3 text-center">
+                                        @*<select id="category " class="form-control">
+                                 <option selected>Clip</option>
+                                <option>File</option>
+                                <option>Pen</option>
+                                <option>Puncher</option>
+                                <option>Eraser</option>
+                                <option>Exercise</option>
+                            </select>*@
+                    @Html.DropDownList("dropdowncat")
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-3">
+                <div class="text-center"><input type="submit" class="btn btn-primary" value="Search" id="btn_search" /></div>
+            </div>
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-8">
+                    <table id="StationeryCatalogueTable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left col-6">Description</th>
+                                <th scope="col" class="text-center">Unit of Measure</th>
+                                <th scope="col" class="text-center">Quantity in Stock</th>
+                                <th scope="col" class="text-center">Quantity for Request</th>
+                                <th scope="col" class="text-left">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(ServiceLayer.DataAccess.StockCountItem i in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => i.ItemName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => i.UnitOfMeasure)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => i.QtyInStock)
+                                </td>
+                                <td>
+                                    @Html.TextBox("actual count", "")
+                                </td>
+                                <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
+                                </tr>
+                                }
+                            <tr>
+                                <td>2B Pencil</td>
+                                <td class="text-center">Box</td>
+                                <td class="text-center">50</td>
+                                <td class="text-center justify-content"><input type="text" class="form-control col-9 mx-auto" /></td>
+                                <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
+                            </tr>
+                            <tr>
+                                <td>2B Pencil</td>
+                                <td class="text-center">Box</td>
+                                <td class="text-center">80</td>
+                                <td class="text-center"><input type="text" class="form-control col-9 mx-auto" /></td>
+                                <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
+                            </tr>
+                            <tr>
+                                <td>Clips Paper Large</td>
+                                <td class="text-center">Box</td>
+                                <td class="text-center">20</td>
+                                <td class="text-center"><input type="text" class="form-control col-9 mx-auto" /></td>
+                                <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-5">
+                <div class="col-8 text-right">
+                    <input type="submit" class="btn btn-primary" id="btn_gotorequestform"
+                           value="Go to request form" />
+                </div>
+            </div>
+        </div>
+
+    }
+
+</body>
+
+

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace LogicUniversityTeam5.Controllers.Requisition
 {
-    public class RequisitionController : Controller
+    public class sRequisitionController : Controller
     {
         // GET: Requisition
         public ActionResult Index()
@@ -18,5 +18,10 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         {
             return View();
         }
+        public ActionResult ViewStationeryCatalogue()
+        {
+            return View();
+        }
+
     }
 }
