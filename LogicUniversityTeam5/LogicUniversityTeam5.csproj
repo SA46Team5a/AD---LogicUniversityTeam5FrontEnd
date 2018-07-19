@@ -204,8 +204,9 @@
     <Compile Include="Controllers\Admin\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CreateOrdersController.cs" />
+    <Compile Include="Controllers\Order\ItemCatalogueController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
-    <Compile Include="Controllers\Requisition\RequisitionController.cs" />
+    <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\StockAdjustmentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -303,7 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Order\" />
+    <Folder Include="Controllers\Requisition\" />
     <Folder Include="Models\ViewModels\" />
   </ItemGroup>
   <ItemGroup>

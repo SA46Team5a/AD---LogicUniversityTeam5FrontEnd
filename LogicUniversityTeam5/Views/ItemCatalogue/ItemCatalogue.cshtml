@@ -10,7 +10,7 @@
                 Category
             </span>
             <div class="col-3 text-center">
-                <select class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                <select class="form-control form-control" name="StatusDropdownlist" id="StatusDropdownlist" >
                         placeholder="Department">
                     <option value="0">Pencil</option>
                     <option value="1">Pen</option>
@@ -23,9 +23,9 @@
                 Description
             </span>
             <div class="col-6 text-center">
-                <input class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                <input class="form-control form-control" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
                        placeholder="Search for Description">
-                </input>
+                
             </div>
             <div class="invalid-feedback">
                 Please provide a category.
@@ -57,10 +57,7 @@
                     @for (int i = 0; i < Model.stocklevel.Count; i++)
                  {
                 <tr>
-
-
                     <td>
-
                         @Html.DisplayFor(m => Model.category[i].CategoryName)
                     </td>
                     <td>
@@ -88,8 +85,20 @@
             </div>
         </div>
         <div class="row justify-content-md-center mt-3 col 8">
-            <div class="col-4 text-center">
-                <button id="btn_cancel" class="btn btn-secondary">Cancel</button>
+            <div class=" col-4 text-center">
+                
+                <script type="text/javascript">
+                   $(document).ready(function () {
+
+                  $('#btnForgotPassword').click(function (e)
+                  {
+                      location.href = '@Url.Content("~/Home/Index/")';
+                  });
+
+                  });
+                </script>
+
+                <input id='btnForgotPassword' type="button" class="btn btn-secondary" value="Cancel" />
             </div>
             <div class="col-4 text-center">
                 <button id="btn_next" class="btn btn-primary">Next</button>
