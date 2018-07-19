@@ -53,27 +53,29 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         // Retrieving Mock Data from here
-        //public List<Items> getitems()
-        //{
-        //    List <Items> items = new List<Items>();
-        //    items.Add(
-        //        new Items() { ItemName = "2B Pencil" });
-        //    return items;
-        //}
+        public List<Item> getitems()
+        {
+            List<Item> items = new List<Item>();
+            items.Add(
+                new Item() { ItemName = "2B Pencil" });
+            return items;
+        }
 
-        //public List<StockVoucher> getstockvoucher()
-        //{
-        //    List<StockVoucher> stock = new List<StockVoucher>();
-        //    stock.Add(new StockVoucher() { discrepancyId = "Z123", actualcount = 95, originalcount = 100,
-        //        ItemCost = 25, Reason = "damaged", RaisedBy = "Tonia", isNewlyEnrolled = true, RaisedByDate = "18-07-2018",
-        //    Password = "password"
-        //    });
-        //    return stock;
-        //}
+        public List<StockVoucher> getstockvoucher()
+        {
+            List<StockVoucher> stock = new List<StockVoucher>();
+            stock.Add(new StockVoucher()
+            {
+                ItemCost = 25,
+                Reason = "damaged",
+                RaisedBy = "Tonia",
+            });
+            return stock;
+        }
 
-        //private Dictionary<int, bool> getIsSelected()
-        //{
-        //    return new Dictionary<int, bool>() { { 1, false } };
-        //}
+        private Dictionary<int, bool> getIsSelected()
+        {
+            return new Dictionary<int, bool>() { { 1, false } };
+        }
     }  
 }
