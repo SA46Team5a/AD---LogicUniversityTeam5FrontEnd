@@ -25,11 +25,14 @@ namespace LogicUniversityTeam5.Controllers
             ItemAndVoucher combine = new ItemAndVoucher();
             combine.item = getitems();
             combine.stockVoucher = getstockvoucher();
+            combine.isSelected = getIsSelected();
             return View(combine);
         }
 
+
+
         [HttpPost]
-        public ActionResult ManageMonthlyStockDiscrepancy(ItemAndVoucher model)
+        public ActionResult ManageMonthlyStockDiscrepancy(LogicUniversityTeam5.Models.ItemAndVoucher model)
         {
             //stockUpdateService =  new UpdateStockManagementService();
             //foreach(KeyValuePair<int, false> entry in model.isSelected)
@@ -38,7 +41,7 @@ namespace LogicUniversityTeam5.Controllers
             //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
             //      stockUpdateService.closeVoucher(sv);
             //}
-            return View("Index","HomeController");
+            return RedirectToAction("Index","Home");
         }
 
         // Retrieving Mock Data from here
@@ -58,6 +61,11 @@ namespace LogicUniversityTeam5.Controllers
             Password = "password"
             });
             return stock;
+        }
+
+        private Dictionary<int, bool> getIsSelected()
+        {
+            return new Dictionary<int, bool>() { { 1, false } };
         }
     }  
 }
