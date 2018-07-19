@@ -19,6 +19,14 @@ namespace LogicUniversityTeam5.Controllers.Order
            
             return View(itemcatalogue);
         }
+
+        [HttpPost]
+        public ActionResult ItemCatalogue(ItemCatalogue item)
+        {
+            ItemCatalogue value = new ItemCatalogue();
+            value = item;
+            return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
+        }
         public List<Items> getitem()
         {
 

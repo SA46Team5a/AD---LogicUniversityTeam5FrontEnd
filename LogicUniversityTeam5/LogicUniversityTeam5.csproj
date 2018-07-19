@@ -233,6 +233,7 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CreateOrdersController.cs" />
     <Compile Include="Controllers\Order\ItemCatalogueController.cs" />
+    <Compile Include="Controllers\Order\OrderQuantityController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\StockAdjustmentController.cs" />
@@ -330,6 +331,7 @@
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />
+    <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
