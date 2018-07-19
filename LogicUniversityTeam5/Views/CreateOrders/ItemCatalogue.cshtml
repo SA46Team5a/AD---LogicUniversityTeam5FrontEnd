@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "ItemCatalogue";
+}
+
+<div class="container">
+    <h1 class="text-center">Item Catalogue</h1>
+    <div class="row justify-content-md-center mt-3">
+        <span class="my-auto">
+            Category
+        </span>
+        <div class="col-3 text-center">
+            <select class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                    placeholder="Department">
+                <option value="0">Pencil</option>
+                <option value="1">Pen</option>
+                <option value="2">Envelope</option>
+            </select>
+        </div>
+    </div>
+    <div class="row justify-content-md-center mt-3 align-self-center">
+        <span class="my-auto">
+            Description
+        </span>
+        <div class="col-6 text-center">
+            <input class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                   placeholder="Search for Description">
+            </input>
+        </div>
+        <div class="invalid-feedback">
+            Please provide a category.
+        </div>
+    </div>
+    <div class="row justify-content-md-center mt-3">
+        <div class="col-9 text-center">
+            <button id="btn_search" type="button" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+ </div>
+
