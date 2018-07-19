@@ -12,18 +12,18 @@ namespace LogicUniversityTeam5.Controllers.Order
         // GET: ItemCatalogue
         public ActionResult ItemCatalogue()
         {
-            ItemCatalogue itemcatalogue = new ItemCatalogue();
-            itemcatalogue.item = getitem();
-            itemcatalogue.category = getcategory();
-            itemcatalogue.stocklevel = getstocklevel();
+            ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
+            itemcatalogue.items = getitem();
+            itemcatalogue.categories = getcategory();
+            itemcatalogue.stocklevels = getstocklevel();
            
             return View(itemcatalogue);
         }
 
         [HttpPost]
-        public ActionResult ItemCatalogue(ItemCatalogue item)
+        public ActionResult ItemCatalogue(ItemCatalogueModel item)
         {
-            ItemCatalogue value = new ItemCatalogue();
+            ItemCatalogueModel value = new ItemCatalogueModel();
             value = item;
             return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
         }

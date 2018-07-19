@@ -258,7 +258,7 @@
     <Compile Include="Models\Admin\ManageViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
-    <Compile Include="Models\ItemCatalogue.cs" />
+    <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />
     <Compile Include="Models\Stocklevel.cs" />
     <Compile Include="Models\StockVoucher.cs" />

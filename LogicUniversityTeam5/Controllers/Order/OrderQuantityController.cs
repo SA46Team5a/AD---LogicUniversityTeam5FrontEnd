@@ -10,7 +10,7 @@ namespace LogicUniversityTeam5.Controllers.Order
     public class OrderQuantityController : Controller
     {
         // GET: OrderQuantity
-        public ActionResult OrderQuantity(ItemCatalogue passeditem)
+        public ActionResult OrderQuantity(ItemCatalogueModel passeditem)
         {
             
             return View();

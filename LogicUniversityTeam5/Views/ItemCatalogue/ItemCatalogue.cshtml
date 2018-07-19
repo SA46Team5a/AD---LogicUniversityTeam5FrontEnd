@@ -1,5 +1,4 @@
 ﻿@model LogicUniversityTeam5.Models.ItemCatalogue
-
 @{
     ViewBag.Title = "ItemCatalogue";
 }
@@ -11,16 +10,12 @@
             Category
         </span>
         <div class="col-3 text-center">
-            @{ List<string> des = new List<string>();
-                foreach (var item in Model.category)
-                {
-                    des.Add(item.CategoryName);
-                }
-            }
-            @Html.DropDownList("StudentGender",
-                  new SelectList(des.Distinct()),
-                  "Select Category",
-                  new { @class = "form-control" })
+            <select class="form-control form-control" name="StatusDropdownlist" id="StatusDropdownlist">
+                placeholder="Department">
+                <option value="0">Pencil</option>
+                <option value="1">Pen</option>
+                <option value="2">Envelope</option>
+            </select>
         </div>
     </div>
     <div class="row justify-content-md-center mt-3 align-self-center">
@@ -28,8 +23,8 @@
             Description
         </span>
         <div class="col-6 text-center">
-            <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"
-                   placeholder="Search for Description" onkeyup="searchbydesFunction()">
+            <input class="form-control form-control" name="StatusDropdownlist" id="StatusDropdownlist" onchange="ChangecatList()"
+                   placeholder="Search for Description">
 
         </div>
         <div class="invalid-feedback">
@@ -44,7 +39,7 @@
     <div class="mt-6 mb-6"> </div>
     <div class="row justify-content-md-center mt-3">
         <div class="col-8 text-center">
-            <table class="table" id="cataloguetable">
+            <table class="table">
                 <thead>
                     <tr>
                         <th scope="col" class="text-left">Category</th>
@@ -55,7 +50,7 @@
                         <th scope="col" class="text-left">Reorder</th>
                     </tr>
                 </thead>
-                @using (Html.BeginForm("Method", "Model", FormMethod.Post))
+                @using (Html.BeginForm("ItemCatalogue", "ItemCatalogue", FormMethod.Post))
                 {
                     <tbody>
 
@@ -78,7 +73,9 @@
                                     @Html.DisplayFor(m => Model.stocklevel[i].ReorderQuantity)
                                 </td>
                                 <td class="text-center">
-                                    <button id="btn_add" class="btn btn-primary">Add</button>
+                                    <button type="button" id="btn_add" class="btn btn-primary">Add</button>
+                                    @Html.HiddenFor(m => m.isAdded[i])
+
                                 </td>
                             </tr>
 
@@ -87,46 +84,34 @@
 
                 }
             </table>
-            <script>
-                function searchbydesFunction() {
-                    var input, filter, table, tr, td, i;
-                    input = document.getElementById("descriptiontext");
-                    filter = input.value.toUpperCase();
-                    table = document.getElementById("cataloguetable");
-                    tr = table.getElementsByTagName("tr");
-                    for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("td")[1];
-                        if (td) {
-                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
-                            }
-                        }
-                    }
-                }
-            </script>
         </div>
     </div>
     <div class="row justify-content-md-center mt-3 col 8">
         <div class=" col-4 text-center">
 
-            <script type="text/javascript">
-                   $(document).ready(function () {
-
-                  $('#btnForgotPassword').click(function (e)
-                  {
-                      location.href = '@Url.Content("~/Home/Index/")';
-                  });
-
-                  });
-            </script>
-
             <input id='btnForgotPassword' type="button" class="btn btn-secondary" value="Cancel" />
         </div>
         <div class="col-4 text-center">
-            <button type="submit" value="Submit" id="btn_next" name="Submit" class="btn btn-primary">Next</button>
+            <button id="btn_next" class="btn btn-primary">Next</button>
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+                   $(document).ready(function () {
+                      $('#btnForgotPassword').click(function (e){
+                            location.href = '@Url.Content("~/Home/Index/")';
+                       });
+
+                       $(':button[id="btn_add"]').click(function () {
+                           $(this).prop('disabled', true);
+                           $(this).html('Added');
+                       });
+
+
+                   });
+
+</script>
+
 
