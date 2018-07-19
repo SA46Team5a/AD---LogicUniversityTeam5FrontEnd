@@ -226,6 +226,7 @@
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\Items.cs" />
     <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\ordertest.cs" />
     <Compile Include="Models\StockVoucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

@@ -12,16 +12,36 @@ namespace LogicUniversityTeam5.Controllers
 
     public class StockAdjustmentController : Controller
     {
-
+        //IRetrieveStockManagementService stockRetrieveService;
+        //IUpdateStockManagementService stockUpdateService;
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
+            //stockService =  new RetrieveStockManagementService();
+            //List<StockVoucher> vouchers = stockService.getOpenVouchers();
+            //combine.item = db.Items.ToList;
+            //foreach(StockVoucher v in vouchers)
+            //{ 
+            //  combine.isSelected.Add(v.ItemId, false); }
             ItemAndVoucher combine = new ItemAndVoucher();
             combine.item = getitems();
             combine.stockVoucher = getstockvoucher();
             return View(combine);
-
         }
 
+        [HttpPost]
+        public ActionResult ManageMonthlyStockDiscrepancy(ItemAndVoucher model)
+        {
+            //stockUpdateService =  new UpdateStockManagementService();
+            //foreach(KeyValuePair<int, false> entry in model.isSelected)
+            //{ 
+            //      if (entry.value == true){
+            //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
+            //      stockUpdateService.closeVoucher(sv);
+            //}
+            return View("Index","HomeController");
+        }
+
+        // Retrieving Mock Data from here
         public List<Items> getitems()
         {
             List <Items> items = new List<Items>();

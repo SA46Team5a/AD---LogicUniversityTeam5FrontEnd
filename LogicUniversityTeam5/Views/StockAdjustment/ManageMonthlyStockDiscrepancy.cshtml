@@ -18,7 +18,7 @@
             <th scope="col" class="text-left">Action</th>
         </tr>
     </thead>
-    @using (Html.BeginForm("Method", "Model", FormMethod.Post))
+    @using (Html.BeginForm("ManageMonthlyStockDiscrepancy", "model", FormMethod.Post))
     {
         <tbody>
             @foreach (var item in Model.stockVoucher)

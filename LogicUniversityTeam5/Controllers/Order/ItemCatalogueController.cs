@@ -15,11 +15,11 @@ namespace LogicUniversityTeam5.Controllers.Order
             ordertest combine = new ordertest();
             combine.order = getorderitems();
 
-            
-           
+
+
             return View(combine);
         }
-         public List<OrderItem> getorderitems()
+        public List<OrderItem> getorderitems()
         {
             List<OrderItem> orderitem = new List<OrderItem>();
             {
@@ -66,5 +66,5 @@ namespace LogicUniversityTeam5.Controllers.Order
                 return orderitem;
             }
         }
-   
+    }
 }
