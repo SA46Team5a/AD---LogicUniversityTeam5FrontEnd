@@ -18,6 +18,13 @@ namespace LogicUniversityTeam5.Controllers
         {
             stockManagementService = sms;
         }
+
+        // Path for testing connection to database. To be deleted.
+        public ActionResult Test()
+        {
+            ViewBag.test = stockManagementService.getStockCountOfItem("C001");
+            return View();
+        }
         
         //IRetrieveStockManagementService stockRetrieveService;
         //IUpdateStockManagementService stockUpdateService;

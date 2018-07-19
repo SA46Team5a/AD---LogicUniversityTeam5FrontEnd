@@ -328,6 +328,7 @@
     <Content Include="Views\StockAdjustment\ManageMonthlyStockDiscrepancy.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
+    <Content Include="Views\StockAdjustment\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
