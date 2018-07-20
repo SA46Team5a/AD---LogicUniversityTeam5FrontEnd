@@ -14,7 +14,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         IStockManagementService iStockService;
         IClassificationService iClassService;
-        public RequisitionController(StockManagementService sms, ClassificationService cs)
+        public sRequisitionController(StockManagementService sms, ClassificationService cs)
         {
             iStockService = sms;
             iClassService = cs;

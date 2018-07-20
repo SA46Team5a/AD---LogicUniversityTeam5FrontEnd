@@ -32,17 +32,24 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         public ActionResult ViewStationeryCatalogue()
         {
-            List<StockCountItem> itemList = iStockService.getAllStockCountItem();            
-            List<Category> catList = iClassService.GetCategories();            
+            
+            List<StockCountItem> stockcountitemList = iStockService.getAllStockCountItem();            
+            List<Category> catList = iClassService.GetCategories();
             ViewBag.dropdowncat = new SelectList(catList, "categoryId", "categoryName");
-            return View(itemList);
+            ViewBag.IsSelected = new List<bool>();
+            
+            return View(stockcountitemList);
         }
 
         [HttpPost]
-        public ActionResult ViewStationaryCatalogue(int catid)
+        public ActionResult ViewStationaryCatalogue(StockCountItem model)
         {
-            List<StockCountItem> selectitemList = iStockService.getStockCountItemsByCategory(catid);
-            return View(selectitemList);
+            return null;
+        }
+
+        private Dictionary<int, bool> getIsSelected()
+        {
+            return new Dictionary<int, bool>() { { 1, false } };
         }
     }
 }
