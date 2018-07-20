@@ -36,8 +36,7 @@
                     <thead>
                         <tr>
                             <th scope="col" class="text-left col-6">Description</th>
-                            <th scope="col" class="text-center">Unit of Measure</th>
-                            <th scope="col" class="text-center">Quantity in Stock</th>
+                            <th scope="col" class="text-center">Unit of Measure</th>                        
                             <th scope="col" class="text-center">Quantity for Request</th>
                             <th scope="col" class="text-left">Action</th>
                         </tr>
@@ -52,17 +51,14 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(m => i.UnitOfMeasure)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => i.QtyInStock)
-                            </td>
+                            </td>                           
                             <td>
                                 @Html.TextBox("actual count", "", new { @class="form-control col-9 mx-auto"})
                             </td>
                             <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
                         </tr>
-                }
-                        <tr>
+                        }
+                        @*<tr>
                             <td>2B Pencil</td>
                             <td class="text-center">Box</td>
                             <td class="text-center">50</td>
@@ -82,7 +78,7 @@
                             <td class="text-center">20</td>
                             <td class="text-center"><input type="text" class="form-control col-9 mx-auto" /></td>
                             <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
-                        </tr>
+                        </tr>*@
                     </tbody>
                 </table>
             </div>
