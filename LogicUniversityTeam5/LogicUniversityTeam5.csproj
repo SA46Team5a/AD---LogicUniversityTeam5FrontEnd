@@ -257,6 +257,7 @@
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />

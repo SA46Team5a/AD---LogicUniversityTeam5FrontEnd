@@ -1,4 +1,4 @@
-﻿@model ServiceLayer.DataAccess.StockVoucher
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
 @{
     ViewBag.Title = "Manage monthly stock discrepancy";
 }
@@ -22,10 +22,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.stockVoucher)
+                    @foreach (var item in Model.StockVouchers)
                     {
                         <tr>
-                            @{var gap = item.actualcount - item.originalcount;
+                            @{var gap = item.ActualCount - item.originalcount;
                                 int count = 0;}
                             <td>
                                 @Html.DisplayFor(m => Model.item[count].ItemName)
@@ -43,15 +43,13 @@
                                 @Html.DisplayFor(m => item.RaisedByDate)
                             </td>
                             <td class="text-center">
-                                @foreach (KeyValuePair<int, bool> isSelectedForAdjustment in Model.isSelected)
-                                {
-                                    if (isSelectedForAdjustment.Key == 1) { Html.CheckBoxFor(m => isSelectedForAdjustment.Value, new { @style = "width: 15px; height: 15px;", @id = "HighlighterBlue" }); }
+ 
+                                 @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "HighlighterBlue" }); }
 
-                                }
 
                             </td>
                         </tr>
-                                    count++;
+                                    @count++;
                      }
                 </tbody>
             </table>

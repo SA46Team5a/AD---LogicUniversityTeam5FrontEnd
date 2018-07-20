@@ -15,7 +15,7 @@ namespace LogicUniversityTeam5.Models
 
         public List<Order> Orders { get; set; }
 
-        public Dictionary<int,bool> IsSelected { get; set; }
+        public List<bool> IsSelected { get; set; }
 
         public List<String> AddedText { get; set; }
 
@@ -23,7 +23,7 @@ namespace LogicUniversityTeam5.Models
 
         public void setIsSelectedSize(int size)
         {
-            IsSelected = new Dictionary<int, bool>(size);
+            IsSelected = new List<bool>(size);
         }
 
         public void setAddedTextSize(int size)
