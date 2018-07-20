@@ -37,5 +37,12 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             ViewBag.dropdowncat = new SelectList(catList, "categoryId", "categoryName");
             return View(itemList);
         }
+
+        [HttpPost]
+        public ActionResult ViewStationaryCatalogue(int catid)
+        {
+            List<StockCountItem> selectitemList = iStockService.getStockCountItemsByCategory(catid);
+            return View(selectitemList);
+        }
     }
 }
