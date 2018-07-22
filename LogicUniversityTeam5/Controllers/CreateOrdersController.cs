@@ -5,25 +5,30 @@ using System.Web;
 using System.Web.Mvc;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
-
+using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
     public class CreateOrdersController : Controller
     {
         IStockManagementService _stockManagementService;
+        //IOrderService orderService;
+        StationeryStoreEntities context;
+
         public CreateOrdersController(StockManagementService sms)
         {
             _stockManagementService = sms;
+            //orderService = os;
+            context = StationeryStoreEntities.Instance;
         }
 
         public ActionResult ItemCatalogue()
         {
             ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
             itemcatalogue.items = _stockManagementService.getAllItems();
-            itemcatalogue.categories = getcategory();
+            //itemcatalogue.categories = getcategory();
             itemcatalogue.stocklevels = getstocklevel();
-
+            
             return View(itemcatalogue);
         }
 
@@ -35,13 +40,34 @@ namespace LogicUniversityTeam5.Controllers.Order
             return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
         }
 
-        public ActionResult PlaceOrder() {
-
-            return View();
-        }
-        public List<Items> getitem()
+        public ActionResult PlaceOrder()
         {
 
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
+            //List<string> itemIds = (List<string>) TempData["itemIds"];
+            //combinedViewModel.supplierItems = orderService.getSupplierItemsOfItemIds(itemIds);
+            List<string> itemIds = new List<string>()
+            {
+                "C001","C002","C003"
+            };
+
+            combinedViewModel.suppliers = new List<Supplier>();
+            combinedViewModel.supplierItems = new List<SupplierItem>()
+            {
+                new SupplierItem{SupplierItemID=1 , SupplierID="ALPA" , ItemID="C001", Rank=1, Cost=3.50m},
+                new SupplierItem{SupplierItemID=2 , SupplierID="ALPA" , ItemID="C002", Rank=1, Cost=4.50m},
+                new SupplierItem{SupplierItemID=3 , SupplierID="ALPA" , ItemID="C003", Rank=1, Cost=5.50m}
+            };
+            foreach (SupplierItem supplierItem in combinedViewModel.supplierItems)
+            {
+                combinedViewModel.suppliers.Add(context.Suppliers.Where(x => x.SupplierID == supplierItem.SupplierID).First());
+            }
+            
+            return View(combinedViewModel);
+        }
+
+        public List<Items> getitem()
+        {
             List<Items> items = new List<Items>();
             items.Add(
                 new Items() { ItemName = "2B Pencil", ItemID = "Z123", CartId = "A123", UnitOfMeasure = "Box" });
@@ -50,14 +76,14 @@ namespace LogicUniversityTeam5.Controllers.Order
             return items;
         }
 
-        public List<Category> getcategory()
-        {
-            List<Category> category = new List<Category>();
-            category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
-            category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
-            category.Add(new Category() { });
-            return category;
-        }
+        //public List<Category> getcategory()
+        //{
+        //    List<Category> category = new List<Category>();
+        //    category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
+        //    category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
+        //    category.Add(new Category() { });
+        //    return category;
+        //}
         public List<Stocklevel> getstocklevel()
         {
             List<Stocklevel> stockleve = new List<Stocklevel>();

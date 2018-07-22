@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
     ViewBag.Title = "PlaceOrder";
 }
 
@@ -54,6 +55,77 @@
             </div>
 
         </div>
+
+        @using (Html.BeginForm("PlaceOrder", "CreateOrders", FormMethod.Post))
+        {
+
+            for (int i = 0; i < Model.suppliers.Count; i++)
+            {
+                @Html.HiddenFor(m => Model.suppliers[i].SupplierID)
+                <div class="row justify-content-md-center mt-3 pb-3">
+                    <div class="col-8 text-left">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@i" aria-expanded="true" aria-controls="collapseOne">
+                                            <h4 class="text-left">Supplier @(i + 1)</h4>
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapse-@i" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <div>@Html.DisplayFor(m => Model.suppliers[i].SupplierName)</div>
+                                            <div class="card-body">
+                                                <p class="card-text">Contact Name: @Html.DisplayFor(m => Model.suppliers[i].ContactName)</p>
+                                                <p class="card-text">Phone No: @Html.DisplayFor(m => Model.suppliers[i].PhoneNumber)</p>
+                                                <p class="card-text">Address: @Html.DisplayFor(m => Model.suppliers[i].Address)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <table id="Supplier1OrderTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Category</th>
+                                    <th scope="col" class="text-left col-6">Description</th>
+                                    <th scope="col" class="text-center">Reorder Quantity</th>
+                                    <th scope="col" class="text-center col-2">Price per Unit</th>
+                                    <th scope="col" class="text-center">Available Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr class="text-center">
+                                    <td>Pencil</td>
+                                    <td class="text-left">2B Pencil</td>
+                                    <td>90</td>
+                                    <td>$2</td>
+                                    <td class="text-center">
+                                        <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>Pen</td>
+                                    <td class="text-left">Blue Pen</td>
+                                    <td>100</td>
+                                    <td>$4</td>
+                                    <td class="text-center">
+                                        <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
         <div class="row justify-content-md-center mt-3 pb-3">
             <div class="col-8 text-left">
                 <div id="accordion">

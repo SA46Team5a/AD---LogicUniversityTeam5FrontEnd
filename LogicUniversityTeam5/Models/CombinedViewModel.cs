@@ -13,7 +13,15 @@ namespace LogicUniversityTeam5.Models
 
         public List<StockVoucher> StockVouchers { get; set; }
 
+        public List<SupplierItem> supplierItems { get; set; }
+
+        public List<Supplier> suppliers { get; set; }
+
         public List<Order> Orders { get; set; }
+
+        public List<OrderSupplier> orderSuppliers { get; set; }
+
+        public List<OrderSupplierDetail> orderSupplierDetails { get; set; }
 
         public List<bool> IsSelected { get; set; }
 
