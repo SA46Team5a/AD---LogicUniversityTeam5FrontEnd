@@ -9,7 +9,6 @@ namespace LogicUniversityTeam5.Models
     {
         public List<Items> item { get; set; }
 
-        public List<Category> category { get; set; }
 
         public List<Stocklevel> stocklevel { get; set; }
     }

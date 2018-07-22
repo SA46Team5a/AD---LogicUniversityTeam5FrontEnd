@@ -1,0 +1,136 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+
+
+@{
+    ViewBag.Title = "UnsubmittedStationaryRequestForm";
+}
+
+<body>
+    @using (Html.BeginForm("UnsubmittedStationaryRequestForm", "Requisition", FormMethod.Post))
+    {
+        <div class="container">
+            <div class="row justify-content-md-center pb-5">
+                <h1 class="text-center mb=3">Stationery Requisition Form</h1>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-md-center">
+                        <div class=" col-12">
+                            <table id="Supplier3OrderTable" class="table pb-5 pt-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-left col-6">Description</th>
+                                        <th scope="col" class="text-center col-2">Unit of Measure</th>
+                                        <th scope="col" class="text-center col-1">Quantity Requested</th>
+                                        <th scope="col" class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    @*@for (int i = 0; i < Model.StockCountItems.Count; i++)*@
+                                    @foreach (var StockCountItem in Model.StockCountItems)
+
+
+
+
+                                    {
+                                       int i = 0;
+                                    @Html.HiddenFor(m => Model.StockCountItems[i].ItemID)
+                                    <tr>
+                                        <td>
+                                            @Html.EditorFor(m => Model.StockCountItems[i].ItemName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => Model.StockCountItems[i].UnitOfMeasure)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model.AddedText[i])
+                                        </td>
+
+                                        <td class="text-center"><button id="btn_delete" class="btn btn-danger">Delete</button></td>
+
+                                    </tr>
+                                        i++;
+                                    }
+                                    @*<tr>
+
+            <td>Clips Double 1</td>
+            <td class="text-center">Doven</td>
+            <td class="text-center"><input type="text" class="text-center form-control" id="QtyReq_text" placeholder="1"></td>
+            <td class="text-center"><button id="btn_delete" class="btn btn-danger">Delete</button></td>
+        </tr>
+        <tr>
+            <td>Clips Double 2</td>
+            <td class="text-center">Doven</td>
+            <td class="text-center"><input type="text" class="text-center form-control" id="QtyReq_text" placeholder="1"></td>
+            <td class="text-center"><button id="btn_delete" class="btn btn-danger">Delete</button></td>
+
+        </tr>
+        <tr>
+            <td>Clips Double Large</td>
+            <td class="text-center">Doven</td>
+            <td class="text-center"><input type="text" class="text-center form-control" id="QtyReq_text" placeholder="1"></td>
+            <td class="text-center"><button id="btn_delete" class="btn btn-danger">Delete</button></td>
+
+        </tr>*@
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center pb-3 pt-5">
+                        <div class="col-4 text-center">
+                            <button id="btn_back" class="btn btn-secondary">View Stationery to add</button>
+                        </div>
+                        <div class="col-4 text-center">
+                            <button id="btn_update" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-5">
+                <div class="col-12 text-center">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal">Submit for approval</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h6 class="modal-title text-right">Requisition Form Submission Confirmation</h6>
+                                </div>
+                                <div class="modal-body text-left">
+                                    <p>Are you sure you want to submit the requisition form?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row justify-content-md-center ">
+                                        <div class="col-4 "><button type="submit" data-dismiss="modal" class="btn btn-default">No</button></div>
+                                        <div class="col-4 text-end"><button type="submit" class="btn btn-primary">Yes</button></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+        </script>
+    }
+</body>

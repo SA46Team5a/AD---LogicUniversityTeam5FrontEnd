@@ -256,7 +256,7 @@
     <Compile Include="Models\Admin\AccountViewModels.cs" />
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
-    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogue.cs" />
     <Compile Include="Models\Items.cs" />
@@ -334,6 +334,7 @@
     <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\Requisition\ViewStationeryCatalogue.cshtml" />
+    <Content Include="Views\Requisition\UnSubmittedStationeryRequestForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
