@@ -262,7 +262,6 @@
     <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />
     <Compile Include="Models\Stocklevel.cs" />
-    <Compile Include="Models\StockVoucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -333,6 +332,7 @@
     <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
+    <Content Include="Views\CreateOrders\PlaceOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

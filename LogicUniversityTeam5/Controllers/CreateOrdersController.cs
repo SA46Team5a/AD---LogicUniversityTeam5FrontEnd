@@ -34,6 +34,11 @@ namespace LogicUniversityTeam5.Controllers.Order
             value = item;
             return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
         }
+
+        public ActionResult PlaceOrder() {
+
+            return View();
+        }
         public List<Items> getitem()
         {
 
