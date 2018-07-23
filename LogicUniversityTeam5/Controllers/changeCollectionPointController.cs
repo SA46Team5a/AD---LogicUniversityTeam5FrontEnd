@@ -51,9 +51,7 @@ namespace LogicUniversityTeam5.Controllers
             DepartmentRepresentative departmentRepresentative = context.DepartmentRepresentatives
                                         .Where(e => e.EmployeeID == employee.EmployeeID).First();
             combinedView.DepartmentRepresentative.Add(departmentRepresentative);
-            combinedView.AddedText = new List<string>(1) { "" };
-
-           // TempData["sucess"] = "Collection Point changed Sucessfully";
+            combinedView.AddedText = new List<string>(1) { "" };         
             return View(combinedView);
         }
 
@@ -81,8 +79,7 @@ namespace LogicUniversityTeam5.Controllers
 
                 }
             }
-            //TempData.Keep();
-          //  TempData["sucess"] = "Collection Point changed Sucessfully";
+           
             return RedirectToAction("changeCollectionPoint", "ChangeCollectionPoint",new { isCollectionPointChanged = true});
          
         }
