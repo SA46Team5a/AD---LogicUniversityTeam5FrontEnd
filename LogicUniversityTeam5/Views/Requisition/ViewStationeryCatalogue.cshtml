@@ -24,17 +24,7 @@
                     @*, new { @class = "form-control" }*@
                     @Html.DropDownList("Categories", new SelectList(category.Distinct()), "Select")
                     @Html.HiddenFor(m => m.Categories)
-
-                    @*<select id="category " class="form-control">*@
-
-                    @*<option selected>Clip</option>
-                        <option>File</option>
-                        <option>Pen</option>
-                        <option>Puncher</option>
-                        <option>Eraser</option>
-                        <option>Exercise</option>*@
-                    @*</select>*@
-                    @*@Html.DropDownList("dropdowncat")*@
+                    
 
                 </div>
             </div>
@@ -76,28 +66,7 @@
                                 </tr>
                             }
 
-
-                            @*<tr>
-                                    <td>2B Pencil</td>
-                                    <td class="text-center">Box</td>
-                                    <td class="text-center">50</td>
-                                    <td class="text-center justify-content"><input type="text" class="form-control col-9 mx-auto" /></td>
-                                    <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
-                                </tr>
-                                <tr>
-                                    <td>2B Pencil</td>
-                                    <td class="text-center">Box</td>
-                                    <td class="text-center">80</td>
-                                    <td class="text-center"><input type="text" class="form-control col-9 mx-auto" /></td>
-                                    <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Clips Paper Large</td>
-                                    <td class="text-center">Box</td>
-                                    <td class="text-center">20</td>
-                                    <td class="text-center"><input type="text" class="form-control col-9 mx-auto" /></td>
-                                    <td> <button id="btn_add" class="btn btn-primary">Add</button></td>
-                                </tr>*@
+                          
                         </tbody>
                     </table>
                 </div>

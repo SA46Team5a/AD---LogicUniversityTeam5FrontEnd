@@ -15,10 +15,13 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         IStockManagementService iStockService;
         IClassificationService iClassService;
-        public RequisitionController(StockManagementService sms, ClassificationService cs)
+        IRequisitionService iRequisitionService;
+        public RequisitionController(StockManagementService sms, ClassificationService cs,RequisitionService rs)
         {
             iStockService = sms;
             iClassService = cs;
+            iRequisitionService = rs;
+
         }
         public ActionResult Index()
         {
@@ -30,9 +33,15 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return View();
         }
 
+      
+
         public ActionResult ViewStationeryCatalogue()
         {
             CombinedViewModel combinedView = new CombinedViewModel();
+           // ServiceLayer.DataAccess.Requisition  req =   iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
+            //List<RequisitionDetail> reqdetails = (List<RequisitionDetail>) req.RequisitionDetails;
+
+           // combinedView.Items = iStockService.getAllItems();
 
             combinedView.StockCountItems = iStockService.getAllStockCountItem();
 
@@ -46,26 +55,15 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return View(combinedView);
         }
 
-        //public ActionResult ViewStationeryCatalogue()
-        //{
-
-        //    List<StockCountItem> stockcountitemList = iStockService.getAllStockCountItem();
-        //    List<Category> catList = iClassService.GetCategories();
-        //    CombinedViewModel combinedViewModel = new CombinedViewModel();
-
-        //    ViewBag.dropdowncat = new SelectList(catList, "categoryId", "categoryName");
-        //    ViewBag.IsSelected = new List<bool>();
-
-        //    return View(stockcountitemList);
-        //}
+        
 
         [HttpPost]
         public ActionResult ViewStationeryCatalogue(CombinedViewModel model)
         {
             // Dictionary<string,int> itemIdList = new Dictionary<string, int>();
-            CombinedViewModel model1 = new CombinedViewModel();
-            model1.StockCountItems = new List<StockCountItem>();
-            model1.AddedText = new List<string>();
+            CombinedViewModel passedmodel = new CombinedViewModel();
+            passedmodel.StockCountItems = new List<StockCountItem>();
+            passedmodel.AddedText = new List<string>();
 
             for (int i = 0; i < model.AddedText.Count; i++)
             {
@@ -73,42 +71,44 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 string trimmed = textBoxValue.Trim();
 
                 if (!(trimmed.Equals(null)) && !trimmed.Equals(""))
-                {
-                    
+                {                    
                     StockCountItem sci = new StockCountItem()
                     {
                         ItemID = model.StockCountItems[i].ItemID,
                         ItemName = model.StockCountItems[i].ItemName,
                         UnitOfMeasure = model.StockCountItems[i].UnitOfMeasure
                     };
-                    model1.StockCountItems.Add(sci);
-
-                    // model1.AddedText[i]=trimmed;
-                    model1.AddedText.Add(trimmed);
-                    //model1.AddedText[count++] = model.AddedText[i];
+                    passedmodel.StockCountItems.Add(sci);
+                    passedmodel.AddedText.Add(trimmed);
+                  
                 }
 
 
             }
-            TempData["model1"] = model1;
-           
-
-            return RedirectToAction("UnsubmittedStationeryRequestForm");
+            TempData["passedmodel"] = passedmodel;    
+            return RedirectToAction("StationeryRequestForm");
         }
 
         [HttpGet]
-        public ActionResult UnsubmittedStationeryRequestForm()
+        public ActionResult StationeryRequestForm()
         {
             
-            CombinedViewModel newmodel = (CombinedViewModel)TempData["model1"];           
+            CombinedViewModel newmodel = (CombinedViewModel)TempData["passedmodel"];
+            newmodel.IsSave = false;
             return View(newmodel);
 
         }
         [HttpPost]
-        public ActionResult UnsubmittedStationeryRequestForm(CombinedViewModel model)
+        public ActionResult StationeryRequestForm(CombinedViewModel model)
         {
-           
-            return View(model);
+            bool save = model.IsSave;
+            ServiceLayer.DataAccess.Requisition req = iRequisitionService.createNewRequsitionForEmployee("E001");
+            for (int i = 0; i < model.StockCountItems.Count; i++)
+            {
+                iRequisitionService.addNewRequisitionDetail(req.RequisitionID, model.StockCountItems[i].ItemID, Convert.ToInt32(model.AddedText[i]));
+            }
+            iRequisitionService.submitRequisition(req.RequisitionID);
+            return RedirectToAction("Index","Home");
         }
         
 

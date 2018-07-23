@@ -13,6 +13,8 @@ namespace LogicUniversityTeam5.Models
 
         public List<Category> Categories { get; set; }
 
+        public RequisitionDetail Requisitions { get; set; }
+
         public List<StockCountItem> StockCountItems { get; set; }
 
         public List<StockVoucher> StockVouchers { get; set; }
@@ -20,6 +22,8 @@ namespace LogicUniversityTeam5.Models
         public List<Order> Orders { get; set; }
 
         public List<bool> IsSelected { get; set; }
+
+        public bool IsSave { get; set; }
 
         public List<String> AddedText { get; set; }
 
