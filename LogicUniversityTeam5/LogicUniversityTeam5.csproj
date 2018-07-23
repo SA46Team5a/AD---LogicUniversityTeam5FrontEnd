@@ -231,14 +231,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ApiPayload\DepartmentPayload.cs" />
+    <Compile Include="ApiControllers\DepartmentServiceController.cs" />
     <Compile Include="ApiControllers\TestApiController.cs" />
+    <Compile Include="ApiControllers\ClassificationsApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DependencyResolver.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Admin\AccountController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
@@ -268,7 +271,7 @@
     <Compile Include="Models\Admin\AccountViewModels.cs" />
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
-    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ApiPayload\ClassificationPayload.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
