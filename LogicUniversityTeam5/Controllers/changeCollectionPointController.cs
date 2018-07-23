@@ -53,6 +53,7 @@ namespace LogicUniversityTeam5.Controllers
             combinedView.DepartmentRepresentative.Add(departmentRepresentative);
             combinedView.AddedText = new List<string>(1) { "" };
 
+           // TempData["sucess"] = "Collection Point changed Sucessfully";
             return View(combinedView);
         }
 
@@ -80,9 +81,10 @@ namespace LogicUniversityTeam5.Controllers
 
                 }
             }
-            //ViewData["Sucess"] = "Changed collectionPoint successfully";
-            return RedirectToAction("changeCollectionPoint", "ChangeCollectionPoint");
-            ViewData["Sucess"] = "Changed collectionPoint successfully";
+            //TempData.Keep();
+          //  TempData["sucess"] = "Collection Point changed Sucessfully";
+            return RedirectToAction("changeCollectionPoint", "ChangeCollectionPoint",new { isCollectionPointChanged = true});
+         
         }
     }
 }
