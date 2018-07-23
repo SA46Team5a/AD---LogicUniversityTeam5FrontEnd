@@ -1,4 +1,5 @@
-﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+﻿@using LogicUniversityTeam5.Models
+@model LogicUniversityTeam5.Models.CombinedViewModel
 
 
 @{
@@ -28,19 +29,12 @@
                                 </thead>
                                 <tbody>
 
-
-                                    @*@for (int i = 0; i < Model.StockCountItems.Count; i++)*@
-                                    @foreach (var StockCountItem in Model.StockCountItems)
-
-
-
-
+                                    @for (int i = 0; i < Model.StockCountItems.Count; i++)
                                     {
-                                       int i = 0;
-                                    @Html.HiddenFor(m => Model.StockCountItems[i].ItemID)
+                                         @Html.HiddenFor(m => Model.StockCountItems[i].ItemID)
                                     <tr>
                                         <td>
-                                            @Html.EditorFor(m => Model.StockCountItems[i].ItemName)
+                                            @Html.DisplayFor(m => Model.StockCountItems[i].ItemName)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(m => Model.StockCountItems[i].UnitOfMeasure)
@@ -49,12 +43,16 @@
                                             @Html.TextBoxFor(m => Model.AddedText[i])
                                         </td>
 
-                                        <td class="text-center"><button id="btn_delete" class="btn btn-danger">Delete</button></td>
+                                        <td class="text-center"><button id="btn_delete"  type="button" class="btn btn-danger" data-id="@Model.StockCountItems[i].ItemID">Delete</button></td>
+                                        
 
                                     </tr>
-                                        i++;
+
+                                }
+                                    @*
                                     }
-                                    @*<tr>
+                                    int i = 0;
+                                   <tr>
 
             <td>Clips Double 1</td>
             <td class="text-center">Doven</td>
@@ -82,7 +80,7 @@
                     </div>
                     <div class="row justify-content-md-center pb-3 pt-5">
                         <div class="col-4 text-center">
-                            <button id="btn_back" class="btn btn-secondary">View Stationery to add</button>
+                            <a  id="btn_back" class="btn btn-secondary">View Stationery to add</a>
                         </div>
                         <div class="col-4 text-center">
                             <button id="btn_update" class="btn btn-primary">Save Changes</button>
@@ -130,7 +128,17 @@
         <script>
             $(function () {
                 $('[data-toggle="popover"]').popover()
-            })
+            });
+
+            
+            $(document).ready(function () {
+            
+                $(".btn.btn-danger").on("click", function () {
+                    alert('delete');
+                    var tr = $(this).closest('tr');
+                    tr.remove();
+                });
+            });
         </script>
     }
 </body>

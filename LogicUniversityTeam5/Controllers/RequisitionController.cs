@@ -65,15 +65,16 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             // Dictionary<string,int> itemIdList = new Dictionary<string, int>();
             CombinedViewModel model1 = new CombinedViewModel();
             model1.StockCountItems = new List<StockCountItem>();
+            model1.AddedText = new List<string>();
+
             for (int i = 0; i < model.AddedText.Count; i++)
             {
                 string textBoxValue = model.AddedText[i].ToString();
                 string trimmed = textBoxValue.Trim();
 
-                if ((!(textBoxValue.Equals(null)) && textBoxValue.Equals("")))
+                if (!(trimmed.Equals(null)) && !trimmed.Equals(""))
                 {
-                    //    itemIdList.Add(model.StockCountItems[i].ItemID, Convert.ToInt32(textBoxValue.Trim()));
-                    //}
+                    
                     StockCountItem sci = new StockCountItem()
                     {
                         ItemID = model.StockCountItems[i].ItemID,
@@ -83,12 +84,14 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                     model1.StockCountItems.Add(sci);
 
                     // model1.AddedText[i]=trimmed;
-                    model1.AddedText[i] = model.AddedText[i];
+                    model1.AddedText.Add(trimmed);
+                    //model1.AddedText[count++] = model.AddedText[i];
                 }
 
 
             }
             TempData["model1"] = model1;
+           
 
             return RedirectToAction("UnsubmittedStationeryRequestForm");
         }
@@ -96,15 +99,18 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         [HttpGet]
         public ActionResult UnsubmittedStationeryRequestForm()
         {
-            //Dictionary<string, int> tempdata = (Dictionary<string, int>) TempData["itemidList"];
-            //return View(tempdata);
-            CombinedViewModel newmodel = (CombinedViewModel)TempData["model1"];
-
+            
+            CombinedViewModel newmodel = (CombinedViewModel)TempData["model1"];           
             return View(newmodel);
 
         }
-
-
+        [HttpPost]
+        public ActionResult UnsubmittedStationeryRequestForm(CombinedViewModel model)
+        {
+           
+            return View(model);
+        }
+        
 
     }
 
