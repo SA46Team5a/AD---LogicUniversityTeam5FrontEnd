@@ -15,6 +15,8 @@ namespace LogicUniversityTeam5.Models
 
         public List<Order> Orders { get; set; }
 
+        public string trialText { get; set; }
+
         public List<bool> IsSelected { get; set; }
 
         public List<String> AddedText { get; set; }
@@ -35,6 +37,15 @@ namespace LogicUniversityTeam5.Models
         {
             AddedNumbers = new List<int>(size);
         }
+        public List<CollectionPoint> CollectionPoint { get; set; }
 
+        public List<Employee> Employee { get; set; }
+
+        public List<DepartmentRepresentative> DepartmentRepresentative { get; set; }
+
+        public List<Department> Department { get; set; }
+
+        //public List<CollectionPoint> RadioButtonList { get; set; }
+        // public string SelectedRadioButton { get; set; }
     }
 }

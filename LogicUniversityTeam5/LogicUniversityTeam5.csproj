@@ -230,6 +230,7 @@
     <Compile Include="Controllers\Admin\AccountController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
+    <Compile Include="Controllers\ChangeCollectionPointController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CreateOrdersController.cs" />
     <Compile Include="Controllers\Order\ItemCatalogueController.cs" />
@@ -262,7 +263,6 @@
     <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />
     <Compile Include="Models\Stocklevel.cs" />
-    <Compile Include="Models\StockVoucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -333,6 +333,7 @@
     <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
+    <Content Include="Views\changeCollectionPoint\changeCollectionPoint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

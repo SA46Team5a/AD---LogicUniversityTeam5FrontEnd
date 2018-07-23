@@ -13,7 +13,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         public ActionResult ItemCatalogue()
         {
             ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
-            itemcatalogue.items = getitem();
+            //itemcatalogue.items = getitem();
             itemcatalogue.categories = getcategory();
             itemcatalogue.stocklevels = getstocklevel();
            

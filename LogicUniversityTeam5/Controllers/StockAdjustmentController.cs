@@ -59,7 +59,7 @@ namespace LogicUniversityTeam5.Controllers
                 {
                     //string userId = User.getId();
                     int id = openVouchers[i].DiscrepancyID;
-                    stockManagementService.closeVoucher(id,"E012");
+                    stockManagementService.closeVoucher(id,"E012","damaged");
                 }
             }
 
