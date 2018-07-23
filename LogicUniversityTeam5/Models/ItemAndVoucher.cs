@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LogicUniversityTeam5.Models;
+using ServiceLayer.DataAccess;
 namespace LogicUniversityTeam5.Models
 {
     public class ItemAndVoucher
