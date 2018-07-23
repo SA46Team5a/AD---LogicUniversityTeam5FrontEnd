@@ -81,5 +81,10 @@ namespace LogicUniversityTeam5.ApiControllers
                 return false;
             }
         }
+
+        [HttpGet]
+        [Route("api/deprep/passcode/{id}")]
+        public string getPasscodeOfDep(string id)
+             => _departmentService.getCurrentDepartmentRepresentative(id).Passcode;
     }
 }
