@@ -46,6 +46,7 @@ namespace LogicUniversityTeam5.Models
         public List<Department> Department { get; set; }
 
         public string DepartmentID { get; set; }
+        public List<Authority> Authority { get; set; }
 
         //public List<CollectionPoint> RadioButtonList { get; set; }
         // public string SelectedRadioButton { get; set; }

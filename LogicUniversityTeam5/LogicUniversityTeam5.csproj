@@ -232,6 +232,7 @@
     <Compile Include="Controllers\Admin\ManageController.cs" />
     <Compile Include="Controllers\AppointDepartmentRepController.cs" />
     <Compile Include="Controllers\ChangeCollectionPointController.cs" />
+    <Compile Include="Controllers\DelegateAuthorityController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CreateOrdersController.cs" />
     <Compile Include="Controllers\Order\ItemCatalogueController.cs" />
@@ -336,6 +337,7 @@
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
     <Content Include="Views\changeCollectionPoint\changeCollectionPoint.cshtml" />
     <Content Include="Views\AppointDepartmentRep\AppointDepartmentRep.cshtml" />
+    <Content Include="Views\DelegateAuthority\DelegateAuthority.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

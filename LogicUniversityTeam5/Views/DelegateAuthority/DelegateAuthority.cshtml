@@ -1,0 +1,114 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+
+@{
+    ViewBag.Title = "DelegateAuthority";
+}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+@using (Html.BeginForm("DelegateAuthority", "DelegateAuthority", FormMethod.Post))
+{
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb=3">Delegate Authority</h1>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class=" col-8">
+
+                <div class="form-group">
+                    <label for="Delegatedperson">Delegated person with authority</label>
+
+                    @{List<string> Employee = new List<string>();
+                        foreach (var emp in Model.Employee)
+                        {
+                            Employee.Add(emp.EmployeeName);
+                        }
+                    }
+
+                    @Html.DropDownListFor(m => Model.AddedText[0],
+                                     new SelectList(Employee.Distinct()),
+                                     "Select Employee",
+                                     new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.Employee)
+
+                </div>
+                <div class="form-group">
+
+                    <div class="row justify-content-md-center">
+                        <div class="col-6 text-left">Start Date:</div>
+                        <div class="col-6 text-left">End Date:</div>
+                    </div>
+                    <div class="row justify-content-md-center pb-5">
+                        <div class="col-6 text-left">
+                            @Html.TextBoxFor(m=>Model.AddedText[1],
+                                        new { @class="form-control",
+                                            @type = "date" ,
+                                            @min = DateTime.Today,
+                                            @max = "2018-12-31"
+                                        })
+                            @*<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">*@
+
+                            @*@Html.HiddenFor(m => m.StartDate)*@
+                        </div>
+                        <div class="col-6 text-left">
+                            @Html.TextBoxFor(m=>Model.AddedText[2],
+                                        new { @class="form-control",
+                                            @type = "date" ,
+                                            @min = DateTime.Today,
+                                            @max = "2018-12-31"
+                                        })
+                            @*<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-md-center pt-5">
+            <div class="col-2 text-left">
+                <input type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+            <div class="col-2 text-center">
+                <button type="button" id="home" class="btn btn-secondary ">Home</button>
+            </div>
+            <div class="col-2 text-right">
+                <input type="submit" value="Rescind" class="btn btn-primary" id="rescind" />
+                @Html.HiddenFor(m=>Model.IsSelected[0], new { @id="isRescind"})
+                @*<a tabindex="0" id="confirm" class="btn btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Delegate Authority"
+                    data-content="<employee name>'s authority has been rescinded
+                                 " data-placement="top">Rescind</a>*@
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(function(){
+        $("#home").click(function(){
+        window.location.href = "@Url.Action("Index","Home")";
+                    });
+        });
+
+        var dateToday = new Date();
+            $(function () {
+                $("#datepicker").datepicker({
+                    numberOfMonths: 3,
+                    showButtonPanel: true,
+                    minDate: dateToday
+                });
+        });
+
+            $('#rescind').click(function () {
+                $('#isRescind').val('true');
+            });
+    </script>
+</body>
+}
+
