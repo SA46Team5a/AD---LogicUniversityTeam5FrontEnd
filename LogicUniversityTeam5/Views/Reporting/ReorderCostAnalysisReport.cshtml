@@ -1,6 +1,6 @@
 ﻿@model LogicUniversityTeam5.Models.ReportingModel
 @{
-    ViewBag.Title = "ItemCatalogue";
+    ViewBag.Title = "Reorder Cost Analysis Report";
 }
 
 <body>
@@ -71,7 +71,12 @@
         <div class="form-row justify-content-start date input-daterange form-inline">
             <div class="col-3"></div>
             <div class="form-group">
-                <input class="form-control" type="text" id="OneMonthTB" disabled />
+                <select id="OneMonthDD" class="form-control">
+                    @for (int i = 0; i < Model.month.Count; i++)
+                    {
+                        <option value=@i>@Model.month[i]</option>
+                    }
+                </select>
             </div>
        </div>
         <div class="row justify-content-md-start mt-2">
@@ -88,11 +93,23 @@
         <div class="form-row justify-content-start date input-daterange mb-3 form-inline">
             <div class="col-3"></div>
             <div class="form-group">
-                <input class="form-control compareMonthTB" type="text" id="CompareMonthTB1" disabled />
+                <select id="CompareMonthDD1" class="form-control compareMonthDD">
+                    @for (int i = 0; i < Model.month.Count; i++)
+                    {
+                        <option value=@i>@Model.month[i]</option>
+                    }
+                </select>
+ 
             </div>
             <div class="input-group-addon col-1 text-center">with</div>
             <div class="form-group">
-                <input class="form-control compareMonthTB" type="text" id="CompareMonthTB2" disabled />
+                <select id="CompareMonthDD2" class="form-control compareMonthDD">
+                    @for (int i = 0; i < Model.month.Count; i++)
+                    {
+                        <option value=@i>@Model.month[i]</option>
+                    }
+                </select>
+ 
            </div>
             <div class="col-2"></div>
         </div>
@@ -105,33 +122,45 @@
     </div>
     <script>
         // Toggle radio buttons and disable duration fields accordingly
-        function disableOneMonthTB(bool) {
-            $("#OneMonthTB").attr("disabled", bool)
+        function disableOneMonthDD(bool) {
+            $("#OneMonthDD").attr("disabled", bool)
         }
 
-        function disableCompareMonthsTB(bool) {
-            $(".compareMonthTB").attr("disabled", bool)
+        function disableCompareMonthsDD(bool) {
+            $(".compareMonthDD").attr("disabled", bool)
         }
 
-        console.log($("input[name=Duration]"));
-        $("input[name=Duration]").click(function () {
+        function disableDDs() {
             val = $("input[name=Duration]:checked").val();
             switch (val) {
                 case "PastThreeMonths":
-                    disableOneMonthTB(true);
-                    disableCompareMonthsTB(true);
+                    disableOneMonthDD(true);
+                    disableCompareMonthsDD(true);
                     break;
                 case "OneMonth":
-                    disableOneMonthTB(false);
-                    disableCompareMonthsTB(true);
+                    disableOneMonthDD(false);
+                    disableCompareMonthsDD(true);
                     break;
                 case "CompareMonths":
-                    disableOneMonthTB(true);
-                    disableCompareMonthsTB(false);
+                    disableOneMonthDD(true);
+                    disableCompareMonthsDD(false);
                     break;
             }
+        }             
+
+        console.log($("input[name=Duration]"));
+        $("input[name=Duration]").click(function () {
+            disableDDs();
         });
 
+        disableDDs();
+
         // Sending AJAX request on Generate 
+        function getData() {
+            var data = new Map();
+            data.set("category", $("#stationaryCategory").val());
+            console.log(data);
+            return data;
+        }
    </script>
 </body>
