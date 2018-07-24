@@ -13,7 +13,7 @@ namespace LogicUniversityTeam5.Models
 
         public List<Category> Categories { get; set; }
 
-        public RequisitionDetail Requisitions { get; set; }
+        public List<RequisitionDetail> Requisitions { get; set; }
 
         public List<StockCountItem> StockCountItems { get; set; }
 

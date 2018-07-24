@@ -336,6 +336,7 @@
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\Requisition\ViewStationeryCatalogue.cshtml" />
     <Content Include="Views\Requisition\StationeryRequestForm.cshtml" />
+    <Content Include="Views\Requisition\ResubmitStationaryRequestForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

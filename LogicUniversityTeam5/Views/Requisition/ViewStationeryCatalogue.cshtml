@@ -45,17 +45,17 @@
                         </thead>
                         <tbody>
 
-                            @for (int i = 0; i < Model.StockCountItems.Count; i++)
+                            @for (int i = 0; i < Model.Items.Count; i++)
                             {
-                                @Html.HiddenFor(m => Model.StockCountItems[i].ItemID)
+                                @Html.HiddenFor(m => Model.Items[i].ItemID)
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(m => Model.StockCountItems[i].ItemName)
-                                        @Html.HiddenFor(m => Model.StockCountItems[i].ItemName)
+                                        @Html.DisplayFor(m => Model.Items[i].ItemName)
+                                        @Html.HiddenFor(m => Model.Items[i].ItemName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(m => Model.StockCountItems[i].UnitOfMeasure)
-                                        @Html.HiddenFor(m => Model.StockCountItems[i].UnitOfMeasure)
+                                        @Html.DisplayFor(m => Model.Items[i].UnitOfMeasure)
+                                        @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })

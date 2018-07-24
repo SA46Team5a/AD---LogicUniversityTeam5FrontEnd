@@ -29,29 +29,58 @@
                                 </thead>
                                 <tbody>
 
-                                @for (int i = 0; i < Model.StockCountItems.Count; i++)
-                                {
-                                @Html.HiddenFor(m => Model.StockCountItems[i].ItemID)
-                                @Html.HiddenFor(m => Model.StockCountItems[i].ItemID)
-                                <tr>
-                                <td>
-                                @Html.DisplayFor(m => Model.StockCountItems[i].ItemName)
-                                @Html.HiddenFor(m => Model.StockCountItems[i].ItemName)
-                                </td>
-                                <td>
-                                @Html.DisplayFor(m => Model.StockCountItems[i].UnitOfMeasure)
-                                @Html.HiddenFor(m => Model.StockCountItems[i].UnitOfMeasure)
-                                 </td>
-                                 <td>
-                                 @Html.TextBoxFor(m => Model.AddedText[i])
-                                 @Html.HiddenFor(m => Model.AddedText[i])
+                                    @*@for (int i = 0; i < Model.Items.Count; i++)
+                                    {
+                                      @Html.HiddenFor(m => Model.Items[i].ItemID)
+                                      @Html.HiddenFor(m => Model.Items[i].ItemID)
+                                      <tr>
+                                      <td>
+                                        @Html.DisplayFor(m => Model.Items[i].ItemName)
+                                        @Html.HiddenFor(m => Model.Items[i].ItemName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Items[i].UnitOfMeasure)
+                                        @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @name = "quantity" })
+                                        @Html.HiddenFor(m => Model.AddedText[i], new { @name = "quantity" })
 
-                                 </td>
+                                    </td>
 
-                                    <td class="text-center"><button id="btn_delete" type="button" class="btn btn-danger" data-id="@Model.StockCountItems[i].ItemID">Delete</button></td>
+                                    <td class="text-center"><button id="btn_delete" type="button" class="btn btn-danger" data-id="@Model.Items[i].ItemID">Delete</button></td>
 
                                 </tr>
-                            }                                
+                                    }*@
+
+                                   @if (Model.Requisitions.Count > 0)
+                                   {
+
+                                       for (int j = 0; j < Model.Requisitions.Count; j++)
+                                       {
+                                        @Html.HiddenFor(m => Model.Requisitions[j].ItemID)
+                                        @Html.HiddenFor(m => Model.Requisitions[j].RequisitionDetailsID)
+                                    <tr>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Requisitions[j].Item.ItemName)
+                                        @Html.HiddenFor(m => Model.Requisitions[j].Item.ItemName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
+                                        @Html.HiddenFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => Model.Requisitions[j].Quantity)
+                                        @Html.HiddenFor(m => Model.Requisitions[j].Quantity)
+                                    </td>
+                                    <td>
+                                        <button id="btn_delete1" class="btn btn-danger" type="button" data-id="@Model.Requisitions[j].RequisitionID">Delete</button>
+                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID })
+                                    </td>
+                                    </tr>
+                                       }
+                                   }
+
 
                                 </tbody>
                             </table>
@@ -59,12 +88,12 @@
                     </div>
                     <div class="row justify-content-md-center pb-3 pt-5">
                         <div class="col-4 text-center">
-                            <button id="btn_back" class="btn btn-secondary" type="button" onclick="history.go(-1);">View Stationery to add</button>
+                            <button id="btn_back" class="btn btn-secondary" type="button">View Stationery to add</button>
                             
                         </div>
                         <div class="col-4 text-center">
-                            <button id="btn_update" class="btn btn-primary" type="button" value="false"  >Save Changes</button>
-                           
+                            <button id="btn_update" class="btn btn-primary" type="submit" value="false"  >Save Changes</button>
+                            @Html.HiddenFor(m=> Model.IsSave,new { @id = "isSave", @value = "false" })
                         </div>
                     </div>
                 </div>
@@ -105,17 +134,23 @@
             $(function () {
                 $('[data-toggle="popover"]').popover()
             });
+             $('#btn_back').click(function (e) {
+                window.location.href = '@Url.Content("~/Requisition/ViewStationeryCatalogue")';
+            });
 
-            
-            $(document).ready(function () {            
+
+            $(document).ready(function () {
                 $(".btn.btn-danger").on("click", function () {
                     alert('delete');
                     var tr = $(this).closest('tr');
-                    tr.remove();
+                    $(this).closest("tr").find("input[type='text']").val('');
+                    tr.hide();
+                    $(this).closest("tr").find("input[type='hidden']").val('0');  
                 });
 
                 $("#btn_update").on("click", function () {
                     $(this).val('true');
+                    $('#isSave').val('true')
                 });
             });
         </script>
