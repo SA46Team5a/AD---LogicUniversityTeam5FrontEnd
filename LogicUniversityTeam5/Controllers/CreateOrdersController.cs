@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
+using ServiceLayer.DataAccess;
 
 
 namespace LogicUniversityTeam5.Controllers.Order
@@ -48,8 +49,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         public List<Category> getcategory()
         {
             List<Category> category = new List<Category>();
-            category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
-            category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
+            category.Add(new Category() { CategoryName = "pen", CategoryID = 1 });
+            category.Add(new Category() { CategoryName = "pen", CategoryID = 2 });
             category.Add(new Category() { });
             return category;
         }

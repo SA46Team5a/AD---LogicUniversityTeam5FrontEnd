@@ -1,0 +1,137 @@
+﻿@model LogicUniversityTeam5.Models.ReportingModel
+@{
+    ViewBag.Title = "ItemCatalogue";
+}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb-3">
+                Re-order Cost Analysis
+            </h1>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-4 text-left">
+                <div class="form-group">
+                    <label for="stationerycategory">Stationery Category</label>
+                    <select id="stationerycategory" class="form-control">
+                        @foreach (ServiceLayer.DataAccess.Category category in Model.categories)
+                        {
+                            <option value="@category.CategoryID">@category.CategoryName</option>
+                        }
+                   </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <p class="text-left">Department:</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            @foreach (ServiceLayer.DataAccess.Department dept in Model.departments)
+            {
+                <div class="col-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;" value="@dept.DepartmentID" id="@dept.DepartmentID">
+                        <label class="form-check-label" for="EnglishDept">
+                            @dept.DepartmentName
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row justify-content-md-center mt-3 pd-0">
+            <div class="col-8">
+                <p class="text-left">Duration:</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-0">
+            <div class="col-8">
+                <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths">
+                    <label class="form-check-label" ">
+                        Past Three Month
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-8 text-left ">
+                <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="OneMonthRB" value="OneMonth">
+                    <label class="form-check-label" ">
+                        One month:
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-start date input-daterange form-inline">
+            <div class="col-3"></div>
+            <div class="form-group">
+                <input class="form-control" type="text" id="OneMonthTB" disabled />
+            </div>
+       </div>
+        <div class="row justify-content-md-start mt-2">
+            <div class="col-2"></div>
+            <div class="col-8 text-left ">
+                <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="CompareMonthRB" value="CompareMonths">
+                    <label class="form-check-label" ">
+                        Compare Months:
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-start date input-daterange mb-3 form-inline">
+            <div class="col-3"></div>
+            <div class="form-group">
+                <input class="form-control compareMonthTB" type="text" id="CompareMonthTB1" disabled />
+            </div>
+            <div class="input-group-addon col-1 text-center">with</div>
+            <div class="form-group">
+                <input class="form-control compareMonthTB" type="text" id="CompareMonthTB2" disabled />
+           </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row justify-content-center pt-5">
+            <div class="col-md-12 text-center">
+                <input type="submit" id="GenerateBtn" class="btn btn-primary"
+                       value="Generate" />
+            </div>
+        </div>
+    </div>
+    <script>
+        // Toggle radio buttons and disable duration fields accordingly
+        function disableOneMonthTB(bool) {
+            $("#OneMonthTB").attr("disabled", bool)
+        }
+
+        function disableCompareMonthsTB(bool) {
+            $(".compareMonthTB").attr("disabled", bool)
+        }
+
+        console.log($("input[name=Duration]"));
+        $("input[name=Duration]").click(function () {
+            val = $("input[name=Duration]:checked").val();
+            switch (val) {
+                case "PastThreeMonths":
+                    disableOneMonthTB(true);
+                    disableCompareMonthsTB(true);
+                    break;
+                case "OneMonth":
+                    disableOneMonthTB(false);
+                    disableCompareMonthsTB(true);
+                    break;
+                case "CompareMonths":
+                    disableOneMonthTB(true);
+                    disableCompareMonthsTB(false);
+                    break;
+            }
+        });
+
+        // Sending AJAX request on Generate 
+   </script>
+</body>

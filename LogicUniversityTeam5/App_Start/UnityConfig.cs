@@ -1,7 +1,7 @@
 using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
-//using ServiceLayer;
+using ServiceLayer;
 
 namespace LogicUniversityTeam5
 {
@@ -16,6 +16,8 @@ namespace LogicUniversityTeam5
 
             // e.g. container.RegisterType<ITestService, TestService>();
             //container.RegisterType<IStockManagementService, StockManagementService>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IClassificationService, ClassificationService>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
