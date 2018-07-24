@@ -1,0 +1,75 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "SubmitInvoice";
+}
+@using (Html.BeginForm("SubmitInvoice", "CreateOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <div class="container">
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb=3">Submit Invoice</h1>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="form-group col-md-4">
+                <label for="orderid">Order ID</label>
+                @{ List<string> orderid = new List<string>();
+                    foreach (var item in Model.OrderSuppliers)
+                    {
+                        orderid.Add(item.OrderID.ToString());
+                    }
+                }
+                @Html.DropDownListFor(m => Model.AddedText[0],
+                                   new SelectList(orderid.Distinct()),
+                                   "Select Order ID",
+                                   new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="form-group col-md-4">
+                <label for="supplier">Supplier</label>
+                @{ List<string> supplier = new List<string>();
+                    foreach (var item in Model.Supplier)
+                    {
+                        supplier.Add(item.SupplierName);
+                    }
+                }
+                @Html.DropDownListFor(m => Model.AddedText[1],
+                                                               new SelectList(supplier.Distinct()),
+                                                               "Select Supplier",
+                                                               new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-4">
+                <label>Upload Invoice</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="file" id="invoicefile" accept="application/pdf" />
+                    <label class="custom-file-label" for="invoicefile">Choose file</label>
+                </div>
+                @*<div class="input-group-append">
+                        <button class="btn btn-primary">Upload</button>
+                    </div>*@
+                <script>
+                    $('#invoicefile').on('change', function () {
+                        //get the file name
+                        var fileName = $(this).val();
+                        //replace the "Choose a file" label
+                        $(this).next('.custom-file-label').html(fileName);
+                    })
+                </script>
+
+            </div>
+        </div>
+           
+
+
+        <div class="row justify-content-center pt-5">
+            <div class="col-md-12 text-center">
+                <input type="submit" id="btn_Submit" class="btn btn-primary"
+                       value="Submit" />
+            </div>
+        </div>
+    </div>
+}
+
+

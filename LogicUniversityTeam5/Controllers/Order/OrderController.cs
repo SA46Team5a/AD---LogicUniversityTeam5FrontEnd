@@ -7,23 +7,23 @@ using LogicUniversityTeam5.Models;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
-    public class ItemCatalogueController : Controller
+    public class OrderController : Controller
     {
         // GET: ItemCatalogue
         public ActionResult ItemCatalogue()
         {
-            ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
-            itemcatalogue.items = getitem();
-            itemcatalogue.categories = getcategory();
-            itemcatalogue.stocklevels = getstocklevel();
+            ItemCatalogue itemcatalogue = new ItemCatalogue();
+            itemcatalogue.item = getitem();
+            itemcatalogue.category = getcategory();
+            itemcatalogue.stocklevel = getstocklevel();
            
             return View(itemcatalogue);
         }
 
         [HttpPost]
-        public ActionResult ItemCatalogue(ItemCatalogueModel item)
+        public ActionResult ItemCatalogue(ItemCatalogue item)
         {
-            ItemCatalogueModel value = new ItemCatalogueModel();
+            ItemCatalogue value = new ItemCatalogue();
             value = item;
             return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
         }

@@ -8,7 +8,7 @@ namespace LogicUniversityTeam5.Models
     public class ItemAndVoucher
     {
         public List<Items> item { get; set; }
-        public List<StockVoucher> stockVoucher { get; set; }
+       // public List<StockVoucher> stockVoucher { get; set; }
         public Dictionary<int,bool> isSelected { get; set; }
 
     }
