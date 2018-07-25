@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using ServiceLayer.DataAccess;
 
-namespace LogicUniversityTeam5.Models
+namespace LogicUniversityTeam5
 {
     public class CategoryPayload
     {

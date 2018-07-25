@@ -231,6 +231,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ReportingApiController.cs" />
     <Compile Include="ApiControllers\RetrievalApiController.cs" />
     <Compile Include="Models\ApiPayload\DepartmentPayload.cs" />
     <Compile Include="ApiControllers\DepartmentServiceController.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
     <Compile Include="Models\ApiPayload\ClassificationPayload.cs" />
+    <Compile Include="Models\ApiPayload\ReportsPayload.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
@@ -296,6 +298,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -307,7 +310,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

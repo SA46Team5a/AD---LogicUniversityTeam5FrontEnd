@@ -14,13 +14,13 @@
             <div class="col-2"></div>
             <div class="col-4 text-left">
                 <div class="form-group">
-                    <label for="stationerycategory">Stationery Category</label>
-                    <select id="stationerycategory" class="form-control">
+                    <label>Stationery Category</label>
+                    <select id="stationaryCategory" class="form-control">
                         @foreach (ServiceLayer.DataAccess.Category category in Model.categories)
                         {
                             <option value="@category.CategoryID">@category.CategoryName</option>
                         }
-                   </select>
+                    </select>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
             {
                 <div class="col-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;" value="@dept.DepartmentID" id="@dept.DepartmentID">
+                        <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@dept.DepartmentID" id="@dept.DepartmentID">
                         <label class="form-check-label" for="EnglishDept">
                             @dept.DepartmentName
                         </label>
@@ -50,8 +50,8 @@
         <div class="row justify-content-md-center mt-0">
             <div class="col-8">
                 <div class="form-check">
-                    <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths">
-                    <label class="form-check-label" ">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths" checked="checked">
+                    <label class="form-check-label"> 
                         Past Three Month
                     </label>
                 </div>
@@ -62,7 +62,7 @@
             <div class="col-8 text-left ">
                 <div class="form-check">
                     <input class="form-check-input radio" type="radio" name="Duration" id="OneMonthRB" value="OneMonth">
-                    <label class="form-check-label" ">
+                    <label class="form-check-label"> 
                         One month:
                     </label>
                 </div>
@@ -78,13 +78,13 @@
                     }
                 </select>
             </div>
-       </div>
+        </div>
         <div class="row justify-content-md-start mt-2">
             <div class="col-2"></div>
             <div class="col-8 text-left ">
                 <div class="form-check">
                     <input class="form-check-input radio" type="radio" name="Duration" id="CompareMonthRB" value="CompareMonths">
-                    <label class="form-check-label" ">
+                    <label class="form-check-label">
                         Compare Months:
                     </label>
                 </div>
@@ -99,7 +99,7 @@
                         <option value=@i>@Model.month[i]</option>
                     }
                 </select>
- 
+
             </div>
             <div class="input-group-addon col-1 text-center">with</div>
             <div class="form-group">
@@ -109,8 +109,8 @@
                         <option value=@i>@Model.month[i]</option>
                     }
                 </select>
- 
-           </div>
+
+            </div>
             <div class="col-2"></div>
         </div>
         <div class="row justify-content-center pt-5">
@@ -118,6 +118,11 @@
                 <input type="submit" id="GenerateBtn" class="btn btn-primary"
                        value="Generate" />
             </div>
+        </div>
+        <div class="row justify-content-center pt-5">
+            <canvas id="chart" width="400" height="400">
+            
+            </canvas>
         </div>
     </div>
     <script>
@@ -146,7 +151,7 @@
                     disableCompareMonthsDD(false);
                     break;
             }
-        }             
+        }
 
         console.log($("input[name=Duration]"));
         $("input[name=Duration]").click(function () {
@@ -155,12 +160,81 @@
 
         disableDDs();
 
-        // Sending AJAX request on Generate 
+        // Sending AJAX request on Generate
         function getData() {
-            var data = new Map();
-            data.set("category", $("#stationaryCategory").val());
+            var data = {};
+            data["category"] = $("#stationaryCategory option:selected").val();
+            var selectedDepts = [];
+            $("input[name=department]:checked").each(function () {
+                selectedDepts.push($(this).val());
+            });
+            data["department"] = selectedDepts;
+            data["duration"] = $("input[name=Duration]:checked").val();
+            data["option"] = getDuration();
             console.log(data);
             return data;
         }
-   </script>
+
+        function getDuration() {
+            var val = $("input[name=Duration]:checked").val();
+            switch (val) {
+                case "OneMonth":
+                    return $("#OneMonthDD").val();
+                case "CompareMonths":
+                    return [$("#CompareMonthDD1").val(), $("#CompareMonthDD2").val()];
+            }
+        }
+
+        function updateChart(x) {
+            var canvas = document.getElementById("chart").getContext('2d');
+            var myChart = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        $("#GenerateBtn").click(function () {
+            var data = getData();
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "../api/reports/reorder",
+                success: function (result) {
+                    updateChart(result);
+                }
+            })
+        });
+    </script>
 </body>

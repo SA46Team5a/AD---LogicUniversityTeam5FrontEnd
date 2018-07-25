@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LogicUniversityTeam5.ApiControllers
+namespace LogicUniversityTeam5
 {
     public class DepartmentPayload
     {
