@@ -37,13 +37,13 @@ namespace LogicUniversityTeam5.Controllers
             else
             {
                 //To change to error page after implementing login
-                empId = "E008";
+                empId = "E010";
             }
 
             //To get Department of the employee
             //combinedView.DepartmentID = departmentService.getDepartmentID(empId);  
 
-            combinedView.DepartmentID = departmentService.getDepartmentID("E008");
+            combinedView.DepartmentID = departmentService.getDepartmentID("E010");
             string DeptID = combinedView.DepartmentID;
             combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
             combinedView.AddedText = new List<string>(3) { "","","" };
@@ -54,7 +54,6 @@ namespace LogicUniversityTeam5.Controllers
         }
         [HttpPost]
         public ActionResult DelegateAuthority(CombinedViewModel model)
-
         {
 
             //get user from the login session
@@ -74,21 +73,26 @@ namespace LogicUniversityTeam5.Controllers
                 {
                     //Hardcoded empId
                     user = new ApplicationUser();
-                    user.EmployeeId = "E008";
+                    user.EmployeeId = "E010";
                     string deptId = departmentService.getDepartmentID(user.EmployeeId);
-                    Authority auth = departmentService.getCurrentAuthority(deptId);
+                    Authority auth = departmentService.getCurrentAuthority(deptId);                   
                     departmentService.rescindAuthority(auth);
+                    return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isRescind = true });
+
                 }
                 else
                 {
                     Authority authority = departmentService.getCurrentAuthority(emp.DepartmentID);
                     departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
+                    return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isDelegateAuthority = true });
                 }
                  
             }
+            else
+            {
+                return RedirectToAction("DelegateAuthority", "DelegateAuthority");
+            }                       
 
-
-            return RedirectToAction("DelegateAuthority", "DelegateAuthority");
         }
     }
 }

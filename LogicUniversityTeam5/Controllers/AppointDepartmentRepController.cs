@@ -69,7 +69,7 @@ namespace LogicUniversityTeam5.Controllers
                     departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, emp.EmployeeID);
                 }
            
-            return RedirectToAction("AppointDepartmentRep", "AppointDepartmentRep", new { isCollectionPointChanged = true });
+            return RedirectToAction("AppointDepartmentRep", "AppointDepartmentRep", new { isAppointDepartmentRep = true });
         }
     }
 }
