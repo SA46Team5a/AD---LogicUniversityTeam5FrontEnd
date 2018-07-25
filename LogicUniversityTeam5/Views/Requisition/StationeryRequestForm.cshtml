@@ -9,58 +9,66 @@
 <body>
     @using (Html.BeginForm("StationeryRequestForm", "Requisition", FormMethod.Post))
     {
-        <div class="container">
-            <div class="row justify-content-md-center pb-5">
-                <h1 class="text-center mb=3">Stationery Requisition Form</h1>
+    <div class="container">
+        @{ if (Request.Params["isSave"] != null)
+            {
+                if (Request.Params["isSave"].Equals("True"))
+                {
+                <div class="row justify-content-md-center pb-2">
+                    <div class="alert alert-success col-8">
+                        <div class="row justify-content-md-center pb-2">
+                            <strong>Success!</strong>&nbsp;Items added successfully
+                        </div>
+                    </div>
+                </div>
+                }
+            }
+            }
+
+    @{ if (Request.Params["Contains"] != null)
+        {
+            if (Request.Params["Contains"].Equals("True"))
+            {
+            <div class="row justify-content-md-center pb-2">
+                <div class="alert alert-success col-8">
+                    <div class="row justify-content-md-center pb-2">
+                        <strong>Info!</strong>&nbsp;May contain previously saved items.
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="row justify-content-md-center">
-                        <div class=" col-12">
-                            <table id="Supplier3OrderTable" class="table pb-5 pt-0">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="text-left col-6">Description</th>
-                                        <th scope="col" class="text-center col-2">Unit of Measure</th>
-                                        <th scope="col" class="text-center col-1">Quantity Requested</th>
-                                        <th scope="col" class="text-center">Action</th>
+                }
+            }
+        }
 
-                                    </tr>
-                                </thead>
-                                <tbody>
 
-                                    @*@for (int i = 0; i < Model.Items.Count; i++)
-                                    {
-                                      @Html.HiddenFor(m => Model.Items[i].ItemID)
-                                      @Html.HiddenFor(m => Model.Items[i].ItemID)
-                                      <tr>
-                                      <td>
-                                        @Html.DisplayFor(m => Model.Items[i].ItemName)
-                                        @Html.HiddenFor(m => Model.Items[i].ItemName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(m => Model.Items[i].UnitOfMeasure)
-                                        @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @name = "quantity" })
-                                        @Html.HiddenFor(m => Model.AddedText[i], new { @name = "quantity" })
+    
+    <div class="row justify-content-md-center pb-5">
+        <h1 class="text-center mb=3">Stationery Requisition Form</h1>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row justify-content-md-center">
+                <div class=" col-12">
+                    <table id="Supplier3OrderTable" class="table pb-5 pt-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left col-6">Description</th>
+                                <th scope="col" class="text-center col-2">Unit of Measure</th>
+                                <th scope="col" class="text-center col-1">Quantity Requested</th>
+                                <th scope="col" class="text-center">Action</th>
 
-                                    </td>
+                            </tr>
+                        </thead>
+                        <tbody>                       
 
-                                    <td class="text-center"><button id="btn_delete" type="button" class="btn btn-danger" data-id="@Model.Items[i].ItemID">Delete</button></td>
+                            @if (Model.Requisitions.Count > 0)
+                            {
 
-                                </tr>
-                                    }*@
-
-                                   @if (Model.Requisitions.Count > 0)
-                                   {
-
-                                       for (int j = 0; j < Model.Requisitions.Count; j++)
-                                       {
-                                        @Html.HiddenFor(m => Model.Requisitions[j].ItemID)
-                                        @Html.HiddenFor(m => Model.Requisitions[j].RequisitionDetailsID)
-                                    <tr>
+                            for (int j = 0; j < Model.Requisitions.Count; j++)
+                            {
+                                @Html.HiddenFor(m => Model.Requisitions[j].ItemID)
+                                @Html.HiddenFor(m => Model.Requisitions[j].RequisitionDetailsID)
+                                <tr>
                                     <td>
                                         @Html.DisplayFor(m => Model.Requisitions[j].Item.ItemName)
                                         @Html.HiddenFor(m => Model.Requisitions[j].Item.ItemName)
@@ -77,59 +85,59 @@
                                         @*<button id="btn_delete1" class="btn btn-danger" type="submit" data-id="@Model.Requisitions[j].RequisitionID">Delete</button>*@
                                         @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID }, new { @class = "btn btn-danger" })
                                     </td>
-                                    </tr>
-                                       }
-                                   }
+                                </tr>
+                            }
+                           }
 
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row justify-content-md-center pb-3 pt-5">
-                        <div class="col-4 text-center">
-                            <button id="btn_back" class="btn btn-secondary" type="button">View Stationery to add</button>
-                            
-                        </div>
-                        <div class="col-4 text-center">
-                            <button id="btn_update" class="btn btn-primary" type="submit" value="false"  >Save Changes</button>
-                            @Html.HiddenFor(m=> Model.IsSave,new { @id = "isSave", @value = "false" })
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="row justify-content-md-center mt-5">
-                <div class="col-12 text-center">
-                    <!-- Trigger the modal with a button -->
-                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal">Submit for approval</button>
+            <div class="row justify-content-md-center pb-3 pt-5">
+                <div class="col-4 text-center">
+                    <button id="btn_back" class="btn btn-secondary" type="button">View Stationery to add</button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" role="dialog">
-                        <div class="modal-dialog">
+                </div>
+                <div class="col-4 text-center">
+                    <button id="btn_update" class="btn btn-primary" type="submit" value="false">Save Changes</button>
+                    @Html.HiddenFor(m => Model.IsSave, new { @id = "isSave", @value = "false" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center mt-5">
+        <div class="col-12 text-center">
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal">Submit for approval</button>
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
 
-                                    <h6 class="modal-title text-right">Requisition Form Submission Confirmation</h6>
-                                </div>
-                                <div class="modal-body text-left">
-                                    <p>Are you sure you want to submit the requisition form?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="row justify-content-md-center ">
-                                        <div class="col-4 "><button type="submit" data-dismiss="modal" class="btn btn-default">No</button></div>
-                                        <div class="col-4 text-end"><button type="submit" class="btn btn-primary">Yes</button></div>
-                                    </div>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
 
-                                </div>
+                            <h6 class="modal-title text-right">Requisition Form Submission Confirmation</h6>
+                        </div>
+                        <div class="modal-body text-left">
+                            <p>Are you sure you want to submit the requisition form?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row justify-content-md-center ">
+                                <div class="col-4 "><button type="submit" data-dismiss="modal" class="btn btn-default">No</button></div>
+                                <div class="col-4 text-end"><button type="submit" class="btn btn-primary">Yes</button></div>
                             </div>
 
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
+    </div>
         <script>
             $(function () {
                 $('[data-toggle="popover"]').popover()

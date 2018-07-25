@@ -16,7 +16,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         IStockManagementService iStockService;
         IClassificationService iClassService;
         IRequisitionService iRequisitionService;
-        static int reqIdgen = 0;
+        
         public RequisitionController(StockManagementService sms, ClassificationService cs,RequisitionService rs)
         {
             iStockService = sms;
@@ -51,7 +51,6 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             {
                 combinedView.AddedText.Add(" ");
             }
-
             return View(combinedView);
         }
 
@@ -65,17 +64,25 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             passedmodel.Requisitions = new List<RequisitionDetail>();
             List<RequisitionDetail> newRDlist = new List<RequisitionDetail>();
             List<string> itemidList = new List<string>();
+            List<RequisitionDetail> tempReqDetail = new List<RequisitionDetail>();
             passedmodel.AddedText = new List<string>();
-            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
-            List<RequisitionDetail> reqDetail;
-            if (req != null)
+            if (TempData["passedmodel"] != null)
             {
-                reqDetail = iRequisitionService.getRequisitionDetails(req.RequisitionID);
-                List<string> reqDetailsItem = reqDetail.Select(r => r.ItemID).ToList();
-                List<Item> itemsAlreadyRequested = model.Items.Where(i => reqDetailsItem.Contains(i.ItemID)).ToList();
-                List<Item> newItemsForRequest = model.Items.Where(i => !reqDetailsItem.Contains(i.ItemID)).ToList();
+                CombinedViewModel cvm = (CombinedViewModel)TempData["passedmodel"];
+                tempReqDetail = cvm.Requisitions;
                 
-                for (int i = 0; i < model.Items.Count; i++)
+                //foreach (RequisitionDetail tRD in tempReqDetail)
+                //    passedmodel.Requisitions.Add(tRD);
+            }
+            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
+            List<RequisitionDetail> reqDetail;       
+            reqDetail = iRequisitionService.getRequisitionDetails(req.RequisitionID);
+            List<string> reqDetailsItem = reqDetail.Select(r => r.ItemID).ToList();
+            List<Item> itemsAlreadyRequested = model.Items.Where(i => reqDetailsItem.Contains(i.ItemID)).ToList();
+            List<Item> newItemsForRequest = model.Items.Where(i => !reqDetailsItem.Contains(i.ItemID)).ToList();
+           
+
+            for (int i = 0; i < model.Items.Count; i++)
                 {
                     string textBoxValue = model.AddedText[i].ToString().Trim();
                     if (reqDetailsItem.Contains(model.Items[i].ItemID) && (textBoxValue != null && textBoxValue != ""))
@@ -84,6 +91,8 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                         RequisitionDetail rd =
                             req.RequisitionDetails.First(x => x.ItemID.Equals(model.Items[i].ItemID));
                         rd.Quantity += Convert.ToInt32(textBoxValue);
+                        
+                        
                         passedmodel.Requisitions.Add(rd);
                     }
 
@@ -93,7 +102,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
                         RequisitionDetail newRD = new RequisitionDetail();
                         newRD.RequisitionID = req.RequisitionID;
-                        newRD.RequisitionDetailsID = --i; //Still not added to database.
+                        newRD.RequisitionDetailsID = -(i+1); //Still not added to database.
                         newRD.ItemID = model.Items[i].ItemID;
                         newRD.Quantity = Convert.ToInt32(textBoxValue);
                         newRD.Item = new Item();
@@ -110,17 +119,12 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                         RequisitionDetail oldReq= req.RequisitionDetails.First(x => x.ItemID.Equals(i.ItemID));
                         passedmodel.Requisitions.Add(oldReq);
                     }
-                }                 
-                
-                     
-                
-             }         
-            
-                                 
-               
+                }              
+                  
+                                     
             TempData["passedmodel"] = passedmodel;
             TempData.Keep("passedmodel");
-            return RedirectToAction("StationeryRequestForm");
+            return RedirectToAction("StationeryRequestForm", new { Contains = true });
         }
 
         [HttpGet]
@@ -157,7 +161,8 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             if(save==true)
             {
                TempData["passedmodel"] = model;
-               return RedirectToAction("StationeryRequestForm");
+               return RedirectToAction("StationeryRequestForm",new{ isSave = true });
+           
             }
             else
             {
@@ -200,8 +205,9 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
                 foreach (RequisitionDetail rd in rDetailList.ToList())
                 {
-                    
+                    if(rd.RequisitionDetailsID>0 || rd.RequisitionDetailsID == id)
                         rDetailList.Remove(rd);
+                    
                 }
 
                 combinedView.Requisitions = rDetailList;

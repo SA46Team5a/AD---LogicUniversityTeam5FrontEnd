@@ -42,8 +42,8 @@
                                         @Html.HiddenFor(m => Model.AddedText[i])
                                     </td>
                                     <td>
-                                        <button id="btn_delete" class="btn btn-danger" type="button" data-id="@Model.Requisitions[i].RequisitionID">Delete</button>
-                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[i].RequisitionDetailsID})
+                                       
+                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[i].RequisitionDetailsID }, new { @class = "btn btn-danger" })
                                     </td>
                                 </tr>
                                 }
