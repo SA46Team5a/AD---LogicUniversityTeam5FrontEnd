@@ -49,7 +49,11 @@
       <HintPath>..\packages\Unity.5.2.0\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ServiceLayer">
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -237,6 +241,7 @@
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\StockAdjustmentController.cs" />
+    <Compile Include="Controllers\TrackOutstandingRequisitionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -274,11 +279,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -333,6 +343,9 @@
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\PlaceOrder.cshtml" />
+    <Content Include="Views\CreateOrders\OrderSummary.cshtml" />
+    <Content Include="Views\CreateOrders\PrintOrderSummary.cshtml" />
+    <Content Include="Views\TrackOutstandingRequisition\TrackOutsandingRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

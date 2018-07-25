@@ -1,0 +1,78 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "PrintOrderSummary";
+}
+
+<div class="row justify-content-md-center">
+    <div class="card col-8">
+        <div class="row justify-content-md-start inline">
+            <div class="text-left col-12">
+                <strong>Order ID: 1001</strong>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="row justify-content-md-center mt-1">
+                <table id="OrderSummaryTable" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-left">Category</th>
+                            <th scope="col" class="text-left">Description</th>
+                            <th scope="col" class="text-left">Required Quantity</th>
+                            <th scope="col" class="text-left">Available Quantity</th>
+                            <th scope="col" class="text-left">Supplier</th>
+                            <th scope="col" class="text-left">Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{decimal orderTotalPrice = 0;}
+                        @for (int i = 0; i < Model.OrderSupplierDetails.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
+                                    @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model.Items[i].ItemName)
+                                    @Html.HiddenFor(m => Model.Items[i].ItemName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model.ReOrderItemQty[i])
+                                    @Html.HiddenFor(m => Model.ReOrderItemQty[i])
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model.OrderSupplierDetails[i].Quantity)
+                                    @Html.HiddenFor(m => Model.OrderSupplierDetails[i].Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplier.Supplier.SupplierName)
+                                    @Html.HiddenFor(m => Model.OrderSupplierDetails[i].OrderSupplier.Supplier.SupplierName)
+                                </td>
+                                <td>
+                                    @{decimal itemTotalPrice = Model.OrderSupplierDetails[i].UnitCost *
+                                                                                       Model.OrderSupplierDetails[i].Quantity;}
+                                    @Html.DisplayFor(m => itemTotalPrice)
+                                </td>
+                            </tr>
+                            orderTotalPrice += itemTotalPrice;
+                        }
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total:</td>
+                            <td>
+                                <label>@Html.DisplayFor(m => orderTotalPrice)</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -59,9 +59,9 @@
         @using (Html.BeginForm("PlaceOrder", "CreateOrders", FormMethod.Post))
         {
 
-            for (int i = 0; i < Model.suppliers.Count; i++)
+            for (int i = 0; i < Model.Suppliers.Count; i++)
             {
-                @Html.HiddenFor(m => Model.suppliers[i].SupplierID)
+                @Html.HiddenFor(m => Model.Suppliers[i].SupplierID)
                 <div class="row justify-content-md-center mt-3 pb-3">
                     <div class="col-8 text-left">
                         <div id="accordion">
@@ -77,11 +77,11 @@
                                 <div id="collapse-@i" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <div>@Html.DisplayFor(m => Model.suppliers[i].SupplierName)</div>
+                                            <div>@Html.DisplayFor(m => Model.Suppliers[i].SupplierName)</div>
                                             <div class="card-body">
-                                                <p class="card-text">Contact Name: @Html.DisplayFor(m => Model.suppliers[i].ContactName)</p>
-                                                <p class="card-text">Phone No: @Html.DisplayFor(m => Model.suppliers[i].PhoneNumber)</p>
-                                                <p class="card-text">Address: @Html.DisplayFor(m => Model.suppliers[i].Address)</p>
+                                                <p class="card-text">Contact Name: @Html.DisplayFor(m => Model.Suppliers[i].ContactName)</p>
+                                                <p class="card-text">Phone No: @Html.DisplayFor(m => Model.Suppliers[i].PhoneNumber)</p>
+                                                <p class="card-text">Address: @Html.DisplayFor(m => Model.Suppliers[i].Address)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -101,223 +101,47 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @for (int j = 0; j < Model.supplierItems.Count; j++)
+                                {
+                                    if (Model.supplierItems[j].Supplier.SupplierID.Equals(Model.Suppliers[i].SupplierID))
+                                    {
+                                        @Html.HiddenFor(m => Model.supplierItems[j].SupplierItemID)
+                                        <tr class="text-center">
+                                            <td> @Html.DisplayFor(m => Model.Items[j].Category.CategoryName)</td>
+                                            <td class="text-left">@Html.DisplayFor(m => Model.Items[j].ItemName)</td>
+                                            <td>
+                                                @Html.DisplayFor(m => Model.ReOrderItemQty[j])
+                                                @Html.HiddenFor(m => Model.ReOrderItemQty[j])
+                                            </td>
+                                            <td>@Model.supplierItems[j].Cost</td>
+                                            <td class="text-center">
+                                                @{int key = Model.supplierItems[i].SupplierItemID;
+                                                }
+                                                @Html.TextBoxFor(m => Model.AddedNumbers[j], new { @class = "form-control col-12 text-center" })
+                                            </td>
+                                        </tr>
+                                    }
 
-                                <tr class="text-center">
-                                    <td>Pencil</td>
-                                    <td class="text-left">2B Pencil</td>
-                                    <td>90</td>
-                                    <td>$2</td>
-                                    <td class="text-center">
-                                        <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                                    </td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Pen</td>
-                                    <td class="text-left">Blue Pen</td>
-                                    <td>100</td>
-                                    <td>$4</td>
-                                    <td class="text-center">
-                                        <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                                    </td>
-                                </tr>
+                                }
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             }
+
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-4 text-center">
+                    <a href="javascript:history.go(-1)" class="btn btn-secondary" id="btn_back">Back</a>
+                </div>
+                <div class="col-4 text-center">
+                    <button id="btn_next" class="btn btn-primary">Next</button>
+                </div>
+            </div>
         }
-        <div class="row justify-content-md-center mt-3 pb-3">
-            <div class="col-8 text-left">
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <h4 class="text-left">Supplier 1</h4>
-                                </button>
-                            </h5>
-                        </div>
-
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <div>ALPHA Office Suupliers</div>
-                                    <div class="card-body">
-                                        <p class="card-text">Contact Name: MS.Irene Tran</p>
-                                        <p class="card-text">Mobile No:4619928</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-8">
-                <table id="Supplier1OrderTable" class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-center">Category</th>
-                            <th scope="col" class="text-left col-6">Description</th>
-                            <th scope="col" class="text-center">Reorder Quantity</th>
-                            <th scope="col" class="text-center col-2">Price per Unit</th>
-                            <th scope="col" class="text-center">Available Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td>Pencil</td>
-                            <td class="text-left">2B Pencil</td>
-                            <td>90</td>
-                            <td>$2</td>
-                            <td class="text-center">
-                                <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                            </td>
-                        </tr>
-                        <tr class="text-center">
-                            <td>Pen</td>
-                            <td class="text-left">Blue Pen</td>
-                            <td>100</td>
-                            <td>$4</td>
-                            <td class="text-center">
-                                <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="row justify-content-md-center mt-3 pb-3">
-            <div class="col-8 text-left">
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <h4 class="text-left">Supplier 2</h4>
-                                </button>
-                            </h5>
-                        </div>
-
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <div>Cheap Stationer</div>
-                                    <div class="card-body">
-                                        <p class="card-text">Contact Name: Mr Kway Koh</p>
-                                        <p class="card-text">Mobile No:4619928</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-8">
-                <table id="Supplier2OrderTable" class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-center">Category</th>
-                            <th scope="col" class="text-left col-6">Description</th>
-                            <th scope="col" class="text-center">Reorder Quantity</th>
-                            <th scope="col" class="text-center col-2">Price per Unit</th>
-                            <th scope="col" class="text-center">Available Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td>Pencil</td>
-                            <td>2B Pencil</td>
-                            <td>90</td>
-                            <td>$2</td>
-                            <td class="text-center">
-                                <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                            </td>
-                        </tr>
-                        <tr class="text-center">
-                            <td>Pen</td>
-                            <td>Blue Pen</td>
-                            <td>100</td>
-                            <td>$4</td>
-                            <td class="text-center">
-                                <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                            </td>
-
-                        </tr>
 
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row justify-content-md-center mt-3">
-            <div class="col-8 text-left">
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <h4 class="text-left">Supplier 3</h4>
-                                </button>
-                            </h5>
-                        </div>
 
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <div>Cheap Stationer</div>
-                                    <div class="card-body">
-                                        <p class="card-text">Contact Name: Mr Kway Koh</p>
-                                        <p class="card-text">Mobile No:4619928</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-8">
-                <table id="Supplier3OrderTable" class="table">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col" class="text-center">Category</th>
-                            <th scope="col" class="text-center col-6">Description</th>
-                            <th scope="col" class="text-center">Reorder Quantity</th>
-                            <th scope="col" class="text-center col-2">Price per Unit</th>
-                            <th scope="col" class="text-center">Available Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td>Pencil</td>
-                            <td>2B Pencil</td>
-                            <td>90</td>
-                            <td>$2</td>
-                            <td class="text-center">
-                                <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                            </td>
-                        </tr>
-                        <tr class="text-center">
-                            <td>Pen</td>
-                            <td>Blue Pen</td>
-                            <td>100</td>
-                            <td>$4</td>
-                            <td class="text-center">
-                                <input type="text" class="form-control col-12 text-center" id="Qunatity_text" placeholder="1">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row justify-content-md-center mt-3">
-            <div class="col-4 text-center">
-                <button id="btn_back" class="btn btn-secondary">Back</button>
-            </div>
-            <div class="col-4 text-center">
-                <button id="btn_next" class="btn btn-primary">Next</button>
-            </div>
-        </div>
     </div>
 </body>
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LogicUniversityTeam5.Models;
+using Rotativa;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
 
@@ -11,21 +12,21 @@ namespace LogicUniversityTeam5.Controllers.Order
 {
     public class CreateOrdersController : Controller
     {
-        IStockManagementService _stockManagementService;
-        //IOrderService orderService;
+        IStockManagementService stockManagementService;
+        IOrderService orderService;
         StationeryStoreEntities context;
 
-        public CreateOrdersController(StockManagementService sms)
+        public CreateOrdersController(StockManagementService sms, OrderService os)
         {
-            _stockManagementService = sms;
-            //orderService = os;
+            stockManagementService = sms;
+            orderService = os;
             context = StationeryStoreEntities.Instance;
         }
 
         public ActionResult ItemCatalogue()
         {
             ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
-            itemcatalogue.items = _stockManagementService.getAllItems();
+            itemcatalogue.items = stockManagementService.getAllItems();
             //itemcatalogue.categories = getcategory();
             itemcatalogue.stocklevels = getstocklevel();
             
@@ -44,29 +45,171 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
 
             CombinedViewModel combinedViewModel = new CombinedViewModel();
+            combinedViewModel.Suppliers = new List<Supplier>();
+            combinedViewModel.AddedNumbers = new List<int>();
+            combinedViewModel.Items = new List<Item>();
+            combinedViewModel.ReOrderItemQty = new List<int>();
+            //combinedViewModel.ReOrderItemQty = (List<int>)TempData["itemQty"];
             //List<string> itemIds = (List<string>) TempData["itemIds"];
-            //combinedViewModel.supplierItems = orderService.getSupplierItemsOfItemIds(itemIds);
+            //List<int> itemQty = (List<int>) TempData["itemQty"];
+
+            
+            //Hardcoded: To be removed
+            List<int> itemQty = new List<int>() { 50, 60, 80 };
+
+            //Hardcoded: To be removed
+            TempData["itemIds"] = new List<string>()
+            {
+                "C001","C002","C003"
+            };
+            TempData["itemQty"] = new List<int>() { 50, 60, 80 };
+
+            //}
+
+            TempData.Keep("itemQty");
+            TempData.Keep("itemIds");
+
+            //Hardcoded: To be removed
             List<string> itemIds = new List<string>()
             {
                 "C001","C002","C003"
             };
 
-            combinedViewModel.suppliers = new List<Supplier>();
-            combinedViewModel.supplierItems = new List<SupplierItem>()
+            Dictionary<string, int> itemIdsAndItemQty = new Dictionary<string, int>();
+
+            for(int i= 0; i<itemIds.Count;i++)
             {
-                new SupplierItem{SupplierItemID=1 , SupplierID="ALPA" , ItemID="C001", Rank=1, Cost=3.50m},
-                new SupplierItem{SupplierItemID=2 , SupplierID="ALPA" , ItemID="C002", Rank=1, Cost=4.50m},
-                new SupplierItem{SupplierItemID=3 , SupplierID="ALPA" , ItemID="C003", Rank=1, Cost=5.50m}
-            };
+                itemIdsAndItemQty.Add(itemIds[i], itemQty[i]);
+            }
+            TempData["itemIdsAndItemQty"] = itemIdsAndItemQty;
+            TempData.Keep("itemIdsAndItemQty");
+
+            combinedViewModel.supplierItems = orderService.getSupplierItemsOfItemIds(itemIds);
+            
+
             foreach (SupplierItem supplierItem in combinedViewModel.supplierItems)
             {
-                combinedViewModel.suppliers.Add(context.Suppliers.Where(x => x.SupplierID == supplierItem.SupplierID).First());
+                //Adding Suppliers in combinedview
+                if (!combinedViewModel.Suppliers.Contains(supplierItem.Supplier))
+                {
+                    combinedViewModel.Suppliers.Add(context.Suppliers.Where(x => x.SupplierID == supplierItem.SupplierID).First());
+                }
+
+                //Adding Items in combinedview
+                combinedViewModel.Items.Add(context.Items.Where(x => x.ItemID.Equals(supplierItem.ItemID)).First());
+                foreach(KeyValuePair<string,int> itemIdAndQty in itemIdsAndItemQty)
+                {
+                    if(itemIdAndQty.Key.Equals(supplierItem.ItemID))
+                        combinedViewModel.ReOrderItemQty.Add(itemIdAndQty.Value);
+                }
+                combinedViewModel.AddedNumbers.Add(0);
             }
             
             return View(combinedViewModel);
         }
 
-        public List<Items> getitem()
+        [HttpPost]
+        public ActionResult PlaceOrder(CombinedViewModel model)
+        {
+            //creating Dictionary<int, int> supplierItemsAndQty
+            Dictionary<int, int> supplierItemsAndQty = new Dictionary<int, int>();
+            for(int i =0; i < model.AddedNumbers.Count; i++)
+            {
+                supplierItemsAndQty.Add(model.supplierItems[i].SupplierItemID, model.AddedNumbers[i]);
+            }
+
+            //creating Dictionary<string, int> itemAndQty
+            Dictionary<string, int> itemAndQty = new Dictionary<string, int>();
+            List<string> itemIds = (List<string>) TempData["itemIds"];
+            List<int> itemQty = (List<int>) TempData["itemQty"];
+            for (int i = 0; i < itemIds.Count; i++)
+            {
+                itemAndQty.Add(itemIds[i],itemQty[i]);
+            }
+
+            TempData.Keep("itemIdsAndItemQty");
+            //creating new OrderId
+            //int newOrderId = orderService.createOrderAndGetOrderId(itemAndQty, supplierItemsAndQty);
+            //Hardcoded: to be removed
+            int newOrderId = 1;
+
+            return RedirectToAction("OrderSummary",new { id = newOrderId });
+        }
+
+
+        [Route("CreateOrders/OrderSummary/{id}")]
+        public ActionResult OrderSummary(int id)
+        {
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
+
+            combinedViewModel.OrderSupplierDetails =
+                context.OrderSupplierDetails.Where(x => x.OrderSupplier.OrderID == id).ToList();
+
+            //Adding Items and Required Quantity
+            Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
+            if(itemIdsAndItemQty==null)
+                itemIdsAndItemQty = (Dictionary<string, int>)Session["itemIdsAndItemQty"];
+            combinedViewModel.Items = new List<Item>();
+            combinedViewModel.ReOrderItemQty = new List<int>();
+            foreach(OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
+            {
+                combinedViewModel.Items.Add(
+                    context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
+                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
+                    combinedViewModel.ReOrderItemQty.Add(
+                        itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
+                }
+                else
+                {
+                    combinedViewModel.ReOrderItemQty.Add(0);
+                }
+            }
+            TempData["orderId"] = id;
+            TempData.Keep("itemIdsAndItemQty");
+
+            return View(combinedViewModel);
+        }
+
+ 
+        public ActionResult PrintOrderSummary(CombinedViewModel model)
+        {
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
+            int id = (int)TempData["orderId"];
+            combinedViewModel.OrderSupplierDetails =
+                context.OrderSupplierDetails.Where(x => x.OrderSupplier.OrderID == id).ToList();
+
+            //Adding Items and Required Quantity
+            Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
+            if (itemIdsAndItemQty == null)
+                itemIdsAndItemQty = (Dictionary<string, int>)Session["itemIdsAndItemQty"];
+            combinedViewModel.Items = new List<Item>();
+            combinedViewModel.ReOrderItemQty = new List<int>();
+            foreach (OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
+            {
+                combinedViewModel.Items.Add(
+                    context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
+                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID))
+                {
+                    combinedViewModel.ReOrderItemQty.Add(
+                        itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
+                }
+                else
+                {
+                    combinedViewModel.ReOrderItemQty.Add(0);
+                }
+            }
+            return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
+
+        }
+
+        public ActionResult OrderSummary(CombinedViewModel model)
+        {
+            TempData["itemIdsAndItemQty"] = model.ItemIdAndQty;
+            int id = model.AddedNumbers[0];
+            return OrderSummary(id);
+        }
+
+            public List<Items> getitem()
         {
             List<Items> items = new List<Items>();
             items.Add(

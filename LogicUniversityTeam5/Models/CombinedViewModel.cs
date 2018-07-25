@@ -15,13 +15,19 @@ namespace LogicUniversityTeam5.Models
 
         public List<SupplierItem> supplierItems { get; set; }
 
-        public List<Supplier> suppliers { get; set; }
+        public List<Supplier> Suppliers { get; set; }
 
         public List<Order> Orders { get; set; }
 
-        public List<OrderSupplier> orderSuppliers { get; set; }
+        public List<OrderSupplier> OrderSuppliers { get; set; }
 
-        public List<OrderSupplierDetail> orderSupplierDetails { get; set; }
+        public List<OrderSupplierDetail> OrderSupplierDetails { get; set; }
+
+        public List<int> ReOrderItemQty { get; set; }
+
+        public Dictionary<int,int> SupplierItemIdAndQtyAvail { get; set; }
+
+        public Dictionary<string, int> ItemIdAndQty { get; set; }
 
         public List<bool> IsSelected { get; set; }
 
