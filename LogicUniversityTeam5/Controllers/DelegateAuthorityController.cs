@@ -24,6 +24,7 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult DelegateAuthority(Department dep)
         {
             CombinedViewModel combinedView = new CombinedViewModel();
+            
 
             var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             ApplicationUser user = userManager.FindById(User.Identity.GetUserId());
@@ -44,14 +45,16 @@ namespace LogicUniversityTeam5.Controllers
             //combinedView.DepartmentID = departmentService.getDepartmentID(empId);  
 
             combinedView.DepartmentID = departmentService.getDepartmentID("E010");
-            string DeptID = combinedView.DepartmentID;
+            string DeptID = combinedView.DepartmentID;            
             combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
             combinedView.AddedText = new List<string>(3) { "","","" };
             combinedView.IsSelected = new List<bool>(1) { false };
-            
+            combinedView.Authorities = departmentService.getCurrentAuthority(combinedView.DepartmentID);
+
 
             return View(combinedView);
         }
+
         [HttpPost]
         public ActionResult DelegateAuthority(CombinedViewModel model)
         {

@@ -338,6 +338,12 @@
     <Content Include="Views\changeCollectionPoint\changeCollectionPoint.cshtml" />
     <Content Include="Views\AppointDepartmentRep\AppointDepartmentRep.cshtml" />
     <Content Include="Views\DelegateAuthority\DelegateAuthority.cshtml" />
+    <Content Include="Views\Shared\Navbar_DepartmentHead.cshtml" />
+    <Content Include="Views\Shared\Navbar_DepartmentRepresentative.cshtml" />
+    <Content Include="Views\Shared\Navbar_Employee.cshtml" />
+    <Content Include="Views\Shared\Navbar_StoreClerk.cshtml" />
+    <Content Include="Views\Shared\Navbar_StoreManager.cshtml" />
+    <Content Include="Views\Shared\Navbar_StoreSupervisor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

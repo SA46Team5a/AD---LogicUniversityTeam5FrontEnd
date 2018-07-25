@@ -8,12 +8,12 @@
 {
 <body>
     <div class="container">
-      
+
 
         @{ if (Request.Params["isDelegateAuthority"] != null)
+        {
+            if (Request.Params["isDelegateAuthority"].Equals("True"))
             {
-                if (Request.Params["isDelegateAuthority"].Equals("True"))
-                {
                 <div class="row justify-content-md-center pb-2">
                     <div class="alert alert-success col-8">
 
@@ -23,15 +23,15 @@
                         </div>
                     </div>
                 </div>
-                    }
-                }
         }
-                     
-        
-       @{ if (Request.Params["isRescind"] != null)
-                  {
-                      if (Request.Params["isRescind"].Equals("True"))
-                      {
+    }
+        }
+
+
+        @{ if (Request.Params["isRescind"] != null)
+        {
+            if (Request.Params["isRescind"].Equals("True"))
+            {
                 <div class="row justify-content-md-center pb-2">
                     <div class="alert alert-danger col-8">
 
@@ -42,13 +42,20 @@
                     </div>
                 </div>
         }
-                }
-              }
-        
-       
-        <div class="row justify-content-md-center pb-5">
+    }
+        }
+
+
+        <div class="row justify-content-md-center pb-4">
             <h1 class="text-center mb=3">Delegate Authority</h1>
         </div>
+        <div class="row justify-content-md-center pb-2">
+            <h5 class="text-center mb=3">Authority Holder:</h5>
+            @Html.DisplayFor(m=>Model.Authorities.Employee.EmployeeName)
+
+                            
+        </div>
+
         <div class="row justify-content-md-center">
             <div class=" col-8">
 
@@ -56,16 +63,16 @@
                     <label for="Delegatedperson">Delegated person with authority</label>
 
                     @{List<string> Employee = new List<string>();
-                    foreach (var emp in Model.Employee)
-                    {
-                        Employee.Add(emp.EmployeeName);
-                    }
-                    }
+                            foreach (var emp in Model.Employee)
+                            {
+                                Employee.Add(emp.EmployeeName);
+                            }
+                        }
 
-                    @Html.DropDownListFor(m => Model.AddedText[0],
-                                       new SelectList(Employee.Distinct()),
-                                       "Select Employee",
-                                       new { @class = "form-control" })
+                        @Html.DropDownListFor(m => Model.AddedText[0],
+                                        new SelectList(Employee.Distinct()),
+                                        "Select Employee",
+                                        new { @class = "form-control" })
                     @Html.HiddenFor(m => m.Employee)
 
                 </div>
@@ -78,26 +85,26 @@
                     <div class="row justify-content-md-center pb-5">
                         <div class="col-6 text-left">
                             @Html.TextBoxFor(m => Model.AddedText[1],
-                                          new
-                                          {
-                                              @class = "form-control",
-                                              @type = "date",
-                                              @min = DateTime.Today,
-                                              @max = "2018-12-31"
-                                          })
+                                           new
+                                           {
+                                               @class = "form-control",
+                                               @type = "date",
+                                               @min = DateTime.Today,
+                                               @max = "2018-12-31"
+                                           })
                             @*<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">*@
 
                             @*@Html.HiddenFor(m => m.StartDate)*@
                         </div>
                         <div class="col-6 text-left">
                             @Html.TextBoxFor(m => Model.AddedText[2],
-                                          new
-                                          {
-                                              @class = "form-control",
-                                              @type = "date",
-                                              @min = DateTime.Today,
-                                              @max = "2018-12-31"
-                                          })
+                                           new
+                                           {
+                                               @class = "form-control",
+                                               @type = "date",
+                                               @min = DateTime.Today,
+                                               @max = "2018-12-31"
+                                           })
                             @*<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">*@
                         </div>
                     </div>
@@ -117,7 +124,7 @@
             <div class="col-2 text-right">
                 <input type="submit" value="Rescind" name="Rescind" class="btn btn-danger" id="rescind" />
                 @Html.HiddenFor(m => Model.IsSelected[0], new { @id = "isRescind" })
-              
+
             </div>
         </div>
     </div>
