@@ -74,8 +74,8 @@
                                         @Html.HiddenFor(m => Model.Requisitions[j].Quantity)
                                     </td>
                                     <td>
-                                        <button id="btn_delete1" class="btn btn-danger" type="button" data-id="@Model.Requisitions[j].RequisitionID">Delete</button>
-                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID })
+                                        @*<button id="btn_delete1" class="btn btn-danger" type="submit" data-id="@Model.Requisitions[j].RequisitionID">Delete</button>*@
+                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID }, new { @class = "btn btn-danger" })
                                     </td>
                                     </tr>
                                        }

@@ -40,7 +40,7 @@
                                 <th scope="col" class="text-left col-6">Description</th>
                                 <th scope="col" class="text-left">Unit of Measure</th>
                                 <th scope="col" class="text-left">Quantity to Add</th>
-                                <th scope="col" class="text-left">Action</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -60,9 +60,7 @@
                                     <td>
                                         @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })
                                     </td>
-                                    <td>
-                                        <button id="btn_add" type="button" class="btn btn-primary">Add</button>
-                                    </td>
+                                    
                                 </tr>
                             }
 
@@ -78,13 +76,7 @@
                     var cat = document.getElementsByName('categories').value;
                     alert(cat);
 
-                });
-
-                $(':button[id="btn_add"]').click(function () {
-                    
-                    $(this).prop('disabled', true);
-                    $(this).html('Added');
-                });
+                });              
 
 
             </script>

@@ -107,18 +107,11 @@
             $('[data-toggle="popover"]').popover()
         });
 
-        $('#btn_back').click(function () {
-            alert('here');
+        $(document).ready(function () {
+         $('#btn_back').click(function (e) {
                 window.location.href = '@Url.Content("~/Requisition/ViewStationeryCatalogue")';
-            });     
-        
-
-            $(".btn.btn-danger").on("click", function () {
-                var id = $(this).data('id');
-                 if (id == 0) { // assumes property Id is typeof int
-                    // Its a new item so just remove from the DOM
-                        $(this).closest('tr').remove();
-                 }
+            });
+        });
 
     </script>
 </body>
