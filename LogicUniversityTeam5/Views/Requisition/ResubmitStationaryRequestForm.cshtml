@@ -4,7 +4,23 @@
 }
 
 <body>
+     @using (Html.BeginForm("ResubmitStationaryRequestForm", "Requisition", FormMethod.Post))
+     {
     <div class="container">
+        @{ if (Request.Params["isSubmit"] != null)
+        {
+            if (Request.Params["isSubmit"].Equals("True"))
+            {
+                <div class="row justify-content-md-center pb-2">
+                    <div class="alert alert-success col-8">
+                        <div class="row justify-content-md-center pb-2">
+                            <strong>Success!</strong>&nbsp;Items submitted successfully
+                        </div>
+                    </div>
+                </div>
+             }
+          }
+        }
         <div class="row justify-content-md-center pb-5">
             <h1 class="text-center mb=3">Stationery Requisition Form</h1>
         </div>
@@ -25,9 +41,9 @@
                             <tbody>
 
                                 @for (int i = 0; i < Model.Requisitions.Count; i++)
-                             {
+                            {
                                 @Html.HiddenFor(m => Model.Requisitions[i].ItemID)
-                                @Html.HiddenFor(m=>Model.Requisitions[i].RequisitionID)
+                                @Html.HiddenFor(m => Model.Requisitions[i].RequisitionDetailsID)
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(m => Model.Requisitions[i].Item.ItemName)
@@ -38,16 +54,16 @@
                                         @Html.HiddenFor(m => Model.Requisitions[i].Item.UnitOfMeasure)
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => Model.AddedText[i])
-                                        @Html.HiddenFor(m => Model.AddedText[i])
+                                        @Html.TextBoxFor(m => Model.Requisitions[i].Quantity)
+                                        @Html.HiddenFor(m => Model.Requisitions[i].Quantity)
                                     </td>
                                     <td>
-                                       
+
                                         @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[i].RequisitionDetailsID }, new { @class = "btn btn-danger" })
                                     </td>
                                 </tr>
-                                }
-                              
+                        }
+
 
                             </tbody>
                         </table>
@@ -61,7 +77,8 @@
 
                     </div>
                     <div class="col-4 text-center">
-                        <button id="btn_resubmit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Resubmit Form</button>
+                        <button id="btn_resubmit" data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary">Resubmit Form</button>
+
                     </div>
                 </div>
             </div>
@@ -69,7 +86,7 @@
         <div class="row justify-content-md-center mt-5">
             <div class="col-8 text-center">
                 <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-info col-3 align-right ">OK</button>
+                <button id="btn_ok" type="button" class="btn btn-info col-3 align-right ">OK</button>
 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
@@ -91,6 +108,7 @@
                                     </div>
                                     <div class="col-4 text-end">
                                         <button type="submit" class="btn btn-primary">Yes</button>
+
                                     </div>
                                 </div>
 
@@ -106,7 +124,9 @@
         $(function () {
             $('[data-toggle="popover"]').popover()
         });
-
+        $('#btn_ok').click(function (e) {
+                window.location.href = '@Url.Action("Index","Home")';
+            });
         $(document).ready(function () {
          $('#btn_back').click(function (e) {
                 window.location.href = '@Url.Content("~/Requisition/ViewStationeryCatalogue")';
@@ -114,5 +134,6 @@
         });
 
     </script>
+     }
 </body>
 

@@ -15,16 +15,19 @@
                     Category:
                 </div>
                 <div class="form-group col-md-3 text-center">
-                    @{List<string> category = new List<string>();
-                        foreach (var item in Model.Categories)
-                        {
-                            category.Add(item.CategoryName);
-                        }
+                    @{List<string> des = new List<string>();
+                    foreach (var item in Model.Categories)
+                    {
+                        des.Add(item.CategoryName);
+                    }
                     }
                     @*, new { @class = "form-control" }*@
-                    @Html.DropDownList("Categories", new SelectList(category.Distinct()), "Select")
-                    @Html.HiddenFor(m => m.Categories)
-                    
+                    @*@Html.DropDownList("Categories", new SelectList(category.Distinct()), "Select")
+                    @Html.HiddenFor(m => m.Categories)*@
+                    @Html.DropDownListFor(m => Model.AddedText[0],
+                                              new SelectList(des.Distinct()),
+                                              "Select Category",
+                                              new { @class = "form-control" })
 
                 </div>
             </div>

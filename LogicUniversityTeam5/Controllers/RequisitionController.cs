@@ -54,7 +54,15 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return View(combinedView);
         }
 
-        
+        //[HttpPost]
+        //public ActionResult ViewStationeryCatalogue(CombinedViewModel model,string categoryName)
+        //{
+        //    if (TempData["passedmodel"] != null)
+        //    {
+        //        TempData.Keep("passedmodel");
+        //    };
+
+        //}
 
         [HttpPost]
         public ActionResult ViewStationeryCatalogue(CombinedViewModel model)
@@ -69,10 +77,8 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             if (TempData["passedmodel"] != null)
             {
                 CombinedViewModel cvm = (CombinedViewModel)TempData["passedmodel"];
-                tempReqDetail = cvm.Requisitions;
+                tempReqDetail = cvm.Requisitions;               
                 
-                //foreach (RequisitionDetail tRD in tempReqDetail)
-                //    passedmodel.Requisitions.Add(tRD);
             }
             ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
             List<RequisitionDetail> reqDetail;       
@@ -119,8 +125,8 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                         RequisitionDetail oldReq= req.RequisitionDetails.First(x => x.ItemID.Equals(i.ItemID));
                         passedmodel.Requisitions.Add(oldReq);
                     }
-                }              
-                  
+                }          
+               
                                      
             TempData["passedmodel"] = passedmodel;
             TempData.Keep("passedmodel");
@@ -168,8 +174,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             {
                 iRequisitionService.submitRequisition(req.RequisitionID);
                 return RedirectToAction("Index", "Home");
-            }
-       
+            }       
             
         }
 
@@ -183,25 +188,41 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             
             List<RequisitionDetail> reqdetails = iRequisitionService.getRequisitionDetails(req.RequisitionID);
             combinedView.Requisitions = reqdetails;
-            for(int i=0;i<reqdetails.Count;i++)
-            {
-                combinedView.AddedText.Add(Convert.ToString(reqdetails[i].Quantity));
-            }
+            //for (int i = 0; i < reqdetails.Count; i++)
+            //{
+            //    combinedView.AddedText.Add(Convert.ToString(reqdetails[i].Quantity));
+            //}
             TempData["passmodel"] = combinedView;
             return View(combinedView);
+        }
+
+        [HttpPost]
+        public ActionResult ResubmitStationaryRequestForm(CombinedViewModel model)
+        {
+            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
+            string textBoxValue;
+            for (int i = 0; i < model.Requisitions.Count; i++)
+            {
+                
+                textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
+                if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
+                {                  
+                        iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
+                }
+            }
+
+            iRequisitionService.submitRequisition(req.RequisitionID);
+            return RedirectToAction("ResubmitStationaryRequestForm",  new { isSubmit = true });
         }
 
         [HttpGet]
         public ActionResult Delete(int id)
         {
-
-
+            
             CombinedViewModel combinedView = (CombinedViewModel)TempData["passedmodel"];
             if (combinedView != null)
             {
                 List<RequisitionDetail> rDetailList = combinedView.Requisitions;
-
-
 
                 foreach (RequisitionDetail rd in rDetailList.ToList())
                 {
@@ -209,12 +230,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                         rDetailList.Remove(rd);
                     
                 }
-
-                combinedView.Requisitions = rDetailList;
-                //foreach (RequisitionDetail rd in rDetailList.ToList())
-                //{
-                //    combinedView.Requisitions.Add(rd);
-                //}
+                combinedView.Requisitions = rDetailList;              
             }
             else
             {
@@ -230,14 +246,12 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 iRequisitionService.deleteRequisitionDetail(id);
             }
 
-            //combinedView.AddedText = new List<string>();
-            //combinedView.Requisitions = new List<RequisitionDetail>();
+            
             ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
             List<RequisitionDetail> reqdetails = iRequisitionService.getRequisitionDetails(req.RequisitionID);
 
             for (int i = 0; i < reqdetails.Count; i++)
-            {
-                //combinedView.AddedText.Add(Convert.ToString(reqdetails[i].Quantity));
+            {                
                 combinedView.Requisitions.Add(reqdetails[i]);
             }
             TempData["passedmodel"] = combinedView;
