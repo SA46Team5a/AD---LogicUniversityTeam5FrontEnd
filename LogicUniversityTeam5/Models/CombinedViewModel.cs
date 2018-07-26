@@ -25,6 +25,8 @@ namespace LogicUniversityTeam5.Models
 
         public bool IsSave { get; set; }
 
+        public string categorySelected { get; set; }
+
         public List<String> AddedText { get; set; }
 
         public List<int> AddedNumbers { get; set; }

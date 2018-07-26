@@ -24,7 +24,7 @@
                     @*, new { @class = "form-control" }*@
                     @*@Html.DropDownList("Categories", new SelectList(category.Distinct()), "Select")
                     @Html.HiddenFor(m => m.Categories)*@
-                    @Html.DropDownListFor(m => Model.AddedText[0],
+                    @Html.DropDownListFor(m => Model.categorySelected,
                                               new SelectList(des.Distinct()),
                                               "Select Category",
                                               new { @class = "form-control" })
@@ -62,6 +62,7 @@
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })
+                                        @Html.HiddenFor(m =>Model.AddedText[i])
                                     </td>
                                     
                                 </tr>
@@ -76,7 +77,7 @@
 
                 $('#btn_search').click(function (e) {
                     $('#Categories').val('@Model.Categories');
-                    var cat = document.getElementsByName('categories').value;
+                    var cat = document.getElementsByName('Categories').value;
                     alert(cat);
 
                 });              

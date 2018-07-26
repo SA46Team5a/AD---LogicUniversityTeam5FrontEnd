@@ -41,11 +41,10 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 TempData.Keep("passedmodel");
             };
 
-            CombinedViewModel combinedView = new CombinedViewModel();
-
-            combinedView.Items = iStockService.getAllItems();         
+            CombinedViewModel combinedView = new CombinedViewModel();                
 
             combinedView.Categories = iClassService.GetCategories();
+            combinedView.categorySelected = "All";
             combinedView.AddedText = new List<string>();
             foreach (Item i in combinedView.Items)
             {
