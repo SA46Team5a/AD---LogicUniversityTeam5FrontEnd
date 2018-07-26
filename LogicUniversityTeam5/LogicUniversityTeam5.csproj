@@ -49,7 +49,8 @@
       <HintPath>..\packages\Unity.5.2.0\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ServiceLayer">
+    <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -235,6 +236,7 @@
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\StockAdjustmentController.cs" />
+    <Compile Include="Controllers\ViewPastRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -336,6 +338,7 @@
     <Content Include="Views\CreateOrders\PlaceOrder_test.cshtml" />
     <Content Include="Views\CreateOrders\SubmitInvoice.cshtml" />
     <Content Include="Views\CreateOrders\Sent.cshtml" />
+    <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

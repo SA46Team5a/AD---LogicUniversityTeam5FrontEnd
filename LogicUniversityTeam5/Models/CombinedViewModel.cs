@@ -26,11 +26,10 @@ namespace LogicUniversityTeam5.Models
         public List<RequisitionDetail> Details { get; set; }
         public List<Supplier> Supplier { get; set; }
         public List<string> IsSelected { get; set; }
-
         public List<String> AddedText { get; set; }
-
         public List<int> AddedNumbers { get; set; }
         public List<ReorderDetail> reorderdetail {get;set;}
+        
         public void setIsSelectedSize(int size)
         {
             IsSelected = new List<string>(size);
