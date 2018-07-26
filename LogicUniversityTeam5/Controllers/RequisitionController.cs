@@ -8,13 +8,13 @@ using ServiceLayer;
 
 namespace LogicUniversityTeam5.Controllers.Requisition
 {
-    public class sRequisitionController : Controller
+    public class RequisitionController : Controller
     {
         // GET: Requisition
 
         IStockManagementService iStockService;
         IClassificationService iClassService;
-        public sRequisitionController(StockManagementService sms, ClassificationService cs)
+        public RequisitionController(StockManagementService sms, ClassificationService cs)
         {
             iStockService = sms;
             iClassService = cs;
