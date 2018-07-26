@@ -15,6 +15,10 @@ namespace LogicUniversityTeam5.Models
 
         public List<SupplierItem> supplierItems { get; set; }
 
+        public List<Requisition> Requisitions { get; set; }
+
+        public List<Department> Departments { get; set; }
+
         public List<Supplier> Suppliers { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -29,26 +33,14 @@ namespace LogicUniversityTeam5.Models
 
         public Dictionary<string, int> ItemIdAndQty { get; set; }
 
+        public List<OutstandingRequisitionView> OutstandingRequisitionViews { get; set; }
+
         public List<bool> IsSelected { get; set; }
 
         public List<String> AddedText { get; set; }
 
         public List<int> AddedNumbers { get; set; }
 
-        public void setIsSelectedSize(int size)
-        {
-            IsSelected = new List<bool>(size);
-        }
-
-        public void setAddedTextSize(int size)
-        {
-            AddedText = new List<String>(size);
-        }
-
-        public void setAddedNumbersSize(int size)
-        {
-            AddedNumbers = new List<int>(size);
-        }
 
     }
 }
