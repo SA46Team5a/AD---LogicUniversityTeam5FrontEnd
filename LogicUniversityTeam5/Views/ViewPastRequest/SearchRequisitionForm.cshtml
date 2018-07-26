@@ -3,45 +3,47 @@
 @{
     ViewBag.Title = "SearchRequisitionForm";
 }
+@{
+    List<string> approvalStatusList = new List<string>();
+    approvalStatusList.Add("All");
+    approvalStatusList.Add("Pending");
+    approvalStatusList.Add("Approved");
+    approvalStatusList.Add("Rejected");
+    approvalStatusList.Add("Unsubmitted");
+}
 
 <div class="container">
     <h1 class="text-center pb-5">Submitted Requisition Form</h1>
     <div class="row justify-content-md-center mt-3">
         <div class="col-8 text-center">
-            @using (Html.BeginForm("LoadSearchRequisitionForm", "ViewPastRequest", FormMethod.Post)) {
-            <h6 class="text-left">Filter by:</h6>
-            <div class="form-group mt-3">
-                <div class="row justify-content-md-center">
-                    <div class="col-6 text-left">Start Date:</div>
-                    <div class="col-6 text-left">End Date:</div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-6 text-left">
-                        <input type="date" id="startdate" name="bday" min="1000-01-01"
-                               max="3000-12-31" class="form-control">
+            @using (Html.BeginForm("LoadSearchRequisitionForm", "ViewPastRequest", FormMethod.Post))
+            {
+                <h6 class="text-left">Filter by:</h6>
+                <div class="form-group mt-3">
+                    <div class="row justify-content-md-center">
+                        <div class="col-6 text-left">Start Date:</div>
+                        <div class="col-6 text-left">End Date:</div>
                     </div>
-                    <div class="col-6 text-left">
-                        <input type="date" id="enddate" name="bday" min="1000-01-01"
-                               max="3000-12-31" class="form-control">
+                    <div class="row justify-content-md-center">
+                        <div class="col-6 text-left">
+                            <input type="date" id="startdate" name="startdate" min="1000-01-01"
+                                   max="3000-12-31" class="form-control">
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="date" id="enddate" name="enddate" min="1000-01-01"
+                                   max="3000-12-31" class="form-control">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <p class="text-left pb-0">Approval Status</p>
-                <select id="approvalstatus" class="form-control mt-0">
-                    <option selected>All</option>
-                    <option>Pending</option>
-                    <option>Approved</option>
-                    <option>Rejected</option>
-                    <option>Unsubmitted</option>
-                </select>
-            </div>
-            <div><input type="submit" class="btn btn-primary" id="search" value="Search" /></div>
+
+                @Html.DropDownList("approvalstatus", new SelectList(approvalStatusList, ViewBag.SelectedApprovalStatus), new { @class = "form-control" })
+                @Html.Hidden("empId", (object)ViewBag.EmpId)
+                <div><input type="submit" class="btn btn-primary" id="search" value="Search" /></div>
             }
         </div>
     </div>
-    
-    
+
+
     <div class="row justify-content-md-center mt-5">
         <div class="col-8">
             <table id="SubmittedRequisitionForm" class="table">
@@ -54,27 +56,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var item in Model)
+                    @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>@Html.DisplayFor(m => item.RequestedDate)</td>
-                        <td>@Html.DisplayFor(m => item.ApprovalStatus.ApprovalStatusName)</td>
-                        <td>@Html.DisplayFor(m => item.RetrievalStatus.RetrievalStatusName)</td>
+                        <tr>
+                            <td>@Html.DisplayFor(m => item.RequestedDate)</td>
+                            <td>@Html.DisplayFor(m => item.ApprovalStatus.ApprovalStatusName)</td>
+                            <td>@Html.DisplayFor(m => item.RetrievalStatus.RetrievalStatusName)</td>
 
-                        @if (item.ApprovalStatus.ApprovalStatusName.Equals("Pending") || item.ApprovalStatus.ApprovalStatusName.Equals("Unsubmitted"))
-                        {
-                        <td class="btn-toolbar">
-                            @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
-                            @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger" @*data-toggle = "modal", @data-target = "#Modaldelete"*@ })
-                        </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @Html.ActionLink("View", "ProcessedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_view", @class = "btn btn-primary" })
-                            </td>
-                        }
-                    </tr>
+                            @if (item.ApprovalStatus.ApprovalStatusName.Equals("Pending") || item.ApprovalStatus.ApprovalStatusName.Equals("Unsubmitted"))
+                            {
+                                <td class="btn-toolbar">
+                                    @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
+                                    @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger", @data_toggle = "modal", @data_target = "#Modaldelete" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("View", "ProcessedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_view", @class = "btn btn-primary" })
+                                </td>
+                            }
+                        </tr>
                     }
 
                 </tbody>
@@ -92,8 +94,11 @@
                         </div>
                         <div class="modal-footer">
                             <div class="row justify-content-md-center ">
-                                <div class="col-4 "><button type="submit" data-dismiss="modal" class="btn btn-default">No</button></div>
+                                @using(Html.BeginForm("DeleteStationeryRequestForm", "ViewPastRequest", FormMethod.Post)){
+                                <div class="col-4 "><button type="button" data-dismiss="modal" class="btn btn-default">No</button></div>
                                 <div class="col-4 text-end"><button type="submit" data-dismiss="modal" class="btn btn-primary">Yes</button></div>
+                                }
+
                             </div>
 
                         </div>

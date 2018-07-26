@@ -35,9 +35,11 @@ namespace LogicUniversityTeam5.Controllers
             //        reqList.Insert(0, r);
             //    }
             //}
+            ViewBag.EmpId = id;
             return View(reqList);
         }
 
+        [HttpPost]
         public ActionResult DeleteRequisitionForm(int id)
         {            
             requisitionService.deleteRequisition(id);
@@ -47,32 +49,46 @@ namespace LogicUniversityTeam5.Controllers
             return RedirectToAction("SearchRequisitionForm", new { id = r.EmployeeID });
         }
 
-        //[HttpPost]
-        //done dynamically by client side?
-        //public ActionResult LoadSearchRequisitionForm(DateTime startDate, DateTime endDate, int approvalStatus, FormCollection form)
-        //{
-        //string approvalStatus = form["approvalstatus"].ToString();
-        //DateTime startDate = form["startdate"];
+        [HttpPost]
+        public ActionResult LoadSearchRequisitionForm(FormCollection form)
+        {
+            string approvalStatus = form["approvalstatus"].ToString();
+            //DateTime startDate = Convert.ToDateTime(form["startdate"]);
+            //DateTime endDate = Convert.ToDateTime(form["enddate"]);
 
-        //}
+            List<ServiceLayer.DataAccess.Requisition> reqList = new List<ServiceLayer.DataAccess.Requisition>();
+            string empId = form["empId"];
+            if (approvalStatus.Equals("All"))
+            {
+                reqList = requisitionService.getRequisitionsOfEmployee(empId);
+            }
+            else
+            {
+                reqList = context.Requisitions.Where(r => r.EmployeeID == empId && r.ApprovalStatus.ApprovalStatusName == approvalStatus).ToList();
+            }
 
-        //Is this for on click View button, which goes to Screen 2.2.2.3 View Stationery Request Form
-        public ActionResult ProcessedStationaryRequestForm(int id)
+            ViewBag.SelectedApprovalStatus = approvalStatus; ViewBag.EmpId = empId;
+            return View("SearchRequisitionForm", reqList);
+        }
+
+        //Go to Screen 2.2.2.3 View Stationery Request Form
+        //ViewPastRequest/ProcessedStationeryRequestForm/15
+        public ActionResult ProcessedStationeryRequestForm(int id)
         {
             ServiceLayer.DataAccess.Requisition r = requisitionService.getRequisitionById(id);
-            //r.RequisitionDetails.ToList();
-            return View(r);
+            List<ServiceLayer.DataAccess.RequisitionDetail> rdList = r.RequisitionDetails.ToList();
+            return View("ViewStationeryRequestForm", rdList);          
         }
 
         //Go to Screen 2.2.1.2b Resubmit Stationery Request Form
-        public ActionResult EditSubmittedStationaryRequestForm(int id)
+        public ActionResult EditSubmittedStationeryRequestForm(int id)
         {
             ServiceLayer.DataAccess.Requisition r = requisitionService.getRequisitionById(id);
-            //r.RequisitionDetails.ToList();
-            return View(r);
+            List<ServiceLayer.DataAccess.RequisitionDetail> rdList = r.RequisitionDetails.ToList();
+            return View("ResumbitStationeryRequestForm", rdList);
         }
 
-        //Is this repeated in Requisition/DeleteRequestedItems
+        //This is for delete in Screen 2.2.1.2b
         public ActionResult DeleteRequestedItems(int id)
         {
             requisitionService.deleteRequisitionDetail(id);
@@ -87,6 +103,7 @@ namespace LogicUniversityTeam5.Controllers
             return View();
         }
 
+        /*
         public ActionResult StationeryCatalogueView(int id)
         {
             ServiceLayer.DataAccess.Requisition r = requisitionService.getRequisitionById(id);
@@ -97,7 +114,7 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult RequestItem(int itemId, int qty, int reqId)
         {
             return View();
-        }
+        }*/
 
     }
 }

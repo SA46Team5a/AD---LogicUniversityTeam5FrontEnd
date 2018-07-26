@@ -339,6 +339,8 @@
     <Content Include="Views\CreateOrders\SubmitInvoice.cshtml" />
     <Content Include="Views\CreateOrders\Sent.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
+    <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
+    <Content Include="Views\ViewPastRequest\ResubmitStationeryRequestForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
