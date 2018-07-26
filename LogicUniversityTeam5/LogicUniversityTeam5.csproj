@@ -274,12 +274,10 @@
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
     <Compile Include="Models\ApiPayload\ClassificationPayload.cs" />
-    <Compile Include="Models\ApiPayload\ReportsPayload.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />
-    <Compile Include="Models\ReportingModel.cs" />
     <Compile Include="Models\Stocklevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -298,7 +296,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -319,7 +316,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -360,6 +359,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\Requisition\" />
     <Folder Include="Models\ViewModels\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

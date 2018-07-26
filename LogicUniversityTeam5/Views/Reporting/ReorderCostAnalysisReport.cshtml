@@ -1,4 +1,4 @@
-﻿@model LogicUniversityTeam5.Models.ReportingModel
+﻿@model ServiceLayer.ReorderReportingModel
 @{
     ViewBag.Title = "Reorder Cost Analysis Report";
 }
@@ -30,13 +30,13 @@
             </div>
         </div>
         <div class="row justify-content-md-center">
-            @foreach (ServiceLayer.DataAccess.Department dept in Model.departments)
+            @foreach (ServiceLayer.DataAccess.Supplier supplier in Model.suppliers)
             {
                 <div class="col-3">
                     <div class="form-check">
-                        <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@dept.DepartmentID" id="@dept.DepartmentID">
+                        <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
                         <label class="form-check-label" for="EnglishDept">
-                            @dept.DepartmentName
+                            @supplier.SupplierName
                         </label>
                     </div>
                 </div>
@@ -119,10 +119,7 @@
                        value="Generate" />
             </div>
         </div>
-        <div class="row justify-content-center pt-5">
-            <canvas id="chart" width="400" height="400">
-            
-            </canvas>
+        <div id="canvas" class="row justify-content-center pt-5">
         </div>
     </div>
     <script>
@@ -184,35 +181,13 @@
                     return [$("#CompareMonthDD1").val(), $("#CompareMonthDD2").val()];
             }
         }
-
-        function updateChart(x) {
+        function updateChart(result) {
+            $("#chart").remove();
+            $("#canvas").html("<canvas id='chart' width='400' height='100'>");
             var canvas = document.getElementById("chart").getContext('2d');
-            var myChart = new Chart(canvas, {
+            myChart = new Chart(canvas, {
                 type: 'bar',
-                data: {
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
+                data: result,
                 options: {
                     scales: {
                         yAxes: [{
@@ -227,14 +202,16 @@
 
         $("#GenerateBtn").click(function () {
             var data = getData();
+            console.log(data);
             $.ajax({
                 type: "POST",
                 data: data,
                 url: "../api/reports/reorder",
                 success: function (result) {
                     updateChart(result);
+                    console.log(result);
                 }
             })
         });
-    </script>
+   </script>
 </body>

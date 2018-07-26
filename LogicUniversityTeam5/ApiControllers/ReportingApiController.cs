@@ -14,17 +14,20 @@ namespace LogicUniversityTeam5.ApiControllers
     public class ReportingApiController: ApiController
     {
         private readonly IClassificationService _classificationService;
+        private readonly IReportService _reportService;
 
-        public ReportingApiController(IClassificationService classificationService)
+        public ReportingApiController(IClassificationService classificationService, IReportService reportService)
         {
-            this._classificationService = classificationService;
+            _classificationService = classificationService;
+            _reportService = reportService;
         }
 
         [HttpPost]
         [Route("api/reports/reorder")]
-        public ReorderCostReportPayload test(ReorderCostReportPayload payload)
+        public ReportResponsePayload test(ReorderRequestPayload payload)
         {
-            return payload;
+            ReportResponsePayload response = _reportService.generateReorderCostReport(payload);
+            return response;
         }
     }
 }
