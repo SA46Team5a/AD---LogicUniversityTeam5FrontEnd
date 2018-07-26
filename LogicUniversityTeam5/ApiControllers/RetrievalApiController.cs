@@ -41,6 +41,11 @@ namespace LogicUniversityTeam5.ApiControllers
         }
 
         [HttpGet]
+        [Route("api/store/disbursement/departments")]
+        public List<DepartmentPayload> getDepartmentsWithDisbursement()
+            => DepartmentPayload.ConvertEntityToPayload(_disbursementService.getDepartmentsWithDisbursements());
+
+        [HttpGet]
         [Route("api/store/disbursement/{id}")]
         public List<DisbursementDetailPayload> getUncollectedDisbursementItemsOfDepartment(string id)
             => DisbursementDetailPayload.ConvertEntityToPayload(_disbursementService.getUncollectedDisbursementDetailsByDep(id));
