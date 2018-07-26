@@ -25,9 +25,17 @@ namespace LogicUniversityTeam5.Controllers
         // GET: Reporting
         public ActionResult ReorderCostAnalysisReport()
         {
-            ReorderReportingModel reportingModel = new ReorderReportingModel();
+            ReportingModel reportingModel = new ReportingModel();
             reportingModel.categories = classificationService.GetCategories();
             reportingModel.suppliers = orderService.getSuppliers();
+            return View(reportingModel);
+        }
+
+        public ActionResult RequisitionCostAnalysisReport()
+        {
+            ReportingModel reportingModel = new ReportingModel();
+            reportingModel.categories = classificationService.GetCategories();
+            reportingModel.departments = departmentService.getDepartments();
             return View(reportingModel);
         }
     }

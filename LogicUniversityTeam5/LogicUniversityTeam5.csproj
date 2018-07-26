@@ -51,7 +51,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\ServiceLayer\obj\Debug\ServiceLayer.dll</HintPath>
+      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -354,6 +354,7 @@
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
     <Content Include="Views\Reporting\ReorderCostAnalysisReport.cshtml" />
+    <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
