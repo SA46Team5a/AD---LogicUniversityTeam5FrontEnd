@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.Models;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
 
@@ -14,75 +15,44 @@ namespace LogicUniversityTeam5.Controllers
     public class StockAdjustmentController : Controller
     {
         IStockManagementService stockManagementService;
-        public StockAdjustmentController(IStockManagementService sms)
+        static StationeryStoreEntities context = StationeryStoreEntities.Instance;
+
+        public StockAdjustmentController(StockManagementService sms)
         {
             stockManagementService = sms;
         }
 
-        // Path for testing connection to database. To be deleted.
-        public ActionResult Test()
-        {
-            ViewBag.test = stockManagementService.getStockCountOfItem("C001");
-            return View();
-        }
-        
-        //IRetrieveStockManagementService stockRetrieveService;
-        //IUpdateStockManagementService stockUpdateService;
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
-            //stockService =  new RetrieveStockManagementService();
-            //List<StockVoucher> vouchers = stockService.getOpenVouchers();
-            //combine.item = db.Items.ToList;
-            //foreach(StockVoucher v in vouchers)
-            //{ 
-            //  combine.isSelected.Add(v.ItemId, false); }
-            List<StockVoucher> vouchers = stockManagementService.getOpenVouchers();
-            //ItemAndVoucher combine = new ItemAndVoucher();
-            //combine.item = getitems();
-            //combine.stockVoucher = getstockvoucher();
-            //combine.isSelected = getIsSelected();
-            return View(vouchers);
+            // TODO: Implement call to ServiceLayer for vouchers returned based on role
+            CombinedViewModel combinedView = new CombinedViewModel();
+            combinedView.StockVouchers = stockManagementService.getOpenVouchers();
+            combinedView.IsSelected = new List<bool>(combinedView.StockVouchers.Count);
+            combinedView.StockVouchers.ForEach(sv => combinedView.IsSelected.Add(false));
+            return View(combinedView);
         }
-
-
 
         [HttpPost]
-        public ActionResult ManageMonthlyStockDiscrepancy(LogicUniversityTeam5.Models.ItemAndVoucher model)
+        public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
-            //stockUpdateService =  new UpdateStockManagementService();
-            //foreach(KeyValuePair<int, false> entry in model.isSelected)
-            //{ 
-            //      if (entry.value == true){
-            //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
-            //      stockUpdateService.closeVoucher(sv);
-            //}
-            return RedirectToAction("Index","Home");
-        }
+            // TODO: Remove hardcoded values
+            //User user = session.getUser();
 
-        // Retrieving Mock Data from here
-        public List<Item> getitems()
-        {
-            List<Item> items = new List<Item>();
-            items.Add(
-                new Item() { ItemName = "2B Pencil" });
-            return items;
-        }
-
-        public List<StockVoucher> getstockvoucher()
-        {
-            List<StockVoucher> stock = new List<StockVoucher>();
-            stock.Add(new StockVoucher()
+            List<StockVoucher> openVouchers = model.StockVouchers;
+            List<bool> isSelected = model.IsSelected;
+       
+            for(int i =0; i<openVouchers.Count; i++)
             {
-                ItemCost = 25,
-                Reason = "damaged",
-                RaisedBy = "Tonia",
-            });
-            return stock;
+                if (isSelected[i] == true)
+                {
+                    //string userId = User.getId();
+                    int id = openVouchers[i].DiscrepancyID;
+                    stockManagementService.closeVoucher(id,"E012","damaged"); 
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
-        private Dictionary<int, bool> getIsSelected()
-        {
-            return new Dictionary<int, bool>() { { 1, false } };
-        }
-    }  
+    }
 }

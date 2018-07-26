@@ -12,13 +12,24 @@ namespace LogicUniversityTeam5.Controllers.Order
         // GET: ItemCatalogue
         public ActionResult ItemCatalogue()
         {
-            ItemCatalogue itemcatalogue = new ItemCatalogue();
-            itemcatalogue.item = getitem();
-            itemcatalogue.category = getcategory();
-            itemcatalogue.stocklevel = getstocklevel();
+            ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
+            //itemcatalogue.items = getitem();
+
+            //itemcatalogue.categories = getcategory();
+            //itemcatalogue.stocklevels = getstocklevel();
+
            
             return View(itemcatalogue);
         }
+
+        [HttpPost]
+        public ActionResult ItemCatalogue(ItemCatalogueModel item)
+        {
+            ItemCatalogueModel value = new ItemCatalogueModel();
+            value = item;
+            return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
+        }
+
         public List<Items> getitem()
         {
 
@@ -26,7 +37,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             items.Add(
                 new Items() { ItemName = "2B Pencil", ItemID="Z123", CartId="A123", UnitOfMeasure="Box" });
             items.Add(
-               new Items() { ItemName = "Blue pen", ItemID = "Z124", CartId = "A124", UnitOfMeasure = "Dozen" });
+                new Items() { ItemName = "Blue pen", ItemID = "Z124", CartId = "A124", UnitOfMeasure = "Dozen" });
             return items;
         }
 
