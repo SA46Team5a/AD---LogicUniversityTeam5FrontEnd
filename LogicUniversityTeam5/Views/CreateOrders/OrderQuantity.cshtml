@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
 
-                    @using (Html.BeginForm(" OrderQuantity", "CreateOrders", FormMethod.Post,))
+                    @using (Html.BeginForm("OrderQuantity", "CreateOrders", FormMethod.Post))
                     {
                         <tbody>
                             @for (int i = 0; i < Model.reorderdetail.Count; i++)
@@ -36,7 +36,7 @@
                                         @Html.TextBoxFor(m => Model.Quantity[i])
                                     </td>
                                 </tr>
-                            }
+                                }
                         </tbody>
 
                     }

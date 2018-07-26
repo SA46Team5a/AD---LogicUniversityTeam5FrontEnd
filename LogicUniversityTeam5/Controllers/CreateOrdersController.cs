@@ -30,25 +30,17 @@ namespace LogicUniversityTeam5.Controllers.Order
 
         public ActionResult ItemCatalogue()
         {
-              
-            //itemcatalogue.items = stockManagementService.getAllItems();
-
-            //model.Items = stockManagementService.getAllItems();
             CombinedViewModel model = new CombinedViewModel();
-            model.reorderdetail = context.ReorderDetails.ToList();
-
-            model.IsSelected = new List<string>();
+            model.reorderdetail = orderService.getReorderDetails();
 
             model.Items = new List<Item>();
             for (int i = 0; i < model.reorderdetail.Count ; i++)
             {
                 string itemId = model.reorderdetail[i].ItemID;
-                model.Items.Add(context.Items.First(m => m.ItemID == itemId));
+                model.Items.Add(stockManagementService.getItemById(itemId));
             }
-            //TempData["passmodel"] = model;
            
             return View(model);
-
         }
        
         [HttpPost]
@@ -56,7 +48,6 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
             CombinedViewModel passModel = new CombinedViewModel();
             passModel.Quantity = new List<int>();
-            passModel.IsSelected = new List<string>();
             passModel.Items = new List<Item>();
             passModel.reorderdetail = new List<ReorderDetail>();
             for (int i = 0; i < model.reorderdetail.Count; i++)

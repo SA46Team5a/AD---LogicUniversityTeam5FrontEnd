@@ -51,7 +51,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
+      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\ServiceLayer\obj\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -231,6 +231,9 @@
     <Compile Include="Controllers\Admin\AccountController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
+    <Compile Include="Controllers\AppointDepartmentRepController.cs" />
+    <Compile Include="Controllers\ChangeCollectionPointController.cs" />
+    <Compile Include="Controllers\DelegateAuthorityController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CreateOrdersController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
@@ -259,7 +262,6 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\EmailFormModel.cs" />
-    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />
@@ -333,6 +335,16 @@
     <Content Include="Views\StockAdjustment\ManageMonthlyStockDiscrepancy.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />
+    <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
+    <Content Include="Views\changeCollectionPoint\changeCollectionPoint.cshtml" />
+    <Content Include="Views\AppointDepartmentRep\AppointDepartmentRep.cshtml" />
+    <Content Include="Views\DelegateAuthority\DelegateAuthority.cshtml" />
+    <Content Include="Views\Shared\Navbar_DepartmentHead.cshtml" />
+    <Content Include="Views\Shared\Navbar_DepartmentRepresentative.cshtml" />
+    <Content Include="Views\Shared\Navbar_Employee.cshtml" />
+    <Content Include="Views\Shared\Navbar_StoreClerk.cshtml" />
+    <Content Include="Views\Shared\Navbar_StoreManager.cshtml" />
+    <Content Include="Views\Shared\Navbar_StoreSupervisor.cshtml" />
     <Content Include="Views\CreateOrders\ItemCatalogue.cshtml" />
     <Content Include="Views\CreateOrders\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\PlaceOrder_test.cshtml" />
