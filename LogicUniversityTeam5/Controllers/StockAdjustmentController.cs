@@ -27,21 +27,7 @@ namespace LogicUniversityTeam5.Controllers
 
             CombinedViewModel combinedView = new CombinedViewModel();
             combinedView.StockVouchers = stockManagementService.getOpenVouchers();
-
-            //StockVoucher v = context.StockVouchers.Where(x => x.DiscrepancyID == 11).First();
-            //combinedView.StockVouchers = new List<StockVoucher>()
-            //{
-            //    new StockVoucher{ DiscrepancyID = 1, ItemID="C001",OriginalCount=10,ActualCount=5,ItemCost=4,Reason="Damaged",RaisedBy="E017",ApprovedBy="E008",RaisedByDate=Convert.ToDateTime("19/7/2018"),ApprovedDate=Convert.ToDateTime("23/7/2018") },
-            //    new StockVoucher{ DiscrepancyID = 1, ItemID="C001",OriginalCount=10,ActualCount=8,ItemCost=4,Reason="Damaged",RaisedBy="E017",ApprovedBy="E008",RaisedByDate=Convert.ToDateTime("19/7/2018"),ApprovedDate=Convert.ToDateTime("23/7/2018")},
-            //    v
-            //};
-            
             combinedView.IsSelected = new List<bool>();
-            foreach (StockVoucher voucher in combinedView.StockVouchers)
-            {
-                combinedView.IsSelected.Add(false);
-            }
-
             return View(combinedView);
         }
 
@@ -63,27 +49,6 @@ namespace LogicUniversityTeam5.Controllers
                 }
             }
 
-            //StockVoucher newVoucher = context.StockVouchers.Where(x => x.DiscrepancyID == 10).First();
-            //string emp = newVoucher.ApprovedBy;
-            //decimal d = newVoucher.ItemCost;
-            //    CombinedViewModel combinedView = new CombinedViewModel();
-            //    if (combinedView.IsSelected== true)
-            //    {
-            //        ViewBag.Message = "Selected";
-            //        return View();
-            //    }
-            //    else (FlatFile == false)
-            //{
-            //        ViewBag.Message = "Not selected";
-            //        return View();
-            //    }
-            //stockUpdateService =  new UpdateStockManagementService();
-            //foreach(KeyValuePair<int, false> entry in model.isSelected)
-            //{ 
-            //      if (entry.value == true){
-            //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
-            //      stockUpdateService.closeVoucher(sv);
-            //}
             return RedirectToAction("Index", "Home");
         }
 

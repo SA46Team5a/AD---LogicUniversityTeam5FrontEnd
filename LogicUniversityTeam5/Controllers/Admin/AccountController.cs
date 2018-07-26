@@ -168,6 +168,8 @@ namespace LogicUniversityTeam5.Controllers
                 AddErrors(result);
             }
 
+            
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }

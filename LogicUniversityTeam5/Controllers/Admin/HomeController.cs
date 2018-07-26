@@ -10,13 +10,18 @@ namespace LogicUniversityTeam5.Controllers
     {
         public ActionResult Index()
         {
+            TempData["FirstValue"] = "Hello World";
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+            ViewBag.Message = "This is About Page";
+            if (TempData["FirstValue"] != null)
+            {
+                TempData.Keep();
+                return RedirectToAction("Contact");
+            }
             return View();
         }
 
