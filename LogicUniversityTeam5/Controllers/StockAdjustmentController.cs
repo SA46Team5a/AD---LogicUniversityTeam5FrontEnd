@@ -24,16 +24,18 @@ namespace LogicUniversityTeam5.Controllers
 
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
-
+            // TODO: Implement call to ServiceLayer for vouchers returned based on role
             CombinedViewModel combinedView = new CombinedViewModel();
             combinedView.StockVouchers = stockManagementService.getOpenVouchers();
-            combinedView.IsSelected = new List<bool>();
+            combinedView.IsSelected = new List<bool>(combinedView.StockVouchers.Count);
+            combinedView.StockVouchers.ForEach(sv => combinedView.IsSelected.Add(false));
             return View(combinedView);
         }
 
         [HttpPost]
         public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
+            // TODO: Remove hardcoded values
             //User user = session.getUser();
 
             List<StockVoucher> openVouchers = model.StockVouchers;
@@ -45,7 +47,7 @@ namespace LogicUniversityTeam5.Controllers
                 {
                     //string userId = User.getId();
                     int id = openVouchers[i].DiscrepancyID;
-                    stockManagementService.closeVoucher(id,"E012","damaged");
+                    stockManagementService.closeVoucher(id,"E012","damaged"); 
                 }
             }
 
