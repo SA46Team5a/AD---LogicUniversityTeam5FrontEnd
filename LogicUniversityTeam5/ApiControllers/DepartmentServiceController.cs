@@ -1,4 +1,5 @@
-﻿using ServiceLayer;
+﻿using LogicUniversityTeam5.Models;
+using ServiceLayer;
 using ServiceLayer.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -84,7 +85,17 @@ namespace LogicUniversityTeam5.ApiControllers
 
         [HttpGet]
         [Route("api/deprep/passcode/{id}")]
-        public string getPasscodeOfDep(string id)
-             => _departmentService.getCurrentDepartmentRepresentative(id).Passcode;
+        public Dictionary<string, string> getPasscodeOfDep(string id)
+        {
+            Dictionary<string, string> passcode = new Dictionary<string, string>();
+            passcode.Add("passcode", _departmentService.getCurrentDepartmentRepresentative(id).Passcode);
+            return passcode;
+        }
+
+        // get Collection Point
+        [HttpGet]
+        [Route("api/deprep/collectionpoint/{depId}")]
+        public CollectionPointPayload getCollectionPointOfDepartment(string depId)
+            => new CollectionPointPayload(_departmentService.getCollectionPointOfDepartment(depId));
     }
 }
