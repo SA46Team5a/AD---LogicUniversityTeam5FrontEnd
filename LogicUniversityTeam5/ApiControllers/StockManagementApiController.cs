@@ -1,9 +1,10 @@
-﻿using ServiceLayer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using ServiceLayer;
+using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5
 {
@@ -29,5 +30,10 @@ namespace LogicUniversityTeam5
                 return false;
             }
         }
+
+        [HttpGet]
+        [Route("api/store/stockcount/{catId}")]
+        public List<StockCountItem> getStockCounts(int catId)
+            => _stockManagementService.getStockCountItemsByCategory(catId);
     }
 }
