@@ -18,15 +18,20 @@ namespace LogicUniversityTeam5.Models
         public List<UploadModel> File { get; set; }
         public List<EmailFormModel> EmailForm { get; set; }
         public List<Item> Items { get; set; }
+        public List<Category> category { get; set; }
         public List<Employee> Employee { get; set; }
         public List<StockVoucher> StockVouchers { get; set; }
         public List<int> Quantity { get; set; }
         public List<Order> Orders { get; set; }
         public List<OrderSupplier> OrderSuppliers { get; set; }
+        public List<OrderSupplierDetail> OrderSupplierDetails { get; set; }
+
+        public List<SupplierItem> SupplierItem { get; set; }
         public List<RequisitionDetail> Details { get; set; }
+        public List<Requisition> Requisition { get; set; }
         public List<Supplier> Supplier { get; set; }
         public List<string> IsSelected { get; set; }
-
+       
         public List<String> AddedText { get; set; }
 
         public List<int> AddedNumbers { get; set; }

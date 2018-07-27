@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
+using System.Resources;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
@@ -52,29 +53,59 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
        
         [HttpPost]
-        public ActionResult ItemCatalogue(CombinedViewModel model)//int i=0       
+        public ActionResult ItemCatalogue(string Next, CombinedViewModel model,string Search)      
         {
-            CombinedViewModel passModel = new CombinedViewModel();
-            passModel.Quantity = new List<int>();
-            passModel.IsSelected = new List<string>();
-            passModel.Items = new List<Item>();
-            passModel.reorderdetail = new List<ReorderDetail>();
-            for (int i = 0; i < model.reorderdetail.Count; i++)
+            if (Search != null)
             {
-                int value = model.Quantity[i];
-                if (value.ToString()!=null&& value!=0)
+                CombinedViewModel searchmodel = new CombinedViewModel();
+                string selectcategory = model.AddedText[0];                
+                searchmodel.Items = new List<Item>();
+                searchmodel.reorderdetail = new List<ReorderDetail>();
+                searchmodel.Items = context.Items.Where(m => m.Category.CategoryName == selectcategory).ToList();
+                List<string> itemid = new List<string>();
+                for(int i = 0; i < searchmodel.Items.Count; i++)
                 {
-
-                    passModel.Items.Add(model.Items[i]);
-                    passModel.reorderdetail.Add(model.reorderdetail[i]);
-                    passModel.Quantity.Add(model.Quantity[i]);
-
+                   itemid.Add(searchmodel.Items[i].ItemID);
                 }
+                for(int i = 0; i < itemid.Count; i++)
+                {
+                    var value = itemid[i];
+                    ReorderDetail detail = context.ReorderDetails.First(m => m.ItemID == value);
+                    searchmodel.reorderdetail.Add(detail);
+                }
+                return View(searchmodel);
             }
-            TempData["passmodel"] = passModel;
            
+            if (Next != null)
+            {
+                CombinedViewModel passModel = new CombinedViewModel();
+                passModel.Quantity = new List<int>();
+                passModel.IsSelected = new List<string>();
+                passModel.Items = new List<Item>();
+                passModel.reorderdetail = new List<ReorderDetail>();
+                for (int i = 0; i < model.reorderdetail.Count; i++)
+                {
+                    int value = model.Quantity[i];
+                    if (value.ToString() != null && value != 0)
+                    {
 
-            return RedirectToAction("OrderQuantity");
+                        passModel.Items.Add(model.Items[i]);
+                        passModel.reorderdetail.Add(model.reorderdetail[i]);
+                        passModel.Quantity.Add(model.Quantity[i]);
+
+                    }
+                }
+                TempData["passmodel"] = passModel;
+
+
+                return RedirectToAction("OrderQuantity");
+            }
+            else
+            {
+                return View(model);
+            }
+            
+          
         }
        
         public ActionResult OrderQuantity()
@@ -116,45 +147,61 @@ namespace LogicUniversityTeam5.Controllers.Order
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file)
+        public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search)
         {
-            int selectedOrderId = Convert.ToInt32(model.AddedText[0]);
-            string selectedSupplierName = model.AddedText[1];
+            if (Search != null)
+            {
+                CombinedViewModel searchmodel = new CombinedViewModel();
+                int selectorderid = Int32.Parse(model.AddedText[0]);
+                OrderSupplier orderSupplier = context.OrderSuppliers.First(m => m.OrderID == selectorderid);
+                searchmodel.Supplier = new List<Supplier>();
+                searchmodel.Supplier = context.Suppliers.Where(x => x.SupplierID == orderSupplier.SupplierID).ToList();
+                searchmodel.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
+                return View(searchmodel);
+            }
+            if (Sent != null)
+            {
+                int selectedOrderId = Convert.ToInt32(model.AddedText[0]);
+                string selectedSupplierName = model.AddedText[1];
 
-            List<OrderSupplier> orderSuppliers = 
-                    orderService.getOrderSuppliersOfOrder(selectedOrderId);
-            OrderSupplier selectedOrderSupplier = orderSuppliers
-                .Where(x => x.Supplier.SupplierName.Equals(selectedSupplierName)).First();
+                List<OrderSupplier> orderSuppliers =
+                        orderService.getOrderSuppliersOfOrder(selectedOrderId);
+                OrderSupplier selectedOrderSupplier = orderSuppliers
+                    .Where(x => x.Supplier.SupplierName.Equals(selectedSupplierName)).First();
 
-            orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
-            
-            CombinedViewModel model1 = getmodel();
+                orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
 
-            string path = System.IO.Path.Combine(Server.MapPath("~/UploadedInvoices"),
-                System.IO.Path.GetFileName(file.FileName));
+                CombinedViewModel model1 = getmodel();
 
-            file.SaveAs(path);
-            model1.EmailForm = new List<EmailFormModel>();
-            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
-            client.EnableSsl = true;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "meitingtonia@gmail.com");
-            mm.Subject = "test subject";
-            mm.Body = "test body";
-            System.Net.Mail.Attachment attachment;
-            attachment = new System.Net.Mail.Attachment(file.InputStream, file.FileName); //ERROR
+                string path = System.IO.Path.Combine(Server.MapPath("~/UploadedInvoices"),
+                    System.IO.Path.GetFileName(file.FileName));
 
-            mm.Attachments.Add(attachment);
-            client.Send(mm);          
-            return View(model1);
+                file.SaveAs(path);
+                model1.EmailForm = new List<EmailFormModel>();
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
+                client.EnableSsl = true;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                MailMessage mm = new MailMessage("meitingtonia@gmail.com", "meitingtonia@gmail.com");
+                mm.Subject = "  Submit Invoice";
+                mm.Body = "Dear financial department: attached is the invoice for supplier, please go and check";
+                System.Net.Mail.Attachment attachment;
+                attachment = new System.Net.Mail.Attachment(file.InputStream, file.FileName);
+
+                mm.Attachments.Add(attachment);
+                client.Send(mm);
+                //EmailNotificationController emailNotificationController = new EmailNotificationController();
+                //emailNotificationController.Index(file);
+                return View(model1);
+            }
+            else
+            {
+                return View(model);
+            }
             
         }
-        public ActionResult Sent()
-        {
-            return View();
-        }
+       
         public CombinedViewModel getmodel()
         {
             CombinedViewModel model = new CombinedViewModel();

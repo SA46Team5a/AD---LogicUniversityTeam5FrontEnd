@@ -25,7 +25,7 @@
                     @foreach (var item in Model.StockVouchers)
                     {
                         <tr>
-                            @{var gap = item.ActualCount - item.originalcount;
+                            @var gap = item.ActualCount - item.originalcount;
                                 int count = 0;}
                             <td>
                                 @Html.DisplayFor(m => Model.item[count].ItemName)
