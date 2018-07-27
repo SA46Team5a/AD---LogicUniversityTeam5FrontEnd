@@ -345,7 +345,7 @@
     <Content Include="Views\CreateOrders\PlaceOrder.cshtml" />
     <Content Include="Views\CreateOrders\OrderSummary.cshtml" />
     <Content Include="Views\CreateOrders\PrintOrderSummary.cshtml" />
-    <Content Include="Views\TrackOutstandingRequisition\TrackOutsandingRequisition.cshtml" />
+    <Content Include="Views\TrackOutstandingRequisition\TrackOutstandingRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

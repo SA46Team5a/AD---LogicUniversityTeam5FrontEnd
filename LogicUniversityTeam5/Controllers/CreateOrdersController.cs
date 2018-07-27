@@ -174,6 +174,13 @@ namespace LogicUniversityTeam5.Controllers.Order
         public ActionResult PrintOrderSummary(CombinedViewModel model)
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
+            return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
+
+        }
+
+        private CombinedViewModel RetrieveDataForOrderSummary()
+        {
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
             int id = (int)TempData["orderId"];
             combinedViewModel.OrderSupplierDetails =
                 context.OrderSupplierDetails.Where(x => x.OrderSupplier.OrderID == id).ToList();
@@ -198,8 +205,8 @@ namespace LogicUniversityTeam5.Controllers.Order
                     combinedViewModel.ReOrderItemQty.Add(0);
                 }
             }
-            return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
 
+            return combinedViewModel;
         }
 
         public ActionResult OrderSummary(CombinedViewModel model)

@@ -17,6 +17,8 @@ namespace LogicUniversityTeam5.Models
 
         public List<Requisition> Requisitions { get; set; }
 
+        public List<RequisitionDetail> RequisitionDetails { get; set; }
+
         public List<Department> Departments { get; set; }
 
         public List<Supplier> Suppliers { get; set; }
@@ -26,6 +28,12 @@ namespace LogicUniversityTeam5.Models
         public List<OrderSupplier> OrderSuppliers { get; set; }
 
         public List<OrderSupplierDetail> OrderSupplierDetails { get; set; }
+
+        public List<Disbursement> Disbursements { get; set; }
+
+        public List<DisbursementDetail> DisbursementDetails { get; set; }
+
+        public List<Employee> Employees { get; set; }
 
         public List<int> ReOrderItemQty { get; set; }
 

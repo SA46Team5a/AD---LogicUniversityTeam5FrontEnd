@@ -3,76 +3,65 @@
     ViewBag.Title = "PrintOrderSummary";
 }
 
-<div class="row justify-content-md-center">
-    <div class="card col-8">
-        <div class="row justify-content-md-start inline">
-            <div class="text-left col-12">
-                <strong>Order ID: 1001</strong>
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-9 text-center">
+                <h1>Purchase Order</h1>
             </div>
         </div>
-        <div class="card-body">
-
-            <div class="row justify-content-md-center mt-1">
-                <table id="OrderSummaryTable" class="table">
+        <div class="row justify-content-md-center mt-3">
+        </div>
+        <div class="row justify-content-md-center mt-3">
+        </div>
+        <div class="row justify-content-md-center mt-3 pb-5">
+            <div class="col-9 text-left">
+                Order Supplier ID : @Html.DisplayFor(m=>Model.OrderSupplierDetails[0].OrderSupplierID)
+            </div>
+            <div class="col-9 text-left">
+                Supplier Name: @Html.DisplayFor(m => Model.OrderSupplierDetails[0].OrderSupplier.Supplier.SupplierName)
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-10 text-center">
+                <table class="table">
                     <thead>
-                        <tr>
-                            <th scope="col" class="text-left">Category</th>
-                            <th scope="col" class="text-left">Description</th>
-                            <th scope="col" class="text-left">Required Quantity</th>
-                            <th scope="col" class="text-left">Available Quantity</th>
-                            <th scope="col" class="text-left">Supplier</th>
-                            <th scope="col" class="text-left">Total Price</th>
+                        <tr class="align-middle">
+                            <th scope="col" class="align-middle col-2">Order Supplier Detail ID</th>
+                            <th scope="col" class="align-middle col-4">Item Description</th>
+                            <th scope="col" class="align-middle">Quantity</th>
+                            <th scope="col" class="align-middle">Unit Price</th>
+                            <th scope="col" class="align-middle">Item Total</th>
                         </tr>
-                    </thead>
                     <tbody>
-                        @{decimal orderTotalPrice = 0;}
-                        @for (int i = 0; i < Model.OrderSupplierDetails.Count; i++)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
-                                    @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => Model.Items[i].ItemName)
-                                    @Html.HiddenFor(m => Model.Items[i].ItemName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => Model.ReOrderItemQty[i])
-                                    @Html.HiddenFor(m => Model.ReOrderItemQty[i])
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => Model.OrderSupplierDetails[i].Quantity)
-                                    @Html.HiddenFor(m => Model.OrderSupplierDetails[i].Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplier.Supplier.SupplierName)
-                                    @Html.HiddenFor(m => Model.OrderSupplierDetails[i].OrderSupplier.Supplier.SupplierName)
-                                </td>
-                                <td>
-                                    @{decimal itemTotalPrice = Model.OrderSupplierDetails[i].UnitCost *
-                                                                                       Model.OrderSupplierDetails[i].Quantity;}
-                                    @Html.DisplayFor(m => itemTotalPrice)
-                                </td>
-                            </tr>
-                            orderTotalPrice += itemTotalPrice;
-                        }
-
+                        <tr>
+                            <td>dsf </td>
+                            <td>sdf</td>
+                            <td>sdf</td>
+                            <td>5</td>
+                            <td>sdf</td>
+                        </tr>
+                        <tr>
+                            <td>dw</td>
+                            <td>dwd</td>
+                            <td>sdf</td>
+                            <td>5</td>
+                            <td>sdf</td>
+                        </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>Total:</td>
-                            <td>
-                                <label>@Html.DisplayFor(m => orderTotalPrice)</label>
-                            </td>
+                            <td>$3432</td>
                         </tr>
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
+</body>
+
 
 
