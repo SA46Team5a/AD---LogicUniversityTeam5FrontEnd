@@ -9,7 +9,12 @@ namespace LogicUniversityTeam5
 {
     public class OrdersApiController : ApiController
     {
-        private readonly IOrderService _orderService = new OrderService();
+        private readonly IOrderService _orderService;
+
+        public OrdersApiController(IOrderService orderService)
+        {
+            _orderService = orderService;
+        }
 
         [HttpGet]
         [Route("api/orders/suppliers")]

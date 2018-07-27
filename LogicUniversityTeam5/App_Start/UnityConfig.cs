@@ -23,6 +23,8 @@ namespace LogicUniversityTeam5
             container.RegisterType<IDepartmentService, DepartmentService>();
             container.RegisterType<IRequisitionService, RequisitionService>();
             container.RegisterType<IDisbursementService, DisbursementService>();
+            container.RegisterType<IOrderService, OrderService>();
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
@@ -36,6 +38,8 @@ namespace LogicUniversityTeam5
             container.RegisterType<IDepartmentService, DepartmentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IRequisitionService, RequisitionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDisbursementService, DisbursementService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOrderService, OrderService>(new HierarchicalLifetimeManager());
+
             config.DependencyResolver = new UnityResolver(container);
 
             config.MapHttpAttributeRoutes();
