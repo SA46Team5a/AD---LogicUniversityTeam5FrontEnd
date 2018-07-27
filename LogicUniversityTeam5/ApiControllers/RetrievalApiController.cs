@@ -22,7 +22,7 @@ namespace LogicUniversityTeam5.ApiControllers
 
         [HttpGet]
         [Route("api/store/retrieval/{empId}")]
-        public RetrievalFormPayload getRetrievalFormOfDepartment(string empId)
+        public RetrievalFormPayload getRetrievalForm(string empId)
             => _disbursementService.getRetrievalForm(empId);
 
         [HttpPost]
