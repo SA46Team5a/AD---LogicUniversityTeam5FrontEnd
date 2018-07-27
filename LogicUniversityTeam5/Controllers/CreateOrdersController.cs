@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -228,6 +230,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return stockleve;
         }
 
+        //To be implemented later
         [HttpPost]
         public FileResult DownloadPurchaseOrders(List<string> files)
         {
@@ -243,6 +246,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             Directory.EnumerateFiles(temp).ToList().ForEach(f => System.IO.File.Delete(f));
 
             // copy the selected files to the temp folder
+
             files.ForEach(f => System.IO.File.Copy(f, Path.Combine(temp, Path.GetFileName(f))));
 
             // create a new archive
