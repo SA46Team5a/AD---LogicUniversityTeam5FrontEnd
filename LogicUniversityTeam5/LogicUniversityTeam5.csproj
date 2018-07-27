@@ -231,6 +231,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\OrdersApiController.cs" />
     <Compile Include="ApiControllers\RetrievalApiController.cs" />
     <Compile Include="Models\ApiPayload\DepartmentPayload.cs" />
     <Compile Include="ApiControllers\DepartmentServiceController.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
     <Compile Include="Models\ApiPayload\ClassificationPayload.cs" />
+    <Compile Include="Models\ApiPayload\OrdersPayload.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
