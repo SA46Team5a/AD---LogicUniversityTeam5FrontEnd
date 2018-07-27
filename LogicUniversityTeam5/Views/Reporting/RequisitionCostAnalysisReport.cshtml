@@ -200,13 +200,13 @@
             });
         }
 
-        $("#GenerateBtn").click(function () {
+        $("#GenerateBtn").click(function () {            
             var data = getData();
-            console.log(data);
+            console.log(data);           
             $.ajax({
                 type: "POST",
                 data: data,
-                url: "../api/reports/reorder",
+                url: "../api/reports/requisition",
                 success: function (result) {
                     updateChart(result);
                     console.log(result);

@@ -29,5 +29,14 @@ namespace LogicUniversityTeam5.ApiControllers
             ReportResponsePayload response = _reportService.generateReorderCostReport(payload);
             return response;
         }
+
+
+        [HttpPost]
+        [Route("api/reports/requisition")]
+        public ReportResponsePayload test(RequisitionRequestPayload payload)
+        {
+            ReportResponsePayload response = _reportService.generateRequisitionCostReport(payload);
+            return response;
+        }
     }
 }
