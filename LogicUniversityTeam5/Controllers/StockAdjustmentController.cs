@@ -15,37 +15,42 @@ namespace LogicUniversityTeam5.Controllers
     public class StockAdjustmentController : Controller
     {
         IStockManagementService stockManagementService;
+        static StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
-        public StockAdjustmentController(IStockManagementService sms)
+        public StockAdjustmentController(StockManagementService sms)
         {
             stockManagementService = sms;
         }
 
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
+            // TODO: Implement call to ServiceLayer for vouchers returned based on role
             CombinedViewModel combinedView = new CombinedViewModel();
             combinedView.StockVouchers = stockManagementService.getOpenVouchers();
-            combinedView.IsSelected = new List<string>();
-            foreach (StockVoucher voucher in combinedView.StockVouchers)
-            {
-                combinedView.IsSelected.Add("add");
-            }
-
+            combinedView.IsSelected = new List<bool>(combinedView.StockVouchers.Count);
+            combinedView.StockVouchers.ForEach(sv => combinedView.IsSelected.Add(false));
             return View(combinedView);
         }
 
-
-
         [HttpPost]
-        public ActionResult ManageMonthlyStockDiscrepancy(LogicUniversityTeam5.Models.ItemAndVoucher model)
+        public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
-            //stockUpdateService =  new UpdateStockManagementService();
-            //foreach(KeyValuePair<int, false> entry in model.isSelected)
-            //{ 
-            //      if (entry.value == true){
-            //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
-            //      stockUpdateService.closeVoucher(sv);
-            //}
+            // TODO: Remove hardcoded values
+            //User user = session.getUser();
+
+            List<StockVoucher> openVouchers = model.StockVouchers;
+            List<bool> isSelected = model.IsSelected;
+       
+            for(int i =0; i<openVouchers.Count; i++)
+            {
+                if (isSelected[i] == true)
+                {
+                    //string userId = User.getId();
+                    int id = openVouchers[i].DiscrepancyID;
+                    stockManagementService.closeVoucher(id,"E012","damaged"); 
+                }
+            }
+
             return RedirectToAction("Index", "Home");
         }
 

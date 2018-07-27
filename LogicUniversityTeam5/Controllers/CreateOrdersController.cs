@@ -31,25 +31,16 @@ namespace LogicUniversityTeam5.Controllers.Order
 
         public ActionResult ItemCatalogue()
         {
-              
-            //itemcatalogue.items = stockManagementService.getAllItems();
-
-            //model.Items = stockManagementService.getAllItems();
             CombinedViewModel model = new CombinedViewModel();
-            model.reorderdetail = context.ReorderDetails.ToList();
-
-            model.IsSelected = new List<string>();
+            model.reorderdetail = orderService.getReorderDetails();
 
             model.Items = new List<Item>();
             for (int i = 0; i < model.reorderdetail.Count ; i++)
             {
                 string itemId = model.reorderdetail[i].ItemID;
-                model.Items.Add(context.Items.First(m => m.ItemID == itemId));
+                model.Items.Add(stockManagementService.getItemById(itemId));
             }
-            //TempData["passmodel"] = model;
-           
             return View(model);
-
         }
        
         [HttpPost]
@@ -57,30 +48,36 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
             if (Search != null)
             {
-                CombinedViewModel searchmodel = new CombinedViewModel();
-                string selectcategory = model.AddedText[0];                
-                searchmodel.Items = new List<Item>();
-                searchmodel.reorderdetail = new List<ReorderDetail>();
-                searchmodel.Items = context.Items.Where(m => m.Category.CategoryName == selectcategory).ToList();
-                List<string> itemid = new List<string>();
-                for(int i = 0; i < searchmodel.Items.Count; i++)
+                CombinedViewModel passModel = new CombinedViewModel();
+                passModel.Quantity = new List<int>();
+                passModel.Items = new List<Item>();
+                passModel.reorderdetail = new List<ReorderDetail>();
+                for (int i = 0; i < model.reorderdetail.Count; i++)
                 {
-                   itemid.Add(searchmodel.Items[i].ItemID);
+                    CombinedViewModel searchmodel = new CombinedViewModel();
+                    string selectcategory = model.AddedText[0];
+                    searchmodel.Items = new List<Item>();
+                    searchmodel.reorderdetail = new List<ReorderDetail>();
+                    searchmodel.Items = context.Items.Where(m => m.Category.CategoryName == selectcategory).ToList();
+                    List<string> itemid = new List<string>();
+                    for (int m = 0; m < searchmodel.Items.Count; m++)
+                    {
+                        itemid.Add(searchmodel.Items[m].ItemID);
+                    }
+                    for (int m = 0; m < itemid.Count; m++)
+                    {
+                        var value = itemid[m];
+                        ReorderDetail detail = context.ReorderDetails.First(x => x.ItemID == value);
+                        searchmodel.reorderdetail.Add(detail);
+                    }
+                    return View(searchmodel);
                 }
-                for(int i = 0; i < itemid.Count; i++)
-                {
-                    var value = itemid[i];
-                    ReorderDetail detail = context.ReorderDetails.First(m => m.ItemID == value);
-                    searchmodel.reorderdetail.Add(detail);
-                }
-                return View(searchmodel);
             }
            
             if (Next != null)
             {
                 CombinedViewModel passModel = new CombinedViewModel();
                 passModel.Quantity = new List<int>();
-                passModel.IsSelected = new List<string>();
                 passModel.Items = new List<Item>();
                 passModel.reorderdetail = new List<ReorderDetail>();
                 for (int i = 0; i < model.reorderdetail.Count; i++)
@@ -96,7 +93,6 @@ namespace LogicUniversityTeam5.Controllers.Order
                     }
                 }
                 TempData["passmodel"] = passModel;
-
 
                 return RedirectToAction("OrderQuantity");
             }
