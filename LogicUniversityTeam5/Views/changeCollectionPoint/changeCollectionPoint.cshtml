@@ -1,0 +1,83 @@
+﻿
+@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "changeCollectionPoint";
+}
+
+@using (Html.BeginForm("changeCollectionPoint", "ChangeCollectionPoint", FormMethod.Post))
+{
+<body>
+ 
+
+    <div class="container">
+        @{ if (Request.Params["isCollectionPointChanged"] != null)
+        {
+            if (Request.Params["isCollectionPointChanged"].Equals("True"))
+            {
+               <div class="row justify-content-md-center pb-2">
+                    <div class="alert alert-success col-8">
+
+                        <div class="row justify-content-md-center pb-2">
+                            
+                            <strong>Success!</strong>&nbsp; Collection point has been changed
+                            </div>
+                        </div>
+                   </div>
+                   
+
+                    }
+                    }
+                    }
+                    <div class="row justify-content-md-center pb-5">
+                        <h1 class="text-center mb=3">Change Collection Point</h1>
+                    </div>
+                    <div class="row justify-content-md-center mt-3">
+                        <div class="card col-8 ">
+                            <div class="card-body">
+                                <div class="row justify-content-md-center mt-3">
+                                    <h4 class="col-10 text-left ">Collection Points:</h4>
+                                </div>
+                                @for (int i = 0; i < Model.CollectionPoint.Count; i++)
+                            {
+                                <div class="inline">
+                                    @Html.RadioButtonFor(m => Model.AddedText[0], Model.CollectionPoint[i].CollectionPointID, new { @class = "radio" })
+                                    @Html.DisplayFor(m => Model.CollectionPoint[i].CollectionPointDetails)
+                                    @Html.HiddenFor(m => Model.CollectionPoint[i].CollectionPointID)
+                                </div>
+                        }
+
+                                <div class="row justify-content-md-center mt-3">
+                                    <div class="col-3">
+                                        <p>4-digit passcode:</p>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                        <label id="passcode">
+                                            @foreach (var depRep in Model.DepartmentRepresentative)
+                                        {
+                                            @Html.DisplayFor(m => depRep.Passcode);
+                                    }
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center mt-5">
+                        <div class="col-4 text-right">
+                            <input type="submit" value="Confirm" class="btn btn-primary" />                          
+                        </div>
+                        <div class="col-4 text-left">
+                            <button type="button" id="home" class="btn btn-secondary" value="Redirect">Home</button>
+                        </div>
+                    </div>                  
+                   
+                    <script type="text/javascript">
+                   $(function(){
+                   $("#home").click(function(){
+                   window.location.href = "@Url.Action("Index","Home")";
+                               });
+                  });
+                    </script>
+                </div>
+</body>
+}

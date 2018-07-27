@@ -1,0 +1,72 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+
+@{
+    ViewBag.Title = "AppointDepartmentRep";
+}
+@using (Html.BeginForm("AppointDepartmentRep", "AppointDepartmentRep", FormMethod.Post))
+{
+<body>
+    <div class="container">
+        @{ if (Request.Params["isAppointDepartmentRep"] != null)
+            {
+                if (Request.Params["isAppointDepartmentRep"].Equals("True"))
+                {
+                    <div class="row justify-content-md-center pb-2">
+                        <div class="alert alert-success col-8">
+
+                            <div class="row justify-content-md-center pb-2">
+
+                                <strong>Success!</strong>&nbsp; New representative Apponted
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+            <div class="row justify-content-md-center pb-5">
+                <h1 class="text-center mb=3">Appoint Department Representative</h1>
+            </div>
+            <div class="row justify-content-md-center pb-5">
+                <div class=" col-8">
+                    <form>
+                        <div class="form-group">
+                            <label for="Delegatedperson">Choose Department Representative</label>
+
+                            @{List<string> Employee = new List<string>();
+                                foreach (var emp in Model.Employee)
+                                {
+                                    Employee.Add(emp.EmployeeName);
+                                }
+                            }
+
+                            @Html.DropDownListFor(m => Model.AddedText[0], new SelectList(Employee.Distinct()), "Select Employee", new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.Employee)
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-md-center pt-5">
+
+                <div class="col-4 text-right">
+                    <input type="submit" value="Confirm" class="btn btn-primary" />
+                </div>
+
+                <div class="col-4 text-left">
+                    <button type="button" id="home" class="btn btn-secondary ">Home</button>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                   $(function(){
+                   $("#home").click(function(){
+                   window.location.href = "@Url.Action("Index","Home")";
+                               });
+                  });
+            </script>
+
+        </div>
+</body>
+}
+

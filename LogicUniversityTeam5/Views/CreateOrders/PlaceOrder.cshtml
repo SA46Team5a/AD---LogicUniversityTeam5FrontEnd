@@ -11,50 +11,6 @@
                 <h4>Supplier Information</h4>
             </div>
         </div>
-        <div class="row justify-content-md-center ">
-            <div class="col-2">
-                <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-supplier1-list" data-toggle="list" href="#list-supplier1"
-                       role="tab" aria-controls="supplier1">Supplier1</a>
-                    <a class="list-group-item list-group-item-action" id="list-supplier2-list" data-toggle="list" href="#list-supplier2" role="tab"
-                       aria-controls="supplier2">Supplier2</a>
-                    <a class="list-group-item list-group-item-action" id="list-supplier3-list" data-toggle="list" href="#list-supplier3" role="tab"
-                       aria-controls="supplier3">Supplier3</a>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-supplier1" role="tabpanel" aria-labelledby="list-supplier1-list">
-                        <div class="card text-white bg-info mb-3">
-                            <div class="card-header">ALPHA Office Suupliers</div>
-                            <div class="card-body">
-                                <p class="card-text">Contact Name: MS.Irene Tran</p>
-                                <p class="card-text">Mobile No:4619928</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="list-supplier2" role="tabpanel" aria-labelledby="list-supplier2-list">
-                        <div class="card text-white bg-info mb-3">
-                            <div class="card-header">Cheap Stationer</div>
-                            <div class="card-body">
-                                <p class="card-text">Contact Name: Mr Kway Koh</p>
-                                <p class="card-text">Mobile No:4619928</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="list-supplier3" role="tabpanel" aria-labelledby="list-supplier3-list">
-                        <div class="card text-white bg-info mb-3">
-                            <div class="card-header">BANES Shop</div>
-                            <div class="card-body">
-                                <p class="card-text">Contact Name: Mr Loh Ah Pek</p>
-                                <p class="card-text">Mobile No:4781234</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
 
         @using (Html.BeginForm("PlaceOrder", "CreateOrders", FormMethod.Post))
         {

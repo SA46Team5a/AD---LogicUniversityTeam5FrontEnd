@@ -9,9 +9,14 @@ using LogicUniversityTeam5.Models;
 using Rotativa;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
+    // Author: Meiting && Khim Yang
     public class CreateOrdersController : Controller
     {
         IStockManagementService stockManagementService;
@@ -27,20 +32,52 @@ namespace LogicUniversityTeam5.Controllers.Order
 
         public ActionResult ItemCatalogue()
         {
-            ItemCatalogueModel itemcatalogue = new ItemCatalogueModel();
-            itemcatalogue.items = stockManagementService.getAllItems();
-            //itemcatalogue.categories = getcategory();
-            itemcatalogue.stocklevels = getstocklevel();
-            
-            return View(itemcatalogue);
-        }
+            CombinedViewModel model = new CombinedViewModel();
+            model.reorderdetail = orderService.getReorderDetails();
 
+            model.Items = new List<Item>();
+            for (int i = 0; i < model.reorderdetail.Count ; i++)
+            {
+                string itemId = model.reorderdetail[i].ItemID;
+                model.Items.Add(stockManagementService.getItemById(itemId));
+            }
+           
+            return View(model);
+        }
+       
         [HttpPost]
-        public ActionResult ItemCatalogue(ItemCatalogueModel item)
+        public ActionResult ItemCatalogue(CombinedViewModel model)//int i=0       
         {
-            ItemCatalogueModel value = new ItemCatalogueModel();
-            value = item;
-            return RedirectToAction("OrderQuantity", "OrderQuantity", new { type1 = item });
+            CombinedViewModel passModel = new CombinedViewModel();
+            passModel.Quantity = new List<int>();
+            passModel.Items = new List<Item>();
+            passModel.reorderdetail = new List<ReorderDetail>();
+            for (int i = 0; i < model.reorderdetail.Count; i++)
+            {
+                int value = model.Quantity[i];
+                if (value.ToString()!=null&& value!=0)
+                {
+
+                    passModel.Items.Add(model.Items[i]);
+                    passModel.reorderdetail.Add(model.reorderdetail[i]);
+                    passModel.Quantity.Add(model.Quantity[i]);
+
+                }
+            }
+            TempData["passmodel"] = passModel;
+           
+
+            return RedirectToAction("OrderQuantity");
+        }
+       
+        public ActionResult OrderQuantity()
+        {
+            CombinedViewModel model = new CombinedViewModel();
+            model=TempData["passmodel"] as CombinedViewModel;
+
+            TempData["passmodel"] = model;
+            TempData.Keep("passmodel");
+            return View(model);
         }
 
         public ActionResult PlaceOrder()
@@ -51,32 +88,11 @@ namespace LogicUniversityTeam5.Controllers.Order
             combinedViewModel.AddedNumbers = new List<int>();
             combinedViewModel.Items = new List<Item>();
             combinedViewModel.ReOrderItemQty = new List<int>();
-            //combinedViewModel.ReOrderItemQty = (List<int>)TempData["itemQty"];
-            //List<string> itemIds = (List<string>) TempData["itemIds"];
-            //List<int> itemQty = (List<int>) TempData["itemQty"];
 
-            
-            //Hardcoded: To be removed
-            List<int> itemQty = new List<int>() { 50, 60, 80 };
+            CombinedViewModel passedModel = (CombinedViewModel) TempData["passmodel"];
 
-            //Hardcoded: To be removed
-            TempData["itemIds"] = new List<string>()
-            {
-                "C001","C002","C003"
-            };
-            TempData["itemQty"] = new List<int>() { 50, 60, 80 };
-
-            //}
-
-            TempData.Keep("itemQty");
-            TempData.Keep("itemIds");
-
-            //Hardcoded: To be removed
-            List<string> itemIds = new List<string>()
-            {
-                "C001","C002","C003"
-            };
-
+            List<int> itemQty = passedModel.Quantity;
+            List<string> itemIds = passedModel.Items.Select(x => x.ItemID).ToList();
             Dictionary<string, int> itemIdsAndItemQty = new Dictionary<string, int>();
 
             for(int i= 0; i<itemIds.Count;i++)
@@ -86,14 +102,15 @@ namespace LogicUniversityTeam5.Controllers.Order
             TempData["itemIdsAndItemQty"] = itemIdsAndItemQty;
             TempData.Keep("itemIdsAndItemQty");
 
-            combinedViewModel.supplierItems = orderService.getSupplierItemsOfItemIds(itemIds);
-            
+            //getting supplierItems
+            combinedViewModel.supplierItems = orderService.getSupplierItemsOfItemIds(itemIds);            
 
             foreach (SupplierItem supplierItem in combinedViewModel.supplierItems)
             {
                 //Adding Suppliers in combinedview
                 if (!combinedViewModel.Suppliers.Contains(supplierItem.Supplier))
                 {
+                    //to refactor to service method getSupplierBySupplierID
                     combinedViewModel.Suppliers.Add(context.Suppliers.Where(x => x.SupplierID == supplierItem.SupplierID).First());
                 }
 
@@ -104,6 +121,8 @@ namespace LogicUniversityTeam5.Controllers.Order
                     if(itemIdAndQty.Key.Equals(supplierItem.ItemID))
                         combinedViewModel.ReOrderItemQty.Add(itemIdAndQty.Value);
                 }
+
+                //initial value for txtboxes
                 combinedViewModel.AddedNumbers.Add(0);
             }
             
@@ -121,19 +140,13 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
 
             //creating Dictionary<string, int> itemAndQty
-            Dictionary<string, int> itemAndQty = new Dictionary<string, int>();
-            List<string> itemIds = (List<string>) TempData["itemIds"];
-            List<int> itemQty = (List<int>) TempData["itemQty"];
-            for (int i = 0; i < itemIds.Count; i++)
-            {
-                itemAndQty.Add(itemIds[i],itemQty[i]);
-            }
+            Dictionary<string, int> itemAndQty = (Dictionary<string, int>) TempData["itemIdsAndItemQty"];
 
+            TempData["itemIdsAndItemQty"] = itemAndQty;
             TempData.Keep("itemIdsAndItemQty");
+
             //creating new OrderId
-            //int newOrderId = orderService.createOrderAndGetOrderId(itemAndQty, supplierItemsAndQty);
-            //Hardcoded: to be removed
-            int newOrderId = 1;
+            int newOrderId = orderService.createOrderAndGetOrderId(itemAndQty, supplierItemsAndQty);
 
             return RedirectToAction("OrderSummary",new { id = newOrderId });
         }
@@ -171,7 +184,6 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return View(combinedViewModel);
         }
-
  
         public ActionResult PrintOrderSummary(CombinedViewModel model)
         {
@@ -222,12 +234,23 @@ namespace LogicUniversityTeam5.Controllers.Order
             return OrderSummary(id);
         }
 
-        public List<Stocklevel> getstocklevel()
+        [HttpPost]
+        public ActionResult OrderQuantity(CombinedViewModel model)
         {
-            List<Stocklevel> stockleve = new List<Stocklevel>();
-            stockleve.Add(new Stocklevel() { Reorderlevel = 30, Currentstock = 38, ReorderQuantity = 50 });
-            stockleve.Add(new Stocklevel() { Reorderlevel = 37, Currentstock = 35, ReorderQuantity = 50 });
-            return stockleve;
+            CombinedViewModel passModel = new CombinedViewModel();
+            passModel.Quantity = new List<int>();
+            passModel.Items = new List<Item>();
+            passModel.reorderdetail = new List<ReorderDetail>();
+            for (int i = 0; i < model.reorderdetail.Count; i++)
+            {
+                int value = model.Quantity[i];
+                passModel.Items.Add(stockManagementService.getItemById(model.Items[i].ItemID));
+                passModel.reorderdetail.Add(model.reorderdetail[i]);
+                passModel.Quantity.Add(model.Quantity[i]);
+              
+            }
+            TempData["passmodel"] = passModel;
+            return RedirectToAction("PlaceOrder");
         }
 
         //To be implemented later
@@ -255,7 +278,68 @@ namespace LogicUniversityTeam5.Controllers.Order
             return File(archive, "application/zip", "archive.zip");
         }
 
+        public ActionResult SubmitInvoice()
+        {
 
+            // CombinedViewModel model = new CombinedViewModel();
+            CombinedViewModel model = getmodel();
 
+            return View(model);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file)
+        {
+            int selectedOrderId = Convert.ToInt32(model.AddedText[0]);
+            string selectedSupplierName = model.AddedText[1];
+
+            List<OrderSupplier> orderSuppliers = 
+                    orderService.getOrderSuppliersOfOrder(selectedOrderId);
+            OrderSupplier selectedOrderSupplier = orderSuppliers
+                .Where(x => x.Supplier.SupplierName.Equals(selectedSupplierName)).First();
+
+            orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
+            
+            CombinedViewModel model1 = getmodel();
+ 
+
+            string path = System.IO.Path.Combine(Server.MapPath("~/UploadedInvoices"),
+                System.IO.Path.GetFileName(file.FileName));
+
+            file.SaveAs(path);
+            model1.EmailForm = new List<EmailFormModel>();
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.UseDefaultCredentials = true;
+            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "meitingtonia@gmail.com");
+            mm.Subject = "test subject";
+            mm.Body = "test body";
+            System.Net.Mail.Attachment attachment;
+            attachment = new System.Net.Mail.Attachment(file.InputStream, file.FileName); //ERROR
+
+            mm.Attachments.Add(attachment);
+            client.Send(mm);          
+            return View(model1);
+            
+        }
+        public ActionResult Sent()
+        {
+            return View();
+        }
+        public CombinedViewModel getmodel()
+        {
+            CombinedViewModel model = new CombinedViewModel();
+            model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
+            model.Suppliers = context.Suppliers.ToList();
+            model.AddedText = new List<string>(2) { "", "" };
+            return model;
+        }
+        
     }
+
+    
 }
+
