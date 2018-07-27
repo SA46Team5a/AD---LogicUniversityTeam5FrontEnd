@@ -34,13 +34,22 @@
                             <th scope="col" class="align-middle">Item Total</th>
                         </tr>
                     <tbody>
-                        <tr>
-                            <td>dsf </td>
-                            <td>sdf</td>
-                            <td>sdf</td>
-                            <td>5</td>
-                            <td>sdf</td>
-                        </tr>
+                        @{ decimal orderSupplierTotalCost = 0m;}
+                        @for (int i = 0; i < Model.OrderSupplierDetails.Count; i++)
+                        {
+                            int qty = Model.OrderSupplierDetails[i].Quantity;
+                            decimal unitCost = Model.OrderSupplierDetails[i].UnitCost;
+                            decimal itemTotal = qty * unitCost;
+                            orderSupplierTotalCost += itemTotal;
+
+                            <tr>
+                                <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplierDetailsID)</td>
+                                <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].Item.ItemName)</td>
+                                <td>@Html.DisplayFor(m => qty)</td>
+                                <td>@Html.DisplayFor(m => unitCost)</td>
+                                <td>@Html.DisplayFor(m => itemTotal)</td>
+                            </tr>     
+                        }
                         <tr>
                             <td>dw</td>
                             <td>dwd</td>
@@ -53,7 +62,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>$3432</td>
+                            <td>@Html.DisplayFor(m => orderSupplierTotalCost)</td>
                         </tr>
 
                     </tbody>

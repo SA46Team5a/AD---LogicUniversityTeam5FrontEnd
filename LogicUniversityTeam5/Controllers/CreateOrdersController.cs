@@ -173,7 +173,11 @@ namespace LogicUniversityTeam5.Controllers.Order
  
         public ActionResult PrintOrderSummary(CombinedViewModel model)
         {
+            //Harcoded: to be removed
             CombinedViewModel combinedViewModel = new CombinedViewModel();
+            combinedViewModel.OrderSuppliers = context.OrderSuppliers.Where(x => x.OrderSupplierID == 1).ToList();
+            combinedViewModel.OrderSupplierDetails = context.OrderSupplierDetails.Where(x => x.OrderSupplierID == 1).ToList();
+
             return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
 
         }
@@ -216,24 +220,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             return OrderSummary(id);
         }
 
-            public List<Items> getitem()
-        {
-            List<Items> items = new List<Items>();
-            items.Add(
-                new Items() { ItemName = "2B Pencil", ItemID = "Z123", CartId = "A123", UnitOfMeasure = "Box" });
-            items.Add(
-               new Items() { ItemName = "Blue pen", ItemID = "Z124", CartId = "A124", UnitOfMeasure = "Dozen" });
-            return items;
-        }
-
-        //public List<Category> getcategory()
-        //{
-        //    List<Category> category = new List<Category>();
-        //    category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
-        //    category.Add(new Category() { CategoryName = "pen", CategoryId = "B123" });
-        //    category.Add(new Category() { });
-        //    return category;
-        //}
         public List<Stocklevel> getstocklevel()
         {
             List<Stocklevel> stockleve = new List<Stocklevel>();
@@ -242,56 +228,30 @@ namespace LogicUniversityTeam5.Controllers.Order
             return stockleve;
         }
 
+        [HttpPost]
+        public FileResult DownloadPurchaseOrders(List<string> files)
+        {
+            var archive = Server.MapPath("~/archive.zip");
+            var temp = Server.MapPath("~/temp");
+
+            // clear any existing archive
+            if (System.IO.File.Exists(archive))
+            {
+                System.IO.File.Delete(archive);
+            }
+            // empty the temp folder
+            Directory.EnumerateFiles(temp).ToList().ForEach(f => System.IO.File.Delete(f));
+
+            // copy the selected files to the temp folder
+            files.ForEach(f => System.IO.File.Copy(f, Path.Combine(temp, Path.GetFileName(f))));
+
+            // create a new archive
+            ZipFile.CreateFromDirectory(temp, archive);
+
+            return File(archive, "application/zip", "archive.zip");
+        }
 
 
-
-        //    public List<OrderItem> getorderitems()
-        //    {
-        //        List<OrderItem> orderitem = new List<OrderItem>();
-        //        {
-        //            new OrderItem
-        //            {
-        //                category = "Puncher",
-        //                description = "2 Holes",
-        //                reorderlevel = 20,
-        //                currentstock = 17,
-        //                recorderquantity = 40
-        //            };
-        //            new OrderItem
-        //            {
-        //                category = "Ruler",
-        //                description = "Ruler 12'",
-        //                reorderlevel = 30,
-        //                currentstock = 39,
-        //                recorderquantity = 50
-        //            };
-        //            new OrderItem
-        //            {
-        //                category = "pen",
-        //                description = "2B pencil",
-        //                reorderlevel = 50,
-        //                currentstock = 20,
-        //                recorderquantity = 50
-        //            };
-        //            new OrderItem
-        //            {
-        //                category = "pen",
-        //                description = "Blue pen",
-        //                reorderlevel = 50,
-        //                currentstock = 40,
-        //                recorderquantity = 50
-        //            };
-        //            new OrderItem
-        //            {
-        //                category = "Ruler",
-        //                description = "Ruler 6'",
-        //                reorderlevel = 30,
-        //                currentstock = 38,
-        //                recorderquantity = 50
-        //            };
-        //            return orderitem;
-        //        }
-        //    }
 
     }
 }
