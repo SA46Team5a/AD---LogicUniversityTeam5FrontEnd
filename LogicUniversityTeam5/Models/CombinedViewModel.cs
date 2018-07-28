@@ -41,14 +41,51 @@ namespace LogicUniversityTeam5.Models
             reorderdetail= new List<ReorderDetail>();
         }
         public List<UploadModel> File { get; set; }
+
         public List<EmailFormModel> EmailForm { get; set; }
+
+        public List<Category> category { get; set; }
+
         public List<Employee> Employee { get; set; }
+
+        public List<SupplierItem> supplierItems { get; set; }
+
+        public List<RequisitionDetail> RequisitionDetails { get; set; }
+
+        public List<Department> Departments { get; set; }
+
+        public List<Supplier> Suppliers { get; set; }
+
         public List<int> Quantity { get; set; }
+
         public string trialText { get; set; }
 
         public List<OrderSupplier> OrderSuppliers { get; set; }
+
+        public List<OrderSupplierDetail> OrderSupplierDetails { get; set; }
+
+        public List<Disbursement> Disbursements { get; set; }
+
+        public List<DisbursementDetail> DisbursementDetails { get; set; }
+
+        public List<Employee> Employees { get; set; }
+
+        public List<int> ReOrderItemQty { get; set; }
+
+        public Dictionary<int,int> SupplierItemIdAndQtyAvail { get; set; }
+
+        public Dictionary<string, int> ItemIdAndQty { get; set; }
+
+        public List<OutstandingRequisitionView> OutstandingRequisitionViews { get; set; }
+
+        public List<SupplierItem> SupplierItem { get; set; }
+
         public List<RequisitionDetail> Details { get; set; }
+
+        public List<Requisition> Requisition { get; set; }
+
         public List<Supplier> Supplier { get; set; }
+        
         public List<ReorderDetail> reorderdetail {get;set;}
 
         public void setAddedTextSize(int size)
@@ -62,7 +99,6 @@ namespace LogicUniversityTeam5.Models
         }
         public List<CollectionPoint> CollectionPoint { get; set; }
 
-
         public List<DepartmentRepresentative> DepartmentRepresentative { get; set; }
 
         public List<Department> Department { get; set; }
@@ -71,8 +107,5 @@ namespace LogicUniversityTeam5.Models
         public List<Authority> Authority { get; set; }
 
         public Authority Authorities { get; set; }
-
-        //public List<CollectionPoint> RadioButtonList { get; set; }
-        // public string SelectedRadioButton { get; set; }
     }
 }

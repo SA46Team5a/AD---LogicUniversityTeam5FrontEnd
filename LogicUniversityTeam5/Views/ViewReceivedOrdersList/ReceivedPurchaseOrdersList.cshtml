@@ -1,0 +1,48 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "ReceivedPurchaseOrdersList";
+}
+
+
+
+<div class="container">
+    <div class="row justify-content-md-center pb-5">
+        <h1 class="text-center mb=3">Received Purchase Orders List</h1>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class=" col-8">
+        @using (Html.BeginForm("ReceivedPurchaseOrdersList", "ViewReceivedOrdersList", FormMethod.Post))
+        {
+            <table id="Received Purchase Orders List" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-left">Order ID</th>
+                        <th scope="col" class="text-left">Date of Ordering</th>
+                        <th scope="col" class="text-left">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(int i = 0; i < Model.Orders.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => Model.Orders[i].OrderID)
+                                
+                            </td>
+                            <td>@Html.DisplayFor(m=>Model.Orders[i].OrderDate)</td>
+                            <td>
+                                @Html.ActionLink("View Details",
+                                    "PurchaseOrderSummary",
+                                    new { id = Model.Orders[i].OrderID },new{ @class = "btn btn-primary"}
+                                )                                   
+                            </td>
+                        </tr>
+                    }
+                                                 
+                </tbody>
+            </table>
+        }
+        
+        </div>
+    </div>
+</div>

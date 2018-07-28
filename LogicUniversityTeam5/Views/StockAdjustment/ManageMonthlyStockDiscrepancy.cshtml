@@ -49,11 +49,8 @@
                         @Convert.ToDateTime(Model.StockVouchers[i].RaisedByDate).ToString("dd/MM/yyyy")
                     </td>
                     <td class="text-center">
-
                         @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "HighlighterBlue" })
-
                     </td>
-
                 </tr>
                 count++;
                 }

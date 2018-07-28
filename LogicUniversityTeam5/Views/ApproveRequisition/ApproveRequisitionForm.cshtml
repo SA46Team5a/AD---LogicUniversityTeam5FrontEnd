@@ -1,0 +1,100 @@
+﻿@model LogicUniversityTeam5.Models.SpecialModel
+@{
+    ViewBag.Title = "ApproveRequisitionForm";
+}
+
+<div class="container">
+    <h1 class="text-center">Requisition Forms To Approve</h1>
+    @using (Html.BeginForm("ApproveRequisitionForm", "ApproveRequisition", FormMethod.Post))
+    {
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-8 text-center">
+       @for (int i = 0; i < Model.specialmodel.Count; i++)
+       {
+            <div class="card mt-1">
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-6 text-left">
+                            <label id="approvedperson">
+                                @Model.specialmodel[i].Employee[0].EmployeeName
+                                @Html.HiddenFor(m => Model.specialmodel[i].Requisition[i].EmployeeID)
+                             </label>
+                        </div>
+                        <div class="col-6 text-right">
+                            <label id="approvedate">
+                                @Model.specialmodel[i].Requisition[0].RequestedDate
+                                @Html.HiddenFor(m => Model.specialmodel[i].Requisition[0].RequisitionID)
+                             </label>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center mt-3">
+                        <div class="col-10 text-center">
+                            <table id="ConfrimReorderQuantityTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">Description</th>
+                                        <th scope="col" class="text-center">Quantity </th>
+                                        <th scope="col" class="text-center">Unit of Measure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int n = 0; n < Model.specialmodel[i].Details.Count;n++)
+                                     {
+                                            <tr>
+                                                <td>
+                                                    @Model.specialmodel[i].Items[n].ItemName
+                                                    @Html.HiddenFor(m => Model.specialmodel[i].Items[n].ItemName)
+                                                </td>
+
+                                                <td>@Model.specialmodel[i].Details[n].Quantity
+                                                    @Html.HiddenFor(m=> Model.specialmodel[i].Details[n].Quantity)</td>
+                                                <td>@Model.specialmodel[i].Items[n].UnitOfMeasure
+                                                    @Html.HiddenFor(m=> Model.specialmodel[i].Items[n].UnitOfMeasure)
+                                                </td>
+                                            </tr>
+                                    }
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center ">
+                        <div class="col-10 text-center">
+                            <div class="input-group">
+                                <textarea class="form-control" placeholder="Remark(Optional)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center mt-3">
+                        <div class="col-4 text-center">
+
+                            <input type="submit" name="Approve" class="btn btn-info mr-2 " data-toggle="modal" data-target="#myModalapprove" value="Approve" />
+
+                            <input type="submit" name="Reject" class="btn btn-info " data-toggle="modal" data-target="#myModalapprove" value="Reject" />
+
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            
+       }
+            <div class="row justify-content-md-center mt-3">
+                <button class="btn btn-primary text-center" id="home">Home</button>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#home').click(function (e)
+                        {
+                            location.href = '@Url.Content("~/Home/Index/")';
+                        });
+
+                  });
+               </script>
+       </div>
+
+            </div>
+        </div>
+    }
+
+</div>
+

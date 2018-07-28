@@ -43,6 +43,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
             CombinedViewModel combinedView = new CombinedViewModel();
 
+            combinedView.Items = iClassService.GetItems();
             combinedView.Categories = iClassService.GetCategories();
             combinedView.categorySelected = "All";
             combinedView.AddedText = new List<string>();
