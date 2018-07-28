@@ -14,10 +14,12 @@ namespace LogicUniversityTeam5.ApiControllers
     public class DisbursementApiController : ApiController
     {
         private readonly IDisbursementService _disbursementService;
+        private readonly IDepartmentService _departmentService;
 
-        public DisbursementApiController(IDisbursementService disbursementService)
+        public DisbursementApiController(IDisbursementService disbursementService, IDepartmentService departmentService)
         {
             _disbursementService = disbursementService;
+            _departmentService = departmentService;
         }
 
         [HttpGet]
@@ -51,14 +53,19 @@ namespace LogicUniversityTeam5.ApiControllers
             => _disbursementService.getUncollectedDisbursementDetailsByDep(id);
 
         [HttpPost]
-        [Route("api/store/disbursement/{depId}/{empId}")]
-        public bool submitDisbursementOfDepartment(string depId, string empId, List<DisbursementDetailPayload> payload)
+        [Route("api/store/disbursement/{depId}/{empId}/{passcode}")]
+        public bool submitDisbursementOfDepartment(string depId, string empId, string passcode, List<DisbursementDetailPayload> payload)
         {
             try
             {
-                _disbursementService.submitDisbursementOfDep(depId, payload, empId);
-                return true;
-            }
+                if (_departmentService.verifyPassCode(passcode, depId))
+                    return false;
+                else
+                {
+                    _disbursementService.submitDisbursementOfDep(depId, payload, empId);
+                    return true;
+                }
+           }
             catch (Exception)
             {
                 return false;
