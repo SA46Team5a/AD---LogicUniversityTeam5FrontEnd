@@ -1,0 +1,38 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <a class="navbar-brand" href="#">
+        <img src="https://cdn.dribbble.com/users/1435254/screenshots/3809527/pencilclip_1x.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Logic Stationeries
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manage Request
+                </a>
+                <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/ApproveRequisitionForm/ApproveRequisitionForm">
+                        Approve Requisition Form
+                        (@Model.AddedNumbers[0])
+                        <!--PendingRequisition>0? PendingRequisition: null -->
+                    </a>
+                    <a class="dropdown-item" href="AppointDepartmentRep/AppointDepartmentRep">Appoint Department Representative</a>
+                    <a class="dropdown-item" href="DelegateAuthority/DelegateAuthority">Delegate Authority</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ChangeCollectionPoint/ChangeCollectionPoint">Manage Department Information</a>
+            </li>
+        </ul>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+        }
+    </div>
+</nav>

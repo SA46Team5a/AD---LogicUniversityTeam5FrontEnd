@@ -54,8 +54,8 @@ namespace LogicUniversityTeam5
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
@@ -84,6 +84,7 @@ namespace LogicUniversityTeam5
                 manager.UserTokenProvider = 
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
+            
             return manager;
         }
     }
