@@ -24,21 +24,34 @@
                                    new { @class = "form-control" })
             </div>
         </div>
-        <div class="row justify-content-md-center">
-            <div class="form-group col-md-4">
-                <label for="supplier">Supplier</label>
-                @{ List<string> supplier = new List<string>();
-                    foreach (var item in Model.Supplier)
-                    {
-                        supplier.Add(item.SupplierName);
-                    }
-                }
-                @Html.DropDownListFor(m => Model.AddedText[1],
-                                                               new SelectList(supplier.Distinct()),
-                                                               "Select Supplier",
-                                                               new { @class = "form-control" })
+        <div class="row justify-content-center">
+            <div class="col-8 text-center">
+                <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search"/>
             </div>
         </div>
+        <div class="row justify-content-md-center">
+            
+        </div><table class="table" id="cataloguetable">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Suppliers</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @for (int i = 0; i < Model.Supplier.Count; i++)
+        {
+            <tr>              
+                <td>
+                    @Html.DisplayFor(m => Model.Supplier[i].SupplierName)
+                    @Html.HiddenFor(m => Model.Supplier[i].SupplierName)
+                </td>              
+            </tr>
+        }
+    </tbody>
+</table>
         <div class="row justify-content-md-center">
             <div class="col-md-4">
                 <label>Upload Invoice</label>
@@ -65,8 +78,8 @@
 
         <div class="row justify-content-center pt-5">
             <div class="col-md-12 text-center">
-                <input type="submit" id="btn_Submit" class="btn btn-primary"
-                       value="Submit" />
+                <input type="submit" id="Sent" Name="Sent" class="btn btn-primary"
+                       value="Sent" />
             </div>
         </div>
     </div>

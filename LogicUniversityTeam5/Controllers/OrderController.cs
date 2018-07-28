@@ -12,6 +12,8 @@ namespace LogicUniversityTeam5.Controllers
         // GET: Order
         public ActionResult Index()
         {
+           
+            
             return View();
         }
     }
