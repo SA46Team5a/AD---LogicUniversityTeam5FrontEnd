@@ -8,6 +8,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5
 {
+    // Author: Jack
     public class StockManagementApiController : ApiController
     {
         private readonly IStockManagementService _stockManagementService;

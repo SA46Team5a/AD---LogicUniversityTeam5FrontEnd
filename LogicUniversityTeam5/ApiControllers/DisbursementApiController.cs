@@ -11,11 +11,11 @@ using LogicUniversityTeam5.Models;
 namespace LogicUniversityTeam5.ApiControllers
 {
     // Author: Jack
-    public class RetrievalApiController : ApiController
+    public class DisbursementApiController : ApiController
     {
         private readonly IDisbursementService _disbursementService;
 
-        public RetrievalApiController(IDisbursementService disbursementService)
+        public DisbursementApiController(IDisbursementService disbursementService)
         {
             _disbursementService = disbursementService;
         }
@@ -48,7 +48,7 @@ namespace LogicUniversityTeam5.ApiControllers
         [HttpGet]
         [Route("api/store/disbursement/{id}")]
         public List<DisbursementDetailPayload> getUncollectedDisbursementItemsOfDepartment(string id)
-            => DisbursementDetailPayload.ConvertEntityToPayload(_disbursementService.getUncollectedDisbursementDetailsByDep(id));
+            => _disbursementService.getUncollectedDisbursementDetailsByDep(id);
 
         [HttpPost]
         [Route("api/store/disbursement/{depId}/{empId}")]
@@ -56,8 +56,7 @@ namespace LogicUniversityTeam5.ApiControllers
         {
             try
             {
-                List<int> disDutyIds = payload.Select(d => d.DisbursementDutyId).Distinct().ToList();
-                _disbursementService.submitDisbursementOfDep(disDutyIds, depId, payload, empId);
+                _disbursementService.submitDisbursementOfDep(depId, payload, empId);
                 return true;
             }
             catch (Exception)

@@ -24,7 +24,8 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
             CombinedViewModel combinedView = new CombinedViewModel();
-            combinedView.StockVouchers = stockManagementService.getOpenVouchers();
+            // TODO: get role of user
+            combinedView.StockVouchers = stockManagementService.getOpenVouchers(true);
             combinedView.IsSelected = new List<bool>();
             foreach (StockVoucher voucher in combinedView.StockVouchers)
             {
