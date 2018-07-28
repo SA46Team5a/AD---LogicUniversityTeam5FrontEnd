@@ -6,111 +6,122 @@
 
 <div class="container">
     <h1 class="text-center">Item Catalogue</h1>
-    <div class="row justify-content-md-center mt-3">
-        <span class="my-auto">
-            Category
-        </span>
-        <div class="col-3 text-center">
-            @{ List<string> des = new List<string>();
-                foreach (var item in Model.Items)
-                {
-                    des.Add(item.Category.CategoryName);
-                }
-            }
-            @Html.DropDownList("StudentGender",
-                                      new SelectList(des.Distinct()),
-                                      "Select Category",
-                                      new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="row justify-content-md-center mt-3 align-self-center">
-        <span class="my-auto">
-            Description
-        </span>
-        <div class="col-6 text-center">
-            <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"
-                   placeholder="Search for Description" onkeyup="searchbydesFunction()">
-
-        </div>
-        <div class="invalid-feedback">
-            Please provide a category.
-        </div>
-    </div>
-    <div class="row justify-content-md-center mt-3">
-        <div class="col-9 text-center">
-            <button id="btn_search" type="button" class="btn btn-primary">Search</button>
-        </div>
-    </div>
-    <div class="mt-6 mb-6"> </div>
-    *@using (Html.BeginForm("ItemCatalogue", "CreateOrders", FormMethod.Post))
+    @using (Html.BeginForm("ItemCatalogue", "CreateOrders", FormMethod.Post))
     {
         <div class="row justify-content-md-center mt-3">
-            <div class="col-8 text-center">
-                <table class="table" id="cataloguetable">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-left">Category</th>
-                            <th scope="col" class="text-left">Description</th>
-                            <th scope="col" class="text-left">Reorder level</th>
-                            <th scope="col" class="text-center col-4">Current Stock</th>
-                            <th scope="col" class="text-left">Reorder Quantity</th>
-                            <th scope="col" class="text-left">Reorder</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @for (int i = 0; i < Model.reorderdetail.Count; i++)
+            <span class="my-auto">
+                Category
+            </span>
+            
+                <div class="col-3 text-center">
+                    @{ List<string> des = new List<string>();
+                        foreach (var item in Model.Items)
                         {
-
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
-                                @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
-                                @Html.HiddenFor(m => Model.Items[i].ItemID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
-                                @Html.HiddenFor(m => Model.reorderdetail[i].ItemName)
-                                @Html.HiddenFor(m => Model.reorderdetail[i].ItemID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => Model.reorderdetail[i].ReorderLevel)
-                                @Html.HiddenFor(m => Model.reorderdetail[i].ReorderLevel)
-                            </td>
-                            <td>
-
-                                @Html.DisplayFor(m => Model.reorderdetail[i].QtyInStock)
-                                @Html.HiddenFor(m => Model.reorderdetail[i].QtyInStock)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => Model.reorderdetail[i].ReorderQuantity)
-                                @Html.HiddenFor(m => Model.reorderdetail[i].ReorderQuantity)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(m => Model.Quantity[i], new { @class="form-control", @Value= Model.reorderdetail[i].QtyInStock <= Model.reorderdetail[i].ReorderLevel ? Model.reorderdetail[i].ReorderQuantity : 0})
-                                @Html.HiddenFor(m => Model.Quantity[i])
-                            </td>
-
-                        </tr>
+                            des.Add(item.Category.CategoryName);
 
                         }
-                    </tbody>
-                </table>
+                    }
+                    @Html.DropDownListFor(m => Model.AddedText[0],
+                                                         new SelectList(des.Distinct()),
+                                                         "Select Category",
+                                                         new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-3 align-self-center">
+                <span class="my-auto">
+                    Description
+                </span>
+                <div class="col-6 text-center">
+                    <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"
+                           placeholder="Search for Description" onkeyup="searchbydesFunction()">
 
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a category.
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-md-center mt-3 col 8">
-            <div class=" col-4 text-center">
-                <input id='btnForgotPassword' type="button" class="btn btn-secondary" value="Cancel" />
+
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-9 text-center">
+                    <input type="submit" value="Search" name="Search" id="btn_search" class="btn btn-primary" />
+                </div>
             </div>
-            <div class="col-4 text-center">
-                <button type="submit" value="Submit" id="btn_next" name="Submit" class="btn btn-primary">Next</button>
+            <div class="mt-6 mb-6"> </div>
+
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-8 text-center">
+                    <table class="table" id="cataloguetable">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left">Category</th>
+                                <th scope="col" class="text-left">Description</th>
+                                <th scope="col" class="text-left">Reorder level</th>
+                                <th scope="col" class="text-center col-4">Current Stock</th>
+                                <th scope="col" class="text-left">Reorder Quantity</th>
+                                <th scope="col" class="text-left">Reorder</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @for (int i = 0; i < Model.reorderdetail.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
+                                        @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
+                                        @Html.HiddenFor(m => Model.reorderdetail[i].ItemName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.reorderdetail[i].ReorderLevel)
+                                        @Html.HiddenFor(m => Model.reorderdetail[i].ReorderLevel)
+                                    </td>
+                                    <td>
+
+                                        @Html.DisplayFor(m => Model.reorderdetail[i].QtyInStock)
+                                        @Html.HiddenFor(m => Model.reorderdetail[i].QtyInStock)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.reorderdetail[i].ReorderQuantity)
+                                        @Html.HiddenFor(m => Model.reorderdetail[i].ReorderQuantity)
+                                    </td>
+                                   
+                                    <td>
+                                        @Html.TextBoxFor(m => Model.Quantity[i], new
+                                   {
+
+                                       @class = "form-control",
+                                       @onkeypress = "return noNumbers(event)",
+                                       @onkeyup = "allownums(this.value)",
+                                       @Value = Model.reorderdetail[i].ReorderLevel > Model.reorderdetail[i].QtyInStock ? Model.reorderdetail[i].ReorderQuantity : 0,
+                                   })
+                                        @Html.HiddenFor(m => Model.Quantity[i])
+                                     
+                                    </td>
+                                     
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
-        </div>
+            <div class="row justify-content-md-center mt-3 col 8">
+                <div class=" col-4 text-center">
+                    <input id='btnForgotPassword' type="button" class="btn btn-secondary" value="Cancel" />
+                </div>
+                <div class="col-4 text-center">
+                    <input type="submit" value="Next" name="Next" id="btn_next" class="btn btn-primary" />
+                </div>
+            </div>
         }
 
-</div>
+        </div>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#btnForgotPassword').click(function (e)
@@ -120,6 +131,46 @@
 
         });
 
+        function addemup() {
+            var n1 = document.getElementById("num1");
+            var n2 = document.getElementById("num2");
+            sum = Number(n1.value) + Number(n2.value);
+            if (Number(sum)) {
+                alert(sum);
+            } else {
+                alert("Numbers only, please!");
+            };
+        };
+        function noNumbers(e) {
+            var keynum;
+            var keychar;
+            var numcheck;
+
+            if (window.event) // IE
+            {
+                keynum = e.keyCode;
+            }
+            else if (e.which) // Netscape/Firefox/Opera
+            {
+                keynum = e.which;
+            }
+            keychar = String.fromCharCode(keynum);
+           
+            numcheck = /\d/;
+            if (numcheck.test(keychar)) {
+                return true;
+            }
+            else {
+                alert("Only positive numbers are allowed");
+                return false
+            }
+        }
+        function allownums(value) {
+            var num = parseInt(value, 10);
+            if (num < 0 || num >
+                1000)
+                alert("Sorry, we can not supply so much items once")
+        }
         function searchbydesFunction() {
             var input, filter, table, tr, td, i;
             input = document.getElementById("descriptiontext");
@@ -138,7 +189,7 @@
             }
         }
     </script>
-    <script>
+    @*<script>
         $(document).ready(function () {
             $('.btn.btn-primary').click(function () {
                 var text = "";
@@ -151,4 +202,4 @@
 
             });
         });
-    </script>
+    </script>*@
