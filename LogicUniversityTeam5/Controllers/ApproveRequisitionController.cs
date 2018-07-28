@@ -61,7 +61,7 @@ namespace LogicUniversityTeam5
                 model.specialmodel.Add(innerModel);
             }
 
-            return View(model);
+            return View(model );
         }
         [HttpPost]
         public ActionResult ApproveRequisitionForm(SpecialModel model, string Approve, string Reject)

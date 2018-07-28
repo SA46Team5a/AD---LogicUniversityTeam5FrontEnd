@@ -46,6 +46,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         [HttpPost]
         public ActionResult ItemCatalogue(string Next, CombinedViewModel model,string Search)      
         {
+            
             if (Search != null)
             {
                 CombinedViewModel passModel = new CombinedViewModel();
@@ -73,37 +74,41 @@ namespace LogicUniversityTeam5.Controllers.Order
                     return View(searchmodel);
                 }
             }
-           
-            if (Next != null)
+            
+            
+            if (Next != null && model.AddedText[0]==null)
             {
-                CombinedViewModel passModel = new CombinedViewModel();
-                passModel.Quantity = new List<int>();
-                passModel.Items = new List<Item>();
-                passModel.reorderdetail = new List<ReorderDetail>();
-                for (int i = 0; i < model.reorderdetail.Count; i++)
-                {
-                    int value = model.Quantity[i];
-                    if (value.ToString() != null && value != 0)
+                
+                    CombinedViewModel passModel = new CombinedViewModel();
+                    passModel.Quantity = new List<int>();
+                    passModel.Items = new List<Item>();
+                    passModel.reorderdetail = new List<ReorderDetail>();
+                    for (int i = 0; i < model.reorderdetail.Count; i++)
                     {
+                        int value = model.Quantity[i];
+                        string selectcategory = model.AddedText[0];
+                       
+                            if (value.ToString() != null && value != 0)
+                            {
 
-                        passModel.Items.Add(model.Items[i]);
-                        passModel.reorderdetail.Add(model.reorderdetail[i]);
-                        passModel.Quantity.Add(model.Quantity[i]);
-
+                                passModel.Items.Add(model.Items[i]);
+                                passModel.reorderdetail.Add(model.reorderdetail[i]);
+                                passModel.Quantity.Add(model.Quantity[i]);
+                                TempData["passmodel"] = passModel;
+                            }
+                      
                     }
-                }
-                TempData["passmodel"] = passModel;
-
-                return RedirectToAction("OrderQuantity");
+                    //TempData["passmodel"] = passModel;
+                    return RedirectToAction("OrderQuantity");
             }
             else
             {
                 return View(model);
             }
-            
-          
+
+
         }
-       
+        
         public ActionResult OrderQuantity()
         {
             CombinedViewModel model = new CombinedViewModel();
