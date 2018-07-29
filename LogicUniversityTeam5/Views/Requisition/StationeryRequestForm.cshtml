@@ -148,7 +148,7 @@
 
             $(document).ready(function () {
                 $(".btn.btn-danger").on("click", function () {
-                    alert('delete');
+                    alert('Item Deleted');
                     var tr = $(this).closest('tr');
                     $(this).closest("tr").find("input[type='text']").val('');
                     tr.hide();

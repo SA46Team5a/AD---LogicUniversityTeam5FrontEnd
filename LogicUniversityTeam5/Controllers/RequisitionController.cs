@@ -126,18 +126,15 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         [HttpGet]
         public ActionResult StationeryRequestForm()
         {
-            //CombinedViewModel newmodel = (CombinedViewModel)TempData["passedmodel"];
-            //TempData.Keep("passedmodel");
-
-            
-
             //getting the logged in user
             string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+
             //getting the existing requisitionDetails for user, passing to newModel
             CombinedViewModel newmodel = new CombinedViewModel();
             ServiceLayer.DataAccess.Requisition existingReq = 
                 iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
             newmodel.Requisitions = existingReq.RequisitionDetails.ToList();
+
             newmodel.IsSave = false;
 
             return View(newmodel);
@@ -157,21 +154,12 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
                 if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
                 {
-                    //if (model.Requisitions[i].RequisitionDetailsID < 0)
-                    //{
-                    //    iRequisitionService.addNewRequisitionDetail(req.RequisitionID, model.Requisitions[i].ItemID, Convert.ToInt32(textBoxValue));
-                    //}
-                    //else if (model.Requisitions[i].RequisitionDetailsID >= 0)
-                    //{
-                        iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
-                    //}
+                    iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
                 }
             }
             if (save == true)
             {
-                //TempData["passedmodel"] = model;
                 return RedirectToAction("StationeryRequestForm", new { isSave = true });
-
             }
             else
             {
@@ -181,6 +169,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 EmailNotificationController emailNotificationController = new EmailNotificationController((DepartmentService)iDepartmentService);
                 string deptId = iDepartmentService.getDepartmentID(currentLoggedInEmployeeId);
                 emailNotificationController.SendEmailToDeptHeadToApproveRequisitions(deptId, req.RequisitionID);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -192,7 +181,10 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         {
             CombinedViewModel combinedView = new CombinedViewModel();
             combinedView.AddedText = new List<string>();
-            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
+
+            //getting the logged in user
+            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
 
             List<RequisitionDetail> reqdetails = iRequisitionService.getRequisitionDetails(req.RequisitionID);
             combinedView.Requisitions = reqdetails;
@@ -226,43 +218,12 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         [HttpGet]
         public ActionResult Delete(int id)
         {
-
-            CombinedViewModel combinedView = (CombinedViewModel)TempData["passedmodel"];
-            if (combinedView != null)
-            {
-                List<RequisitionDetail> rDetailList = combinedView.Requisitions;
-
-                foreach (RequisitionDetail rd in rDetailList.ToList())
-                {
-                    if (rd.RequisitionDetailsID > 0 || rd.RequisitionDetailsID == id)
-                        rDetailList.Remove(rd);
-
-                }
-                combinedView.Requisitions = rDetailList;
-            }
-            else
-            {
-                combinedView = new CombinedViewModel();
-                combinedView.AddedText = new List<string>();
-                combinedView.Requisitions = new List<RequisitionDetail>();
-
-            }
-
             //Delete from existing reqDetails in DB
             if (id > 0)
             {
                 iRequisitionService.deleteRequisitionDetail(id);
             }
 
-
-            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
-            List<RequisitionDetail> reqdetails = iRequisitionService.getRequisitionDetails(req.RequisitionID);
-
-            for (int i = 0; i < reqdetails.Count; i++)
-            {
-                combinedView.Requisitions.Add(reqdetails[i]);
-            }
-            TempData["passedmodel"] = combinedView;
             return RedirectToAction("StationeryRequestForm");
         }
 
