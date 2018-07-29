@@ -38,7 +38,7 @@ namespace LogicUniversityTeam5
         }
 
         [HttpGet]
-        [Route("/requisition/reject/{empId}/{reqId}")]
+        [Route("api/requisition/reject/{empId}/{reqId}")]
         public bool rejectRequisition(string empId, int reqId)
         {
             try
