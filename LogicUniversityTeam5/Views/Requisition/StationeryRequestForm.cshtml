@@ -78,11 +78,10 @@
                                         @Html.HiddenFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => Model.Requisitions[j].Quantity)
+                                        @Html.TextBoxFor(m => Model.Requisitions[j].Quantity, new { @class = "form-control" })
                                         @Html.HiddenFor(m => Model.Requisitions[j].Quantity)
                                     </td>
-                                    <td>
-                                        @*<button id="btn_delete1" class="btn btn-danger" type="submit" data-id="@Model.Requisitions[j].RequisitionID">Delete</button>*@
+                                    <td class="text-center">
                                         @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID }, new { @class = "btn btn-danger" })
                                     </td>
                                 </tr>

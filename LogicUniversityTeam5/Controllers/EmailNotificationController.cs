@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ServiceLayer;
+using ServiceLayer.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -7,12 +9,30 @@ using System.Web.Mvc;
 
 namespace LogicUniversityTeam5.Controllers
 {
+    //To change all email from and Email to addresses
     public class EmailNotificationController : Controller
     {
- 
-        public EmailNotificationController()
+        IDepartmentService departmentService;
+        public EmailNotificationController(DepartmentService ds)
         {
+            departmentService = ds;
+        }
+        //Requisitions
+        public void SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
+        {
+            Authority currentAuthority = departmentService.getCurrentAuthority(deptId);
+            Employee employeeIncurrentAuthority = departmentService.getEmployeeById(currentAuthority.EmployeeID);
+            string emailTo = employeeIncurrentAuthority.EmailID;
 
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.UseDefaultCredentials = true;
+            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "meitingtonia@gmail.com");
+            mm.Subject = "Notification to approve Requisition Form ";
+            mm.Body = "Dear Department Head , Please click here to view the form(" + reqId + ")for your approval.";
+            client.Send(mm);
         }
         public void SendEmailToAppointingDepRep()
         {
@@ -223,5 +243,6 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
+
     }
 }

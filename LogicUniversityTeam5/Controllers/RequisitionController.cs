@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using ServiceLayer.DataAccess;
 using ServiceLayer;
 using LogicUniversityTeam5.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
+using LogicUniversityTeam5.IdentityHelper;
 
 namespace LogicUniversityTeam5.Controllers.Requisition
 {
@@ -16,12 +19,14 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         IStockManagementService iStockService;
         IClassificationService iClassService;
         IRequisitionService iRequisitionService;
+        IDepartmentService iDepartmentService;
 
-        public RequisitionController(StockManagementService sms, ClassificationService cs, RequisitionService rs)
+        public RequisitionController(StockManagementService sms, ClassificationService cs, RequisitionService rs, DepartmentService ds)
         {
             iStockService = sms;
             iClassService = cs;
             iRequisitionService = rs;
+            iDepartmentService = ds;
 
         }
         public ActionResult Index()
@@ -36,6 +41,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         public ActionResult ViewStationeryCatalogue()
         {
+            //to remove if saved in DB is successfull
             if (TempData["passedmodel"] != null)
             {
                 TempData.Keep("passedmodel");
@@ -54,24 +60,18 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return View(combinedView);
         }
 
-        //[HttpPost]
-        //public ActionResult ViewStationeryCatalogue(CombinedViewModel model,string categoryName)
-        //{
-        //    if (TempData["passedmodel"] != null)
-        //    {
-        //        TempData.Keep("passedmodel");
-        //    };
-
-        //}
 
         [HttpPost]
         public ActionResult ViewStationeryCatalogue(CombinedViewModel model)
         {
-            // Dictionary<string,int> itemIdList = new Dictionary<string, int>();
+            //getting the logged in user
+            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+
+            //to delete
             CombinedViewModel passedmodel = new CombinedViewModel();
             passedmodel.Requisitions = new List<RequisitionDetail>();
             List<RequisitionDetail> newRDlist = new List<RequisitionDetail>();
-            List<string> itemidList = new List<string>();
+
             List<RequisitionDetail> tempReqDetail = new List<RequisitionDetail>();
             passedmodel.AddedText = new List<string>();
             if (TempData["passedmodel"] != null)
@@ -80,66 +80,66 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 tempReqDetail = cvm.Requisitions;
 
             }
-            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
-            List<RequisitionDetail> reqDetail;
-            reqDetail = iRequisitionService.getRequisitionDetails(req.RequisitionID);
-            List<string> reqDetailsItem = reqDetail.Select(r => r.ItemID).ToList();
-            List<Item> itemsAlreadyRequested = model.Items.Where(i => reqDetailsItem.Contains(i.ItemID)).ToList();
-            List<Item> newItemsForRequest = model.Items.Where(i => !reqDetailsItem.Contains(i.ItemID)).ToList();
+
+            //getting existing req for logged in user
+            ServiceLayer.DataAccess.Requisition existingReqOfEmployee = iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
+            //if there is no existing reqs, create a new req
+            if(existingReqOfEmployee == null)
+            {
+                existingReqOfEmployee = iRequisitionService.createNewRequsitionForEmployee(currentLoggedInEmployeeId);
+            }
+            List<RequisitionDetail> existingReqDetail = iRequisitionService.getRequisitionDetails(existingReqOfEmployee.RequisitionID);
+
+            List<string> existingReqDetailsItemIds = existingReqDetail.Select(r => r.ItemID).ToList();
+            List<Item> itemsAlreadyRequested = model.Items.Where(i => existingReqDetailsItemIds.Contains(i.ItemID)).ToList();
+            List<Item> newItemsForRequest = model.Items.Where(i => !existingReqDetailsItemIds.Contains(i.ItemID)).ToList();
 
 
             for (int i = 0; i < model.Items.Count; i++)
             {
                 string textBoxValue = model.AddedText[i].ToString().Trim();
-                if (reqDetailsItem.Contains(model.Items[i].ItemID) && (textBoxValue != null && textBoxValue != ""))
+                string itemIdInView = model.Items[i].ItemID;
+                if (existingReqDetailsItemIds.Contains(itemIdInView) && (textBoxValue != null && textBoxValue != ""))
                 {
-
                     RequisitionDetail rd =
-                        req.RequisitionDetails.First(x => x.ItemID.Equals(model.Items[i].ItemID));
+                        existingReqOfEmployee.RequisitionDetails.First(x => x.ItemID.Equals(itemIdInView));
+
                     rd.Quantity += Convert.ToInt32(textBoxValue);
-
-
-                    passedmodel.Requisitions.Add(rd);
+                    iRequisitionService.editRequisitionDetailQty(rd.RequisitionDetailsID, rd.Quantity);
                 }
 
                 else if (textBoxValue != null && textBoxValue != "")
                 {
 
-
                     RequisitionDetail newRD = new RequisitionDetail();
-                    newRD.RequisitionID = req.RequisitionID;
-                    newRD.RequisitionDetailsID = -(i + 1); //Still not added to database.
-                    newRD.ItemID = model.Items[i].ItemID;
-                    newRD.Quantity = Convert.ToInt32(textBoxValue);
-                    newRD.Item = new Item();
-                    newRD.Item.ItemName = model.Items[i].ItemName;
-                    newRD.Item.UnitOfMeasure = model.Items[i].UnitOfMeasure;
-
-                    passedmodel.Requisitions.Add(newRD);
+                    newRD.RequisitionID = existingReqOfEmployee.RequisitionID;
+                    iRequisitionService
+                        .addNewRequisitionDetail(existingReqOfEmployee.RequisitionID,
+                                                itemIdInView,
+                                                Convert.ToInt32(textBoxValue));
                 }
             }
-            foreach (Item i in itemsAlreadyRequested)
-            {
-                if (!newItemsForRequest.Contains(i))
-                {
-                    RequisitionDetail oldReq = req.RequisitionDetails.First(x => x.ItemID.Equals(i.ItemID));
-                    passedmodel.Requisitions.Add(oldReq);
-                }
-            }
-
-
-            TempData["passedmodel"] = passedmodel;
-            TempData.Keep("passedmodel");
+           
             return RedirectToAction("StationeryRequestForm", new { Contains = true });
         }
 
         [HttpGet]
         public ActionResult StationeryRequestForm()
         {
-            CombinedViewModel newmodel = (CombinedViewModel)TempData["passedmodel"];
-            TempData.Keep("passedmodel");
+            //CombinedViewModel newmodel = (CombinedViewModel)TempData["passedmodel"];
+            //TempData.Keep("passedmodel");
 
+            
+
+            //getting the logged in user
+            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+            //getting the existing requisitionDetails for user, passing to newModel
+            CombinedViewModel newmodel = new CombinedViewModel();
+            ServiceLayer.DataAccess.Requisition existingReq = 
+                iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
+            newmodel.Requisitions = existingReq.RequisitionDetails.ToList();
             newmodel.IsSave = false;
+
             return View(newmodel);
 
         }
@@ -148,31 +148,39 @@ namespace LogicUniversityTeam5.Controllers.Requisition
         {
             bool save = model.IsSave;
             string textBoxValue;
-            ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee("E001");
+            //getting the logged in user
+            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+            ServiceLayer.DataAccess.Requisition req =
+                iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
             for (int i = 0; i < model.Requisitions.Count; i++)
             {
                 textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
                 if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
                 {
-                    if (model.Requisitions[i].RequisitionDetailsID < 0)
-                    {
-                        iRequisitionService.addNewRequisitionDetail(req.RequisitionID, model.Requisitions[i].ItemID, Convert.ToInt32(textBoxValue));
-                    }
-                    else if (model.Requisitions[i].RequisitionDetailsID >= 0)
-                    {
+                    //if (model.Requisitions[i].RequisitionDetailsID < 0)
+                    //{
+                    //    iRequisitionService.addNewRequisitionDetail(req.RequisitionID, model.Requisitions[i].ItemID, Convert.ToInt32(textBoxValue));
+                    //}
+                    //else if (model.Requisitions[i].RequisitionDetailsID >= 0)
+                    //{
                         iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
-                    }
+                    //}
                 }
             }
             if (save == true)
             {
-                TempData["passedmodel"] = model;
+                //TempData["passedmodel"] = model;
                 return RedirectToAction("StationeryRequestForm", new { isSave = true });
 
             }
             else
             {
                 iRequisitionService.submitRequisition(req.RequisitionID);
+
+                //Send email
+                EmailNotificationController emailNotificationController = new EmailNotificationController((DepartmentService)iDepartmentService);
+                string deptId = iDepartmentService.getDepartmentID(currentLoggedInEmployeeId);
+                emailNotificationController.SendEmailToDeptHeadToApproveRequisitions(deptId, req.RequisitionID);
                 return RedirectToAction("Index", "Home");
             }
 
