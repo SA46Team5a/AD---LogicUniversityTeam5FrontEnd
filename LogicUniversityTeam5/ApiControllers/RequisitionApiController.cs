@@ -18,12 +18,12 @@ namespace LogicUniversityTeam5
         }
 
         [HttpGet]
-        [Route("/requisitions/pending/{depId}")]
+        [Route("api/requisitions/pending/{depId}")]
         public List<RequisitionPayload> getPendingRequisitionsOfDepartment(string depId)
             => RequisitionPayload.ConvertEntityToPayload(_requisitionService.getPendingRequisitionsOfDep(depId));
 
         [HttpGet]
-        [Route("/requisition/approve/{empId}/{reqId}")]
+        [Route("api/requisition/approve/{empId}/{reqId}")]
         public bool approveRequisition(string empId, int reqId)
         {
             try
