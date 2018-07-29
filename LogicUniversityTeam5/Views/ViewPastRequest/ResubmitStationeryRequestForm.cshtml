@@ -1,7 +1,138 @@
-﻿
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
 @{
-    ViewBag.Title = "ResubmitStationeryRequestForm";
+    ViewBag.Title = "ResubmitStationaryRequestForm";
 }
+@using LogicUniversityTeam5.IdentityHelper;
+<body>
+     @using (Html.BeginForm("ResubmitStationaryRequestForm", "ViewPastRequest", FormMethod.Post))
+     {
+    <div class="container">
+        @{ if (Request.Params["isSubmit"] != null)
+        {
+            if (Request.Params["isSubmit"].Equals("True"))
+            {
+                <div class="row justify-content-md-center pb-2">
+                    <div class="alert alert-success col-8">
+                        <div class="row justify-content-md-center pb-2">
+                            <strong>Success!</strong>&nbsp;Items submitted successfully
+                        </div>
+                    </div>
+                </div>
+             }
+          }
+        }
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb=3">Stationery Requisition Form</h1>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-md-center">
+                    <div class=" col-12">
+                        <table id="Supplier3OrderTable" class="table mb-5">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-left col-6">Description</th>
+                                    <th scope="col" class="text-center col-2">Unit of Measure</th>
+                                    <th scope="col" class="text-center col-1">Quantity Requested</th>
+                                    <th scope="col" class="text-center">Action</th>
 
-<h2>ResubmitStationeryRequestForm</h2>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @for (int i = 0; i < Model.Requisitions.Count; i++)
+                            {
+                                @Html.HiddenFor(m => Model.Requisitions[i].ItemID)
+                                @Html.HiddenFor(m => Model.Requisitions[i].RequisitionDetailsID)
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Requisitions[i].Item.ItemName)
+                                        @Html.HiddenFor(m => Model.Requisitions[i].Item.ItemName)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(m => Model.Requisitions[i].Item.UnitOfMeasure)
+                                        @Html.HiddenFor(m => Model.Requisitions[i].Item.UnitOfMeasure)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => Model.Requisitions[i].Quantity, new { @class="form-control" })
+                                        @Html.HiddenFor(m => Model.Requisitions[i].Quantity)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.ActionLink("Delete", "DeleteRequestedItems", "ViewPastRequest", new { id = Model.Requisitions[i].RequisitionDetailsID }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+                        }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-4 text-center">
+                        @Html.ActionLink("View Stationery to add", "ViewStationeryCatalogue", null, new { @id = "btn_back", @class = "btn btn-secondary" } )
+                    </div>
+                    <div class="col-4 text-center">
+                        <button id="btn_resubmit" data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary">Resubmit Form</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-8 text-center">
+                <!-- Trigger the modal with a button -->
+                @*<button id="btn_ok" type="button" class="btn btn-info col-3 align-right ">OK</button>*@
+                @Html.ActionLink("OK", "SearchRequisitionForm", new { id= @User.Identity.GetEmployeeId() }, new { @id = "btn_back", @class = "btn btn-info col-3 align-right" })
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h6 class="modal-title text-right">Requisition Form Resubmission Confirmation</h6>
+                            </div>
+                            <div class="modal-body text-left">
+                                <p>Are you sure you want to resubmit the requisition form?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="row justify-content-md-center ">
+                                    <div class="col-4 ">
+                                        <button type="submit" data-dismiss="modal" class="btn btn-default">No</button>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <button type="submit" class="btn btn-primary">Yes</button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+        $('#btn_ok').click(function (e) {
+                window.location.href = '@Url.Action("Index","Home")';
+            });
+        $(document).ready(function () {
+            $(".btn.btn-danger").on("click", function () {
+                console.log("Hello");
+                alert('Item Deleted');
+                var tr = $(this).closest('tr');
+                $(this).closest("tr").find("input[type='text']").val('');
+                tr.hide();
+                $(this).closest("tr").find("input[type='hidden']").val('0');
+            });
+        });
+
+    </script>
+     }
+</body>
 

@@ -41,11 +41,6 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         public ActionResult ViewStationeryCatalogue()
         {
-            //to remove if saved in DB is successfull
-            if (TempData["passedmodel"] != null)
-            {
-                TempData.Keep("passedmodel");
-            };
 
             CombinedViewModel combinedView = new CombinedViewModel();
 
@@ -67,20 +62,6 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             //getting the logged in user
             string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
 
-            //to delete
-            CombinedViewModel passedmodel = new CombinedViewModel();
-            passedmodel.Requisitions = new List<RequisitionDetail>();
-            List<RequisitionDetail> newRDlist = new List<RequisitionDetail>();
-
-            List<RequisitionDetail> tempReqDetail = new List<RequisitionDetail>();
-            passedmodel.AddedText = new List<string>();
-            if (TempData["passedmodel"] != null)
-            {
-                CombinedViewModel cvm = (CombinedViewModel)TempData["passedmodel"];
-                tempReqDetail = cvm.Requisitions;
-
-            }
-
             //getting existing req for logged in user
             ServiceLayer.DataAccess.Requisition existingReqOfEmployee = iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
             //if there is no existing reqs, create a new req
@@ -91,14 +72,13 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             List<RequisitionDetail> existingReqDetail = iRequisitionService.getRequisitionDetails(existingReqOfEmployee.RequisitionID);
 
             List<string> existingReqDetailsItemIds = existingReqDetail.Select(r => r.ItemID).ToList();
-            List<Item> itemsAlreadyRequested = model.Items.Where(i => existingReqDetailsItemIds.Contains(i.ItemID)).ToList();
-            List<Item> newItemsForRequest = model.Items.Where(i => !existingReqDetailsItemIds.Contains(i.ItemID)).ToList();
 
-
+            //Looping each item in view
             for (int i = 0; i < model.Items.Count; i++)
             {
                 string textBoxValue = model.AddedText[i].ToString().Trim();
                 string itemIdInView = model.Items[i].ItemID;
+                //if item is existing item in requistion, add to quantity
                 if (existingReqDetailsItemIds.Contains(itemIdInView) && (textBoxValue != null && textBoxValue != ""))
                 {
                     RequisitionDetail rd =
@@ -107,7 +87,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                     rd.Quantity += Convert.ToInt32(textBoxValue);
                     iRequisitionService.editRequisitionDetailQty(rd.RequisitionDetailsID, rd.Quantity);
                 }
-
+                //if item is not existing item in requistion, create new reqdetails
                 else if (textBoxValue != null && textBoxValue != "")
                 {
 
@@ -186,8 +166,8 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
             ServiceLayer.DataAccess.Requisition req = iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
 
-            List<RequisitionDetail> reqdetails = iRequisitionService.getRequisitionDetails(req.RequisitionID);
-            combinedView.Requisitions = reqdetails;
+            //passing unsubmitted Requisitions into model
+            combinedView.Requisitions = iRequisitionService.getRequisitionDetails(req.RequisitionID);
             //for (int i = 0; i < reqdetails.Count; i++)
             //{
             //    combinedView.AddedText.Add(Convert.ToString(reqdetails[i].Quantity));

@@ -374,14 +374,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Requisition\ManageRequisition.cshtml" />
     <Content Include="Views\CreateOrders\Index.cshtml" />
     <Content Include="Views\StockAdjustment\ManageMonthlyStockDiscrepancy.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />
     <Content Include="Views\Requisition\ViewStationeryCatalogue.cshtml" />
     <Content Include="Views\Requisition\StationeryRequestForm.cshtml" />
-    <Content Include="Views\Requisition\ResubmitStationaryRequestForm.cshtml" />
+    <Content Include="Views\ViewPastRequest\ResubmitStationeryRequestForm.cshtml" />
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\PlaceOrder.cshtml" />
     <Content Include="Views\CreateOrders\OrderSummary.cshtml" />
@@ -404,7 +403,6 @@
     <Content Include="Views\CreateOrders\Sent.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
-    <Content Include="Views\ViewPastRequest\ResubmitStationeryRequestForm.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Shared\_Navbar_DepartmentHead.cshtml" />
     <Content Include="Views\Shared\_Navbar_LoggedOut.cshtml" />
@@ -417,6 +415,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\ViewPastRequest\ViewStationeryCatalogue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
