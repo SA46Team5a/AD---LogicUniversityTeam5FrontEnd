@@ -233,6 +233,7 @@
   <ItemGroup>
     <Compile Include="ApiControllers\OrdersApiController.cs" />
     <Compile Include="ApiControllers\DisbursementApiController.cs" />
+    <Compile Include="ApiControllers\RequisitionApiController.cs" />
     <Compile Include="ApiControllers\StockManagementApiController.cs" />
     <Compile Include="ApiControllers\DepartmentServiceController.cs" />
     <Compile Include="ApiControllers\TestApiController.cs" />
