@@ -1,15 +1,14 @@
-﻿@model IEnumerable<ServiceLayer.DataAccess.Requisition>
+﻿@using ServiceLayer.DataAccess;
+@model IEnumerable<ServiceLayer.DataAccess.Requisition>
 
 @{
     ViewBag.Title = "SearchRequisitionForm";
 }
 @{
+    StationeryStoreEntities context = StationeryStoreEntities.Instance;
     List<string> approvalStatusList = new List<string>();
     approvalStatusList.Add("All");
-    approvalStatusList.Add("Pending");
-    approvalStatusList.Add("Approved");
-    approvalStatusList.Add("Rejected");
-    approvalStatusList.Add("Unsubmitted");
+    approvalStatusList.AddRange(context.ApprovalStatus1.Select(x => x.ApprovalStatusName).ToList());
 }
 
 <div class="container">
@@ -26,12 +25,12 @@
                     </div>
                     <div class="row justify-content-md-center">
                         <div class="col-6 text-left">
-                            <input type="date" id="startdate" name="startdate" min="1000-01-01"
-                                   max="3000-12-31" class="form-control">
+                            @Html.TextBox("startdate", null, new { @type="date", @name="startdate", @class="form-control",
+                                                                    @min="2018-01-01"})
                         </div>
                         <div class="col-6 text-left">
-                            <input type="date" id="enddate" name="enddate" min="1000-01-01"
-                                   max="3000-12-31" class="form-control">
+                            @Html.TextBox("enddate", null, new { @type="date", @name="enddate", @class="form-control",
+                                                                    @min="2018-01-01"})
                         </div>
                     </div>
                 </div>
@@ -65,9 +64,9 @@
 
                             @if (item.ApprovalStatus.ApprovalStatusName.Equals("Pending") || item.ApprovalStatus.ApprovalStatusName.Equals("Unsubmitted"))
                             {
-                                <td class="btn-toolbar">
+                                <td class="form-group rowr">
                                     @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
-                                    @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger", @data_toggle = "modal", @data_target = "#Modaldelete" })
+                                    @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger", @data_toggle = "modal", @data_target = "#Modaldelete", @value = item.RequisitionID })
                                 </td>
                             }
                             else
@@ -94,9 +93,10 @@
                         </div>
                         <div class="modal-footer">
                             <div class="row justify-content-md-center ">
-                                @using(Html.BeginForm("DeleteStationeryRequestForm", "ViewPastRequest", FormMethod.Post)){
-                                <div class="col-4 "><button type="button" data-dismiss="modal" class="btn btn-default">No</button></div>
-                                <div class="col-4 text-end"><button type="submit" data-dismiss="modal" class="btn btn-primary">Yes</button></div>
+                                @using (Html.BeginForm("DeleteRequisitionForm", "ViewPastRequest", FormMethod.Post))
+                                {
+                                    <div class="col-4 "><button type="button" data-dismiss="modal" class="btn btn-default">No</button></div>
+                                    <div class="col-4 text-end"><button id="btnSubmit" name="id" type="submit" class="btn btn-primary" value="">Yes</button></div>
                                 }
 
                             </div>
@@ -109,3 +109,12 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('.btn.btn-danger').on("click", function () {
+            console.log("hello");
+            console.log($(this).attr("value"));
+            $('#btnSubmit').val($(this).attr("value"));
+        });
+    });
+</script>

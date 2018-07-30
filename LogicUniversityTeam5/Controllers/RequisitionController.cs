@@ -27,7 +27,6 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             iClassService = cs;
             iRequisitionService = rs;
             iDepartmentService = ds;
-
         }
         public ActionResult Index()
         {

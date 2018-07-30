@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
@@ -14,19 +15,25 @@ namespace LogicUniversityTeam5
         // GET: approveRequisitionForm
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
         IRequisitionService requisitionService;
+        IDepartmentService departmentService;
 
-        public ApproveRequisitionController(RequisitionService rs)
+        public ApproveRequisitionController(RequisitionService rs, DepartmentService ds)
         {
             requisitionService = rs;
+            departmentService = ds;
         }
 
         public ActionResult ApproveRequisitionForm()
         {
+            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+            string deptID = departmentService.getDepartmentID(currentLoggedInEmployeeId);
+
             SpecialModel model = new SpecialModel();
             model.specialmodel = new List<CombinedViewModel>();
             CombinedViewModel smallmodel = new CombinedViewModel();
             smallmodel.Requisition = new List<Requisition>();
-            smallmodel.Requisition = context.Requisitions.Where(x => x.ApprovalStatusID == 2).ToList();
+            smallmodel.Requisition = requisitionService.getPendingRequisitionsOfDep(deptID);
+            //smallmodel.Requisition = context.Requisitions.Where(x => x.ApprovalStatusID == 2).ToList();
 
             for (int i = 0; i < smallmodel.Requisition.Count; i++)
             {
@@ -61,7 +68,7 @@ namespace LogicUniversityTeam5
                 model.specialmodel.Add(innerModel);
             }
 
-            return View(model );
+            return View(model);
         }
         [HttpPost]
         public ActionResult ApproveRequisitionForm(SpecialModel model, string Approve, string Reject)
