@@ -97,5 +97,20 @@ namespace LogicUniversityTeam5.ApiControllers
         [Route("api/deprep/collectionpoint/{depId}")]
         public CollectionPointPayload getCollectionPointOfDepartment(string depId)
             => new CollectionPointPayload(_departmentService.getCollectionPointOfDepartment(depId));
+
+        // set Collection Point
+        [HttpGet]
+        [Route("api/deprep/collectionpoint/{depId}/{collectionPointId}")]
+        public bool setCollectionPointOfDepartment(string depId, int collectionPointId)
+        {
+            try
+            {
+                _departmentService.updateCollectionPoint(depId, collectionPointId);
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

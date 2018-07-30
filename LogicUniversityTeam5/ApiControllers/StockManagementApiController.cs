@@ -24,7 +24,7 @@ namespace LogicUniversityTeam5
         {
             try
             {
-                _stockManagementService.addStockVoucher(payload.ItemID, payload.ActualCount, payload.EmployeeID, payload.Reason);
+                _stockManagementService.addStockVoucher(payload.ItemID, payload.ActualCount, payload.VoucherRaiserID, payload.Reason);
                 return true;
             }
             catch (Exception) {
@@ -44,6 +44,26 @@ namespace LogicUniversityTeam5
             try
             {
                 _stockManagementService.submitStockCountItems(stockVoucherPayloads, empId);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("api/store/vouchers/retrieve/{isManager}")]
+        public List<StockVoucherPayload> retrieveOutstandingStockVouchers(bool isManager)
+            => StockVoucherPayload.ConvertEntityToPayload(_stockManagementService.getOpenVouchers(isManager));
+
+        [HttpPost]
+        [Route("api/store/vouchers/submit")]
+        public bool submitStockVouchers(List<StockVoucherPayload> payload)
+        {
+            try
+            {
+                _stockManagementService.submitVouchers(payload);
                 return true;
             }
             catch (Exception)
