@@ -10,7 +10,7 @@ using LogicUniversityTeam5.Models;
 
 namespace LogicUniversityTeam5.ApiControllers
 {
-    // Author: Jack
+    // Author: Jack,Bhat Pavana
     public class ReportingApiController: ApiController
     {
         private readonly IClassificationService _classificationService;
@@ -36,6 +36,14 @@ namespace LogicUniversityTeam5.ApiControllers
         public ReportResponsePayload test(RequisitionRequestPayload payload)
         {
             ReportResponsePayload response = _reportService.generateRequisitionCostReport(payload);
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/reports/requisitionitem")]
+        public ReportResponsePayload test(RequisitionItemPayload payload)
+        {
+            ReportResponsePayload response = _reportService.generateRequisitionItemReport(payload);
             return response;
         }
     }

@@ -49,8 +49,7 @@
       <HintPath>..\packages\Unity.5.2.0\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ServiceLayer">
       <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -355,6 +354,7 @@
     <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
     <Content Include="Views\Reporting\ReorderCostAnalysisReport.cshtml" />
     <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
+    <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

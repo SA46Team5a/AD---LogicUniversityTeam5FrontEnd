@@ -17,9 +17,9 @@
                     <label>Stationery Category</label>
                     <select id="stationaryCategory" class="form-control">
                         @foreach (ServiceLayer.DataAccess.Category category in Model.categories)
-                        {
-                            <option value="@category.CategoryID">@category.CategoryName</option>
-                        }
+                         {
+                        <option value="@category.CategoryID">@category.CategoryName</option>
+                         }
                     </select>
                 </div>
             </div>
@@ -32,14 +32,14 @@
         <div class="row justify-content-md-center">
             @foreach (ServiceLayer.DataAccess.Supplier supplier in Model.suppliers)
             {
-                <div class="col-3">
-                    <div class="form-check">
-                        <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
-                        <label class="form-check-label" for="EnglishDept">
-                            @supplier.SupplierName
-                        </label>
-                    </div>
+            <div class="col-3">
+                <div class="form-check">
+                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
+                    <label class="form-check-label">
+                        @supplier.SupplierName
+                    </label>
                 </div>
+            </div>
             }
         </div>
         <div class="row justify-content-md-center mt-3 pd-0">
@@ -51,7 +51,7 @@
             <div class="col-8">
                 <div class="form-check">
                     <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths" checked="checked">
-                    <label class="form-check-label"> 
+                    <label class="form-check-label">
                         Past Four Months (including current month)
                     </label>
                 </div>
@@ -62,7 +62,7 @@
             <div class="col-8 text-left ">
                 <div class="form-check">
                     <input class="form-check-input radio" type="radio" name="Duration" id="OneMonthRB" value="OneMonth">
-                    <label class="form-check-label"> 
+                    <label class="form-check-label">
                         One month:
                     </label>
                 </div>
@@ -73,9 +73,9 @@
             <div class="form-group">
                 <select id="OneMonthDD" class="form-control">
                     @for (int i = 0; i < Model.month.Count; i++)
-                    {
-                        <option value=@i>@Model.month[i]</option>
-                    }
+                     {
+                    <option value=@i>@Model.month[i]</option>
+                     }
                 </select>
             </div>
         </div>
@@ -95,9 +95,9 @@
             <div class="form-group">
                 <select id="CompareMonthDD1" class="form-control compareMonthDD">
                     @for (int i = 0; i < Model.month.Count; i++)
-                    {
-                        <option value=@i>@Model.month[i]</option>
-                    }
+                {
+                    <option value=@i>@Model.month[i]</option>
+            }
                 </select>
 
             </div>
@@ -106,8 +106,8 @@
                 <select id="CompareMonthDD2" class="form-control compareMonthDD">
                     @for (int i = 0; i < Model.month.Count; i++)
                     {
-                        <option value=@i>@Model.month[i]</option>
-                    }
+                    <option value=@i>@Model.month[i]</option>
+                     }
                 </select>
 
             </div>
@@ -119,7 +119,13 @@
                        value="Generate" />
             </div>
         </div>
-        <div id="canvas" class="row justify-content-center pt-5">
+        <div id="canvas1" class="row justify-content-center pt-5">
+        </div>
+        <div id="canvas2" class="row justify-content-center pt-5">
+        </div>
+        <div id="outputTable1">
+        </div>
+        <div id="outputTable2">
         </div>
     </div>
     <script>
@@ -181,9 +187,8 @@
                     return [$("#CompareMonthDD1").val(), $("#CompareMonthDD2").val()];
             }
         }
-        function updateChart(result) {
-            $("#chart").remove();
-            $("#canvas").html("<canvas id='chart' width='400' height='100'>");
+        function updateChart1(result) {
+            $("#canvas1").html("<canvas id='chart' width='400' height='100'>");
             var canvas = document.getElementById("chart").getContext('2d');
             myChart = new Chart(canvas, {
                 type: 'bar',
@@ -199,19 +204,131 @@
                 }
             });
         }
+        function updateChart2(result) {
+            $("#canvas2").html("<canvas id='chart2' width='400' height='100'>");
+            var canvas = document.getElementById("chart2").getContext('2d');
+            myChart = new Chart(canvas, {
+                type: 'bar',
+                data: result,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+        function clearChartsAndTables() {
+            $("#chart1").remove();
+            $("#chart2").remove();
+            $("#table1").remove();
+            $("#table2").remove();
+        }
+        function updateTable1(result) {
 
-        $("#GenerateBtn").click(function () {
-            var data = getData();
+            $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
+            // var rows;
+            $.each(result.datasets, function (i, item) {
+                var tr = $('<tr>').append(
+                    $('<td >').text(item.label),
+                    $('<td>').text(item.data[0]),
+                    $('<td>').text(item.data[1]),
+                    $('<td>').text(item.data[2]),
+                    $('<td>').text(item.data[3])
+                );
+                $('#table1 > tbody:last-child').append(tr)
+            });
+        }
+        function updateTable2(result) {
+
+            $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
+            // var rows;
+            $.each(result.datasets, function (i, item) {
+                var tr = $('<tr>').append(
+                    $('<td >').text(item.label),
+                    $('<td>').text(item.data[0]),
+                    $('<td>').text(item.data[1]),
+                    $('<td>').text(item.data[2]),
+                    $('<td>').text(item.data[3])
+                );
+                $('#table2 > tbody:last-child').append(tr)
+            });
+        }
+       //this function is called when compare data is selected.
+        function getDataCompare(pass) {            
+            var data = {};
+            data["category"] = $("#stationaryCategory option:selected").val();            
+            var selectedDepts = [];
+            $("input[name=department]:checked").each(function () {
+                selectedDepts.push($(this).val());
+            });
+            data["department"] = selectedDepts;
+            data["duration"] = "OneMonth";
+            if (pass == "1") {
+                
+                data["option"] = $("#CompareMonthDD1").val();
+            }
+            else {
+                
+                data["option"] = $("#CompareMonthDD2").val();
+
+            }
+            console.log(data);
+            return data;
+        }
+        function getComparemonths() {
+            var pass = "1";
+            var data = getDataCompare(pass);
             console.log(data);
             $.ajax({
                 type: "POST",
                 data: data,
                 url: "../api/reports/reorder",
                 success: function (result) {
-                    updateChart(result);
                     console.log(result);
+                    updateChart1(result);
+                    updateTable1(result);
                 }
             })
+            pass = "2";
+            data = getDataCompare(pass);
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "../api/reports/reorder",
+                success: function (result) {
+                    console.log(result);
+                    updateChart2(result);
+                    updateTable2(result);
+                }
+            })
+        }
+        var globalData;
+        $("#GenerateBtn").click(function () {
+            clearChartsAndTables();
+            var decision = $("input[name=Duration]:checked").val();
+            if (decision == 'CompareMonths') {               
+                getComparemonths();
+            }
+            else {               
+                var data = getData();
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: "../api/reports/reorder",
+                    success: function (result) {
+                        globalData = result;
+                        updateChart1(result);
+                        updateTable1(result);
+                        console.log(result);                       
+                    }
+                })
+            }
         });
    </script>
 </body>
