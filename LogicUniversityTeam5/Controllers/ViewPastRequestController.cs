@@ -111,6 +111,8 @@ namespace LogicUniversityTeam5.Controllers
         [HttpPost]
         public ActionResult ResubmitStationaryRequestForm(CombinedViewModel model)
         {
+            string empId = User.Identity.GetEmployeeId();
+
             int reqId = (int)TempData["reqID"];
             ServiceLayer.DataAccess.Requisition req = requisitionService.getRequisitionById(reqId);
             string textBoxValue;
@@ -125,7 +127,10 @@ namespace LogicUniversityTeam5.Controllers
             }
 
             requisitionService.submitRequisition(req.RequisitionID);
-            return RedirectToAction("EditSubmittedStationeryRequestForm", new { id = reqId, isSubmit = true });
+            return RedirectToAction("SearchRequisitionForm", new { id = empId });
+          
+
+
         }
 
         //This is for delete in Screen 2.2.1.2b
