@@ -386,7 +386,7 @@
     <Content Include="Views\CreateOrders\OrderSummary.cshtml" />
     <Content Include="Views\CreateOrders\PrintOrderSummary.cshtml" />
     <Content Include="Views\TrackOutstandingRequisition\TrackOutstandingRequisition.cshtml" />
-    <Content Include="Views\changeCollectionPoint\changeCollectionPoint.cshtml" />
+    <Content Include="Views\ChangeCollectionPoint\ChangeCollectionPoint.cshtml" />
     <Content Include="Views\AppointDepartmentRep\AppointDepartmentRep.cshtml" />
     <Content Include="Views\DelegateAuthority\DelegateAuthority.cshtml" />
     <Content Include="Views\Shared\_Navbar_DepartmentRepresentative.cshtml" />

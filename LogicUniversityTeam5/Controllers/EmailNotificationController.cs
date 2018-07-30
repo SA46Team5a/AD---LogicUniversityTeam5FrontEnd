@@ -150,7 +150,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public void SendEmailForChangeCollectionPoint(string DepartmentName, string CollectionPoint)
+        public static void SendEmailForChangeCollectionPoint(string DepartmentName, string CollectionPoint)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
