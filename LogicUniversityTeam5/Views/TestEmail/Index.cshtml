@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Test Email Method</h2>
+@using (Html.BeginForm("Index", "TestEmail", FormMethod.Post))
+{
+    <input type="text" id="test"/>
+    <button type="submit" class="btn btn-danger">Submit</button>
+}
+

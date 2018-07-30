@@ -5,6 +5,7 @@ using System.Web;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
 
+
 namespace LogicUniversityTeam5.Models
 {
     public class CombinedViewModel
@@ -16,8 +17,10 @@ namespace LogicUniversityTeam5.Models
             reorderdetail= new List<ReorderDetail>();
         }
         public List<UploadModel> File { get; set; }
+        public List<OutstandingRequisitionView> OutstrandingReq { get; set; }
         public List<EmailFormModel> EmailForm { get; set; }
         public List<Item> Items { get; set; }
+        public List<Category> category { get; set; }
         public List<Employee> Employee { get; set; }
         public List<StockVoucher> StockVouchers { get; set; }
 
@@ -57,6 +60,11 @@ namespace LogicUniversityTeam5.Models
 
         public List<bool> IsSelected { get; set; }
 
+        public List<SupplierItem> SupplierItem { get; set; }
+        public List<RequisitionDetail> Details { get; set; }
+        public List<Requisition> Requisition { get; set; }
+        public List<Supplier> Supplier { get; set; }
+
         public List<String> AddedText { get; set; }
         public List<int> AddedNumbers { get; set; }
         public List<ReorderDetail> reorderdetail {get;set;}
@@ -80,7 +88,5 @@ namespace LogicUniversityTeam5.Models
         public List<Authority> Authority { get; set; }
 
         public Authority Authorities { get; set; }
-
-
     }
 }

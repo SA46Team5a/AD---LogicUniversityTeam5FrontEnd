@@ -8,7 +8,7 @@ using LogicUniversityTeam5.Models;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
 
-namespace LogicUniversityTeam5.Controllers
+namespace LogicUniversityTeam5
 {
     public class NavigationController : Controller
     {
@@ -34,10 +34,46 @@ namespace LogicUniversityTeam5.Controllers
                     { pendingRequisitions.Count() }
                 };
                 
-                return PartialView("_Navbar_DepartmentHead");
+                return PartialView("_Navbar_DepartmentHead",combinedViewModel);
 
             }
+            if (User.IsInRole("Department Representative"))
+            {
+                return PartialView("_Navbar_DepartmentRepresentative");
 
+            }
+            if (User.IsInRole("Employee"))
+            {
+                return PartialView("_Navbar_Employee");
+
+            }
+            if (User.IsInRole("Store Clerk"))
+            {
+                StationeryStoreEntities context = StationeryStoreEntities.Instance;
+                
+                int count = requisitionService.getCountOfOutstandingRequisitions();
+                CombinedViewModel model = new CombinedViewModel();
+                model.AddedNumbers = new List<int>(1) {
+                    { count }
+                };
+                return PartialView("_Navbar_StoreClerk",model);
+
+            }
+            if (User.IsInRole("Store Manager"))
+            {
+                return PartialView("_Navbar_StoreManager");
+
+            }
+            if (User.IsInRole("Store Supervisor"))
+            {
+                int count = requisitionService.getCountOfOutstandingRequisitions();
+                CombinedViewModel model = new CombinedViewModel();
+                model.AddedNumbers = new List<int>(1) {
+                    { count }
+                };
+                return PartialView("_Navbar_StoreSupervisor",model);
+
+            }
             return PartialView("_Navbar_LoggedOut");
         }
     }

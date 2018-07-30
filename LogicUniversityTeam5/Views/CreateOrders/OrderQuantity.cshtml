@@ -9,56 +9,104 @@
     <div class="container">
         <h1 class="text-center pb-3">Confirm Reorder Quantity</h1>
         <div class="row justify-content-md-center mt-3">
-            <div class="col-8 text-center">
+            <div class="col-6 text-center">
                 <div>
-                    <table class="table-bordered" s>
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-center">Category</th>
-                                <th scope="col" class="text-center">Description</th>
-                                <th scope="col" class="text-center align-self-center col-3">Reorder Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.reorderdetail.Count; i++)
-                            {
+                    <form>
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
-                                        @Html.HiddenFor(m => Model.Items[i].ItemID)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
-                                        @Html.HiddenFor(m => Model.reorderdetail[i].ItemID)
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => Model.Quantity[i])
-                                    </td>
+                                    <th scope="col" class="text-center">Category</th>
+                                    <th scope="col" class="text-center">Description</th>
+                                    <th scope="col" class="text-center align-self-center ">Reorder Quantity</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.reorderdetail.Count; i++)
+                                    {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model.Quantity[i], new
+                                       {
+
+                                           @class = " form-control text-center",
+                                           @onkeypress = "return noNumbers(event)",
+                                           @onkeyup = "allownums(this.value)",
+                                       })
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </form>
+
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-md-center mt-3 col 8">
-            <div class="col-4 text-center">
-                <input id='btn_back' type="button" class="btn btn-secondary" value="Back" />
+            <div class="row justify-content-md-center mt-3 col 8">
+                <div class="col-4 text-center">
+                    <input id='btn_back' type="button" class="btn btn-secondary" value="Back" />
+                </div>
+                <div class="col-4 text-center">
+                    <input type="submit" id="btn_next" value="Next" class="btn btn-secondary"
+                           onclick="Empty(document.getElementById('id'),
+                           'Textbox is empty, Please Enter a Value')" />
+                </div>
             </div>
-            <div class="col-4 text-center">
-                <button type="submit" id="btn_next" class="btn btn-primary">Next</button>
-            </div>
-        </div>
-    </div>
+   </div>
 }
 <script type="text/javascript">
-                           $(document).ready(function () {
+            $(document).ready(function () {
+                          $('#btn_next').click(function (e)
+                          {
+                              location.href = '@Url.Content("~/CreateOrders/PlaceOrder_test")';
+                          });
+            });
 
+            $(document).ready(function () {
                           $('#btn_back').click(function (e)
                           {
                               location.href = '@Url.Content("~/CreateOrders/ItemCatalogue")';
                           });
+             });
 
-                          });
+            function noNumbers(e) {
+                var keynum;
+                var keychar;
+                var numcheck;
+
+                if (window.event) // IE
+                {
+                    keynum = e.keyCode;
+                }
+                else if (e.which) // Netscape/Firefox/Opera
+                {
+                    keynum = e.which;
+                }
+                keychar = String.fromCharCode(keynum);
+
+                numcheck = /\d/;
+                if (numcheck.test(keychar)) {
+                    return true;
+                }
+                else {
+                    alert("Only positive numbers are allowed");
+                    return false
+                }
+            }
+
+            function allownums(value) {
+                               var num = parseInt(value, 10);
+                               if (num < 0 || num >
+                                   1000)
+                                   alert("Sorry, we can not supply so much items once")
+            }
 </script>
+
 

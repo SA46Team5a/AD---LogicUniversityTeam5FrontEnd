@@ -1,4 +1,5 @@
-﻿
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">
@@ -11,14 +12,15 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <a href="~/Views/Shared/_Navbar_StoreManager.cshtml"></a>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Manage Requisition
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="@Url.Action("TrackOutstandingRequisition","TrackOutstandingRequisition")">
                             View Oustanding Requisition
-                            (2)
+                            (@Model.AddedNumbers[0])
                             <!--OutstandingRequisition>0? OutstandingRequisition: null -->
                         </a>
                     </div>
@@ -28,9 +30,9 @@
                         Manage Inventory
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Make Purchase Order</a>
-                        <a class="dropdown-item" href="#">Submit Invoice</a>
-                        <a class="dropdown-item" href="#">View Order History</a>
+                        <a class="dropdown-item" href="@Url.Action("ItemCatalogue","CreateOrders")">Make Purchase Order</a>
+                        <a class="dropdown-item" href="@Url.Action("SubmitInvoice","CreateOrders")">Submit Invoice</a>
+                        <a class="dropdown-item" href="@Url.Action("PrintOrderSummary","CreateOrders")">View Order History</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -39,14 +41,15 @@
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Requisition Category Analysis</a>
-                        <a class="dropdown-item" href="#">Requisition Item Analysis</a>
                         <a class="dropdown-item" href="#">Reorder Cost Analysis</a>
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a class="btn btn-sm btn-outline-secondary" href="#">Logout</a>
-            </form>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+            }
         </div>
     </nav>
 </body>

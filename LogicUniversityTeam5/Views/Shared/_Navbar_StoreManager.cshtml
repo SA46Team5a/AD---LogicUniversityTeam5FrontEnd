@@ -12,22 +12,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Manage Discrepancy</a>
+                    <a class="nav-link" href="@Url.Action("ManageMonthlyStockDiscrepancy","StockAdjustment")">Manage Discrepancy</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Generate Report
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Requisition Category Analysis</a>
-                        <a class="dropdown-item" href="#">Requisition Item Analysis</a>
+                        <a class="dropdown-item" href="#">Requisition Quantity Analysis</a>
                         <a class="dropdown-item" href="#">Reorder Cost Analysis</a>
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a class="btn btn-sm btn-outline-secondary" href="#">Logout</a>
-            </form>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+        }
         </div>
     </nav>
 </body>

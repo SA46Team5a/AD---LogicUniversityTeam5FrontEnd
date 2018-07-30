@@ -236,6 +236,8 @@
     <Compile Include="Controllers\Admin\AccountController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
+    <Compile Include="Controllers\ApproveRequisitionController.cs" />
+    <Compile Include="Controllers\EmailNotificationController.cs" />
     <Compile Include="Controllers\AppointDepartmentRepController.cs" />
     <Compile Include="Controllers\ChangeCollectionPointController.cs" />
     <Compile Include="Controllers\DelegateAuthorityController.cs" />
@@ -246,6 +248,8 @@
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\StockAdjustmentController.cs" />
     <Compile Include="Controllers\TrackOutstandingRequisitionController.cs" />
+    <Compile Include="Controllers\TestEmailController.cs" />
+    <Compile Include="Controllers\ViewReceivedOrdersListController.cs" />
     <Compile Include="Controllers\ViewPastRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -267,12 +271,12 @@
     <Compile Include="Models\Admin\AccountViewModels.cs" />
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ManageViewModels.cs" />
-    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\EmailFormModel.cs" />
     <Compile Include="Models\ItemAndVoucher.cs" />
     <Compile Include="Models\ItemCatalogueModel.cs" />
     <Compile Include="Models\Items.cs" />
+    <Compile Include="Models\SpecialModel.cs" />
     <Compile Include="Models\Stocklevel.cs" />
     <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -359,10 +363,13 @@
     <Content Include="Views\Shared\_Navbar_Employee.cshtml" />
     <Content Include="Views\Shared\_Navbar_StoreClerk.cshtml" />
     <Content Include="Views\Shared\_Navbar_StoreManager.cshtml" />
-    <Content Include="Views\Shared\Navbar_StoreSupervisor.cshtml" />
+    <Content Include="Views\Shared\_Navbar_StoreSupervisor.cshtml" />
     <Content Include="Views\CreateOrders\ItemCatalogue.cshtml" />
     <Content Include="Views\CreateOrders\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\SubmitInvoice.cshtml" />
+    <Content Include="Views\ViewReceivedOrdersList\ReceivedPurchaseOrdersList.cshtml" />
+    <Content Include="Views\ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
+    <Content Include="Views\ApproveRequisition\ApproveRequisitionForm.cshtml" />
     <Content Include="Views\CreateOrders\Sent.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
@@ -370,6 +377,7 @@
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Shared\_Navbar_DepartmentHead.cshtml" />
     <Content Include="Views\Shared\_Navbar_LoggedOut.cshtml" />
+    <Content Include="Views\TestEmail\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -377,6 +385,7 @@
     <Folder Include="Controllers\Requisition\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="UploadedInvoices\" />
+    <Folder Include="Views\EmailNotification\" />
     <Folder Include="Views\Navigation\" />
   </ItemGroup>
   <ItemGroup>
