@@ -28,8 +28,8 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
-            ViewBag.EmpId = id;
-
+            ViewBag.EmpId = id;           
+            reqList=reqList.OrderByDescending(r => r.RequisitionID).ToList();
             return View(reqList);
         }
 
