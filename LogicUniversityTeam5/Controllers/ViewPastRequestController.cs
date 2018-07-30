@@ -52,7 +52,7 @@ namespace LogicUniversityTeam5.Controllers
             DateTime? startDate = null ;
             DateTime? endDate = null;
 
-            if ((start+end) != null || (start + end) != "")
+            if ((start+end) != null && (start + end) != "")
             {
                 startDate = Convert.ToDateTime(form["startdate"]);
                 endDate = Convert.ToDateTime(form["enddate"]);
@@ -69,7 +69,7 @@ namespace LogicUniversityTeam5.Controllers
             }
             else
             {
-                reqList = requisitionService.getRequisitionsByEmpIdAndStatus(empId, approvalStatus);
+                //reqList = requisitionService.getRequisitionsByEmpIdAndStatus(empId, approvalStatus);
                 reqList = context.Requisitions.Where(r => r.EmployeeID == empId && r.ApprovalStatus.ApprovalStatusName == approvalStatus).ToList();
             }
 
