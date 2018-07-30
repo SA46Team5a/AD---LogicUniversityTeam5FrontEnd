@@ -69,11 +69,11 @@ namespace LogicUniversityTeam5.Controllers
             }
             else
             {
-                reqList = requisitionService.getRequisitionsByEmpIdAndStatus(empId, approvalStatus);
+                //reqList = requisitionService.getRequisitionsByEmpIdAndStatus(empId, approvalStatus);
                 reqList = context.Requisitions.Where(r => r.EmployeeID == empId && r.ApprovalStatus.ApprovalStatusName == approvalStatus).ToList();
             }
 
-            if(startDate!=null && endDate!=null)
+            if (startDate!=null && endDate!=null)
             {
                 reqList = reqList.Where(r => r.RequestedDate >= startDate && r.RequestedDate <= endDate).ToList();
             }

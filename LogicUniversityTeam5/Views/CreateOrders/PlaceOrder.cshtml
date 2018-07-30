@@ -73,7 +73,10 @@
                                             <td class="text-center">
                                                 @{int key = Model.supplierItems[i].SupplierItemID;
                                                 }
-                                                @Html.TextBoxFor(m => Model.AddedNumbers[j], new { @class = "form-control col-12 text-center" })
+                                                @Html.TextBoxFor(m => Model.AddedNumbers[j], new {                    
+                                                   @onkeypress = "return noNumbers(event)",
+                                                   @onkeyup = "allownums(this.value)",
+                                                   @class = "form-control col-12 text-center" })
                                             </td>
                                         </tr>
                                     }
@@ -99,5 +102,37 @@
 
 
     </div>
+    <script>
+        function noNumbers(e) {
+            var keynum;
+            var keychar;
+            var numcheck;
+
+            if (window.event) // IE
+            {
+                keynum = e.keyCode;
+            }
+            else if (e.which) // Netscape/Firefox/Opera
+            {
+                keynum = e.which;
+            }
+            keychar = String.fromCharCode(keynum);
+
+            numcheck = /\d/;
+            if (numcheck.test(keychar)) {
+                return true;
+            }
+            else {
+                alert("Only positive numbers are allowed");
+                return false
+            }
+        }
+        function allownums(value) {
+            var num = parseInt(value, 10);
+            if (num < 0 || num >
+                1000)
+                alert("Sorry, we can not supply so much items once")
+        }
+    </script>
 </body>
 

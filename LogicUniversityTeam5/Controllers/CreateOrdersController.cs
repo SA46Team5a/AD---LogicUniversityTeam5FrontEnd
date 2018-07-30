@@ -80,7 +80,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
             
             
-            if (Next != null && model.AddedText[0]==null)
+            if (Next != null )
             {
                 
                     CombinedViewModel passModel = new CombinedViewModel();
@@ -324,15 +324,33 @@ namespace LogicUniversityTeam5.Controllers.Order
         public ActionResult SubmitInvoice()
         {
 
-             //CombinedViewModel model = new CombinedViewModel();
-            CombinedViewModel model = getmodel();
-           
+            CombinedViewModel model = new CombinedViewModel();
+            model.Suppliers = new List<Supplier>();
+            model.OrderSuppliers = new List<OrderSupplier>();
+            model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
+            model.Suppliers = context.Suppliers.ToList();
+            model.AddedText = new List<string>(2) { "", "" };
+            model.RadioButtonListData = new List<RadioButtonData>();     
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 1});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 2 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 3 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 4 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 5 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 6 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 7 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 8 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 9 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 10 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 11});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 12});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 13});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 14 });
             return View(model);
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search)
+        public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
         {
 
 
@@ -344,23 +362,49 @@ namespace LogicUniversityTeam5.Controllers.Order
                 searchmodel.OrderSuppliers = orderService.getOrderSuppliersOfOrder(selectorderid);       
                 searchmodel.Suppliers = new List<Supplier>();
                 searchmodel.Suppliers = orderService.getSuppliersOfOrderIdWithOutstandingInvoice(selectorderid);
-               
+                int size = searchmodel.Suppliers.Count;
+                searchmodel.RadioButtonListData = new List<RadioButtonData>(size);
+                for(int i = 0; i < size; i++)
+                {
+                    int radioid = i + 1;
+                    searchmodel.RadioButtonListData.Add(new RadioButtonData { Id = radioid });
+                }
                 return View(searchmodel);
             }
             if (Sent != null)
             {
                 int selectedOrderId = Convert.ToInt32(model.AddedText[0]);
-                string selectedSupplierName = model.AddedText[1];
-
+                CombinedViewModel model1 = new CombinedViewModel();
                 List<OrderSupplier> orderSuppliers =
                         orderService.getOrderSuppliersOfOrder(selectedOrderId);
-                OrderSupplier selectedOrderSupplier = orderSuppliers
-                    .Where(x => x.Supplier.SupplierName.Equals(selectedSupplierName)).First();
+                for(int i = 0; i < orderSuppliers.Count; i++)
+                {
+                    List<string> supplierid = new List<string>();
+                    supplierid.Add(orderSuppliers[i].SupplierID);
+                    string value = supplierid[i];
+                    Supplier supplier = context.Suppliers.First(m => m.SupplierID == value);
+                    model1.Suppliers = new List<Supplier>();
+                    model1.Suppliers.Add(supplier);
+                }
+                for(int i = 0; i < model.Suppliers.Count; i++)
+                {
+                    string name = model1.Suppliers[i].SupplierName;
+                    if (radiobutton == name)
+                    {
+                        OrderSupplier selectedOrderSupplier = orderSuppliers
+                       .Where(x => x.Supplier.SupplierName.Equals(name)).First();
 
-                orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
+                        orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
+                    }
+                }
+                //OrderSupplier selectedOrderSupplier = orderSuppliers
+                //    .Where(x => x.Supplier.SupplierName.Equals(selectedSupplierName)).First();
 
-                CombinedViewModel model1 = getmodel();
-
+                //orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
+                
+                
+               // CombinedViewModel model1 = getmodel();
+               
                 string path = System.IO.Path.Combine(Server.MapPath("~/UploadedInvoices"),
                     System.IO.Path.GetFileName(file.FileName));
 

@@ -5,83 +5,103 @@
 @using (Html.BeginForm("SubmitInvoice", "CreateOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     
-    <div class="container">
-        <div class="row justify-content-md-center pb-5">
-            <h1 class="text-center mb=3">Submit Invoice</h1>
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="form-group col-md-4">
-                <label for="orderid">Order ID</label>
-                @{ List<string> orderid = new List<string>();
-                    foreach (var item in Model.OrderSuppliers)
-                    {
-                        orderid.Add(item.OrderID.ToString());
-                    }
+<div class="container">
+    <div class="row justify-content-md-center pb-5">
+        <h1 class="text-center mb=3">Submit Invoice</h1>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="form-group col-md-4">
+            <label for="orderid">Order ID</label>
+            @{ List<string> orderid = new List<string>();
+                foreach (var item in Model.OrderSuppliers)
+                {
+                    orderid.Add(item.OrderID.ToString());
                 }
-                @Html.DropDownListFor(m => Model.AddedText[0],
-                                   new SelectList(orderid.Distinct()),
-                                   "Select Order ID",
-                                   new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-8 text-center">
-                <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search"/>
-            </div>
-        </div>
-        <div class="row justify-content-md-center">
-            
-        </div><table class="table" id="cataloguetable">
-    <thead>
-        <tr>
-            <th scope="col" class="text-center">Suppliers</th>
-            
-        </tr>
-    </thead>
-
-    <tbody>
-
-        @for (int i = 0; i < Model.Suppliers.Count; i++)
-        {
-            <tr>              
-                <td>
-                    @Html.DisplayFor(m => Model.Suppliers[i].SupplierName)              
-                </td>              
-            </tr>
-        }
-    </tbody>
-</table>
-        <div class="row justify-content-md-center">
-            <div class="col-md-4">
-                <label>Upload Invoice</label>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="file" id="invoicefile" accept="application/pdf" />
-                    <label class="custom-file-label" for="invoicefile">Choose file</label>
-                </div>
-                @*<div class="input-group-append">
-                        <button class="btn btn-primary">Upload</button>
-                    </div>*@
-                <script>
-                    $('#invoicefile').on('change', function () {
-                        //get the file name
-                        var fileName = $(this).val();
-                        //replace the "Choose a file" label
-                        $(this).next('.custom-file-label').html(fileName);
-                    })
-                </script>
-
-            </div>
-        </div>
-           
-
-
-        <div class="row justify-content-center pt-5">
-            <div class="col-md-12 text-center">
-                <input type="submit" id="Sent" Name="Sent" class="btn btn-primary"
-                       value="Sent" />
-            </div>
+            }
+            @Html.DropDownListFor(m => Model.AddedText[0],
+                                         new SelectList(orderid.Distinct()),
+                                         "SelectOrderID",
+                                         new { @class = "form-control", @id = "dropdown" })
         </div>
     </div>
+    <script>
+        function Validate() {
+            var ddlFruits = document.getElementById("dropdown");
+            if (ddlFruits.value == "SelectOrderID") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an option!");
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search" />
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+
+    </div>
+
+    @for (int i = 0; i < Model.Suppliers.Count; i++)
+    {
+        @Html.RadioButton("radiobutton", "@Model.Suppliers[i].SupplierName", new { id = "@Model.RadioButtonListData[i].Id" })@Model.Suppliers[i].SupplierName
+        //<input type="radio" id="@Model.RadioButtonListData[i].Id" value="@Model.Suppliers[i].SupplierName" name="radiobutton" />@Model.Suppliers[i].SupplierName
+        <br />
+    }
+
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <label>Upload Invoice</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="file" id="invoicefile" accept="application/pdf" />
+                <label class="custom-file-label" for="invoicefile">Choose file</label>
+            </div>
+            @*<div class="input-group-append">
+                    <button class="btn btn-primary">Upload</button>
+                </div>*@
+            <script>
+                $('#invoicefile').on('change', function () {
+                    //get the file name
+                    var fileName = $(this).val();
+                    //replace the "Choose a file" label
+                    $(this).next('.custom-file-label').html(fileName);
+                })
+            </script>
+
+        </div>
+    </div>
+
+    <div class="row justify-content-center pt-5">
+        <div class="col-md-12 text-center">
+            <input type="submit" id="Sent" Name="Sent" class="btn btn-primary" onclick="javascript: return ValidateRadioButton();"
+                   value="Sent" />
+        </div>
+    </div>
+    <script>
+        function ValidateRadioButton() {
+            var rbtDetail = document.getElementsByName("radiobutton");
+            var isValid = false;
+            for (var i = 0; i < rbtDetail.length; i++) {
+                if (rbtDetail[i].checked) {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (isValid == true) {
+                alert("Thank You : You have selected a radio button.");
+                return true;
+            }
+            else {
+                alert("Error : Pleae select attlease oine option");
+                return false;
+            }
+        }
+    </script>
+</div>
 }
 
 

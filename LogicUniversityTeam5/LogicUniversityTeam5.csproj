@@ -274,6 +274,7 @@
     <Compile Include="Models\Admin\ManageViewModels.cs" />
     <Compile Include="Models\CombinedViewModel.cs" />
     <Compile Include="Models\EmailFormModel.cs" />
+    <Compile Include="Models\RadioButtonData.cs" />
     <Compile Include="Models\SpecialModel.cs" />
     <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -400,7 +401,6 @@
     <Content Include="Views\ViewReceivedOrdersList\ReceivedPurchaseOrdersList.cshtml" />
     <Content Include="Views\ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
     <Content Include="Views\ApproveRequisition\ApproveRequisitionForm.cshtml" />
-    <Content Include="Views\CreateOrders\Sent.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />

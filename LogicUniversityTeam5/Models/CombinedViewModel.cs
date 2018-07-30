@@ -110,5 +110,6 @@ namespace LogicUniversityTeam5.Models
         public List<Authority> Authority { get; set; }
 
         public Authority Authorities { get; set; }
+        public List<RadioButtonData> RadioButtonListData { get; set; }
     }
 }

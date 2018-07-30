@@ -16,7 +16,7 @@ namespace LogicUniversityTeam5
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
         IRequisitionService requisitionService;
         IDepartmentService departmentService;
-
+        IStockManagementService stockManagementService;
         public ApproveRequisitionController(RequisitionService rs, DepartmentService ds)
         {
             requisitionService = rs;
@@ -41,17 +41,18 @@ namespace LogicUniversityTeam5
 
                 CombinedViewModel innerModel = new CombinedViewModel();
                 innerModel.Requisition = new List<Requisition>();
-                Requisition requisition = context.Requisitions.First(l => l.RequisitionID == value);
+                //Requisition requisition = context.Requisitions.First(l => l.RequisitionID == value);
+                Requisition requisition = requisitionService.getRequisitionById(value);
                 innerModel.Requisition.Add(requisition);
                 innerModel.Employee = new List<Employee>();
                 string employeeid = requisition.EmployeeID;
-                Employee employee = context.Employees.First(x => x.EmployeeID == employeeid);
+                Employee employee = departmentService.getEmployeeById(employeeid);
                 innerModel.Employee.Add(employee);
                 innerModel.Details = new List<RequisitionDetail>();
                 innerModel.Items = new List<Item>();
                 List<string> itemid = new List<string>();
-                innerModel.Details = context.RequisitionDetails.Where(x => x.RequisitionID == value).ToList();
-
+                //innerModel.Details = context.RequisitionDetails.Where(x => x.RequisitionID == value).ToList();
+                innerModel.Details = requisitionService.getRequisitionDetails(value);
 
                 for (int m = 0; m < innerModel.Details.Count; m++)
                 {
@@ -63,6 +64,7 @@ namespace LogicUniversityTeam5
                 {
                     string innervalue = itemid[m];
                     Item item = context.Items.First(z => z.ItemID == innervalue);
+                    //Item item = stockManagementService.getItemById(innervalue) cuz no return value;
                     innerModel.Items.Add(item);
                 }
                 model.specialmodel.Add(innerModel);

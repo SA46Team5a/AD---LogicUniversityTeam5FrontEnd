@@ -14,6 +14,8 @@ namespace LogicUniversityTeam5
     public class ViewReceivedOrdersListController : Controller
     {
         IOrderService orderService;
+        IStockManagementService stockManagementService;
+        IDepartmentService departmentService;
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
         public ViewReceivedOrdersListController(OrderService os)
@@ -66,10 +68,11 @@ namespace LogicUniversityTeam5
             
             for (int i = 0; i < itemid.Count; i++)
             {
-                var itemid1=itemid[i];
-                Item item = context.Items.First(m => m.ItemID == itemid1);
-                SupplierItem supplierItem = context.SupplierItems.First(m => m.ItemID == itemid1);
-                model.SupplierItem.Add(supplierItem);
+                string itemid1=itemid[i];
+                Item item = context.Items.First(x => x.ItemID == itemid1);
+               // Item item = stockManagementService.getItemById(itemid1);
+                model.SupplierItem = orderService.getSupplierItemsOfItemIds(itemid);
+                //model.SupplierItem.Add(supplierItem);
                 model.Items.Add(item);
             }
             
@@ -87,7 +90,7 @@ namespace LogicUniversityTeam5
             for(int i = 0; i < supplierdetailsid.Count; i++)
             {
                 int passid = supplierdetailsid[i];
-                OrderSupplierDetail detail = context.OrderSupplierDetails.First(m=>m.OrderSupplierDetailsID==passid);
+                OrderSupplierDetail detail = orderService.getOrderSupplierDetail(passid);
                 model.OrderSupplierDetails.Add(detail);
             }
 
