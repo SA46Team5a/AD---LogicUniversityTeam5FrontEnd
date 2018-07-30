@@ -9,6 +9,11 @@
     {
         <div class="row justify-content-md-center mt-3">
             <div class="col-8 text-center">
+       @{ if (Model.specialmodel.Count == 0)
+           {
+               <p>No Forms for Approval</p>
+           }
+       }
        @for (int i = 0; i < Model.specialmodel.Count; i++)
        {
             <div class="card mt-1">
@@ -68,9 +73,9 @@
                     <div class="row justify-content-md-center mt-3">
                         <div class="col-4 text-center">
 
-                            <input type="submit" name="Approve" class="btn btn-info mr-2 " data-toggle="modal" data-target="#myModalapprove" value="Approve" />
+                            <button type="submit" name="Approve" class="btn btn-info mr-2 " data-toggle="modal" data-target="#myModalapprove" value="@Model.specialmodel[i].Requisition[0].RequisitionID" >Submit</button>
 
-                            <input type="submit" name="Reject" class="btn btn-info " data-toggle="modal" data-target="#myModalapprove" value="Reject" />
+                            <button type="submit" name="Reject" class="btn btn-danger " data-toggle="modal" data-target="#myModalapprove" value="@Model.specialmodel[i].Requisition[0].RequisitionID">Reject</button>
 
 
                         </div>

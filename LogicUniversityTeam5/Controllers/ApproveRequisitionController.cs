@@ -41,17 +41,16 @@ namespace LogicUniversityTeam5
 
                 CombinedViewModel innerModel = new CombinedViewModel();
                 innerModel.Requisition = new List<Requisition>();
-                Requisition requisition = context.Requisitions.First(l => l.RequisitionID == value);
+                Requisition requisition = requisitionService.getRequisitionById(value);
                 innerModel.Requisition.Add(requisition);
                 innerModel.Employee = new List<Employee>();
                 string employeeid = requisition.EmployeeID;
-                Employee employee = context.Employees.First(x => x.EmployeeID == employeeid);
+                Employee employee = departmentService.getEmployeeById(employeeid);
                 innerModel.Employee.Add(employee);
                 innerModel.Details = new List<RequisitionDetail>();
                 innerModel.Items = new List<Item>();
                 List<string> itemid = new List<string>();
-                innerModel.Details = context.RequisitionDetails.Where(x => x.RequisitionID == value).ToList();
-
+                innerModel.Details = requisitionService.getRequisitionDetails(value);
 
                 for (int m = 0; m < innerModel.Details.Count; m++)
                 {
@@ -71,31 +70,24 @@ namespace LogicUniversityTeam5
             return View(model);
         }
         [HttpPost]
-        public ActionResult ApproveRequisitionForm(SpecialModel model, string Approve, string Reject)
+        public ActionResult ApproveRequisitionForm(SpecialModel model, int? Approve, int? Reject)
         {
+            string empid = User.Identity.GetEmployeeId();
+
             if (Approve != null)
             {
-                for (int i = 0; i < model.specialmodel.Count; i++)
-                {
-                    CombinedViewModel model1 = model.specialmodel[i];
-                    int reqid = model1.Requisition[0].RequisitionID;
-                    string empid = model1.Requisition[0].EmployeeID;
+                    int reqid = (int) Approve;
                     bool toApprove = true;
                     requisitionService.processRequisition(reqid, empid, toApprove);
-
-                }
             }
-            if(Reject!=null)
+            if(Reject != null)
             {
                 for(int i = 0; i<model.specialmodel.Count; i++)
                 {
-                    CombinedViewModel model1 = model.specialmodel[i];
-                    int reqid = model1.Requisition[0].RequisitionID;
-                    string empid = model1.Requisition[0].EmployeeID;
+                    int reqid = (int) Reject;
                     bool toApprove = false;
                     requisitionService.processRequisition(reqid, empid, toApprove);
                 }
-
 
             }
 
