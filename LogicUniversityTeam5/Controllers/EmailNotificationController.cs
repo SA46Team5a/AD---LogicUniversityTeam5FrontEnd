@@ -34,7 +34,7 @@ namespace LogicUniversityTeam5.Controllers
             mm.Body = "Dear Department Head , Please click here to view the form(" + reqId + ")for your approval.";
             client.Send(mm);
         }
-        public void SendEmailToAppointingDepRep()
+        public static void SendEmailToAppointingDepRep()
         {
            
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
@@ -51,7 +51,7 @@ namespace LogicUniversityTeam5.Controllers
           client.Send(mm);
             
         }
-        public void SendEmailToLoseDepRep()
+        public static void SendEmailToLoseDepRep()
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -66,7 +66,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public void SendToLostApproveAuthority()
+        public static void SendToLostApproveAuthority()
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -81,7 +81,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public void SendEmailToDelegatePerson()
+        public static void SendEmailToDelegatePerson()
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");

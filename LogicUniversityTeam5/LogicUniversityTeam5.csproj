@@ -374,7 +374,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\CreateOrders\Index.cshtml" />
     <Content Include="Views\StockAdjustment\ManageMonthlyStockDiscrepancy.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\StockAdjustment\Test.cshtml" />

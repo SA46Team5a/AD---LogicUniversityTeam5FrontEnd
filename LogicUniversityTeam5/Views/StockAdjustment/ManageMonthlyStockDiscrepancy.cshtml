@@ -18,7 +18,7 @@
                         <th scope="col" class="text-left">Amount</th>
                         <th scope="col" class="text-center col-4">Reason</th>
                         <th scope="col" class="text-left">Date of Report</th>
-                        <th scope="col" class="text-left">Action</th>
+                        <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
                         @Convert.ToDateTime(Model.StockVouchers[i].RaisedByDate).ToString("dd/MM/yyyy")
                     </td>
                     <td class="text-center">
-                        @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "HighlighterBlue" })
+                        @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "HighlighterBlue", @class="form-control"})
                     </td>
                 </tr>
                 count++;
@@ -61,8 +61,8 @@
     </div>
     <div class="row justify-content-md-center mt-3">
         <div class="col-4 text-center">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalconfirm" id="btn_Confirm"
-                   value="Confirm">Confirm</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalconfirm" id="btn_submit"
+                   value="Confirm">Submit</button>
         </div>
         <div class="modal fade" id="myModalconfirm" role="dialog">
             <div class="modal-dialog">
@@ -81,7 +81,6 @@
                             <input class="btn btn-primary" type="submit" data-toggle="modal" data-target="#myModalconfirm" id="btn_Confirm"
                                                 value="Confirm" /></div>
                         </div>
-
                     </div>
                 </div>
 
@@ -93,6 +92,11 @@
     </div>
 </div>
 }
+<script>
+    $("#btn_Confirm").on("click", function () {
+        alert("Stock Adjustment Updated");
+    });
+</script>
 
 
 

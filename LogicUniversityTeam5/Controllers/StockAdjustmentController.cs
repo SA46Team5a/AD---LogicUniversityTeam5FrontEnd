@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
@@ -24,7 +25,6 @@ namespace LogicUniversityTeam5.Controllers
 
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
-            // TODO: Implement call to ServiceLayer for vouchers returned based on role
             CombinedViewModel combinedView = new CombinedViewModel();
 
             if(User.IsInRole("Store Manager"))
@@ -43,8 +43,7 @@ namespace LogicUniversityTeam5.Controllers
         [HttpPost]
         public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
-            // TODO: Remove hardcoded values
-            //User user = session.getUser();
+            string approverEmpId = User.Identity.GetEmployeeId();
 
             List<StockVoucher> openVouchers = model.StockVouchers;
             List<bool> isSelected = model.IsSelected;
@@ -53,9 +52,9 @@ namespace LogicUniversityTeam5.Controllers
             {
                 if (isSelected[i] == true)
                 {
-                    //string userId = User.getId();
-                    int id = openVouchers[i].DiscrepancyID;
-                    stockManagementService.closeVoucher(id,"E012","damaged"); 
+                    int stockVoucherId = openVouchers[i].DiscrepancyID;
+                    string discrepancyReason = openVouchers[i].Reason;
+                    stockManagementService.closeVoucher(stockVoucherId, approverEmpId, discrepancyReason); 
                 }
             }
 
