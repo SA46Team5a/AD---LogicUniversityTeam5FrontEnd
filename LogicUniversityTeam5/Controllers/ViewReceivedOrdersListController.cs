@@ -16,9 +16,9 @@ namespace LogicUniversityTeam5
         IOrderService orderService;
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
-        public ViewReceivedOrdersListController()
+        public ViewReceivedOrdersListController(OrderService os)
         {
-            this.orderService = orderService;
+            this.orderService = os;
             
         }
         public ActionResult ReceivedPurchaseOrdersList()

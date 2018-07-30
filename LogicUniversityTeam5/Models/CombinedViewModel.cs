@@ -10,23 +10,48 @@ namespace LogicUniversityTeam5.Models
 {
     public class CombinedViewModel
     {
+        public List<Item> Items { get; set; }
+
+        public List<Category> Categories { get; set; }
+
+        public List<RequisitionDetail> Requisitions { get; set; }
+
+        public List<StockCountItem> StockCountItems { get; set; }
+
+        public List<StockVoucher> StockVouchers { get; set; }
+
+        public List<Order> Orders { get; set; }
+
+        public List<bool> IsSelected { get; set; }
+
+        public bool IsSave { get; set; }
+
+        public string categorySelected { get; set; }
+
+        public List<String> AddedText { get; set; }
+
+        public List<int> AddedNumbers { get; set; }
+
+        public void setIsSelectedSize(int size)
+        {
+            IsSelected = new List<bool>(size);
+        }
         public CombinedViewModel()
         {
-            //IsSelected = new List<string>();
             Items = new List<Item>();
             reorderdetail= new List<ReorderDetail>();
         }
         public List<UploadModel> File { get; set; }
-        public List<OutstandingRequisitionView> OutstrandingReq { get; set; }
+
+        public List<OutstandingRequisitionView> OutstandingReq { get; set; }
+
         public List<EmailFormModel> EmailForm { get; set; }
-        public List<Item> Items { get; set; }
+
         public List<Category> category { get; set; }
+
         public List<Employee> Employee { get; set; }
-        public List<StockVoucher> StockVouchers { get; set; }
 
         public List<SupplierItem> supplierItems { get; set; }
-
-        public List<Requisition> Requisitions { get; set; }
 
         public List<RequisitionDetail> RequisitionDetails { get; set; }
 
@@ -35,8 +60,6 @@ namespace LogicUniversityTeam5.Models
         public List<Supplier> Suppliers { get; set; }
 
         public List<int> Quantity { get; set; }
-
-        public List<Order> Orders { get; set; }
 
         public string trialText { get; set; }
 
@@ -58,15 +81,14 @@ namespace LogicUniversityTeam5.Models
 
         public List<OutstandingRequisitionView> OutstandingRequisitionViews { get; set; }
 
-        public List<bool> IsSelected { get; set; }
-
         public List<SupplierItem> SupplierItem { get; set; }
-        public List<RequisitionDetail> Details { get; set; }
-        public List<Requisition> Requisition { get; set; }
-        public List<Supplier> Supplier { get; set; }
 
-        public List<String> AddedText { get; set; }
-        public List<int> AddedNumbers { get; set; }
+        public List<RequisitionDetail> Details { get; set; }
+
+        public List<Requisition> Requisition { get; set; }
+
+        public List<Supplier> Supplier { get; set; }
+        
         public List<ReorderDetail> reorderdetail {get;set;}
 
         public void setAddedTextSize(int size)
