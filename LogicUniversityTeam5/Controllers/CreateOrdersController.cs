@@ -61,7 +61,9 @@ namespace LogicUniversityTeam5.Controllers.Order
                     string selectcategory = model.AddedText[0];
                     searchmodel.Items = new List<Item>();
                     searchmodel.reorderdetail = new List<ReorderDetail>();
-                    searchmodel.Items = context.Items.Where(m => m.Category.CategoryName == selectcategory).ToList();
+                    Category category = context.Categories.First(m => m.CategoryName == selectcategory);
+                    searchmodel.Items = stockManagementService.getItemsOfCategory(category.CategoryID);
+                    //searchmodel.Items = context.Items.Where(m => m.Category.CategoryName == selectcategory).ToList();
                     List<string> itemid = new List<string>();
                     for (int m = 0; m < searchmodel.Items.Count; m++)
                     {
@@ -322,9 +324,9 @@ namespace LogicUniversityTeam5.Controllers.Order
         public ActionResult SubmitInvoice()
         {
 
-            // CombinedViewModel model = new CombinedViewModel();
+             //CombinedViewModel model = new CombinedViewModel();
             CombinedViewModel model = getmodel();
-
+           
             return View(model);
         }
 
@@ -338,10 +340,11 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 CombinedViewModel searchmodel = new CombinedViewModel();
                 int selectorderid = Int32.Parse(model.AddedText[0]);
-                OrderSupplier orderSupplier = context.OrderSuppliers.First(m => m.OrderID == selectorderid);
-                searchmodel.Supplier = new List<Supplier>();
-                searchmodel.Supplier = context.Suppliers.Where(x => x.SupplierID == orderSupplier.SupplierID).ToList();
-                searchmodel.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
+                searchmodel.OrderSuppliers = new List<OrderSupplier>();
+                searchmodel.OrderSuppliers = orderService.getOrderSuppliersOfOrder(selectorderid);       
+                searchmodel.Suppliers = new List<Supplier>();
+                searchmodel.Suppliers = orderService.getSuppliersOfOrderIdWithOutstandingInvoice(selectorderid);
+               
                 return View(searchmodel);
             }
             if (Sent != null)
@@ -364,11 +367,11 @@ namespace LogicUniversityTeam5.Controllers.Order
                 file.SaveAs(path);
                 model1.EmailForm = new List<EmailFormModel>();
                 SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-                client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
+                client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
                 client.EnableSsl = true;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                MailMessage mm = new MailMessage("meitingtonia@gmail.com", "meitingtonia@gmail.com");
+                MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", " LogicfinanceTeam5@gmail.com");
                 mm.Subject = "  Submit Invoice";
                 mm.Body = "Dear financial department: attached is the invoice for supplier, please go and check";
                 System.Net.Mail.Attachment attachment;
@@ -391,8 +394,10 @@ namespace LogicUniversityTeam5.Controllers.Order
         public CombinedViewModel getmodel()
         {
             CombinedViewModel model = new CombinedViewModel();
+            model.Suppliers = new List<Supplier>();
+            model.OrderSuppliers = new List<OrderSupplier>();
             model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
-            model.Suppliers = context.Suppliers.ToList();
+            model.Suppliers = orderService.getSuppliers();
             model.AddedText = new List<string>(2) { "", "" };
             return model;
         }

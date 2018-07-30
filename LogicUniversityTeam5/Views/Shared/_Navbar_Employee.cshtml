@@ -17,13 +17,15 @@
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Make New Request</a>
-                        <a class="dropdown-item" href="#">View Past Requests</a>
+                        <a class="dropdown-item" href="@Url.Action("SearchRequisitionForm","ViewPastRequest")">View Past Requests</a>
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a class="btn btn-sm btn-outline-secondary" href="#">Logout</a>
-            </form>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+            }
         </div>
     </nav>
 </body>

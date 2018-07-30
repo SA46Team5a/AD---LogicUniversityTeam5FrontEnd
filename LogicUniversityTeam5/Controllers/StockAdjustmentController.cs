@@ -26,7 +26,8 @@ namespace LogicUniversityTeam5.Controllers
         {
             // TODO: Implement call to ServiceLayer for vouchers returned based on role
             CombinedViewModel combinedView = new CombinedViewModel();
-            combinedView.StockVouchers = stockManagementService.getOpenVouchers();
+            
+            combinedView.StockVouchers = stockManagementService.getOpenVouchers(true);
             combinedView.IsSelected = new List<bool>(combinedView.StockVouchers.Count);
             combinedView.StockVouchers.ForEach(sv => combinedView.IsSelected.Add(false));
             return View(combinedView);

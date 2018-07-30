@@ -5,6 +5,7 @@ using System.Web;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
 
+
 namespace LogicUniversityTeam5.Models
 {
     public class CombinedViewModel
@@ -16,6 +17,7 @@ namespace LogicUniversityTeam5.Models
             reorderdetail= new List<ReorderDetail>();
         }
         public List<UploadModel> File { get; set; }
+        public List<OutstandingRequisitionView> OutstrandingReq { get; set; }
         public List<EmailFormModel> EmailForm { get; set; }
         public List<Item> Items { get; set; }
         public List<Category> category { get; set; }

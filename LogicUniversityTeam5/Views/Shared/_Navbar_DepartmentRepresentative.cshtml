@@ -1,6 +1,4 @@
-﻿
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+﻿    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
         <a class="navbar-brand" href="#">
             <img src="https://cdn.dribbble.com/users/1435254/screenshots/3809527/pencilclip_1x.png" width="30" height="30" class="d-inline-block align-top" alt="">
             Logic Stationeries
@@ -17,16 +15,19 @@
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Make New Request</a>
-                        <a class="dropdown-item" href="#">View Past Requests</a>
+                        <a class="dropdown-item" href="@Url.Action("SearchRequisitionForm","ViewPastRequest")">View Past Requests</a>
+                        
+
                     </div>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Manage Department Information</a>
+                    <a class="nav-link" href="@Url.Action("changeCollectionPoint","ChangeCollectionPoint")">Manage Department Information</a>
                 </li>
-                </li>
+                
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a class="btn btn-sm btn-outline-secondary" href="#">Logout</a>
-            </form>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+        }
         </div>
     </nav>
-</body>

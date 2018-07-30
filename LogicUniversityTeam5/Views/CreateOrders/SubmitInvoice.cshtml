@@ -41,12 +41,11 @@
 
     <tbody>
 
-        @for (int i = 0; i < Model.Supplier.Count; i++)
+        @for (int i = 0; i < Model.Suppliers.Count; i++)
         {
             <tr>              
                 <td>
-                    @Html.DisplayFor(m => Model.Supplier[i].SupplierName)
-                    @Html.HiddenFor(m => Model.Supplier[i].SupplierName)
+                    @Html.DisplayFor(m => Model.Suppliers[i].SupplierName)              
                 </td>              
             </tr>
         }

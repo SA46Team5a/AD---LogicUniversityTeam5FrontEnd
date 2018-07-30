@@ -21,7 +21,7 @@ namespace LogicUniversityTeam5.Controllers
             EmailNotificationController emailNotificationController = new EmailNotificationController();
             
             
-            emailNotificationController.SendtoConfirmDisbursement_Mobile("Meiting");
+            emailNotificationController.SendEmailToAppointingDepRep();
             return View();
         }
     }

@@ -363,7 +363,7 @@
     <Content Include="Views\Shared\_Navbar_Employee.cshtml" />
     <Content Include="Views\Shared\_Navbar_StoreClerk.cshtml" />
     <Content Include="Views\Shared\_Navbar_StoreManager.cshtml" />
-    <Content Include="Views\Shared\Navbar_StoreSupervisor.cshtml" />
+    <Content Include="Views\Shared\_Navbar_StoreSupervisor.cshtml" />
     <Content Include="Views\CreateOrders\ItemCatalogue.cshtml" />
     <Content Include="Views\CreateOrders\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\SubmitInvoice.cshtml" />
@@ -385,8 +385,8 @@
     <Folder Include="Controllers\Requisition\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="UploadedInvoices\" />
-    <Folder Include="Views\Navigation\" />
     <Folder Include="Views\EmailNotification\" />
+    <Folder Include="Views\Navigation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

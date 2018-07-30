@@ -16,17 +16,17 @@
                     Manage Request
                 </a>
                 <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/ApproveRequisitionForm/ApproveRequisitionForm">
+                    <a class="dropdown-item" href="@Url.Action("ApproveRequisitionForm","ApproveRequisition")">
                         Approve Requisition Form
                         (@Model.AddedNumbers[0])
                         <!--PendingRequisition>0? PendingRequisition: null -->
                     </a>
-                    <a class="dropdown-item" href="AppointDepartmentRep/AppointDepartmentRep">Appoint Department Representative</a>
-                    <a class="dropdown-item" href="DelegateAuthority/DelegateAuthority">Delegate Authority</a>
+                    <a class="dropdown-item" href="@Url.Action("AppointDepartmentRep","AppointDepartmentRep")">Appoint Department Representative</a>
+                    <a class="dropdown-item" href="@Url.Action("DelegateAuthority","DelegateAuthority")">Delegate Authority</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="ChangeCollectionPoint/ChangeCollectionPoint">Manage Department Information</a>
+                <a class="nav-link" href="@Url.Action("ChangeCollectionPoint","ChangeCollectionPoint")">Manage Department Information</a>
             </li>
         </ul>
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
