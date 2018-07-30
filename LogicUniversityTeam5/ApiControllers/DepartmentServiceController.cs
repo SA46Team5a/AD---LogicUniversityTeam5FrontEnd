@@ -29,7 +29,12 @@ namespace LogicUniversityTeam5.ApiControllers
         [HttpGet]
         [Route("api/authority/{id}")]
         public AuthorityPayload getCurrentAuthorityOfDepartment(string id)
-            => new AuthorityPayload(_departmentService.getCurrentAuthority(id));
+            => new AuthorityPayload(_departmentService.getDelegatedAuthority(id));
+
+        [HttpGet]
+        [Route("api/authority/employees/{deptId}")]
+        public List<EmployeePayload> getEligibleDelegatedAuthorities(string deptId)
+            => EmployeePayload.ConvertEntityToPayload(_departmentService.getEligibleDelegatedAuthority(deptId));
 
         [HttpPost]
         [Route("api/authority/new")]
@@ -67,6 +72,11 @@ namespace LogicUniversityTeam5.ApiControllers
         [Route("api/deprep/{id}")]
         public DepartmentRepresentativePayload getDepartmentRepresentative(string id)
             => new DepartmentRepresentativePayload(_departmentService.getCurrentDepartmentRepresentative(id));
+
+        [HttpGet]
+        [Route("api/deprep/employees/{deptId}")]
+        public List<EmployeePayload> getEligibleDepartmentRepresentatives(string deptId)
+            => EmployeePayload.ConvertEntityToPayload(_departmentService.getEligibleDepartmentRepresentatives(deptId));
 
         [HttpPost]
         [Route("api/deprep/new")]
