@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -23,34 +24,18 @@ namespace LogicUniversityTeam5.Controllers
         // GET: DelegateAuthority
         public ActionResult DelegateAuthority(Department dep)
         {
+            string empId = User.Identity.GetEmployeeId();
             CombinedViewModel combinedView = new CombinedViewModel();
-            
-
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = userManager.FindById(User.Identity.GetUserId());
-
-            string empId = "";
-
-            if (user != null)
-            {
-                empId = user.EmployeeId;
-            }
-            else
-            {
-                //To change to error page after implementing login
-                empId = "E010";
-            }
-
             //To get Department of the employee
-            //combinedView.DepartmentID = departmentService.getDepartmentID(empId);  
+            combinedView.DepartmentID = departmentService.getDepartmentID(empId);
 
-            combinedView.DepartmentID = departmentService.getDepartmentID("E010");
-            string DeptID = combinedView.DepartmentID;            
+            string DeptID = combinedView.DepartmentID;
             combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
+
+            //AddedText[0] is the delegate, AddedText[0] is start date, AddedText[1] is end date
             combinedView.AddedText = new List<string>(3) { "","","" };
             combinedView.IsSelected = new List<bool>(1) { false };
             combinedView.Authorities = departmentService.getCurrentAuthority(combinedView.DepartmentID);
-
 
             return View(combinedView);
         }
@@ -60,8 +45,7 @@ namespace LogicUniversityTeam5.Controllers
         {
 
             //get user from the login session
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = userManager.FindById(User.Identity.GetUserId());
+            string empId = User.Identity.GetEmployeeId();
             string dateStart = model.AddedText[1];
             string dateEnd = model.AddedText[2];
             bool isRescind = model.IsSelected[0];
@@ -69,24 +53,24 @@ namespace LogicUniversityTeam5.Controllers
             if (model.AddedText[0] != null)
             {
                 Employee emp = departmentService.getEmployeeObject(model.AddedText[0]);                  
-               
 
-                // departmentService.updateAuthority(authority);
                 if (isRescind)
                 {
-                    //Hardcoded empId
-                    user = new ApplicationUser();
-                    user.EmployeeId = "E010";
-                    string deptId = departmentService.getDepartmentID(user.EmployeeId);
+                    string deptId = departmentService.getDepartmentID(empId);
                     Authority auth = departmentService.getCurrentAuthority(deptId);                   
                     departmentService.rescindAuthority(auth);
-                    return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isRescind = true });
+                    //To change email method to include the employeeID
+                    EmailNotificationController.SendToLostApproveAuthority();
 
+                    return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isRescind = true });
                 }
                 else
                 {
                     Authority authority = departmentService.getCurrentAuthority(emp.DepartmentID);
                     departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
+                    //To change email method to include the employeeID
+                    EmailNotificationController.SendEmailToDelegatePerson();
+
                     return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isDelegateAuthority = true });
                 }
                  

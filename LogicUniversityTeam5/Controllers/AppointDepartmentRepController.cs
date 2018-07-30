@@ -33,10 +33,12 @@ namespace LogicUniversityTeam5.Controllers
             string empId = User.Identity.GetEmployeeId();
 
             //To get Department of the employee
-            //combinedView.DepartmentID = departmentService.getDepartmentID(empId);  
-            
             combinedView.DepartmentID = departmentService.getDepartmentID(empId);
             combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
+            combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>(1)
+            {
+                {departmentService.getCurrentDepartmentRepresentative(combinedView.DepartmentID)}
+            };
             combinedView.AddedText = new List<string>(1) { "" };
 
             return View(combinedView);
@@ -47,15 +49,14 @@ namespace LogicUniversityTeam5.Controllers
         {
            
             //get user from the login session
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = userManager.FindById(User.Identity.GetUserId());
+            string empId = User.Identity.GetEmployeeId();
 
-                if (model.AddedText[0] != null)
-                {
+            if (model.AddedText[0] != null)
+            {
                 Employee emp = departmentService.getEmployeeObject(model.AddedText[0]);
                 DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(emp.DepartmentID);             
-                    departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, emp.EmployeeID);
-                }
+                departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, emp.EmployeeID);
+            }
            
             return RedirectToAction("AppointDepartmentRep", "AppointDepartmentRep", new { isAppointDepartmentRep = true });
         }
