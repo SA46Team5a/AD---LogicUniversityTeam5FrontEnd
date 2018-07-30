@@ -28,8 +28,8 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
-            ViewBag.EmpId = id;
-
+            ViewBag.EmpId = id;           
+            reqList=reqList.OrderByDescending(r => r.RequisitionID).ToList();
             return View(reqList);
         }
 
@@ -50,6 +50,7 @@ namespace LogicUniversityTeam5.Controllers
             string start = form["startdate"].ToString();
             string end = form["enddate"].ToString();
             DateTime? startDate = null ;
+
             DateTime? endDate = null;
 
             if ((start+end) != null && (start + end) != "")
@@ -110,6 +111,8 @@ namespace LogicUniversityTeam5.Controllers
         [HttpPost]
         public ActionResult ResubmitStationaryRequestForm(CombinedViewModel model)
         {
+            string empId = User.Identity.GetEmployeeId();
+
             int reqId = (int)TempData["reqID"];
             ServiceLayer.DataAccess.Requisition req = requisitionService.getRequisitionById(reqId);
             string textBoxValue;
@@ -124,7 +127,10 @@ namespace LogicUniversityTeam5.Controllers
             }
 
             requisitionService.submitRequisition(req.RequisitionID);
-            return RedirectToAction("EditSubmittedStationeryRequestForm", new { id = reqId, isSubmit = true });
+            return RedirectToAction("SearchRequisitionForm", new { id = empId });
+          
+
+
         }
 
         //This is for delete in Screen 2.2.1.2b

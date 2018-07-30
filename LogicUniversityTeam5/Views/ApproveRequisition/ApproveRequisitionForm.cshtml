@@ -73,7 +73,7 @@
                     <div class="row justify-content-md-center mt-3">
                         <div class="col-4 text-center">
 
-                            <button type="submit" name="Approve" class="btn btn-info mr-2 " data-toggle="modal" data-target="#myModalapprove" value="@Model.specialmodel[i].Requisition[0].RequisitionID" >Submit</button>
+                            <button type="submit" name="Approve" class="btn btn-info mr-2 " data-toggle="modal" data-target="#myModalapprove" value="@Model.specialmodel[i].Requisition[0].RequisitionID" >Approve</button>
 
                             <button type="submit" name="Reject" class="btn btn-danger " data-toggle="modal" data-target="#myModalapprove" value="@Model.specialmodel[i].Requisition[0].RequisitionID">Reject</button>
 
@@ -85,7 +85,7 @@
             
        }
             <div class="row justify-content-md-center mt-3">
-                <button class="btn btn-primary text-center" id="home">Home</button>
+                <button class="btn btn-primary text-center" id="home" type="button">Home</button>
                 <script type="text/javascript">
                     $(document).ready(function () {
                         $('#home').click(function (e)
