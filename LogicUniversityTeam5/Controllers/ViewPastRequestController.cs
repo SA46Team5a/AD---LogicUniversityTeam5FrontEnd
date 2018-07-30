@@ -50,6 +50,7 @@ namespace LogicUniversityTeam5.Controllers
             string start = form["startdate"].ToString();
             string end = form["enddate"].ToString();
             DateTime? startDate = null ;
+
             DateTime? endDate = null;
 
             if ((start+end) != null && (start + end) != "")
