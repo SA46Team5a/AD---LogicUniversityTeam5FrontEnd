@@ -1,5 +1,5 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
-    <a class="navbar-brand" href="#">
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
         <img src="https://cdn.dribbble.com/users/1435254/screenshots/3809527/pencilclip_1x.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Logic Stationeries
     </a>
@@ -8,7 +8,11 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class= "btn btn-outline-secondary float-right align-middle" })
-        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" , @class= "btn btn-outline-secondary float-right align-middle" })
+        <ul class="navbar-nav mr-auto"></ul>
+        <div class="btn-toolbar">
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-outline-secondary float-right align-middle" })
+            &nbsp;
+            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-info float-right align-middle" })
+        </div>
     </div>
 </nav>

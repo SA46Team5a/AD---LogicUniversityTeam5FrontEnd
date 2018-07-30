@@ -1,6 +1,6 @@
-﻿
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <a class="navbar-brand" href="#">
             <img src="https://cdn.dribbble.com/users/1435254/screenshots/3809527/pencilclip_1x.png" width="30" height="30" class="d-inline-block align-top" alt="">
             Logic Stationeries
@@ -16,8 +16,8 @@
                         Manage Request
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Make New Request</a>
-                        <a class="dropdown-item" href="@Url.Action("SearchRequisitionForm","ViewPastRequest")">View Past Requests</a>
+                        <a class="dropdown-item" href="@Url.Action("ViewStationeryCatalogue","Requisition")">Make New Request</a>
+                        <a class="dropdown-item" href="@Url.Action("SearchRequisitionForm","ViewPastRequest", new { id= Model.Employees[0].EmployeeID })">View Past Requests</a>
                     </div>
                 </li>
             </ul>

@@ -19,7 +19,6 @@
                         des.Add(item.CategoryName);
                     }
                 }
-
                 @Html.DropDownListFor(m => Model.categorySelected,
                                           new SelectList(des.Distinct()),
                                           "Select Category",

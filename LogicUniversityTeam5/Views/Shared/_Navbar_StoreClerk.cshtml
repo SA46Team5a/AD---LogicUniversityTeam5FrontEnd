@@ -1,8 +1,8 @@
 ﻿@model LogicUniversityTeam5.Models.CombinedViewModel
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
             <img src="https://cdn.dribbble.com/users/1435254/screenshots/3809527/pencilclip_1x.png" width="30" height="30" class="d-inline-block align-top" alt="">
             Logic Stationeries
         </a>
@@ -32,7 +32,7 @@
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="@Url.Action("ItemCatalogue","CreateOrders")">Make Purchase Order</a>
                         <a class="dropdown-item" href="@Url.Action("SubmitInvoice","CreateOrders")">Submit Invoice</a>
-                        <a class="dropdown-item" href="@Url.Action("PrintOrderSummary","CreateOrders")">View Order History</a>
+                        <a class="dropdown-item" href="@Url.Action("ReceivedPurchaseOrdersList", "ViewReceivedOrdersList")">View Order History</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

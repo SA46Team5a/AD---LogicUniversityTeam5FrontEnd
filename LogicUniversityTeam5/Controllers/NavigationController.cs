@@ -13,9 +13,11 @@ namespace LogicUniversityTeam5
     public class NavigationController : Controller
     {
         IRequisitionService requisitionService;
-        public NavigationController(RequisitionService rs)
+        IDepartmentService departmentService;
+        public NavigationController(RequisitionService rs, DepartmentService ds)
         {
             requisitionService = rs;
+            departmentService = ds;
         }
         [ChildActionOnly]
         public ActionResult Menu()
@@ -44,7 +46,12 @@ namespace LogicUniversityTeam5
             }
             if (User.IsInRole("Employee"))
             {
-                return PartialView("_Navbar_Employee");
+                string EmpId = User.Identity.GetEmployeeId();
+                Employee employee = departmentService.getEmployeeById(EmpId);
+                CombinedViewModel combinedViewModel = new CombinedViewModel();
+                combinedViewModel.Employees = new List<Employee>(1) { { employee} };
+
+                return PartialView("_Navbar_Employee", combinedViewModel);
 
             }
             if (User.IsInRole("Store Clerk"))
