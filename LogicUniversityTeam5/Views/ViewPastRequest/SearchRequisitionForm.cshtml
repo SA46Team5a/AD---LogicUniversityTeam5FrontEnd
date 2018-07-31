@@ -68,8 +68,9 @@
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
-                    {
-                        <tr>
+                    { if (item.RequisitionDetails.Count >0)
+                        { <tr>
+                            @Html.HiddenFor(m => item.RequisitionDetails.Count)
                             <td>@Html.DisplayFor(m => item.RequestedDate)</td>
                             <td>@Html.DisplayFor(m => item.ApprovalStatus.ApprovalStatusName)</td>
                             <td>@Html.DisplayFor(m => item.RetrievalStatus.RetrievalStatusName)</td>
@@ -88,6 +89,7 @@
                                 </td>
                             }
                         </tr>
+                        }
                     }
 
                 </tbody>
