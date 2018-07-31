@@ -21,7 +21,6 @@
                         des.Add(new SelectListItem { Text = output, Value = output });
                     }
                 }
-
                 @Html.DropDownListFor(m => Model.categorySelected,
                                           des,
                                           new { @id= "dropdown" , @class = "form-control" })

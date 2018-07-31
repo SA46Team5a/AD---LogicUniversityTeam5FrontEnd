@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -25,62 +26,51 @@ namespace LogicUniversityTeam5.Controllers
             classificationService = cs;
         }
         // GET: CollectionPoint
-        public ActionResult changeCollectionPoint(Department dep)
+        public ActionResult ChangeCollectionPoint(Department dep)
         {
 
             CombinedViewModel combinedView = new CombinedViewModel();
             combinedView.CollectionPoint = classificationService.GetCollectionPoints();
 
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = userManager.FindById(User.Identity.GetUserId());
+            string empId = User.Identity.GetEmployeeId();
 
-            string empId = "";
-
-            if(user!= null)
-            {
-                empId = user.EmployeeId;
-            }
-            else
-            {
-                //To change to error page after implementing login
-                empId = "E017";
-            }
-           
             combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>();
             Employee employee = context.Employees.Where(e => e.EmployeeID.Equals(empId)).First();
             DepartmentRepresentative departmentRepresentative = context.DepartmentRepresentatives
                                         .Where(e => e.EmployeeID == employee.EmployeeID).First();
             combinedView.DepartmentRepresentative.Add(departmentRepresentative);
-            combinedView.AddedText = new List<string>(1) { "" };         
+            string currentCollectionPoint = departmentService.getCollectionPointOfEmployee(empId).CollectionPointDetails;
+
+            //AddedText[0] for checking radio button is selected, AddedText[1] to display current CollectionPointDetails
+            combinedView.AddedText = new List<string>(2) { "", currentCollectionPoint };         
             return View(combinedView);
         }
 
 
         [HttpPost]
-        public ActionResult changeCollectionPoint(CombinedViewModel model)
+        public ActionResult ChangeCollectionPoint(CombinedViewModel model)
         {
-            //User user = session.getUser();
             List<CollectionPoint> collectionPoint = model.CollectionPoint;
-            List<bool> isSelected = model.IsSelected;            
-            
-            //get user from the login session
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = userManager.FindById(User.Identity.GetUserId());
+            List<bool> isSelected = model.IsSelected;
 
-            //get the empId from user
-            //string deptID=departmentService.getDepartmentID(user.EmployeeId);
-            string deptID = departmentService.getDepartmentID("E017");
+            //get empid from the login session
+            string empId = User.Identity.GetEmployeeId();
+
+            string deptID = departmentService.getDepartmentID(empId);
+            string deptName = departmentService.getDepartments()
+                                .First(x => x.DepartmentID == deptID)
+                                .DepartmentName;
 
             for (int i=0;i<model.AddedText.Count;i++)
             {
                 if(model.AddedText[0] != null)
                 {
                     departmentService.updateCollectionPoint(deptID, Convert.ToInt32(model.AddedText[0]));
-
+                    EmailNotificationController.SendEmailForChangeCollectionPoint(deptName, model.AddedText[0]);
                 }
             }
-           
-            return RedirectToAction("changeCollectionPoint", "ChangeCollectionPoint",new { isCollectionPointChanged = true});
+            
+            return RedirectToAction("ChangeCollectionPoint", "ChangeCollectionPoint",new { isCollectionPointChanged = true});
          
         }
     }

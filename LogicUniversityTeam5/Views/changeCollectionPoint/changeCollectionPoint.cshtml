@@ -25,39 +25,43 @@
                    </div>
                    
 
-                    }
-                    }
-                    }
-                    <div class="row justify-content-md-center pb-5">
-                        <h1 class="text-center mb=3">Change Collection Point</h1>
+            }
+        }
+    }
+                    <div class="row justify-content-md-center pb-3">
+                        <h1 class="text-center mb-3">Change Collection Point</h1>
+                    </div>
+                    <div class="row justify-content-md-center mt-3">
+                        <div class="col-8">
+                            <strong>Current Collection Point:</strong> @Html.DisplayFor(m => Model.AddedText[1])
+                        </div>
                     </div>
                     <div class="row justify-content-md-center mt-3">
                         <div class="card col-8 ">
                             <div class="card-body">
-                                <div class="row justify-content-md-center mt-3">
-                                    <h4 class="col-10 text-left ">Collection Points:</h4>
+                                <div class="row mt-3">
+                                    <h4 class="col-10 text-left pb-3">Change Collection Point:</h4>
                                 </div>
                                 @for (int i = 0; i < Model.CollectionPoint.Count; i++)
-                            {
-                                <div class="inline">
-                                    @Html.RadioButtonFor(m => Model.AddedText[0], Model.CollectionPoint[i].CollectionPointID, new { @class = "radio" })
-                                    @Html.DisplayFor(m => Model.CollectionPoint[i].CollectionPointDetails)
-                                    @Html.HiddenFor(m => Model.CollectionPoint[i].CollectionPointID)
-                                </div>
-                        }
+                                {
+                                    <div class="inline">
+                                        @Html.RadioButtonFor(m => Model.AddedText[0], Model.CollectionPoint[i].CollectionPointID, new { @class = "radio" })
+                                        @Html.DisplayFor(m => Model.CollectionPoint[i].CollectionPointDetails)
+                                        @Html.HiddenFor(m => Model.CollectionPoint[i].CollectionPointID)
+                                    </div>
+                                 }
 
                                 <div class="row justify-content-md-center mt-3">
-                                    <div class="col-3">
-                                        <p>4-digit passcode:</p>
-                                    </div>
-                                    <div class="col-8 text-left">
-                                        <label id="passcode">
+                                    <div class="col-12 form-inline text-left">
+                                        <div class="col-3 align-middle">
+                                        <strong>4-digit passcode:</strong>
+                                        </div>
                                             @foreach (var depRep in Model.DepartmentRepresentative)
-                                        {
-                                            @Html.DisplayFor(m => depRep.Passcode);
-                                    }
-                                        </label>
+                                            {
+                                                @Html.DisplayFor(m => depRep.Passcode);
+                                            } 
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>

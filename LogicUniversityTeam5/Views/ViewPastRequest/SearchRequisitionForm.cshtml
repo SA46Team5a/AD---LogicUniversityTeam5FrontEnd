@@ -64,7 +64,7 @@
 
                             @if (item.ApprovalStatus.ApprovalStatusName.Equals("Pending") || item.ApprovalStatus.ApprovalStatusName.Equals("Unsubmitted"))
                             {
-                                <td class="form-group rowr">
+                                <td class="form-group row">
                                     @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
                                     @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger", @data_toggle = "modal", @data_target = "#Modaldelete", @value = item.RequisitionID })
                                 </td>
@@ -95,8 +95,11 @@
                             <div class="row justify-content-md-center ">
                                 @using (Html.BeginForm("DeleteRequisitionForm", "ViewPastRequest", FormMethod.Post))
                                 {
+                                <div class="btn-group">
                                     <div class="col-4 "><button type="button" data-dismiss="modal" class="btn btn-default">No</button></div>
                                     <div class="col-4 text-end"><button id="btnSubmit" name="id" type="submit" class="btn btn-primary" value="">Yes</button></div>
+                                </div>
+                                    
                                 }
 
                             </div>

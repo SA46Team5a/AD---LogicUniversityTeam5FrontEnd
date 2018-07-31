@@ -7,12 +7,21 @@
           crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<<<<<<< HEAD
     <title>@ViewBag.Title - Logic University Stationery</title>
+=======
+>>>>>>> 4b17eb701636e6924b53be6a2e65f91e467ede04
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+<<<<<<< HEAD
     <script src="/Scripts/umd/popper.min.js"></script>
+=======
+    <script src="Scripts/umd/popper.min.js"></script>
+    <title>@ViewBag.Title - Logic University Stationery</title>
+
+>>>>>>> 4b17eb701636e6924b53be6a2e65f91e467ede04
 </head>
 <body>
     <div name="nav-bar" class="pb-5">
@@ -22,9 +31,11 @@
         @RenderBody()
         <hr />
         @*<footer>
-            <p>&copy; @DateTime.Now.Year - Logic University Stationery</p>
-        </footer>*@
+                <p>&copy; @DateTime.Now.Year - Logic University Stationery</p>
+            </footer>*@
     </div>
     @RenderSection("scripts", required: false)
 </body>
+
+
 </html>
