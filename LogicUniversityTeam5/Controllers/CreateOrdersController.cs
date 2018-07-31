@@ -69,7 +69,6 @@ namespace LogicUniversityTeam5.Controllers.Order
                         ReorderDetail detail = context.ReorderDetails.First(x => x.ItemID == id);
                         searchmodel.reorderdetail.Add(detail);
                     }
-                    //
 
                     return View(searchmodel);
                 }
@@ -102,7 +101,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 return View(model);
             }
-
         }
         
         public ActionResult OrderQuantity()
@@ -191,6 +189,15 @@ namespace LogicUniversityTeam5.Controllers.Order
                 items.Add(stockManagementService.getItemById(supplierItem.ItemID));
             }
             return items;
+        }
+
+        public List<Category> getcategory()
+        {
+            List<Category> category = new List<Category>();
+            category.Add(new Category() { CategoryName = "pen", CategoryID = 123 });
+            category.Add(new Category() { CategoryName = "pen", CategoryID = 123 });
+            category.Add(new Category() { });
+            return category;
         }
 
         private List<int> AddReOrderItemQtyInPlaceOrderView(Dictionary<string, int> itemIdsAndItemQty, List<SupplierItem> supplierItems)
@@ -305,7 +312,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             int id = model.AddedNumbers[0];
             return OrderSummary(id);
         }
-
+        
         [HttpPost]
         public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
@@ -338,25 +345,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
 
             CombinedViewModel model = new CombinedViewModel();
-            model.Suppliers = new List<Supplier>();
-            model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
-            model.Suppliers = context.Suppliers.ToList();
+            model.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
             model.AddedText = new List<string>(2) { "", "" };
-            model.RadioButtonListData = new List<RadioButtonData>();     
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 1});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 2 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 3 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 4 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 5 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 6 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 7 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 8 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 9 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 10 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 11});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 12});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 13});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 14 });
             return View(model);
         }
 
@@ -364,16 +354,13 @@ namespace LogicUniversityTeam5.Controllers.Order
         //[ValidateAntiForgeryToken]
         public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
         {
-
-
             if (Search != null)
             {
                 CombinedViewModel searchmodel = new CombinedViewModel();
                 int selectorderid = Int32.Parse(model.AddedText[0]);
-                searchmodel.OrderSuppliers = new List<OrderSupplier>();
-                searchmodel.OrderSuppliers = orderService.getOrderSuppliersOfOrder(selectorderid);       
-                searchmodel.Suppliers = new List<Supplier>();
+                searchmodel.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
                 searchmodel.Suppliers = orderService.getSuppliersOfOrderIdWithOutstandingInvoice(selectorderid);
+
                 int size = searchmodel.Suppliers.Count;
                 searchmodel.RadioButtonListData = new List<RadioButtonData>(size);
                 for(int i = 0; i < size; i++)
@@ -458,8 +445,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 return View(model);
             }
-
-            
         }
        
         public CombinedViewModel getmodel()
@@ -472,9 +457,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             model.AddedText = new List<string>(2) { "", "" };
             return model;
         }
-        
     }
-
-    
 }
 

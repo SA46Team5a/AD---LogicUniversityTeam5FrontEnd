@@ -63,7 +63,7 @@
                     <label for="Delegatedperson">Appoint Delegate:</label>
 
                     @{List<SelectListItem> Employee = new List<SelectListItem>();
-                        Employee.Add(new SelectListItem { Text = "Select Order ID".ToString(), Value = "".ToString(), Selected = true });
+                        Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
                         foreach (var emp in Model.Employee)
                         {
                             string output = emp.EmployeeName.ToString();
@@ -140,7 +140,7 @@
                         </div>
                         <div class="col-6 text-left">
 
-                            @Html.TextBoxFor(m => Model.AddedText[1],
+                            @Html.TextBoxFor(m => Model.AddedText[2],
                              new
                              {
                                  @id = "enddate",

@@ -1,0 +1,338 @@
+﻿@model ServiceLayer.ReportingModel
+@{
+    ViewBag.Title = "Requisition Cost Analysis Report";
+}
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb-3">
+                Requisition Cost Analysis
+            </h1>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-4 text-left">
+                <div class="form-group">
+                    <label for="stationaryCategory">Stationery Category</label>
+                    <select id="stationaryCategory" class="form-control">
+                        @foreach (ServiceLayer.DataAccess.Category category in Model.categories)
+                    {
+                        <option value="@category.CategoryID">@category.CategoryName</option>
+                }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+
+            <div class="col-8">
+                <p class="text-left">Department:</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            @foreach (ServiceLayer.DataAccess.Department department in Model.departments)
+        {
+            <div class="col-3">
+                <div class="form-check">
+                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@department.DepartmentID" id="@department.DepartmentID">
+                    <label class="form-check-label">
+                        @department.DepartmentName
+                    </label>
+                </div>
+            </div>
+    }
+        </div>
+        <div class="row justify-content-md-center mt-3 pd-0">
+            <div class="col-8">
+                <p class="text-left">Duration:</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-0">
+            <div class="col-8">
+                <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths" checked="checked">
+                    <label class="form-check-label">
+                        Past Three Month
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-8 text-left ">
+                <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="OneMonthRB" value="OneMonth">
+                    <label class="form-check-label">
+                        One month:
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-start date input-daterange form-inline">
+            <div class="col-3"></div>
+            <div class="form-group">
+                <select id="OneMonthDD" class="form-control">
+                    @for (int i = 0; i < Model.month.Count; i++)
+                {
+                    <option value=@i>@Model.month[i]</option>
+            }
+                </select>
+            </div>
+        </div>
+        <div class="row justify-content-md-start mt-2">
+            <div class="col-2"></div>
+            <div class="col-8 text-left ">
+                <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="Duration" id="CompareMonthRB" value="CompareMonths">
+                    <label class="form-check-label">
+                        Compare Months:
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-start date input-daterange mb-3 form-inline">
+            <div class="col-3"></div>
+            <div class="form-group">
+                <select id="CompareMonthDD1" class="form-control compareMonthDD">
+                    @for (int i = 0; i < Model.month.Count; i++)
+                {
+                    <option value=@i>@Model.month[i]</option>
+            }
+                </select>
+
+            </div>
+            <div class="input-group-addon col-1 text-center">with</div>
+            <div class="form-group">
+                <select id="CompareMonthDD2" class="form-control compareMonthDD">
+                    @for (int i = 0; i < Model.month.Count; i++)
+                {
+                    <option value=@i>@Model.month[i]</option>
+            }
+                </select>
+
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row justify-content-center pt-5">
+            <div class="col-md-12 text-center">
+                <input type="submit" id="GenerateBtn" class="btn btn-primary"
+                       value="Generate" />
+            </div>
+        </div>
+        <div id="canvas1" class="row justify-content-center pt-5">
+        </div>
+        <div id="canvas2" class="row justify-content-center pt-5">
+        </div>
+        <div id="outputTable1">
+        </div>
+        <div id="outputTable2">
+        </div>
+    </div>
+    <script>
+        // Toggle radio buttons and disable duration fields accordingly
+        function disableOneMonthDD(bool) {
+            $("#OneMonthDD").attr("disabled", bool)
+        }
+        function disableCompareMonthsDD(bool) {
+            $(".compareMonthDD").attr("disabled", bool)
+        }
+
+        function disableDDs() {
+            val = $("input[name=Duration]:checked").val();
+            switch (val) {
+                case "PastThreeMonths":
+                    disableOneMonthDD(true);
+                    disableCompareMonthsDD(true);
+                    break;
+                case "OneMonth":
+                    disableOneMonthDD(false);
+                    disableCompareMonthsDD(true);
+                    break;
+                case "CompareMonths":
+                    disableOneMonthDD(true);
+                    disableCompareMonthsDD(false);
+                    break;
+            }
+        }
+
+        console.log($("input[name=Duration]"));
+        $("input[name=Duration]").click(function () {
+            disableDDs();
+        });
+        disableDDs();
+        // Sending AJAX request on Generate
+        function getData() {
+            var data = {};
+            data["category"] = $("#stationaryCategory option:selected").val();
+            var selectedDepts = [];
+            $("input[name=department]:checked").each(function () {
+                selectedDepts.push($(this).val());
+            });
+            data["department"] = selectedDepts;
+            data["duration"] = $("input[name=Duration]:checked").val();
+            data["option"] = getDuration();
+            console.log(data);
+            return data;
+        }
+
+        function getDuration() {
+            var val = $("input[name=Duration]:checked").val();
+            switch (val) {
+                case "OneMonth":
+                    return $("#OneMonthDD").val();
+              //  case "CompareMonths":
+                //    return [$("#CompareMonthDD1").val(), $("#CompareMonthDD2").val()];
+            }
+        }
+
+        function clearChartsAndTables() {
+            $("#chart1").remove();
+            $("#chart2").remove();
+            $("#table1").remove();
+            $("#table2").remove();
+        }
+
+        function updateChart1(result) {
+            $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
+            var canvas = document.getElementById("chart1").getContext('2d');
+            myChart = new Chart(canvas, {
+                type: 'bar',
+                data: result,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+        function updateChart2(result) {
+            $("#canvas2").html("<canvas id='chart2' width='400' height='100'>");
+            var canvas = document.getElementById("chart2").getContext('2d');
+            myChart = new Chart(canvas, {
+                type: 'bar',
+                data: result,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+        function updateTable1(result, month) {
+            $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th>" + month + "</th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
+            // var rows;
+            $.each(result.datasets, function (i, item) {
+                var tr = $('<tr>').append(
+                    $('<td>').text(item.label),
+                    $('<td>').text(accounting.formatMoney(item.data[0])),
+                    $('<td>').text(accounting.formatMoney(item.data[1])),
+                    $('<td>').text(accounting.formatMoney(item.data[2])),
+                    $('<td>').text(accounting.formatMoney(item.data[3]))
+                );
+                $('#table1 > tbody:last-child').append(tr)
+            });
+        }
+        function updateTable2(result, month) {
+
+            $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th>" + month + "</th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
+            // var rows;
+            $.each(result.datasets, function (i, item) {
+                var tr = $('<tr>').append(
+                    $('<td>').text(item.label),
+                    $('<td>').text(accounting.formatMoney(item.data[0])),
+                    $('<td>').text(accounting.formatMoney(item.data[1])),
+                    $('<td>').text(accounting.formatMoney(item.data[2])),
+                    $('<td>').text(accounting.formatMoney(item.data[3]))
+                );
+                $('#table2 > tbody:last-child').append(tr)
+            })
+        }
+        //this function is called when compare data is selected.
+        function getDataCompare(pass) {
+            var data = {};
+            data["category"] = $("#stationaryCategory option:selected").val();
+            var selectedDepts = [];
+            $("input[name=department]:checked").each(function () {
+                selectedDepts.push($(this).val());
+            });
+            data["department"] = selectedDepts;
+            data["duration"] = "OneMonth";
+            if (pass == "1") {
+
+                data["option"] = $("#CompareMonthDD1").val();
+            }
+            else {
+
+                data["option"] = $("#CompareMonthDD2").val();
+
+            }
+            console.log(data);
+            return data;
+        }
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        function getComparemonths() {
+            var pass = "1";
+            var data = getDataCompare(pass);
+            month1 = data["option"];
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "../api/reports/requisition",
+                success: function (result) {
+                    console.log(result);
+                    updateChart1(result);
+                    updateTable1(result, monthNames[month1])
+                }
+            })
+            pass = "2";
+            data = getDataCompare(pass);
+            month2 = data["option"];
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "../api/reports/requisition",
+                success: function (result) {
+                    console.log(result);
+                    updateChart2(result);
+                    updateTable2(result, monthNames[month2]);
+                }
+            });
+        }
+
+        $("#GenerateBtn").click(function () {
+            clearChartsAndTables();
+            var decision = $("input[name=Duration]:checked").val();
+            if (decision == 'CompareMonths') {
+                getComparemonths();
+            }
+            else {
+                var data = getData();
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: "../api/reports/requisition",
+                    success: function (result) {
+                        globalData = result;
+                        updateChart1(result);
+                        updateTable1(result, "");
+                        console.log(result);
+                    }
+                })
+            }
+        });
+    </script>
+</body>
+

@@ -33,11 +33,10 @@ namespace LogicUniversityTeam5.Controllers
             combinedView.CollectionPoint = classificationService.GetCollectionPoints();
 
             string empId = User.Identity.GetEmployeeId();
+            string deptId = departmentService.getDepartmentID(empId);
+            combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>();            
+            DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(deptId);
 
-            combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>();
-            Employee employee = context.Employees.Where(e => e.EmployeeID.Equals(empId)).First();
-            DepartmentRepresentative departmentRepresentative = context.DepartmentRepresentatives
-                                        .Where(e => e.EmployeeID == employee.EmployeeID).First();
             combinedView.DepartmentRepresentative.Add(departmentRepresentative);
             string currentCollectionPoint = departmentService.getCollectionPointOfEmployee(empId).CollectionPointDetails;
 

@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb-3">
+                Requisition Analysis
+            </h1>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-4 text-left">
+                <div class="form-group">
+                    <label for="stationerycategory">Compare</label>
+                    <select id="comapreElement" class="form-control">
+                        <option selected>Quantity</option>
+                        <option>Costs</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-4 text-left">
+                <div class="form-group">
+                    <label for="stationerycategory">Stationery Category</label>
+                    <select id="stationerycategory" class="form-control">
+                        <option selected>Pen</option>
+                        <option>Ruler</option>
+                        <option>Envelope</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">           
+            <div class="col-8 text-left">
+                <div class="form-group">
+                    <label for="stationeryDescription">Stationery Description</label>
+                    <select id="stationeryDescription" class="form-control">
+                        <option selected>2B pencil</option>
+                        <option>Blue pen</option>
+                        <option>Ruler 6"</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <p class="text-left">Department:</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="English Dep" id="EnglishDept">
+                    <label class="form-check-label" for="EnglishDept">
+                        English Dept
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Computer Science" id="computerscience">
+                    <label class="form-check-label" for="computerscience">
+                        Computer Science
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="CommerceDept" id="CommerceDept">
+                    <label class="form-check-label" for="CommerceDept">
+                        Commerce Dept
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Registrar Dept" id="RegistrarDept">
+                    <label class="form-check-label" for="RegistrarDept">
+                        Registrar Dept
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="row justify-content-md-center mt-2">
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Zoology Dept" id="ZoologyDept">
+                    <label class="form-check-label" for="ZoologyDept">
+                        Zoology Dept
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Department6" id="Department6">
+                    <label class="form-check-label" for="Department6">
+                        Department6
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Department7" id="Department7">
+                    <label class="form-check-label" for="Department7">
+                        Department7
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Department8" id="Department8">
+                    <label class="form-check-label" for="Department8">
+                        Department8
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-start mt-2 pb-3">
+            <div class="col-2"></div>
+            <div class="col-2 text-left">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Department9" id="Department9">
+                    <label class="form-check-label" for="Department9">
+                        Department9
+                    </label>
+                </div>
+            </div>
+            <div class="col-2 text-left ">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="width: 20px; height: 18px;"
+                           value="Department10" id="Department10">
+                    <label class="form-check-label" for="Department10">
+                        Department10
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row justify-content-md-center mt-3 pd-0">
+                <div class="col-8">
+                    <p class="text-left">Duration:</p>
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-0">
+                <div class="col-8">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="PastThreeMonth" id="PastThreeMonth" value="Past Three Month">
+                        <label class="form-check-label" for="PastThreeMonth">
+                            Past Three Month
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-start">
+                <div class="col-2"></div>
+                <div class="col-8 text-left ">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="PastThreeMonth" id="OneMonth" value="One Month">
+                        <label class="form-check-label" for="PastThreeMonth">
+                            One month:
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row justify-content-start date input-daterange form-inline">
+                <div class="col-3"></div>
+                <div class="form-group">
+                    <input class="form-control" type="text" class="form-group" id="chooseonemonth" disabled/>
+                </div>
+                <script>
+                    $("#OneMonth").click(function () {
+                        $("#chooseonemonth").attr("disabled", true);
+                        if ($("input[name=PastThreeMonth]:checked").val() == "One Month") {
+                            $("#chooseonemonth").attr("disabled", false);
+                        }
+                    });
+                    $("#chooseonemonth").datepicker({
+                        format: "mm-yyyy",
+                        startView: "months",
+                        minViewMode: "months"
+                    });
+                </script>
+            </div>
+            <div class="row justify-content-md-start mt-2">
+                <div class="col-2"></div>
+                <div class="col-8 text-left ">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="PastThreeMonth" id="CompareMonths" value="CompareMonths">
+                        <label class="form-check-label" for="PastThreeMouth">
+                            Compare Months:
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row justify-content-start date input-daterange mb-3 form-inline">
+                <div class="col-3"></div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="anouthercomapremouth" disabled />
+                    <script>
+                        $("#CompareMonths").click(function () {
+                            $("#anouthercomapremouth").attr("disabled", true);
+                            if ($("input[name=PastThreeMonth]:checked").val() == "CompareMonths") {
+                                $("#anouthercomapremouth").attr("disabled", false);
+                            }
+                        });
+                        $("#anouthercomapremouth").datepicker({
+                            format: "mm-yyyy",
+                            startView: "months",
+                            minViewMode: "months"
+    
+                        });
+                    </script>
+                </div>
+                <div class="input-group-addon col-1 text-center">with</div>
+                <div class="form-group">
+                    <input class="form-control" type="text" class="form-group" id="comparemonth" disabled />
+                    <script>
+                        $("#CompareMonths").click(function () {
+                            $("#comparemonth").attr("disabled", true);
+                            if ($("input[name=PastThreeMonth]:checked").val() == "CompareMonths") {
+                                $("#comparemonth").attr("disabled", false);
+    
+                            }
+                        });
+                        $("#comparemonth").datepicker({
+                            format: "mm-yyyy",
+                            startView: "months",
+                            minViewMode: "months"
+    
+                        });
+                    </script>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row justify-content-center pt-5 pb-5" >
+                    <div class="col-md-12 text-center">
+                        <input type="submit" id="btn_Submit" class="btn btn-primary"
+                            value="Generate" />
+                    </div>
+                </div>
+        </div>
+</body>
+</html>
