@@ -20,7 +20,7 @@ namespace LogicUniversityTeam5.Controllers
         //Requisitions
         public  void SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
         {
-            Authority currentAuthority = departmentService.getCurrentAuthority(deptId);
+            Authority currentAuthority = departmentService.getDelegatedAuthority(deptId);
             Employee employeeIncurrentAuthority = departmentService.getEmployeeById(currentAuthority.EmployeeID);
             string emailTo = employeeIncurrentAuthority.EmailID;
 
