@@ -1,4 +1,5 @@
-﻿using ServiceLayer;
+﻿using LogicUniversityTeam5.Models;
+using ServiceLayer;
 using ServiceLayer.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,12 @@ namespace LogicUniversityTeam5.ApiControllers
         [HttpGet]
         [Route("api/authority/{id}")]
         public AuthorityPayload getCurrentAuthorityOfDepartment(string id)
-            => new AuthorityPayload(_departmentService.getCurrentAuthority(id));
+            => new AuthorityPayload(_departmentService.getDelegatedAuthority(id));
+
+        [HttpGet]
+        [Route("api/authority/employees/{deptId}")]
+        public List<EmployeePayload> getEligibleDelegatedAuthorities(string deptId)
+            => EmployeePayload.ConvertEntityToPayload(_departmentService.getEligibleDelegatedAuthority(deptId));
 
         [HttpPost]
         [Route("api/authority/new")]
@@ -61,11 +67,31 @@ namespace LogicUniversityTeam5.ApiControllers
             }
         }
 
+        [HttpGet]
+        [Route("api/authority/rescind/{empId}")]
+        public bool rescindAuthority(string empId)
+        {
+            try
+            {
+                _departmentService.rescindAuthority(empId);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         // DepartmentRepresentative
         [HttpGet]
         [Route("api/deprep/{id}")]
         public DepartmentRepresentativePayload getDepartmentRepresentative(string id)
             => new DepartmentRepresentativePayload(_departmentService.getCurrentDepartmentRepresentative(id));
+
+        [HttpGet]
+        [Route("api/deprep/employees/{deptId}")]
+        public List<EmployeePayload> getEligibleDepartmentRepresentatives(string deptId)
+            => EmployeePayload.ConvertEntityToPayload(_departmentService.getEligibleDepartmentRepresentatives(deptId));
 
         [HttpPost]
         [Route("api/deprep/new")]
@@ -84,7 +110,32 @@ namespace LogicUniversityTeam5.ApiControllers
 
         [HttpGet]
         [Route("api/deprep/passcode/{id}")]
-        public string getPasscodeOfDep(string id)
-             => _departmentService.getCurrentDepartmentRepresentative(id).Passcode;
+        public Dictionary<string, string> getPasscodeOfDep(string id)
+        {
+            Dictionary<string, string> passcode = new Dictionary<string, string>();
+            passcode.Add("passcode", _departmentService.getCurrentDepartmentRepresentative(id).Passcode);
+            return passcode;
+        }
+
+        // get Collection Point
+        [HttpGet]
+        [Route("api/deprep/collectionpoint/{depId}")]
+        public CollectionPointPayload getCollectionPointOfDepartment(string depId)
+            => new CollectionPointPayload(_departmentService.getCollectionPointOfDepartment(depId));
+
+        // set Collection Point
+        [HttpGet]
+        [Route("api/deprep/collectionpoint/{depId}/{collectionPointId}")]
+        public bool setCollectionPointOfDepartment(string depId, int collectionPointId)
+        {
+            try
+            {
+                _departmentService.updateCollectionPoint(depId, collectionPointId);
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

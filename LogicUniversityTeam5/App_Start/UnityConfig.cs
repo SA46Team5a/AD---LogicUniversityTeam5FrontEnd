@@ -11,7 +11,6 @@ using Unity.Mvc5;
 using ServiceLayer;
 using System.Net.Http.Headers;
 using System.Web.Http;
-using Unity.Lifetime;
 
 namespace LogicUniversityTeam5
 {
@@ -21,6 +20,7 @@ namespace LogicUniversityTeam5
         {
 			var container = new UnityContainer();
 
+            container.RegisterType<IStockManagementService, StockManagementService>();
             container.RegisterType<IClassificationService, ClassificationService>();
             container.RegisterType<IDepartmentService, DepartmentService>();
             container.RegisterType<IRequisitionService, RequisitionService>();
@@ -31,6 +31,7 @@ namespace LogicUniversityTeam5
             container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<AccountController>(new InjectionConstructor());
+
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
@@ -47,6 +48,7 @@ namespace LogicUniversityTeam5
             container.RegisterType<IDisbursementService, DisbursementService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderService, OrderService>(new HierarchicalLifetimeManager());
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStockManagementService, StockManagementService>();
 
             config.DependencyResolver = new UnityResolver(container);
 
@@ -58,9 +60,7 @@ namespace LogicUniversityTeam5
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.JsonFormatter.SupportedMediaTypes
-                .Add(new MediaTypeHeaderValue("text/html"));
-
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
     }
 }

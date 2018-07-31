@@ -35,6 +35,11 @@ namespace LogicUniversityTeam5.Controllers
             {
                 combinedView.StockVouchers = stockManagementService.getOpenVouchers(false);
             }
+
+            combinedView.StockVouchers = stockManagementService.getOpenVouchers(true);
+            combinedView.IsSelected = new List<bool>();
+            foreach (StockVoucher voucher in combinedView.StockVouchers)
+
             combinedView.IsSelected = new List<bool>(combinedView.StockVouchers.Count);
             combinedView.StockVouchers.ForEach(sv => combinedView.IsSelected.Add(false));
             return View(combinedView);

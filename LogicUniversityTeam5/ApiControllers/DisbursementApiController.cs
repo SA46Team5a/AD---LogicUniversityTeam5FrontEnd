@@ -11,18 +11,20 @@ using LogicUniversityTeam5.Models;
 namespace LogicUniversityTeam5.ApiControllers
 {
     // Author: Jack
-    public class RetrievalApiController : ApiController
+    public class DisbursementApiController : ApiController
     {
         private readonly IDisbursementService _disbursementService;
+        private readonly IDepartmentService _departmentService;
 
-        public RetrievalApiController(IDisbursementService disbursementService)
+        public DisbursementApiController(IDisbursementService disbursementService, IDepartmentService departmentService)
         {
             _disbursementService = disbursementService;
+            _departmentService = departmentService;
         }
 
         [HttpGet]
         [Route("api/store/retrieval/{empId}")]
-        public List<RetrievalItem> getRetrievalFormOfDepartment(string empId)
+        public RetrievalFormPayload getRetrievalForm(string empId)
             => _disbursementService.getRetrievalForm(empId);
 
         [HttpPost]
@@ -41,20 +43,29 @@ namespace LogicUniversityTeam5.ApiControllers
         }
 
         [HttpGet]
+        [Route("api/store/disbursement/departments")]
+        public List<DepartmentPayload> getDepartmentsWithDisbursement()
+            => DepartmentPayload.ConvertEntityToPayload(_disbursementService.getDepartmentsWithDisbursements());
+
+        [HttpGet]
         [Route("api/store/disbursement/{id}")]
         public List<DisbursementDetailPayload> getUncollectedDisbursementItemsOfDepartment(string id)
-            => DisbursementDetailPayload.ConvertEntityToPayload(_disbursementService.getUncollectedDisbursementDetailsByDep(id));
+            => _disbursementService.getUncollectedDisbursementDetailsByDep(id);
 
         [HttpPost]
-        [Route("api/store/disbursement/{depId}/{empId}")]
-        public bool submitDisbursementOfDepartment(string depId, string empId, List<DisbursementDetailPayload> payload)
+        [Route("api/store/disbursement/{depId}/{empId}/{passcode}")]
+        public bool submitDisbursementOfDepartment(string depId, string empId, string passcode, List<DisbursementDetailPayload> payload)
         {
             try
             {
-                List<int> disDutyIds = payload.Select(d => d.DisbursementDutyId).Distinct().ToList();
-                _disbursementService.submitDisbursementOfDep(disDutyIds, depId, payload, empId);
-                return true;
-            }
+                if (_departmentService.verifyPassCode(passcode, depId))
+                    return false;
+                else
+                {
+                    _disbursementService.submitDisbursementOfDep(depId, payload, empId);
+                    return true;
+                }
+           }
             catch (Exception)
             {
                 return false;

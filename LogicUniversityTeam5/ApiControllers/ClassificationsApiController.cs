@@ -21,6 +21,7 @@ namespace LogicUniversityTeam5.ApiControllers
         }
 
         [HttpGet]
+        [Route("api/classification/categories")]
         public List<CategoryPayload> categories()
         {
             List<CategoryPayload> payload = CategoryPayload.ConvertEntityToPayload(_classificationService.GetCategories());
@@ -28,6 +29,7 @@ namespace LogicUniversityTeam5.ApiControllers
         }
 
         [HttpGet]
+        [Route("api/classification/collectionpoints")]
         public List<CollectionPointPayload> collectionPoints()
         {
             List<CollectionPointPayload> payload = CollectionPointPayload.ConvertEntityToPayload(_classificationService.GetCollectionPoints());
