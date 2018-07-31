@@ -221,38 +221,39 @@
                 }
             });
         }
+
         function clearChartsAndTables() {
             $("#chart1").remove();
             $("#chart2").remove();
             $("#table1").remove();
             $("#table2").remove();
         }
-        function updateTable1(result) {
 
-            $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
+        function updateTable1(result, month) {
+            $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th>" + month + "</th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
                 var tr = $('<tr>').append(
-                    $('<td >').text(item.label),
-                    $('<td>').text(item.data[0]),
-                    $('<td>').text(item.data[1]),
-                    $('<td>').text(item.data[2]),
-                    $('<td>').text(item.data[3])
+                    $('<td>').text(item.label),
+                    $('<td>').text(accounting.formatMoney(item.data[0])),
+                    $('<td>').text(accounting.formatMoney(item.data[1])),
+                    $('<td>').text(accounting.formatMoney(item.data[2])),
+                    $('<td>').text(accounting.formatMoney(item.data[3]))
                 );
                 $('#table1 > tbody:last-child').append(tr)
             });
         }
-        function updateTable2(result) {
+        function updateTable2(result, month) {
 
-            $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
+            $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th>" + month + "</th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
                 var tr = $('<tr>').append(
-                    $('<td >').text(item.label),
-                    $('<td>').text(item.data[0]),
-                    $('<td>').text(item.data[1]),
-                    $('<td>').text(item.data[2]),
-                    $('<td>').text(item.data[3])
+                    $('<td>').text(item.label),
+                    $('<td>').text(accounting.formatMoney(item.data[0])),
+                    $('<td>').text(accounting.formatMoney(item.data[1])),
+                    $('<td>').text(accounting.formatMoney(item.data[2])),
+                    $('<td>').text(accounting.formatMoney(item.data[3]))
                 );
                 $('#table2 > tbody:last-child').append(tr)
             });
@@ -279,9 +280,13 @@
             console.log(data);
             return data;
         }
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
         function getComparemonths() {
             var pass = "1";
             var data = getDataCompare(pass);
+            month1 = data["option"];
             console.log(data);
             $.ajax({
                 type: "POST",
@@ -290,11 +295,12 @@
                 success: function (result) {
                     console.log(result);
                     updateChart1(result);
-                    updateTable1(result);
+                    updateTable1(result, monthNames[month1])
                 }
             })
             pass = "2";
             data = getDataCompare(pass);
+            month2 = data["option"];
             console.log(data);
             $.ajax({
                 type: "POST",
@@ -303,11 +309,11 @@
                 success: function (result) {
                     console.log(result);
                     updateChart2(result);
-                    updateTable2(result);
+                    updateTable2(result, monthNames[month2]);
                 }
-            })
+            });
         }
-        var globalData;
+
         $("#GenerateBtn").click(function () {
             clearChartsAndTables();
             var decision = $("input[name=Duration]:checked").val();
@@ -324,7 +330,7 @@
                     success: function (result) {
                         globalData = result;
                         updateChart1(result);
-                        updateTable1(result);
+                        updateTable1(result, "");
                         console.log(result);                       
                     }
                 })

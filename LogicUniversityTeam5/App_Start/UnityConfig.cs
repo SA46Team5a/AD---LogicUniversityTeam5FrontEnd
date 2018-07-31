@@ -32,7 +32,6 @@ namespace LogicUniversityTeam5
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<AccountController>(new InjectionConstructor());
 
-
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
