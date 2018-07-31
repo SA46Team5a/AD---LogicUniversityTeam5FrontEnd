@@ -1,46 +1,46 @@
 ﻿@model ServiceLayer.ReportingModel
 @{
-    ViewBag.Title = "Reorder Cost Analysis Report";
+    ViewBag.Title = "Requisition Cost Analysis Report";
 }
-
 <body>
     <div class="container">
         <div class="row justify-content-md-center pb-5">
             <h1 class="text-center mb-3">
-                Re-order Cost Analysis
+                Requisition Cost Analysis
             </h1>
         </div>
         <div class="row justify-content-md-start">
             <div class="col-2"></div>
             <div class="col-4 text-left">
                 <div class="form-group">
-                    <label>Stationery Category</label>
+                    <label for="stationaryCategory">Stationery Category</label>
                     <select id="stationaryCategory" class="form-control">
                         @foreach (ServiceLayer.DataAccess.Category category in Model.categories)
-                         {
+                    {
                         <option value="@category.CategoryID">@category.CategoryName</option>
-                         }
+                }
                     </select>
                 </div>
             </div>
         </div>
         <div class="row justify-content-md-center">
+
             <div class="col-8">
                 <p class="text-left">Department:</p>
             </div>
         </div>
         <div class="row justify-content-md-center">
-            @foreach (ServiceLayer.DataAccess.Supplier supplier in Model.suppliers)
-            {
+            @foreach (ServiceLayer.DataAccess.Department department in Model.departments)
+        {
             <div class="col-3">
                 <div class="form-check">
-                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
+                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@department.DepartmentID" id="@department.DepartmentID">
                     <label class="form-check-label">
-                        @supplier.SupplierName
+                        @department.DepartmentName
                     </label>
                 </div>
             </div>
-            }
+    }
         </div>
         <div class="row justify-content-md-center mt-3 pd-0">
             <div class="col-8">
@@ -52,7 +52,7 @@
                 <div class="form-check">
                     <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths" checked="checked">
                     <label class="form-check-label">
-                        Past Four Months (including current month)
+                        Past Three Month
                     </label>
                 </div>
             </div>
@@ -73,9 +73,9 @@
             <div class="form-group">
                 <select id="OneMonthDD" class="form-control">
                     @for (int i = 0; i < Model.month.Count; i++)
-                     {
+                {
                     <option value=@i>@Model.month[i]</option>
-                     }
+            }
                 </select>
             </div>
         </div>
@@ -105,9 +105,9 @@
             <div class="form-group">
                 <select id="CompareMonthDD2" class="form-control compareMonthDD">
                     @for (int i = 0; i < Model.month.Count; i++)
-                    {
+                {
                     <option value=@i>@Model.month[i]</option>
-                     }
+            }
                 </select>
 
             </div>
@@ -133,7 +133,6 @@
         function disableOneMonthDD(bool) {
             $("#OneMonthDD").attr("disabled", bool)
         }
-
         function disableCompareMonthsDD(bool) {
             $(".compareMonthDD").attr("disabled", bool)
         }
@@ -160,9 +159,7 @@
         $("input[name=Duration]").click(function () {
             disableDDs();
         });
-
         disableDDs();
-
         // Sending AJAX request on Generate
         function getData() {
             var data = {};
@@ -183,13 +180,21 @@
             switch (val) {
                 case "OneMonth":
                     return $("#OneMonthDD").val();
-                case "CompareMonths":
-                    return [$("#CompareMonthDD1").val(), $("#CompareMonthDD2").val()];
+              //  case "CompareMonths":
+                //    return [$("#CompareMonthDD1").val(), $("#CompareMonthDD2").val()];
             }
         }
+
+        function clearChartsAndTables() {
+            $("#chart1").remove();
+            $("#chart2").remove();
+            $("#table1").remove();
+            $("#table2").remove();
+        }
+
         function updateChart1(result) {
-            $("#canvas1").html("<canvas id='chart' width='400' height='100'>");
-            var canvas = document.getElementById("chart").getContext('2d');
+            $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
+            var canvas = document.getElementById("chart1").getContext('2d');
             myChart = new Chart(canvas, {
                 type: 'bar',
                 data: result,
@@ -221,16 +226,10 @@
                 }
             });
         }
-        function clearChartsAndTables() {
-            $("#chart1").remove();
-            $("#chart2").remove();
-            $("#table1").remove();
-            $("#table2").remove();
-        }
-        function updateTable1(result) {
-
-            $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
-            // var rows;
+        function updateTable1(result) {         
+                       
+            $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3]+"</th></tr></table > ");
+           // var rows;
             $.each(result.datasets, function (i, item) {
                 var tr = $('<tr>').append(
                     $('<td >').text(item.label),
@@ -257,8 +256,8 @@
                 $('#table2 > tbody:last-child').append(tr)
             });
         }
-       //this function is called when compare data is selected.
-        function getDataCompare(pass) {            
+
+        function getDataCompare(pass) {
             var data = {};
             data["category"] = $("#stationaryCategory option:selected").val();            
             var selectedDepts = [];
@@ -267,26 +266,23 @@
             });
             data["department"] = selectedDepts;
             data["duration"] = "OneMonth";
-            if (pass == "1") {
-                
+            if (pass == "1") {               
                 data["option"] = $("#CompareMonthDD1").val();
             }
-            else {
-                
+            else {                
                 data["option"] = $("#CompareMonthDD2").val();
-
             }
             console.log(data);
             return data;
         }
-        function getComparemonths() {
+        function getComparemonths() {            
             var pass = "1";
             var data = getDataCompare(pass);
             console.log(data);
             $.ajax({
                 type: "POST",
                 data: data,
-                url: "../api/reports/reorder",
+                url: "../api/reports/requisition",
                 success: function (result) {
                     console.log(result);
                     updateChart1(result);
@@ -299,36 +295,39 @@
             $.ajax({
                 type: "POST",
                 data: data,
-                url: "../api/reports/reorder",
+                url: "../api/reports/requisition",
                 success: function (result) {
                     console.log(result);
                     updateChart2(result);
                     updateTable2(result);
                 }
             })
-        }
+        }      
+
         var globalData;
         $("#GenerateBtn").click(function () {
+             
             clearChartsAndTables();
             var decision = $("input[name=Duration]:checked").val();
-            if (decision == 'CompareMonths') {               
+            if (decision == 'CompareMonths') {
                 getComparemonths();
             }
-            else {               
+            else {
                 var data = getData();
                 console.log(data);
                 $.ajax({
                     type: "POST",
                     data: data,
-                    url: "../api/reports/reorder",
+                    url: "../api/reports/requisition",
                     success: function (result) {
                         globalData = result;
                         updateChart1(result);
                         updateTable1(result);
-                        console.log(result);                       
+                        console.log(result);
                     }
                 })
             }
         });
-   </script>
+    </script>
 </body>
+

@@ -437,6 +437,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
+    <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

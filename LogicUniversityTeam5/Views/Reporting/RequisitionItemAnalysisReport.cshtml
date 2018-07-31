@@ -1,25 +1,37 @@
 ﻿@model ServiceLayer.ReportingModel
 @{
-    ViewBag.Title = "Reorder Cost Analysis Report";
+    ViewBag.Title = "Requisition Item Analysis Report";
 }
 
 <body>
     <div class="container">
         <div class="row justify-content-md-center pb-5">
             <h1 class="text-center mb-3">
-                Re-order Cost Analysis
+                Requisition Item Analysis
             </h1>
         </div>
         <div class="row justify-content-md-start">
             <div class="col-2"></div>
             <div class="col-4 text-left">
                 <div class="form-group">
-                    <label>Stationery Category</label>
-                    <select id="stationaryCategory" class="form-control">
-                        @foreach (ServiceLayer.DataAccess.Category category in Model.categories)
-                         {
-                        <option value="@category.CategoryID">@category.CategoryName</option>
-                         }
+                    <label for="stationerycategory">Compare</label>
+                    <select id="compareElement" class="form-control">
+                        <option id="1">Quantity</option>
+                        <option id="2">Costs</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-start">
+            <div class="col-2"></div>
+            <div class="col-4 text-left">
+                <div class="form-group">
+                    <label>Stationery Items</label>
+                    <select id="stationaryItem" class="form-control">
+                        @foreach (ServiceLayer.DataAccess.Item item in Model.items)
+                    {
+                        <option value="@item.ItemID">@item.ItemName</option>
+                }
                     </select>
                 </div>
             </div>
@@ -30,17 +42,17 @@
             </div>
         </div>
         <div class="row justify-content-md-center">
-            @foreach (ServiceLayer.DataAccess.Supplier supplier in Model.suppliers)
-            {
+            @foreach (ServiceLayer.DataAccess.Department department in Model.departments)
+        {
             <div class="col-3">
                 <div class="form-check">
-                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
+                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@department.DepartmentID" id="@department.DepartmentID">
                     <label class="form-check-label">
-                        @supplier.SupplierName
+                        @department.DepartmentName
                     </label>
                 </div>
             </div>
-            }
+    }
         </div>
         <div class="row justify-content-md-center mt-3 pd-0">
             <div class="col-8">
@@ -73,9 +85,9 @@
             <div class="form-group">
                 <select id="OneMonthDD" class="form-control">
                     @for (int i = 0; i < Model.month.Count; i++)
-                     {
+                {
                     <option value=@i>@Model.month[i]</option>
-                     }
+            }
                 </select>
             </div>
         </div>
@@ -105,9 +117,9 @@
             <div class="form-group">
                 <select id="CompareMonthDD2" class="form-control compareMonthDD">
                     @for (int i = 0; i < Model.month.Count; i++)
-                    {
+                {
                     <option value=@i>@Model.month[i]</option>
-                     }
+            }
                 </select>
 
             </div>
@@ -166,7 +178,8 @@
         // Sending AJAX request on Generate
         function getData() {
             var data = {};
-            data["category"] = $("#stationaryCategory option:selected").val();
+            data["item"] = $("#stationaryItem option:selected").val();
+            data["compareElement"] = $("#compareElement option:selected").val();            
             var selectedDepts = [];
             $("input[name=department]:checked").each(function () {
                 selectedDepts.push($(this).val());
@@ -188,8 +201,11 @@
             }
         }
         function updateChart1(result) {
-            $("#canvas1").html("<canvas id='chart' width='400' height='100'>");
-            var canvas = document.getElementById("chart").getContext('2d');
+            
+            $("#chart1").remove();
+            $("#chart2").remove();
+            $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
+            var canvas = document.getElementById("chart1").getContext('2d');
             myChart = new Chart(canvas, {
                 type: 'bar',
                 data: result,
@@ -204,7 +220,8 @@
                 }
             });
         }
-        function updateChart2(result) {
+        function updateChart2(result) {           
+            
             $("#canvas2").html("<canvas id='chart2' width='400' height='100'>");
             var canvas = document.getElementById("chart2").getContext('2d');
             myChart = new Chart(canvas, {
@@ -221,14 +238,8 @@
                 }
             });
         }
-        function clearChartsAndTables() {
-            $("#chart1").remove();
-            $("#chart2").remove();
-            $("#table1").remove();
-            $("#table2").remove();
-        }
         function updateTable1(result) {
-
+                       
             $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
@@ -243,7 +254,6 @@
             });
         }
         function updateTable2(result) {
-
             $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
@@ -257,22 +267,29 @@
                 $('#table2 > tbody:last-child').append(tr)
             });
         }
-       //this function is called when compare data is selected.
-        function getDataCompare(pass) {            
+        function clearChartsAndTables() {
+            $("#chart1").remove();
+            $("#chart2").remove();
+            $("#table1").remove();
+            $("#table2").remove();
+        }
+
+
+        function getDataCompare(pass) {
+           
             var data = {};
-            data["category"] = $("#stationaryCategory option:selected").val();            
+            data["item"] = $("#stationaryItem option:selected").val();
+            data["compareElement"] = $("#compareElement option:selected").val();
             var selectedDepts = [];
             $("input[name=department]:checked").each(function () {
                 selectedDepts.push($(this).val());
             });
             data["department"] = selectedDepts;
             data["duration"] = "OneMonth";
-            if (pass == "1") {
-                
+            if (pass == "1") {                
                 data["option"] = $("#CompareMonthDD1").val();
             }
-            else {
-                
+            else {                
                 data["option"] = $("#CompareMonthDD2").val();
 
             }
@@ -286,7 +303,7 @@
             $.ajax({
                 type: "POST",
                 data: data,
-                url: "../api/reports/reorder",
+                url: "../api/reports/requisitionitem",
                 success: function (result) {
                     console.log(result);
                     updateChart1(result);
@@ -299,36 +316,36 @@
             $.ajax({
                 type: "POST",
                 data: data,
-                url: "../api/reports/reorder",
+                url: "../api/reports/requisitionitem",
                 success: function (result) {
                     console.log(result);
                     updateChart2(result);
                     updateTable2(result);
                 }
             })
-        }
+        }            
         var globalData;
         $("#GenerateBtn").click(function () {
             clearChartsAndTables();
-            var decision = $("input[name=Duration]:checked").val();
-            if (decision == 'CompareMonths') {               
+            var decision = $("input[name=Duration]:checked").val();            
+            if (decision == 'CompareMonths') {
                 getComparemonths();
             }
-            else {               
+            else {                
                 var data = getData();
                 console.log(data);
                 $.ajax({
                     type: "POST",
                     data: data,
-                    url: "../api/reports/reorder",
+                    url: "../api/reports/requisitionitem",
                     success: function (result) {
                         globalData = result;
                         updateChart1(result);
                         updateTable1(result);
-                        console.log(result);                       
+                        console.log(result);
                     }
                 })
             }
         });
-   </script>
+    </script>
 </body>
