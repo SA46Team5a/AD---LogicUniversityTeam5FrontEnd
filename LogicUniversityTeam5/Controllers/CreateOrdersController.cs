@@ -350,25 +350,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
 
             CombinedViewModel model = new CombinedViewModel();
-            model.Suppliers = new List<Supplier>();
-            model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
-            model.Suppliers = context.Suppliers.ToList();
+            model.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
             model.AddedText = new List<string>(2) { "", "" };
-            model.RadioButtonListData = new List<RadioButtonData>();     
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 1});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 2 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 3 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 4 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 5 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 6 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 7 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 8 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 9 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 10 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 11});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 12});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 13});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 14 });
             return View(model);
         }
 
@@ -382,10 +365,9 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 CombinedViewModel searchmodel = new CombinedViewModel();
                 int selectorderid = Int32.Parse(model.AddedText[0]);
-                searchmodel.OrderSuppliers = new List<OrderSupplier>();
-                searchmodel.OrderSuppliers = orderService.getOrderSuppliersOfOrder(selectorderid);       
-                searchmodel.Suppliers = new List<Supplier>();
+                searchmodel.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
                 searchmodel.Suppliers = orderService.getSuppliersOfOrderIdWithOutstandingInvoice(selectorderid);
+
                 int size = searchmodel.Suppliers.Count;
                 searchmodel.RadioButtonListData = new List<RadioButtonData>(size);
                 for(int i = 0; i < size; i++)
