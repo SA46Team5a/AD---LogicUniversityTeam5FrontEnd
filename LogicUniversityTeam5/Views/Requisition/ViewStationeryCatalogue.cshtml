@@ -73,16 +73,11 @@
                                         @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
                                     </td>
                                     <td>
-<<<<<<< HEAD
                                         @Html.TextBoxFor(m => Model.AddedText[i], new {
                                            @id = "actualcount",
                                            @onkeypress = "return noNumbers(event)",
                                            @onkeyup = "allownums(this.value)",
                                            @class = "form-control col-9 mx-auto" })
-
-=======
-                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })
->>>>>>> 3d9bfab... fixed linkto collection point
                                         @Html.HiddenFor(m => Model.AddedText[i])
                                     </td>
                                 </tr>
