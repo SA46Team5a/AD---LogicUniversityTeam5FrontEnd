@@ -67,6 +67,21 @@ namespace LogicUniversityTeam5.ApiControllers
             }
         }
 
+        [HttpGet]
+        [Route("api/authority/rescind/{empId}")]
+        public bool rescindAuthority(string empId)
+        {
+            try
+            {
+                _departmentService.rescindAuthority(empId);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         // DepartmentRepresentative
         [HttpGet]
         [Route("api/deprep/{id}")]
