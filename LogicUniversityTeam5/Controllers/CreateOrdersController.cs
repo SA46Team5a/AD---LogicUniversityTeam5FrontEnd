@@ -14,6 +14,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Resources;
+using Rotativa.Options;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
@@ -241,8 +242,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             //Adding Items and Required Quantity
             Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
-            if(itemIdsAndItemQty==null)
-                itemIdsAndItemQty = (Dictionary<string, int>)Session["itemIdsAndItemQty"];
+
             combinedViewModel.Items = new List<Item>();
             combinedViewModel.ReOrderItemQty = new List<int>();
             foreach(OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
@@ -270,8 +270,15 @@ namespace LogicUniversityTeam5.Controllers.Order
             CombinedViewModel combinedViewModel = new CombinedViewModel();
             combinedViewModel.OrderSuppliers = context.OrderSuppliers.Where(x => x.OrderSupplierID == 1).ToList();
             combinedViewModel.OrderSupplierDetails = context.OrderSupplierDetails.Where(x => x.OrderSupplierID == 1).ToList();
-
-            return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
+            var actionPDF = new Rotativa.ActionAsPdf("PrintOrderSummary", combinedViewModel)
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A4,
+                PageOrientation = Rotativa.Options.Orientation.Landscape,
+                PageMargins = { Left = 1, Right = 1 }
+            };
+            byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
+            return View("OrderSummary", new {id =1});
 
         }
 
@@ -284,8 +291,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             //Adding Items and Required Quantity
             Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
-            if (itemIdsAndItemQty == null)
-                itemIdsAndItemQty = (Dictionary<string, int>)Session["itemIdsAndItemQty"];
+
             combinedViewModel.Items = new List<Item>();
             combinedViewModel.ReOrderItemQty = new List<int>();
             foreach (OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
