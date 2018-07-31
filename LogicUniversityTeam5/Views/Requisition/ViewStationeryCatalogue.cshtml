@@ -74,6 +74,7 @@
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => Model.Quantity[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })
+                                        @Html.HiddenFor(m => Model.AddedText[i])
                                     </td>
 
                                 </tr>
