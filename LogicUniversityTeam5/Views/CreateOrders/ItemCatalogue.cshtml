@@ -24,7 +24,7 @@
                     @Html.DropDownListFor(m => Model.AddedText[0],
                                                          new SelectList(des.Distinct()),
                                                          "Select Category",
-                                                         new { @class = "form-control" })
+                                                         new { @id="categoryDropDown" ,@class = "form-control", @onchange="searchByCategoryFunc()" })
                 </div>
             </div>
             <div class="row justify-content-md-center mt-3">
@@ -62,7 +62,7 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="itemCatalogue">
 
                             @for (int i = 0; i < Model.reorderdetail.Count; i++)
                             {
@@ -188,18 +188,13 @@
                 }
             }
         }
-    </script>
-    @*<script>
-        $(document).ready(function () {
-            $('.btn.btn-primary').click(function () {
-                var text = "";
-                var i;
-                $(this).prop("disabled", true);
-                this.value = 'Added';
-                $('#Hidden').val('added');
-                $('.btn-default').val("hello");
-                $('btn-default').change();
-
+        function searchByCategoryFunc() {
+            var filter = $("#categoryDropDown option:selected").text().toLowerCase();
+            console.log(filter);
+            $("#itemCatalogue tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
             });
-        });
-    </script>*@
+
+        }
+    </script>
+
