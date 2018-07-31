@@ -26,7 +26,7 @@ namespace LogicUniversityTeam5
         public ActionResult ReceivedPurchaseOrdersList()
         {
             CombinedViewModel model = new CombinedViewModel();
-            model.Orders=context.Orders.ToList();
+            model.Orders=context.Orders.OrderByDescending(o => o.OrderID).ToList();
             
             return View(model);
         }
