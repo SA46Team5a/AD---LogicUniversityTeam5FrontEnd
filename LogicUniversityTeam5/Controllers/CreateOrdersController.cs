@@ -14,6 +14,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Resources;
+using Rotativa.Options;
 
 namespace LogicUniversityTeam5.Controllers.Order
 {
@@ -74,35 +75,33 @@ namespace LogicUniversityTeam5.Controllers.Order
                 }
             }
             
-            if (Next != null && model.AddedText[0]==null)
+            if (Next != null)
             {
+                //intitialising passmodel
                 CombinedViewModel passModel = new CombinedViewModel();
                 passModel.Quantity = new List<int>();
                 passModel.Items = new List<Item>();
                 passModel.reorderdetail = new List<ReorderDetail>();
+
+                //exclude items with orderQty = 0
                 for (int i = 0; i < model.reorderdetail.Count; i++)
                 {
-                    int value = model.Quantity[i];
-                    string selectcategory = model.AddedText[0];
-                       
-                        if (value.ToString() != null && value != 0)
-                        {
-
-                            passModel.Items.Add(model.Items[i]);
-                            passModel.reorderdetail.Add(model.reorderdetail[i]);
-                            passModel.Quantity.Add(model.Quantity[i]);
-                            TempData["passmodel"] = passModel;
-                        }
-                      
+                    int orderQty = model.Quantity[i];
+                    if (orderQty > 0)
+                    {
+                        passModel.Items.Add(model.Items[i]);
+                        passModel.reorderdetail.Add(model.reorderdetail[i]);
+                        passModel.Quantity.Add(model.Quantity[i]);
+                    }     
                 }
-                //TempData["passmodel"] = passModel;
+
+                TempData["passmodel"] = passModel;
                 return RedirectToAction("OrderQuantity");
             }
             else
             {
                 return View(model);
             }
-
 
         }
         
@@ -116,25 +115,42 @@ namespace LogicUniversityTeam5.Controllers.Order
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult OrderQuantity(CombinedViewModel model)
+        {
+            CombinedViewModel passModel = new CombinedViewModel();
+            passModel.Quantity = new List<int>();
+            passModel.Items = new List<Item>();
+            passModel.reorderdetail = new List<ReorderDetail>();
+            for (int i = 0; i < model.reorderdetail.Count; i++)
+            {
+                int value = model.Quantity[i];
+                passModel.Items.Add(stockManagementService.getItemById(model.Items[i].ItemID));
+                passModel.reorderdetail.Add(model.reorderdetail[i]);
+                passModel.Quantity.Add(model.Quantity[i]);
+
+            }
+            TempData["passmodel"] = passModel;
+            return RedirectToAction("PlaceOrder");
+        }
+
         public ActionResult PlaceOrder()
         {
-
             CombinedViewModel combinedViewModel = new CombinedViewModel();
-            combinedViewModel.Suppliers = new List<Supplier>();
             combinedViewModel.AddedNumbers = new List<int>();
-            combinedViewModel.Items = new List<Item>();
-            combinedViewModel.ReOrderItemQty = new List<int>();
 
             CombinedViewModel passedModel = (CombinedViewModel) TempData["passmodel"];
+            TempData.Keep("passmodel");
 
-            List<int> itemQty = passedModel.Quantity;
             List<string> itemIds = passedModel.Items.Select(x => x.ItemID).ToList();
             Dictionary<string, int> itemIdsAndItemQty = new Dictionary<string, int>();
-
-            for(int i= 0; i<itemIds.Count;i++)
+            
+            for(int i= 0; i<passedModel.Items.Count;i++)
             {
-                itemIdsAndItemQty.Add(itemIds[i], itemQty[i]);
+                itemIdsAndItemQty.Add(itemIds[i], passedModel.Quantity[i]);
             }
+
+            //TempData to pass to OrderSummary Screen
             TempData["itemIdsAndItemQty"] = itemIdsAndItemQty;
             TempData.Keep("itemIdsAndItemQty");
 
@@ -143,26 +159,53 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             foreach (SupplierItem supplierItem in combinedViewModel.supplierItems)
             {
-                //Adding Suppliers in combinedview
-                if (!combinedViewModel.Suppliers.Contains(supplierItem.Supplier))
-                {
-                    //to refactor to service method getSupplierBySupplierID
-                    combinedViewModel.Suppliers.Add(context.Suppliers.Where(x => x.SupplierID == supplierItem.SupplierID).First());
-                }
-
-                //Adding Items in combinedview
-                combinedViewModel.Items.Add(context.Items.Where(x => x.ItemID.Equals(supplierItem.ItemID)).First());
-                foreach(KeyValuePair<string,int> itemIdAndQty in itemIdsAndItemQty)
-                {
-                    if(itemIdAndQty.Key.Equals(supplierItem.ItemID))
-                        combinedViewModel.ReOrderItemQty.Add(itemIdAndQty.Value);
-                }
-
                 //initial value for txtboxes
                 combinedViewModel.AddedNumbers.Add(0);
             }
-            
+
+            combinedViewModel.Suppliers = AddSupplierListsInPlaceOrderView(combinedViewModel.supplierItems);
+            combinedViewModel.Items = AddItemsInPlaceOrderView(combinedViewModel.supplierItems);
+            combinedViewModel.ReOrderItemQty = AddReOrderItemQtyInPlaceOrderView(itemIdsAndItemQty, combinedViewModel.supplierItems);
+
             return View(combinedViewModel);
+        }
+
+        private List<Supplier> AddSupplierListsInPlaceOrderView(List<SupplierItem> supplierItems)
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            foreach (SupplierItem supplierItem in supplierItems)
+            {
+                if (!suppliers.Contains(supplierItem.Supplier))
+                {
+                    suppliers.Add(supplierItem.Supplier);
+                }
+            }
+            return suppliers;
+        }
+
+        private List<Item> AddItemsInPlaceOrderView(List<SupplierItem> supplierItems)
+        {
+            List<Item> items = new List<Item>();
+            foreach (SupplierItem supplierItem in supplierItems)
+            {
+                items.Add(stockManagementService.getItemById(supplierItem.ItemID));
+            }
+            return items;
+        }
+
+        private List<int> AddReOrderItemQtyInPlaceOrderView(Dictionary<string, int> itemIdsAndItemQty, List<SupplierItem> supplierItems)
+        {
+            List<int> reOrderItemQty = new List<int>();
+            foreach (SupplierItem supplierItem in supplierItems)
+            {
+                foreach (KeyValuePair<string, int> itemIdAndQty in itemIdsAndItemQty)
+                {
+                    if (itemIdAndQty.Key.Equals(supplierItem.ItemID))
+                        reOrderItemQty.Add(itemIdAndQty.Value);
+                }
+            }
+
+            return reOrderItemQty;
         }
 
         [HttpPost]
@@ -180,6 +223,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             TempData["itemIdsAndItemQty"] = itemAndQty;
             TempData.Keep("itemIdsAndItemQty");
+            TempData.Keep("passmodel");
 
             //creating new OrderId
             int newOrderId = orderService.createOrderAndGetOrderId(itemAndQty, supplierItemsAndQty);
@@ -198,8 +242,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             //Adding Items and Required Quantity
             Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
-            if(itemIdsAndItemQty==null)
-                itemIdsAndItemQty = (Dictionary<string, int>)Session["itemIdsAndItemQty"];
+
             combinedViewModel.Items = new List<Item>();
             combinedViewModel.ReOrderItemQty = new List<int>();
             foreach(OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
@@ -227,8 +270,15 @@ namespace LogicUniversityTeam5.Controllers.Order
             CombinedViewModel combinedViewModel = new CombinedViewModel();
             combinedViewModel.OrderSuppliers = context.OrderSuppliers.Where(x => x.OrderSupplierID == 1).ToList();
             combinedViewModel.OrderSupplierDetails = context.OrderSupplierDetails.Where(x => x.OrderSupplierID == 1).ToList();
-
-            return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
+            var actionPDF = new Rotativa.ActionAsPdf("PrintOrderSummary", combinedViewModel)
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A4,
+                PageOrientation = Rotativa.Options.Orientation.Landscape,
+                PageMargins = { Left = 1, Right = 1 }
+            };
+            byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
+            return View("OrderSummary", new {id = 1});
 
         }
 
@@ -241,8 +291,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             //Adding Items and Required Quantity
             Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
-            if (itemIdsAndItemQty == null)
-                itemIdsAndItemQty = (Dictionary<string, int>)Session["itemIdsAndItemQty"];
+
             combinedViewModel.Items = new List<Item>();
             combinedViewModel.ReOrderItemQty = new List<int>();
             foreach (OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
@@ -270,24 +319,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return OrderSummary(id);
         }
 
-        [HttpPost]
-        public ActionResult OrderQuantity(CombinedViewModel model)
-        {
-            CombinedViewModel passModel = new CombinedViewModel();
-            passModel.Quantity = new List<int>();
-            passModel.Items = new List<Item>();
-            passModel.reorderdetail = new List<ReorderDetail>();
-            for (int i = 0; i < model.reorderdetail.Count; i++)
-            {
-                int value = model.Quantity[i];
-                passModel.Items.Add(stockManagementService.getItemById(model.Items[i].ItemID));
-                passModel.reorderdetail.Add(model.reorderdetail[i]);
-                passModel.Quantity.Add(model.Quantity[i]);
-              
-            }
-            TempData["passmodel"] = passModel;
-            return RedirectToAction("PlaceOrder");
-        }
+
 
         //To be implemented later
         [HttpPost]
@@ -320,16 +352,23 @@ namespace LogicUniversityTeam5.Controllers.Order
             CombinedViewModel model = new CombinedViewModel();
             model.Suppliers = new List<Supplier>();
             model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
-            model.Suppliers = orderService.getSuppliers();
+            model.Suppliers = context.Suppliers.ToList();
             model.AddedText = new List<string>(2) { "", "" };
-            model.RadioButtonListData = new List<RadioButtonData>(); 
-            for(int i = 0; i < model.Suppliers.Count; i++)
-            {
-                int ID = i + 1;
-                model.RadioButtonListData.Add(new RadioButtonData { Id = ID });
-
-            }
-           
+            model.RadioButtonListData = new List<RadioButtonData>();     
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 1});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 2 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 3 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 4 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 5 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 6 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 7 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 8 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 9 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 10 });
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 11});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 12});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 13});
+            model.RadioButtonListData.Add(new RadioButtonData { Id = 14 });
             return View(model);
         }
 
@@ -397,7 +436,13 @@ namespace LogicUniversityTeam5.Controllers.Order
                         }
                     }
                 }
-               
+                //OrderSupplier selectedOrderSupplier = orderSuppliers
+                //    .Where(x => x.Supplier.SupplierName.Equals(selectedSupplierName)).First();
+
+                //orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
+                
+                
+               // CombinedViewModel model1 = getmodel();
                
                 string path = System.IO.Path.Combine(Server.MapPath("~/UploadedInvoices"),
                     System.IO.Path.GetFileName(file.FileName));

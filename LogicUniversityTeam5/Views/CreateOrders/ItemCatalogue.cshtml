@@ -70,10 +70,12 @@
                                     <td>
                                         @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
                                         @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
+                                        @Html.HiddenFor(m => Model.Items[i].ItemID)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
                                         @Html.HiddenFor(m => Model.reorderdetail[i].ItemName)
+                                        @Html.HiddenFor(m => Model.reorderdetail[i].ItemID)
                                     </td>
                                     <td class="text-center">
                                         @Html.DisplayFor(m => Model.reorderdetail[i].ReorderLevel)
@@ -112,7 +114,7 @@
             </div>
             <div class="row justify-content-md-center mt-3 col 8">
                 <div class=" col-4 text-center">
-                    <input id='btnForgotPassword' type="button" class="btn btn-secondary" value="Cancel" />
+                    @Html.ActionLink("Cancel","Index","Home",null, new { @class="btn btn-secondary" , @value="Cancel" })
                 </div>
                 <div class="col-4 text-center">
                     <input type="submit" value="Next" name="Next" id="btn_next" class="btn btn-primary" />

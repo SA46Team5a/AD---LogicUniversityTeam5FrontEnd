@@ -66,7 +66,7 @@
                                     @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
                                     <td>
                                         @Html.DisplayFor(m => Model.Items[i].ItemName)
-                                        @Html.HiddenFor(m => Model.Items[i].ItemName)
+                                        @Html.HiddenFor(m => Model.Items[i].ItemID)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(m => Model.Items[i].UnitOfMeasure)
@@ -80,7 +80,6 @@
                                            @class = "form-control col-9 mx-auto" })
                                         @Html.HiddenFor(m => Model.AddedText[i])
                                     </td>
-
                                 </tr>
                             }
 
