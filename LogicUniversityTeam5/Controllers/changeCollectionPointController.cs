@@ -14,6 +14,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5.Controllers
 {
+    [Authorize(Roles = "Department Representative")]
     public class ChangeCollectionPointController : Controller
     {
         IDepartmentService departmentService;

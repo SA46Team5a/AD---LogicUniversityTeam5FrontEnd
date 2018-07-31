@@ -64,7 +64,7 @@
             <div class="col-md-4">
                 <label>Upload Invoice</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="file" id="invoicefile" accept="application/pdf" />
+                    <input type="file" class="custom-file-input" name="file" id="file" accept="application/pdf" />
                     <label class="custom-file-label" for="invoicefile">Choose file</label>
                 </div>
                 @*<div class="input-group-append">
@@ -89,6 +89,14 @@
             </div>
         </div>
         <script>
+            $("#Sent").click(function () {
+                var fileName = $("#file").val();
+                if (fileName.lastIndexOf("pdf") === fileName.length - 3)
+                    return true;
+                else
+                    alert("Please upload the file");
+                return false;
+            })
             function ValidateRadioButton() {
                 var rbtDetail = document.getElementsByName("radiobutton");
                 var isValid = false;

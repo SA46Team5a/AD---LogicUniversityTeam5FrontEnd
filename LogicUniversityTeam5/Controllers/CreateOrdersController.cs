@@ -30,7 +30,8 @@ namespace LogicUniversityTeam5.Controllers.Order
             orderService = os;
             context = StationeryStoreEntities.Instance;
         }
-
+        
+        [Authorize(Roles = "Store Supervisor,Store Clerk")]
         public ActionResult ItemCatalogue()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -105,7 +106,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
 
         }
-        
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderQuantity()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -115,7 +116,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             TempData.Keep("passmodel");
             return View(model);
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult PlaceOrder()
         {
 
@@ -187,7 +188,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return RedirectToAction("OrderSummary",new { id = newOrderId });
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("CreateOrders/OrderSummary/{id}")]
         public ActionResult OrderSummary(int id)
         {
@@ -220,7 +221,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return View(combinedViewModel);
         }
- 
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult PrintOrderSummary(CombinedViewModel model)
         {
             //Harcoded: to be removed
@@ -231,7 +232,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return new ViewAsPdf("PrintOrderSummary", combinedViewModel);
 
         }
-
+        [Authorize(Roles = "Store Clerk")]
         private CombinedViewModel RetrieveDataForOrderSummary()
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
@@ -262,7 +263,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return combinedViewModel;
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderSummary(CombinedViewModel model)
         {
             TempData["itemIdsAndItemQty"] = model.ItemIdAndQty;
@@ -313,7 +314,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return File(archive, "application/zip", "archive.zip");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult SubmitInvoice()
         {
 

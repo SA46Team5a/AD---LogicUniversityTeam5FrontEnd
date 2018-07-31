@@ -102,7 +102,9 @@ namespace LogicUniversityTeam5.Controllers.Requisition
            
             return RedirectToAction("StationeryRequestForm", new { Contains = true });
         }
-
+       
+        [Authorize(Roles = "Department Representative")]
+        [Authorize(Roles = "Employee")]
         [HttpGet]
         public ActionResult StationeryRequestForm()
         {
@@ -155,7 +157,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         }
 
-
+    
         [HttpGet]
         public ActionResult ResubmitStationaryRequestForm()
         {

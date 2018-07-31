@@ -10,6 +10,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5
 {
+    [Authorize(Roles = "DepartmentHead")]
     public class ApproveRequisitionController : Controller
     {
         // GET: approveRequisitionForm
