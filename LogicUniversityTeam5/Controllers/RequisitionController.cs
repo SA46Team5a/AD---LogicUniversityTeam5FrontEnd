@@ -121,6 +121,13 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return View(newmodel);
 
         }
+
+        [HttpPost]
+        public ActionResult GoToStationaryRequestForm()
+        {
+            return RedirectToAction("StationeryRequestForm");
+        }
+
         [HttpPost]
         public ActionResult StationeryRequestForm(CombinedViewModel model)
         {
