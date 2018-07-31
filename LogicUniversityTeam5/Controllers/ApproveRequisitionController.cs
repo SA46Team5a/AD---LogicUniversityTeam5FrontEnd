@@ -41,10 +41,7 @@ namespace LogicUniversityTeam5
 
                 CombinedViewModel innerModel = new CombinedViewModel();
                 innerModel.Requisition = new List<Requisition>();
-<<<<<<< HEAD
-                //Requisition requisition = context.Requisitions.First(l => l.RequisitionID == value);
-=======
->>>>>>> 4b17eb701636e6924b53be6a2e65f91e467ede04
+
                 Requisition requisition = requisitionService.getRequisitionById(value);
                 innerModel.Requisition.Add(requisition);
                 innerModel.Employee = new List<Employee>();
@@ -54,10 +51,7 @@ namespace LogicUniversityTeam5
                 innerModel.Details = new List<RequisitionDetail>();
                 innerModel.Items = new List<Item>();
                 List<string> itemid = new List<string>();
-<<<<<<< HEAD
-                //innerModel.Details = context.RequisitionDetails.Where(x => x.RequisitionID == value).ToList();
-=======
->>>>>>> 4b17eb701636e6924b53be6a2e65f91e467ede04
+
                 innerModel.Details = requisitionService.getRequisitionDetails(value);
 
                 for (int m = 0; m < innerModel.Details.Count; m++)

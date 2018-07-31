@@ -51,59 +51,52 @@ namespace LogicUniversityTeam5.Controllers.Order
             
             if (Search != null)
             {
+                for (int i = 0; i < model.reorderdetail.Count; i++)
+                {
+                    CombinedViewModel searchmodel = new CombinedViewModel();
+                    string selectCategory = model.AddedText[0];
+                    searchmodel.reorderdetail = new List<ReorderDetail>();
+                    
+                    //refactor to ServiceLayer getReorderDetailsByCategoryName()
+                    Category category = context.Categories.First(m => m.CategoryName == selectCategory);
+                    searchmodel.Items = stockManagementService.getItemsOfCategory(category.CategoryID);
+                    
+                    List<string> itemIds = searchmodel.Items.Select(it => it.ItemID).ToList();
+
+                    foreach(string id in itemIds)
+                    {
+                        ReorderDetail detail = context.ReorderDetails.First(x => x.ItemID == id);
+                        searchmodel.reorderdetail.Add(detail);
+                    }
+                    //
+
+                    return View(searchmodel);
+                }
+            }
+            
+            if (Next != null && model.AddedText[0]==null)
+            {
                 CombinedViewModel passModel = new CombinedViewModel();
                 passModel.Quantity = new List<int>();
                 passModel.Items = new List<Item>();
                 passModel.reorderdetail = new List<ReorderDetail>();
                 for (int i = 0; i < model.reorderdetail.Count; i++)
                 {
-                    CombinedViewModel searchmodel = new CombinedViewModel();
+                    int value = model.Quantity[i];
                     string selectcategory = model.AddedText[0];
-                    searchmodel.Items = new List<Item>();
-                    searchmodel.reorderdetail = new List<ReorderDetail>();
-                    Category category = context.Categories.First(m => m.CategoryName == selectcategory);
-                    searchmodel.Items = stockManagementService.getItemsOfCategory(category.CategoryID);
-                    //searchmodel.Items = context.Items.Where(m => m.Category.CategoryName == selectcategory).ToList();
-                    List<string> itemid = new List<string>();
-                    for (int m = 0; m < searchmodel.Items.Count; m++)
-                    {
-                        itemid.Add(searchmodel.Items[m].ItemID);
-                    }
-                    for (int m = 0; m < itemid.Count; m++)
-                    {
-                        var value = itemid[m];
-                        ReorderDetail detail = context.ReorderDetails.First(x => x.ItemID == value);
-                        searchmodel.reorderdetail.Add(detail);
-                    }
-                    return View(searchmodel);
-                }
-            }
-            
-            
-            if (Next != null )
-            {
-                
-                    CombinedViewModel passModel = new CombinedViewModel();
-                    passModel.Quantity = new List<int>();
-                    passModel.Items = new List<Item>();
-                    passModel.reorderdetail = new List<ReorderDetail>();
-                    for (int i = 0; i < model.reorderdetail.Count; i++)
-                    {
-                        int value = model.Quantity[i];
-                        string selectcategory = model.AddedText[0];
                        
-                            if (value.ToString() != null && value != 0)
-                            {
+                        if (value.ToString() != null && value != 0)
+                        {
 
-                                passModel.Items.Add(model.Items[i]);
-                                passModel.reorderdetail.Add(model.reorderdetail[i]);
-                                passModel.Quantity.Add(model.Quantity[i]);
-                                TempData["passmodel"] = passModel;
-                            }
+                            passModel.Items.Add(model.Items[i]);
+                            passModel.reorderdetail.Add(model.reorderdetail[i]);
+                            passModel.Quantity.Add(model.Quantity[i]);
+                            TempData["passmodel"] = passModel;
+                        }
                       
-                    }
-                    //TempData["passmodel"] = passModel;
-                    return RedirectToAction("OrderQuantity");
+                }
+                //TempData["passmodel"] = passModel;
+                return RedirectToAction("OrderQuantity");
             }
             else
             {
