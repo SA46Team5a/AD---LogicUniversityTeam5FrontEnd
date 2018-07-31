@@ -14,25 +14,25 @@
         <div class="row justify-content-md-center mt-3">
             <div class="col-3 text-center">
                 @{
-                    List<string> DepartmentNames = new List<string>();
-                    for (int i = 0; i < Model.Departments.Count; i++)
+                    List<SelectListItem> DepartmentNames = new List<SelectListItem>();
+                    DepartmentNames.Add(new SelectListItem { Text = "Select department name".ToString(), Value = "".ToString(), Selected = true });
+                    foreach (var dep in Model.Departments)
                     {
-                        DepartmentNames.Add(Model.Departments[i].DepartmentName);
+                        string output = dep.DepartmentName.ToString();
+                        DepartmentNames.Add(new SelectListItem { Text=output, Value=output});
                     }
 
                     DepartmentNames = DepartmentNames.Distinct().ToList();
                 }
 
-                @Html.DropDownList("Department Names", new SelectList(DepartmentNames),"Select Department",
-                                                                    new { @class="form-control form-control-lg",
-                                                                        @name ="DeptDropdownlist",
-                                                                        @id ="DeptDropdownlist",
-                                                                        @text ="Department",
-                                                                        @required ="true"
-                                                                    })
-                <div class="invalid-feedback">
-                    Please provide a category.
-                </div>
+                @Html.DropDownList("Department Names", DepartmentNames,
+                new { @class="form-control form-control-lg",
+                    @name ="DeptDropdownlist",
+                    @id ="DeptDropdownlist",
+                    @text ="Department",
+                    @required ="true"
+                })
+                
             </div>
 
         </div>
@@ -40,6 +40,7 @@
             <div class="col-3 text-center">
                 <select class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist"
                          placeholder="Department" required>
+                    <option value="">Select Status</option>
                     <option value="All">All</option>
                     <option value="Not Ordered">Not Ordered</option>
                     <option value="Ordered">Not Delivered</option>
@@ -52,7 +53,7 @@
         </div>
         <div class="row justify-content-md-center mt-3 pb-5">
             <div class="col-9 text-center">
-                <button id="btn_search" type="button" onclick="search()" class="btn btn-primary">Search</button>
+                <button id="btn_search" type="button" onclick="search(); return Validate();" class="btn btn-primary">Search</button>
             </div>
         </div>
         @using (Html.BeginForm("TrackOutstandingRequisition", "TrackOutstandingRequisition", FormMethod.Post))
@@ -128,7 +129,7 @@
 <script>
     function search() {
         var deptInput, deptfilter, statusInput, statusfilter, table, tr, td, i;
-
+       
         deptInput = document.getElementById("DeptDropdownlist");
         deptfilter = deptInput.value.toUpperCase();
 
@@ -156,5 +157,16 @@
             }
         }
     }
+    function Validate() {
+        console.log("hello");
+        var orderid = document.getElementById("DeptDropdownlist");
+        if (orderid.value == "") {
+            //If the "Please Select" option is selected display error.
+            alert("Please select an option!");
+            return false;
+        }
+        return true;
+    }
+   
 </script>
 

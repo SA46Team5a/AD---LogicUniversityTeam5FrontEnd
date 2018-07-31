@@ -326,7 +326,6 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             CombinedViewModel model = new CombinedViewModel();
             model.Suppliers = new List<Supplier>();
-            model.OrderSuppliers = new List<OrderSupplier>();
             model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
             model.Suppliers = context.Suppliers.ToList();
             model.AddedText = new List<string>(2) { "", "" };
@@ -375,26 +374,41 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 int selectedOrderId = Convert.ToInt32(model.AddedText[0]);
                 CombinedViewModel model1 = new CombinedViewModel();
-                List<OrderSupplier> orderSuppliers =
+                model1.OrderSuppliers =
                         orderService.getOrderSuppliersOfOrder(selectedOrderId);
-                for(int i = 0; i < orderSuppliers.Count; i++)
+                List<string> supplierid = new List<string>();
+                for (int i = 0; i < model1.OrderSuppliers.Count; i++)
                 {
-                    List<string> supplierid = new List<string>();
-                    supplierid.Add(orderSuppliers[i].SupplierID);
+       
+                    supplierid.Add(model1.OrderSuppliers[i].SupplierID);
+                    
+                }
+                model1.Suppliers = new List<Supplier>();
+                List<Supplier> sup = new List<Supplier>();
+                for (int i = 0; i < supplierid.Count; i++)
+                {
                     string value = supplierid[i];
                     Supplier supplier = context.Suppliers.First(m => m.SupplierID == value);
-                    model1.Suppliers = new List<Supplier>();
-                    model1.Suppliers.Add(supplier);
+                    sup.Add(supplier);
                 }
-                for(int i = 0; i < model.Suppliers.Count; i++)
+                for(int i = 0; i < sup.Count(); i++)
                 {
-                    string name = model1.Suppliers[i].SupplierName;
+                    string name = sup[i].SupplierName;
+                    var output = sup[i].SupplierID;
+                    List<string> supplierlist = new List<string>();
                     if (radiobutton == name)
                     {
-                        OrderSupplier selectedOrderSupplier = orderSuppliers
-                       .Where(x => x.Supplier.SupplierName.Equals(name)).First();
-
+                        OrderSupplier selectedOrderSupplier = model1.OrderSuppliers
+                       .Where(x => x.SupplierID==output).First();
                         orderService.confirmInvoiceUploadStatus(selectedOrderSupplier.OrderSupplierID);
+                        model1.Suppliers = orderService.getSuppliersOfOrderIdWithOutstandingInvoice(selectedOrderId);
+                        int size = model1.Suppliers.Count;
+                        model1.RadioButtonListData = new List<RadioButtonData>(size);
+                        for (int m = 0; m < size; m++)
+                        {
+                            int radioid = m + 1;
+                            model1.RadioButtonListData.Add(new RadioButtonData { Id = radioid });
+                        }
                     }
                 }
                 //OrderSupplier selectedOrderSupplier = orderSuppliers

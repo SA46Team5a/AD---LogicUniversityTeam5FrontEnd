@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ServiceLayer;
@@ -20,6 +21,7 @@ namespace LogicUniversityTeam5.Models
 
         public List<StockVoucher> StockVouchers { get; set; }
 
+        
         public List<Order> Orders { get; set; }
 
         public List<bool> IsSelected { get; set; }
@@ -27,7 +29,7 @@ namespace LogicUniversityTeam5.Models
         public bool IsSave { get; set; }
 
         public string categorySelected { get; set; }
-
+        [Required(ErrorMessage = "OrderID is required.")]
         public List<String> AddedText { get; set; }
 
         public List<int> AddedNumbers { get; set; }
@@ -48,7 +50,7 @@ namespace LogicUniversityTeam5.Models
         public List<EmailFormModel> EmailForm { get; set; }
 
         public List<Category> category { get; set; }
-
+        [Required(ErrorMessage = "Employee is required.")]
         public List<Employee> Employee { get; set; }
 
         public List<SupplierItem> supplierItems { get; set; }

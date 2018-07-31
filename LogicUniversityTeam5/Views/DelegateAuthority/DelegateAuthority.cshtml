@@ -11,9 +11,9 @@
 
 
         @{ if (Request.Params["isDelegateAuthority"] != null)
-        {
-            if (Request.Params["isDelegateAuthority"].Equals("True"))
             {
+                if (Request.Params["isDelegateAuthority"].Equals("True"))
+                {
                 <div class="row justify-content-md-center pb-2">
                     <div class="alert alert-success col-8">
 
@@ -23,15 +23,15 @@
                         </div>
                     </div>
                 </div>
-        }
-    }
+                }
+            }
         }
 
 
         @{ if (Request.Params["isRescind"] != null)
-        {
-            if (Request.Params["isRescind"].Equals("True"))
             {
+                if (Request.Params["isRescind"].Equals("True"))
+                {
                 <div class="row justify-content-md-center pb-2">
                     <div class="alert alert-danger col-8">
 
@@ -41,8 +41,8 @@
                         </div>
                     </div>
                 </div>
-        }
-    }
+                }
+            }
         }
 
 
@@ -51,7 +51,7 @@
         </div>
         <div class="row justify-content-md-center pb-2">
             <h5 class="text-center mb=3">Authority Holder: 
-            @Html.DisplayFor(m=>Model.Authorities.Employee.EmployeeName)
+            @Html.DisplayFor(m => Model.Authorities.Employee.EmployeeName)
             </h5>
                             
         </div>
@@ -62,20 +62,35 @@
                 <div class="form-group">
                     <label for="Delegatedperson">Delegated person with authority</label>
 
-                    @{List<string> Employee = new List<string>();
-                            foreach (var emp in Model.Employee)
-                            {
-                                Employee.Add(emp.EmployeeName);
-                            }
+                    @{List<SelectListItem> Employee = new List<SelectListItem>();
+                        Employee.Add(new SelectListItem { Text = "Select Order ID".ToString(), Value = "".ToString(), Selected = true });
+                        foreach (var emp in Model.Employee)
+                        {
+                            string output = emp.EmployeeName.ToString();
+                            Employee.Add(new SelectListItem { Text = output, Value = output });
                         }
+                    }
 
-                        @Html.DropDownListFor(m => Model.AddedText[0],
-                                        new SelectList(Employee.Distinct()),
-                                        "Select Employee",
-                                        new { @class = "form-control" })
+                    @Html.DropDownListFor(m => Model.AddedText[0],
+                      Employee,
+                      new { @class = "form-control", @id = "employee" })
+
                     @Html.HiddenFor(m => m.Employee)
-
+                    
                 </div>
+                <script>
+                    function Validate() {
+                        console.log("hello");
+                        var orderid = document.getElementById("employee");
+                        if (orderid.value == "") {
+                            //If the "Please Select" option is selected display error.
+                            alert("Please select an option!");
+                            return false;
+                        }
+                        return true;
+                    }
+
+                </script>
                 <div class="form-group">
 
                     <div class="row justify-content-md-center">
@@ -84,28 +99,79 @@
                     </div>
                     <div class="row justify-content-md-center pb-5">
                         <div class="col-6 text-left">
-                            @Html.TextBoxFor(m => Model.AddedText[1],
-                                           new
-                                           {
-                                               @class = "form-control",
-                                               @type = "date",
-                                               @min = DateTime.Today,
-                                               @max = "2018-12-31"
-                                           })
-                            @*<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">*@
 
+                            @Html.TextBoxFor(m => Model.AddedText[1],
+                      new
+                      {
+                          @id = "bday",
+                          @class = "form-control",
+                          @type = "date",
+                          @min = DateTime.Today,
+                          @max = "2018-12-31"
+
+                      })
+                            @*@Html.HiddenFor(m => m.StartDate)*@
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+                            <script>
+                                function todayDate() {
+                                    var today = new Date(); // get the current date
+                                    var dd = today.getDate(); //get the day from today.
+                                    var mm = today.getMonth() + 1; //get the month from today +1 because january is 0!
+                                    var yyyy = today.getFullYear(); //get the year from today
+                                    //if day is below 10, add a zero before (ex: 9 -> 09)
+                                    if (dd < 10) {
+                                        dd = '0' + dd
+                                    }
+                                    //like the day, do the same to month (3->03)
+                                    if (mm < 10) {
+                                        mm = '0' + mm
+                                    }
+                                    //finally join yyyy mm and dd with a "-" between then
+                                    return yyyy + '-' + mm + '-' + dd;
+                                }
+
+                                $(document).ready(function () {
+                                    $('#bday').attr('min', todayDate());
+                                });
+
+                            </script>
                             @*@Html.HiddenFor(m => m.StartDate)*@
                         </div>
                         <div class="col-6 text-left">
-                            @Html.TextBoxFor(m => Model.AddedText[2],
-                                           new
-                                           {
-                                               @class = "form-control",
-                                               @type = "date",
-                                               @min = DateTime.Today,
-                                               @max = "2018-12-31"
-                                           })
-                            @*<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">*@
+
+                            @Html.TextBoxFor(m => Model.AddedText[1],
+                             new
+                             {
+                                 @id = "enddate",
+                                 @class = "form-control",
+                                 @type = "date",
+                                 @min = DateTime.Today,
+                                 @max = "2018-12-31"
+                             })
+                            <script>
+                                function todayDate() {
+                                    var today = new Date(); // get the current date
+                                    var dd = today.getDate(); //get the day from today.
+                                    var mm = today.getMonth() + 1; //get the month from today +1 because january is 0!
+                                    var yyyy = today.getFullYear(); //get the year from today
+                                    //if day is below 10, add a zero before (ex: 9 -> 09)
+                                    if (dd < 10) {
+                                        dd = '0' + dd
+                                    }
+                                    //like the day, do the same to month (3->03)
+                                    if (mm < 10) {
+                                        mm = '0' + mm
+                                    }
+                                    //finally join yyyy mm and dd with a "-" between then
+                                    return yyyy + '-' + mm + '-' + dd;
+                                }
+
+                                $(document).ready(function () {
+                                    $('#enddate').attr('min', todayDate());
+                                });
+
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -116,7 +182,7 @@
         <br>
         <div class="row justify-content-md-center pt-5">
             <div class="col-2 text-left">
-                <input type="submit" value="Confirm" class="btn btn-primary" />
+                <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
             </div>
             <div class="col-2 text-center">
                 <button type="button" id="home" class="btn btn-secondary ">Home</button>
@@ -139,7 +205,7 @@
 
         var dateToday = new Date();
             $(function () {
-                $("#datepicker").datepicker({
+                $("#bday").datepicker({
                     numberOfMonths: 3,
                     showButtonPanel: true,
                     minDate: dateToday
@@ -149,6 +215,19 @@
             $('#rescind').click(function () {
                 $('#isRescind').val('true');
             });
+
+    </script>
+    <script>
+            $(document).ready(function () {
+                var year = (new Date).getFullYear();
+                $("#bday").datepicker({
+                    dateFormat: "mm/dd/yy", maxDate:
+                        0
+                });
+
+            });
+
+
 
     </script>
 </body>
