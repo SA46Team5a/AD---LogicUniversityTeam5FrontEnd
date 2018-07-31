@@ -25,16 +25,28 @@
                     </div>
                     <div class="row justify-content-md-center">
                         <div class="col-6 text-left">
-                            @Html.TextBox("startdate", null, new { @type="date", @name="startdate", @class="form-control",
+                            @Html.TextBox("startdate", null, new { @type="date", @name="startdate", @class="form-control",@id="start",
                                                                     @min="2018-01-01"})
                         </div>
                         <div class="col-6 text-left">
-                            @Html.TextBox("enddate", null, new { @type="date", @name="enddate", @class="form-control",
-                                                                    @min="2018-01-01"})
+                            @Html.TextBox("enddate", null, new { @type="date", @name="enddate", @class="form-control",@id="end",
+                                                                    @min="2018-01-02"})
                         </div>
                     </div>
                 </div>
+                <script>
+                    var start = document.getElementById('start');
+                    var end = document.getElementById('end');
 
+                    start.addEventListener('change', function () {
+                        if (start.value)
+                            end.min = start.value;
+                    }, false);
+                    end.addEventLiseter('change', function () {
+                        if (end.value)
+                            start.max = end.value;
+                    }, false);
+                </script>
                 @Html.DropDownList("approvalstatus", new SelectList(approvalStatusList, ViewBag.SelectedApprovalStatus), new { @class = "form-control" })
                 @Html.Hidden("empId", (object)ViewBag.EmpId)
                 <div><input type="submit" class="btn btn-primary" id="search" value="Search" /></div>

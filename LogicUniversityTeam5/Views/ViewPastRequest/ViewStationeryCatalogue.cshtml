@@ -59,7 +59,10 @@
                                         @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })
+                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto",
+                                           @onkeypress = "return noNumbers(event)",
+                                           @onkeyup = "allownums(this.value)",
+                                   })
                                         @Html.HiddenFor(m => Model.AddedText[i])
                                     </td>
 
@@ -91,7 +94,36 @@
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+    function noNumbers(e) {
+        var keynum;
+        var keychar;
+        var numcheck;
 
+        if (window.event) // IE
+        {
+            keynum = e.keyCode;
+        }
+        else if (e.which) // Netscape/Firefox/Opera
+        {
+            keynum = e.which;
+        }
+        keychar = String.fromCharCode(keynum);
+
+        numcheck = /\d/;
+        if (numcheck.test(keychar)) {
+            return true;
+        }
+        else {
+            alert("Only positive numbers are allowed");
+            return false
+        }
+    }
+    function allownums(value) {
+        var num = parseInt(value, 10);
+        if (num < 0 || num >
+            1000)
+            alert("Sorry, we can not supply so much items once")
+    }
 </script>
 
 

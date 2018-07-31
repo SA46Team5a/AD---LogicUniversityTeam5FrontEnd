@@ -14,16 +14,17 @@
             </span>
             
                 <div class="col-3 text-center">
-                    @{ List<string> des = new List<string>();
+                    @{ List<SelectListItem> des = new List<SelectListItem>();
+                        des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
                         foreach (var item in Model.Items)
                         {
-                            des.Add(item.Category.CategoryName);
+                            string output = item.Category.CategoryName;
+                            des.Add(new SelectListItem { Text = output, Value = output });
 
                         }
                     }
                     @Html.DropDownListFor(m => Model.AddedText[0],
-                                                         new SelectList(des.Distinct()),
-                                                         "Select Category",
+                                                         des,
                                                          new { @id="categoryDropDown" ,@class = "form-control", @onchange="searchByCategoryFunc()" })
                 </div>
             </div>
@@ -36,14 +37,12 @@
                            placeholder="Search Description" onkeyup="searchbydesFunction()">
 
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a category.
-                </div>
+                
             </div>
 
             <div class="row justify-content-md-center mt-3">
                 <div class="col-9 text-center">
-                    <input type="submit" value="Search" name="Search" id="btn_search" class="btn btn-primary" />
+                    <input type="submit" value="Search" name="Search" onclick="return Validate();" id="btn_search" class="btn btn-primary" />
                 </div>
             </div>
             <div class="mt-6 mb-6"> </div>
@@ -187,6 +186,16 @@
                     }
                 }
             }
+        }
+        function Validate() {
+            console.log("hello");
+            var orderid = document.getElementById("categoryDropDown");
+            if (orderid.value == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an option!");
+                return false;
+            }
+            return true;
         }
         function searchByCategoryFunc() {
             var filter = $("#categoryDropDown option:selected").text().toLowerCase();

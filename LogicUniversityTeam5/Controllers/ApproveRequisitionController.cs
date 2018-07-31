@@ -64,7 +64,7 @@ namespace LogicUniversityTeam5
                 {
                     string innervalue = itemid[m];
                     Item item = context.Items.First(z => z.ItemID == innervalue);
-                    //Item item = stockManagementService.getItemById(innervalue) cuz no return value;
+                    //Item item = stockManagementService.getItemById(innervalue) ;
                     innerModel.Items.Add(item);
                 }
                 model.specialmodel.Add(innerModel);

@@ -396,8 +396,8 @@
     <Content Include="Views\CreateOrders\ItemCatalogue.cshtml" />
     <Content Include="Views\CreateOrders\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\SubmitInvoice.cshtml" />
-    <Content Include="Views\ViewReceivedOrdersList\ReceivedPurchaseOrdersList.cshtml" />
-    <Content Include="Views\ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
+    <Content Include="ViewReceivedOrdersList\ReceivedPurchaseOrdersList.cshtml" />
+    <Content Include="ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
     <Content Include="Views\ApproveRequisition\ApproveRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
