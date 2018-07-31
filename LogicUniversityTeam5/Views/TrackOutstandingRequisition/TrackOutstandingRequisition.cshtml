@@ -1,0 +1,172 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "TrackOutsandingRequisition";
+}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-9 text-center">
+                <h1>Outstanding Requistion Tracking</h1>
+
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-3 text-center">
+                @{
+                    List<SelectListItem> DepartmentNames = new List<SelectListItem>();
+                    DepartmentNames.Add(new SelectListItem { Text = "Select department name".ToString(), Value = "".ToString(), Selected = true });
+                    foreach (var dep in Model.Departments)
+                    {
+                        string output = dep.DepartmentName.ToString();
+                        DepartmentNames.Add(new SelectListItem { Text=output, Value=output});
+                    }
+
+                    DepartmentNames = DepartmentNames.Distinct().ToList();
+                }
+
+                @Html.DropDownList("Department Names", DepartmentNames,
+                new { @class="form-control form-control-lg",
+                    @name ="DeptDropdownlist",
+                    @id ="DeptDropdownlist",
+                    @text ="Department",
+                    @required ="true"
+                })
+                
+            </div>
+
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-3 text-center">
+                <select class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist"
+                         placeholder="Department" required>
+                    <option value="">Select Status</option>
+                    <option value="All">All</option>
+                    <option value="Not Ordered">Not Ordered</option>
+                    <option value="Ordered">Not Delivered</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+            </div>
+            <div class="invalid-feedback">
+                Please provide a category.
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3 pb-5">
+            <div class="col-9 text-center">
+                <button id="btn_search" type="button" onclick="search(); return Validate();" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        @using (Html.BeginForm("TrackOutstandingRequisition", "TrackOutstandingRequisition", FormMethod.Post))
+        {
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-10 text-center">
+                        <table class="table" id="outstandingRequisitionTable">
+                        <thead>
+                            <tr class="align-middle">
+                                <th scope="col" class="align-middle">Required Date</th>
+                                <th scope="col" class="align-middle">Department</th>
+                                <th scope="col" class="align-middle">Stationery Description</th>
+                                <th scope="col" class="align-middle">Outstanding Quantity</th>
+                                <th scope="col" class="align-middle">Required Quantity</th>
+                                <th scope="col" class="align-middle">Order No.</th>
+                                <th scope="col" class="align-middle">Suppliers</th>
+                                <th scope="col" class="align-middle">Quantity</th>
+                                <th scope="col" class="align-middle">Order Status</th>
+                            </tr>
+                        <tbody>
+                            @for (int i = 0; i < Model.RequisitionDetails.Count; i++)
+                            {
+                                @Html.HiddenFor(m => Model.RequisitionDetails[i].RequisitionDetailsID)
+                                int rdId = Model.RequisitionDetails[i].RequisitionDetailsID;
+                                <tr>
+                                    <td>@Html.DisplayFor(m => Model.RequisitionDetails[i].Requisition.RequestedDate) </td>
+                                    <td>@Html.DisplayFor(m => Model.RequisitionDetails[i].Requisition.Requester.Department.DepartmentName)</td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.RequisitionDetails[i].Item.ItemName)
+                                        @Html.HiddenFor(m => Model.RequisitionDetails[i].Item.ItemID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.OutstandingRequisitionViews[i].OutStandingQuantity)
+                                        @Html.HiddenFor(m => Model.OutstandingRequisitionViews[i].OutStandingQuantity)
+                                    </td>
+                                    <td>@Html.DisplayFor(m => Model.RequisitionDetails[i].Quantity)</td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplier.OrderID)
+                                        @Html.HiddenFor(m => Model.OrderSupplierDetails[i].OrderSupplier.OrderID)
+                                    </td>
+                                    <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplier.Supplier.SupplierName)</td>
+                                    <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].Quantity)</td>
+                                    <td>
+                                        @{  
+                                            string status ="";
+                                            if(Model.OrderSupplierDetails[i].OrderSupplier == null)
+                                            {
+                                                status = "Not Ordered";
+                                            }
+                                            else
+                                            {
+                                                status = Model.OrderSupplierDetails[i].OrderSupplier.DeliveryStatus.DeliveryStatusName;
+                                            }
+                                        }
+                                        @Html.DisplayFor(m => status)
+                                    </td>
+                                </tr>
+                            }
+                         </tbody>
+                    </table>  
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-3 pb-5">
+                <div class="col-9 text-center">
+                    <button id="btn_reorder" type="submit" class="btn btn-primary">Reorder</button>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</body>
+<script>
+    function search() {
+        var deptInput, deptfilter, statusInput, statusfilter, table, tr, td, i;
+       
+        deptInput = document.getElementById("DeptDropdownlist");
+        deptfilter = deptInput.value.toUpperCase();
+
+        statusInput = document.getElementById("StatusDropdownlist");
+        if (statusInput.value === "All") {
+            statusInput.value = "";
+            
+        }
+        statusfilter = statusInput.value.toUpperCase();
+
+        table = document.getElementById("outstandingRequisitionTable");
+        tr = table.getElementsByTagName("tr");
+
+        //Loop for dept
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(deptfilter) > -1 && td.innerHTML.toUpperCase().indexOf(statusfilter) > -1) {
+                    console.log("Hello");
+                    tr[i].style.display = "";
+                } else {
+                    console.log("Bye");
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function Validate() {
+        console.log("hello");
+        var orderid = document.getElementById("DeptDropdownlist");
+        if (orderid.value == "") {
+            //If the "Please Select" option is selected display error.
+            alert("Please select an option!");
+            return false;
+        }
+        return true;
+    }
+   
+</script>
+

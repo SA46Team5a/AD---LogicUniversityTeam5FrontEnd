@@ -1,0 +1,76 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "PrintOrderSummary";
+}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-9 text-center">
+                <h1>Purchase Order</h1>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+        </div>
+        <div class="row justify-content-md-center mt-3">
+        </div>
+        <div class="row justify-content-md-center mt-3 pb-5">
+            <div class="col-9 text-left">
+                Order Supplier ID : @Html.DisplayFor(m=>Model.OrderSupplierDetails[0].OrderSupplierID)
+            </div>
+            <div class="col-9 text-left">
+                Supplier Name: @Html.DisplayFor(m => Model.OrderSupplierDetails[0].OrderSupplier.Supplier.SupplierName)
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-10 text-center">
+                <table class="table">
+                    <thead>
+                        <tr class="align-middle">
+                            <th scope="col" class="align-middle col-2">Order Supplier Detail ID</th>
+                            <th scope="col" class="align-middle col-4">Item Description</th>
+                            <th scope="col" class="align-middle">Quantity</th>
+                            <th scope="col" class="align-middle">Unit Price</th>
+                            <th scope="col" class="align-middle">Item Total</th>
+                        </tr>
+                    <tbody>
+                        @{ decimal orderSupplierTotalCost = 0m;}
+                        @for (int i = 0; i < Model.OrderSupplierDetails.Count; i++)
+                        {
+                            int qty = Model.OrderSupplierDetails[i].Quantity;
+                            decimal unitCost = Model.OrderSupplierDetails[i].UnitCost;
+                            decimal itemTotal = qty * unitCost;
+                            orderSupplierTotalCost += itemTotal;
+
+                            <tr>
+                                <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplierDetailsID)</td>
+                                <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].Item.ItemName)</td>
+                                <td>@Html.DisplayFor(m => qty)</td>
+                                <td>@Html.DisplayFor(m => unitCost)</td>
+                                <td>@Html.DisplayFor(m => itemTotal)</td>
+                            </tr>     
+                        }
+                        <tr>
+                            <td>dw</td>
+                            <td>dwd</td>
+                            <td>sdf</td>
+                            <td>5</td>
+                            <td>sdf</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>@Html.DisplayFor(m => orderSupplierTotalCost)</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+

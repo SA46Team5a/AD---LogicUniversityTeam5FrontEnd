@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
@@ -15,8 +16,9 @@ namespace LogicUniversityTeam5.Controllers
     public class StockAdjustmentController : Controller
     {
         IStockManagementService stockManagementService;
+        static StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
-        public StockAdjustmentController(IStockManagementService sms)
+        public StockAdjustmentController(StockManagementService sms)
         {
             stockManagementService = sms;
         }
@@ -24,28 +26,38 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
             CombinedViewModel combinedView = new CombinedViewModel();
-            combinedView.StockVouchers = stockManagementService.getOpenVouchers();
-            combinedView.IsSelected = new List<bool>();
-            foreach (StockVoucher voucher in combinedView.StockVouchers)
-            {
-                combinedView.IsSelected.Add(false);
-            }
 
+            if(User.IsInRole("Store Manager"))
+            {
+                combinedView.StockVouchers = stockManagementService.getOpenVouchers(true);
+            }
+            else if(User.IsInRole("Store Supervisor"))
+            {
+                combinedView.StockVouchers = stockManagementService.getOpenVouchers(false);
+            }
+            combinedView.IsSelected = new List<bool>(combinedView.StockVouchers.Count);
+            combinedView.StockVouchers.ForEach(sv => combinedView.IsSelected.Add(false));
             return View(combinedView);
         }
 
-
-
         [HttpPost]
-        public ActionResult ManageMonthlyStockDiscrepancy(LogicUniversityTeam5.Models.ItemAndVoucher model)
+        public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
-            //stockUpdateService =  new UpdateStockManagementService();
-            //foreach(KeyValuePair<int, false> entry in model.isSelected)
-            //{ 
-            //      if (entry.value == true){
-            //      StockVoucher sv = db.StockVouchers.Where(x=>x.ItemId == entry.key);
-            //      stockUpdateService.closeVoucher(sv);
-            //}
+            string approverEmpId = User.Identity.GetEmployeeId();
+
+            List<StockVoucher> openVouchers = model.StockVouchers;
+            List<bool> isSelected = model.IsSelected;
+       
+            for(int i =0; i<openVouchers.Count; i++)
+            {
+                if (isSelected[i] == true)
+                {
+                    int stockVoucherId = openVouchers[i].DiscrepancyID;
+                    string discrepancyReason = openVouchers[i].Reason;
+                    stockManagementService.closeVoucher(stockVoucherId, approverEmpId, discrepancyReason); 
+                }
+            }
+
             return RedirectToAction("Index", "Home");
         }
 

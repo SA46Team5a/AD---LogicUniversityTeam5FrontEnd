@@ -1,0 +1,148 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+@{
+    ViewBag.Title = "ViewStationeryCatalogue";
+}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center pb-5">
+            <h1 class="text-center mb=3">Stationery Catalogue</h1>
+        </div>
+        <div class="row justify-content-md-center my-auto">
+            <div class="align-middle">
+                Category:
+            </div>
+            <div class="form-group col-md-3 text-center">
+                @{List<SelectListItem> des = new List<SelectListItem>();
+                    des.Add(new SelectListItem { Text = "Select Category Name".ToString(), Value = "".ToString(), Selected = true });
+                    foreach (var item in Model.Categories)
+                    {
+                        string output = item.CategoryName.ToString();
+                        des.Add(new SelectListItem { Text = output, Value = output });
+                    }
+                }
+                @Html.DropDownListFor(m => Model.categorySelected,
+                                          des,
+                                          new { @id= "Categories" , @class = "form-control" })
+
+            </div>
+            <script>
+                function Validate() {
+                    console.log("hello");
+                    var orderid = document.getElementById("Categories");                    
+                    if (orderid.value == "") {
+                        //If the "Please Select" option is selected display error.
+                        alert("Please select an option!");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="text-center">
+            <input type="submit" class="btn btn-primary" value="Search" id="btn_search" onclick="return Validate()" />
+            </div>
+        </div>
+        @using (Html.BeginForm("ViewStationeryCatalogue", "Requisition", FormMethod.Post))
+        {
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-8">
+                    <table id="StationeryCatalogueTable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left col-6">Description</th>
+                                <th scope="col" class="text-left">Unit of Measure</th>
+                                <th scope="col" class="text-left">Quantity to Add</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="ItemsTable">
+
+                            @for (int i = 0; i < Model.Items.Count; i++)
+                            {
+                                @Html.HiddenFor(m => Model.Items[i].ItemID)
+                                <tr>
+                                    @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Items[i].ItemName)
+                                        @Html.HiddenFor(m => Model.Items[i].ItemID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.Items[i].UnitOfMeasure)
+                                        @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
+                                    </td>
+                                    <td>
+<<<<<<< HEAD
+                                        @Html.TextBoxFor(m => Model.AddedText[i], new {
+                                           @id = "actualcount",
+                                           @onkeypress = "return noNumbers(event)",
+                                           @onkeyup = "allownums(this.value)",
+                                           @class = "form-control col-9 mx-auto" })
+
+=======
+                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto" })
+>>>>>>> 3d9bfab... fixed linkto collection point
+                                        @Html.HiddenFor(m => Model.AddedText[i])
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-5">
+                <div class="col-8 text-right">
+                    <input type="submit" class="btn btn-primary" id="btn_gotorequestform"
+                           value="Go to request form" />
+                </div>
+            </div>
+
+        }
+    </div>
+</body>
+<script type="text/javascript">
+
+    $('#btn_search').on("click", function (e) {        
+        console.log("Hello");        
+        var value = $('#Categories').val().toLowerCase();       
+        $("#ItemsTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+    function noNumbers(e) {
+        var keynum;
+        var keychar;
+        var numcheck;
+
+        if (window.event) // IE
+        {
+            keynum = e.keyCode;
+        }
+        else if (e.which) // Netscape/Firefox/Opera
+        {
+            keynum = e.which;
+        }
+        keychar = String.fromCharCode(keynum);
+
+        numcheck = /\d/;
+        if (numcheck.test(keychar)) {
+            return true;
+        }
+        else {
+            alert("Only positive numbers are allowed");
+            return false
+        }
+    }
+    function allownums(value) {
+        var num = parseInt(value, 10);
+        if (num < 0 || num >
+            1000)
+            alert("Sorry, we can not supply so much items once")
+    }
+</script>
+
+

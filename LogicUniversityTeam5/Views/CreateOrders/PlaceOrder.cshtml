@@ -1,7 +1,148 @@
-﻿
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
 @{
     ViewBag.Title = "PlaceOrder";
 }
 
-<h2>PlaceOrder</h2>
+<body>
+    <div class="container">
+        <h1 class="text-center">Place Order</h1>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-8 text-left">
+                <h4>Supplier Information</h4>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("PlaceOrder", "CreateOrders", FormMethod.Post))
+        {
+
+            for (int i = 0; i < Model.Suppliers.Count; i++)
+            {
+                @Html.HiddenFor(m => Model.Suppliers[i].SupplierID)
+                <div class="row justify-content-md-center mt-3 pb-3">
+                    <div class="col-8 text-left">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@i" aria-expanded="true" aria-controls="collapseOne">
+                                            <h4 class="text-left">Supplier @(i + 1)</h4>
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapse-@i" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <div>@Html.DisplayFor(m => Model.Suppliers[i].SupplierName)</div>
+                                            <div class="card-body">
+                                                <p class="card-text">Contact Name: @Html.DisplayFor(m => Model.Suppliers[i].ContactName)</p>
+                                                <p class="card-text">Phone No: @Html.DisplayFor(m => Model.Suppliers[i].PhoneNumber)</p>
+                                                <p class="card-text">Address: @Html.DisplayFor(m => Model.Suppliers[i].Address)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <table id="Supplier1OrderTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Category</th>
+                                    <th scope="col" class="text-left col-6">Description</th>
+                                    <th scope="col" class="text-center">Reorder Quantity</th>
+                                    <th scope="col" class="text-center col-2">Price per Unit</th>
+                                    <th scope="col" class="text-center">Available Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int j = 0; j < Model.supplierItems.Count; j++)
+                                {
+                                    if (Model.supplierItems[j].Supplier.SupplierID.Equals(Model.Suppliers[i].SupplierID))
+                                    {
+                                        @Html.HiddenFor(m => Model.supplierItems[j].SupplierItemID)
+                                        <tr class="text-center">
+                                            <td> @Html.DisplayFor(m => Model.Items[j].Category.CategoryName)</td>
+                                            <td class="text-left">@Html.DisplayFor(m => Model.Items[j].ItemName)</td>
+                                            <td>
+                                                @Html.DisplayFor(m => Model.ReOrderItemQty[j])
+                                                @Html.HiddenFor(m => Model.ReOrderItemQty[j])
+                                            </td>
+                                            <td>@Model.supplierItems[j].Cost</td>
+                                            <td class="text-center">
+                                                @{int key = Model.supplierItems[i].SupplierItemID;
+                                                }
+                                                @Html.TextBoxFor(m => Model.AddedNumbers[j], new {                    
+                                                   @onkeypress = "return noNumbers(event)",
+                                                   @onkeyup = "allownums(this.value)",
+                                                   @class = "form-control col-12 text-center" })
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-4 text-center">
+                    @Html.ActionLink("Back","OrderQuantity",null,new {@class= "btn btn-secondary" })
+                </div>
+                <div class="col-4 text-center">
+                    <button id="btn_next" class="btn btn-primary">Next</button>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+    <script>
+        function noNumbers(e) {
+            var keynum;
+            var keychar;
+            var numcheck;
+
+            if (window.event) // IE
+            {
+                keynum = e.keyCode;
+            }
+            else if (e.which) // Netscape/Firefox/Opera
+            {
+                keynum = e.which;
+            }
+            keychar = String.fromCharCode(keynum);
+
+            numcheck = /\d/;
+            if (numcheck.test(keychar)) {
+                return true;
+            }
+            else {
+                alert("Only positive numbers are allowed");
+                return false
+            }
+        }
+        function allownums(value) {
+            var num = parseInt(value, 10);
+            if (num < 0 || num >
+                1000)
+                alert("Sorry, we can not supply so much items once")
+        }
+    </script>
+</body>
+<script id="disableBack">
+
+    function DisableBackButtonAllBrowsers() {
+        window.history.forward()
+    };
+    DisableBackButtonAllBrowsers();
+    window.onload = DisableBackButtonAllBrowsers;
+    window.onpageshow = function (evts) { if (evts.persisted) DisableBackButtonAllBrowsers(); };
+    window.onunload = function () { void (0) };
+</script>
 
