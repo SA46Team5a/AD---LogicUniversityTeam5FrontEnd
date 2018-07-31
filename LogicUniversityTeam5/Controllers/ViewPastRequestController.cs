@@ -28,7 +28,11 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
-            ViewBag.EmpId = id;           
+            ViewBag.EmpId = id; 
+            //foreach(ServiceLayer.DataAccess.Requisition r in reqList)
+            //{
+            //    //r.RequisitionDetails.Count(i=>i.ItemID)
+            //}
             reqList=reqList.OrderByDescending(r => r.RequisitionID).ToList();
             return View(reqList);
         }
@@ -81,6 +85,7 @@ namespace LogicUniversityTeam5.Controllers
   
             ViewBag.SelectedApprovalStatus = approvalStatus;
             ViewBag.EmpId = empId;
+            reqList= reqList.OrderByDescending(r => r.RequisitionID).ToList();
             return View("SearchRequisitionForm", reqList);
         }
 

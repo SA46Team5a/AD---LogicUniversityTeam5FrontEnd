@@ -23,13 +23,13 @@
                 }
                 @Html.DropDownListFor(m => Model.categorySelected,
                                           des,
-                                          new { @id= "dropdown" , @class = "form-control" })
+                                          new { @id= "Categories" , @class = "form-control" })
 
             </div>
             <script>
                 function Validate() {
                     console.log("hello");
-                    var orderid = document.getElementById("dropdown");
+                    var orderid = document.getElementById("Categories");                    
                     if (orderid.value == "") {
                         //If the "Please Select" option is selected display error.
                         alert("Please select an option!");
@@ -97,9 +97,9 @@
 </body>
 <script type="text/javascript">
 
-    $('#btn_search').on("click", function (e) {
-        console.log("Hello");
-        var value = $('#Categories').val().toLowerCase();
+    $('#btn_search').on("click", function (e) {        
+        console.log("Hello");        
+        var value = $('#Categories').val().toLowerCase();       
         $("#ItemsTable tr").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
