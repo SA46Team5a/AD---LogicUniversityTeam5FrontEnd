@@ -28,10 +28,10 @@
                     <thead>
                         <tr class="align-middle">
                             <th scope="col" class="align-middle col-2">Order Supplier Detail ID</th>
-                            <th scope="col" class="align-middle col-4">Item Description</th>
-                            <th scope="col" class="align-middle">Quantity</th>
-                            <th scope="col" class="align-middle">Unit Price</th>
-                            <th scope="col" class="align-middle">Item Total</th>
+                            <th scope="col" class="align-middle">Item Description</th>
+                            <th scope="col" class="align-middle text-center">Quantity</th>
+                            <th scope="col" class="align-middle text-center">Unit Price</th>
+                            <th scope="col" class="align-middle text-center">Item Total</th>
                         </tr>
                     <tbody>
                         @{ decimal orderSupplierTotalCost = 0m;}
@@ -45,9 +45,9 @@
                             <tr>
                                 <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplierDetailsID)</td>
                                 <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].Item.ItemName)</td>
-                                <td>@Html.DisplayFor(m => qty)</td>
-                                <td>@Html.DisplayFor(m => unitCost)</td>
-                                <td>@Html.DisplayFor(m => itemTotal)</td>
+                                <td class="text-center">@Html.DisplayFor(m => qty)</td>
+                                <td class="text-center">@Html.DisplayFor(m => Model.OrderSupplierDetails[i].UnitCost)</td>
+                                <td class="text-center">@String.Format("{0:C}", itemTotal)</td>
                             </tr>     
                         }
                         <tr>
@@ -55,7 +55,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>@Html.DisplayFor(m => orderSupplierTotalCost)</td>
+                            <td class="text-center font-weight-bold">@String.Format("{0:C}", orderSupplierTotalCost)</td>
                         </tr>
 
                     </tbody>

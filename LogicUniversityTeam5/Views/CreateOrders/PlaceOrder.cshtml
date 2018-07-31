@@ -12,16 +12,17 @@
             </div>
         </div>
 
-        @using (Html.BeginForm("PlaceOrder", "CreateOrders", FormMethod.Post))
+        @using (Html.BeginForm("PlaceOrder", "CreateOrders", FormMethod.Post, new { @class= "text-center" }))
         {
 
             for (int i = 0; i < Model.Suppliers.Count; i++)
             {
                 @Html.HiddenFor(m => Model.Suppliers[i].SupplierID)
-                <div class="row justify-content-md-center mt-3 pb-3">
-                    <div class="col-8 text-left">
+                <div class="card mb-5">
+                    <div class="row justify-content-md-center mt-3 pb-3">
+                    <div class="col-10 text-left">
                         <div id="accordion">
-                            <div class="card">
+                            <div class="card mb-2">
                                 <div class="card-header" id="headingOne">
                                     <h5 class="mb-0">
                                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@i" aria-expanded="true" aria-controls="collapseOne">
@@ -45,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-10">
                         <table id="Supplier1OrderTable" class="table">
                             <thead>
                                 <tr>
@@ -87,6 +88,8 @@
                         </table>
                     </div>
                 </div>
+                </div>
+
             }
 
             <div class="row justify-content-md-center mt-3">

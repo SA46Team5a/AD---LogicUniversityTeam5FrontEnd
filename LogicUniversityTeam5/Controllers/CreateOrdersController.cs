@@ -249,7 +249,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 combinedViewModel.Items.Add(
                     context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
-                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
+                if(itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
                     combinedViewModel.ReOrderItemQty.Add(
                         itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
                 }
@@ -294,9 +294,10 @@ namespace LogicUniversityTeam5.Controllers.Order
 
         public ActionResult PrintPurchaseOrder(CombinedViewModel combinedViewModel)
         {
+            combinedViewModel.OrderSupplierDetails =
+                    orderService.getOrderDetailsOfOrderIdAndSupplier(1011, "ALPA");
             return View(combinedViewModel);
         }
-
 
         public ActionResult OrderSummary(CombinedViewModel model)
         {
