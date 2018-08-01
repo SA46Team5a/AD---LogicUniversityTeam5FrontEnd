@@ -65,7 +65,12 @@ namespace LogicUniversityTeam5
             }
             if (User.IsInRole("Department Representative"))
             {
-                return PartialView("_Navbar_DepartmentRepresentative");
+                string EmpId = User.Identity.GetEmployeeId();
+                Employee employee = departmentService.getEmployeeById(EmpId);
+                CombinedViewModel combinedViewModel = new CombinedViewModel();
+                combinedViewModel.Employees = new List<Employee>(1) { { employee } };
+
+                return PartialView("_Navbar_DepartmentRepresentative", combinedViewModel);
 
             }
             if (User.IsInRole("Employee"))
