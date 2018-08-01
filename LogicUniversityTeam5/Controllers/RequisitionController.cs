@@ -136,9 +136,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             bool save = model.IsSave;
             string textBoxValue;
             //getting the logged in user
-            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
-            ServiceLayer.DataAccess.Requisition req =
-                iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
+
             for (int i = 0; i < model.Requisitions.Count; i++)
             {
                 textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
@@ -147,6 +145,12 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                     iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
                 }
             }
+
+            string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
+            ServiceLayer.DataAccess.Requisition req =
+                iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
+
+
             if (save == true)
             {
                 return RedirectToAction("StationeryRequestForm", new { isSave = true });
