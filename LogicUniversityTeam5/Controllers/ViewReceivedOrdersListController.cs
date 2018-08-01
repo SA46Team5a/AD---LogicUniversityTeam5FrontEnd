@@ -21,7 +21,6 @@ namespace LogicUniversityTeam5
         public ViewReceivedOrdersListController(OrderService os)
         {
             this.orderService = os;
-            
         }
 
         [Authorize(Roles = "Store Manager, Store Clerk, Store Supervisor")]

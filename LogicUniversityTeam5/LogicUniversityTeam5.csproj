@@ -57,7 +57,7 @@
     </Reference>
     <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
+      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -258,6 +258,7 @@
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
     <Compile Include="Controllers\ApproveRequisitionController.cs" />
+    <Compile Include="Controllers\ChangeRoleController.cs" />
     <Compile Include="Controllers\EmailNotificationController.cs" />
     <Compile Include="Controllers\AppointDepartmentRepController.cs" />
     <Compile Include="Controllers\ChangeCollectionPointController.cs" />
@@ -305,6 +306,13 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\Box.jpg" />
+    <Content Include="Content\Image\Pencil.jpg" />
+    <Content Include="Content\Image\StationeryIcon.jpg" />
+    <Content Include="Content\Image\Title.jpg" />
+    <Content Include="Content\Image\University.jpg" />
+    <Content Include="Content\StationeryIcon.jpg" />
+    <Content Include="Content\University.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -359,6 +367,10 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Home\Box.jpg" />
+    <Content Include="Views\Home\Pencil.jpg" />
+    <Content Include="Views\Home\Title.jpg" />
+    <Content Include="Views\Home\University.jpg" />
     <Content Include="Views\Shared\StationeryIcon.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -437,7 +449,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\CreateOrders\PrintPurchaseOrder.cshtml" />
-    <Content Include="Views\CreateOrders\PrintPurchaseOrder2.cshtml" />
     <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
     <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
   </ItemGroup>
@@ -447,6 +458,7 @@
     <Folder Include="Controllers\Requisition\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="UploadedInvoices\" />
+    <Folder Include="Views\ChangeRole\" />
     <Folder Include="Views\EmailNotification\" />
     <Folder Include="Views\Navigation\" />
   </ItemGroup>

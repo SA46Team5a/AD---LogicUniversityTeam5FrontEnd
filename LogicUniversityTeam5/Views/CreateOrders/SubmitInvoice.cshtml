@@ -63,23 +63,22 @@
 
        @if (Model.OrderIds != null && Model.OrderIds.Count > 0)
        {
-            <div class="row justify-content-md-center">
-                <div class="col-8">
-                    <label>Upload Invoice</label>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="file" id="file" accept="application/pdf" />
-                        <label class="custom-file-label" for="invoicefile">Choose file</label>
-                    </div>
-                    <script>
-                        $('#invoicefile').on('change', function () {
-                            //get the file name
-                            var fileName = $(this).val();
-                            //replace the "Choose a file" label
-                            $(this).next('.custom-file-label').html(fileName);
-                        })
-                    </script>
-
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <label>Upload Invoice</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="file" id="file" accept="application/pdf" />
+                    <label class="custom-file-label" for="invoicefile">Choose file</label>
                 </div>
+                <script>
+                    $('#file').on('change', function () {
+                        //get the file name
+                        var fileName = $(this).val();
+                        //replace the "Choose a file" label
+                        $(this).next('.custom-file-label').html(fileName);
+                    })
+                </script>
+            </div>
             </div>
             <div class="row justify-content-center pt-5">
                 <div class="col-md-12 text-center">

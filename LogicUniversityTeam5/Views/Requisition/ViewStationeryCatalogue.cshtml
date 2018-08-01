@@ -129,7 +129,7 @@
     function allownums(textField) {
         var num = parseInt(textField.value, 10);
         if (num > 1000) {
-            alert("Sorry, we can not supply so much items once");
+            alert("Sorry, we can not supply so much items once, the maximum is 1000");
             textField.value = "1000";
         }
         if (num < 0) {

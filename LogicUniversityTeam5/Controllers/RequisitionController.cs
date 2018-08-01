@@ -13,6 +13,7 @@ using LogicUniversityTeam5.IdentityHelper;
 namespace LogicUniversityTeam5.Controllers.Requisition
 {
     //Author : Khim Yang,Bhat Pavana
+    [Authorize(Roles = "Department Representative, Employee")]
     public class RequisitionController : Controller
     {
         // GET: Requisition
@@ -104,7 +105,6 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return RedirectToAction("StationeryRequestForm", new { Contains = true });
         }
        
-
         [HttpGet]
         public ActionResult StationeryRequestForm()
         {

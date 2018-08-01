@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
@@ -15,15 +18,19 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5.Controllers
 {
-    [Authorize(Roles = "DepartmentHead")]
+    [Authorize(Roles = "Department Head")]
     public class AppointDepartmentRepController : Controller
     {
         IDepartmentService departmentService;       
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
+        private readonly UserManager<ApplicationUser> _userManager;
+        ChangeRoleController roleController;
 
-        public AppointDepartmentRepController(DepartmentService ds)
+        public AppointDepartmentRepController(DepartmentService ds, UserManager<ApplicationUser> userManager)
         {
-            departmentService = ds;         
+            departmentService = ds;
+            _userManager = userManager;
+            roleController = new ChangeRoleController(userManager);
         }
 
         // GET: AppointDepartmentRep
@@ -54,12 +61,17 @@ namespace LogicUniversityTeam5.Controllers
 
             if (model.AddedText[0] != null)
             {
-                Employee emp = departmentService.getEmployeeObject(model.AddedText[0]);
-                DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(emp.DepartmentID);             
-                departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, emp.EmployeeID);
+                Employee neweDepRepEmployee = departmentService.getEmployeeObject(model.AddedText[0]);
+                DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(neweDepRepEmployee.DepartmentID);
+                string oldDepRepEmployeeId = departmentRepresentative.EmployeeID;
+                departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, neweDepRepEmployee.EmployeeID);
+
+                roleController.ChangeRoleOfUserToDepartmentRep(neweDepRepEmployee.EmployeeID);
+                roleController.ChangeRoleOfUserToEmployee(oldDepRepEmployeeId);
+
             }
-           
             return RedirectToAction("AppointDepartmentRep", "AppointDepartmentRep", new { isAppointDepartmentRep = true });
         }
+
     }
 }
