@@ -27,9 +27,11 @@
                                     <tr>
                                         <td>
                                             @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
+                                            @Html.HiddenFor(m => Model.Items[i].ItemID)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
+                                            @Html.HiddenFor(m => Model.reorderdetail[i].ItemID)
                                         </td>
                                         <td>
                                             @Html.TextBoxFor(m => Model.Quantity[i], new

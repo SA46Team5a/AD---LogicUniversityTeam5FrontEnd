@@ -36,7 +36,7 @@ namespace LogicUniversityTeam5.Controllers
             //AddedText[0] is the delegate, AddedText[0] is start date, AddedText[1] is end date
             combinedView.AddedText = new List<string>(3) { "","","" };
             combinedView.IsSelected = new List<bool>(1) { false };
-            combinedView.Authorities = departmentService.getCurrentAuthority(combinedView.DepartmentID);
+            combinedView.Authorities = departmentService.getDelegatedAuthority(combinedView.DepartmentID);
 
             return View(combinedView);
         }
@@ -57,9 +57,7 @@ namespace LogicUniversityTeam5.Controllers
 
                 if (isRescind)
                 {
-                    string deptId = departmentService.getDepartmentID(empId);
-                    Authority auth = departmentService.getCurrentAuthority(deptId);                   
-                    departmentService.rescindAuthority(auth);
+                    departmentService.rescindAuthority(empId);
                     //To change email method to include the employeeID
                     EmailNotificationController.SendToLostApproveAuthority();
 
@@ -67,7 +65,7 @@ namespace LogicUniversityTeam5.Controllers
                 }
                 else
                 {
-                    Authority authority = departmentService.getCurrentAuthority(emp.DepartmentID);
+                    Authority authority = departmentService.getDelegatedAuthority(emp.DepartmentID);
                     departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
                     //To change email method to include the employeeID
                     EmailNotificationController.SendEmailToDelegatePerson();

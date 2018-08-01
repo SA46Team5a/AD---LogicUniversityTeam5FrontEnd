@@ -91,7 +91,7 @@
 
             <div class="row justify-content-md-center mt-3">
                 <div class="col-4 text-center">
-                    <a href="javascript:history.go(-1)" class="btn btn-secondary" id="btn_back">Back</a>
+                    @Html.ActionLink("Back","OrderQuantity",null,new {@class= "btn btn-secondary" })
                 </div>
                 <div class="col-4 text-center">
                     <button id="btn_next" class="btn btn-primary">Next</button>
@@ -135,4 +135,14 @@
         }
     </script>
 </body>
+<script id="disableBack">
+
+    function DisableBackButtonAllBrowsers() {
+        window.history.forward()
+    };
+    DisableBackButtonAllBrowsers();
+    window.onload = DisableBackButtonAllBrowsers;
+    window.onpageshow = function (evts) { if (evts.persisted) DisableBackButtonAllBrowsers(); };
+    window.onunload = function () { void (0) };
+</script>
 
