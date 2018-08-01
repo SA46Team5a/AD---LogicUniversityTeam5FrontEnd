@@ -314,8 +314,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         [HttpPost]
         public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
-            var archive = Server.MapPath("~/archive.zip");
-            var temp = Server.MapPath("~/temp");
+            var temp = Server.MapPath("~/logicU_temp");
+            var archive = Server.MapPath("~/logicU_zip/archive.zip");
 
             int orderId = combinedViewModel.OrderSupplierDetails[0].OrderSupplier.OrderID;
             string folderPath = String.Format("/Invoice/OrderID_{0}",orderId);
