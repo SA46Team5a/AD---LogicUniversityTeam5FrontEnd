@@ -30,19 +30,9 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             iRequisitionService = rs;
             iDepartmentService = ds;
         }
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult ManageRequisition()
-        {
-            return View();
-        }
 
         public ActionResult ViewStationeryCatalogue()
         {
-
             CombinedViewModel combinedView = new CombinedViewModel();
 
             combinedView.Items = iClassService.GetItems();

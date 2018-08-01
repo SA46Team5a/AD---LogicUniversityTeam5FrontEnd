@@ -9,6 +9,7 @@ using LogicUniversityTeam5.Models;
 
 namespace LogicUniversityTeam5.Controllers
 {
+    [Authorize(Roles = "Store Clerk , Store Supervisor")]
     public class TrackOutstandingRequisitionController : Controller
     {
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
@@ -19,7 +20,8 @@ namespace LogicUniversityTeam5.Controllers
             departmentService = ds;
             orderService = os;
         }
-        // GET: TrackOutstandingRequisition
+        
+
         public ActionResult TrackOutstandingRequisition()
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
@@ -71,7 +73,6 @@ namespace LogicUniversityTeam5.Controllers
                     itemQty.RemoveAt(i);
                 }
             }
-
 
             if(itemIds.Count > 0)
             {
