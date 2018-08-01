@@ -21,14 +21,13 @@ namespace LogicUniversityTeam5
         public ViewReceivedOrdersListController(OrderService os)
         {
             this.orderService = os;
-            
         }
 
         [Authorize(Roles = "Store Manager, Store Clerk, Store Supervisor")]
         public ActionResult ReceivedPurchaseOrdersList()
         {
             CombinedViewModel model = new CombinedViewModel();
-            model.Orders=context.Orders.OrderByDescending(o => o.OrderID).ToList();
+            model.Orders = orderService.getReceivedOrders().OrderByDescending(o => o.OrderDate).ToList();
             
             return View(model);
         }

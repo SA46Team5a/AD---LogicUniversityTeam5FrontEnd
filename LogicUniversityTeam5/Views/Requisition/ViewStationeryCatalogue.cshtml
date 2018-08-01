@@ -14,7 +14,7 @@
             </div>
             <div class="form-group col-md-3 text-center">
                 @{List<SelectListItem> des = new List<SelectListItem>();
-                    des.Add(new SelectListItem { Text = "Select Category Name".ToString(), Value = "".ToString(), Selected = true });
+                    des.Add(new SelectListItem { Text = "All".ToString(), Value = "", Selected = true });
                     foreach (var item in Model.Categories)
                     {
                         string output = item.CategoryName.ToString();
@@ -28,14 +28,8 @@
             </div>
             <script>
                 function Validate() {
-                    console.log("hello");
                     var orderid = document.getElementById("Categories");                    
-                    if (orderid.value == "") {
-                        //If the "Please Select" option is selected display error.
-                        alert("Please select an option!");
-                        return false;
-                    }
-                    return true;
+                    return orderid.value == "";
                 }
             </script>
         </div>

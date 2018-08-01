@@ -16,11 +16,13 @@ namespace LogicUniversityTeam5.Controllers
     public class DelegateAuthorityController : Controller
     {
         IDepartmentService departmentService;
+        ChangeRoleController roleController;
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
-        public DelegateAuthorityController(DepartmentService ds)
+        public DelegateAuthorityController(DepartmentService ds, UserManager<ApplicationUser> userManager)
         {
             departmentService = ds;
+            roleController = new ChangeRoleController(userManager);
         }
         // GET: DelegateAuthority
         public ActionResult DelegateAuthority(Department dep)
@@ -60,6 +62,7 @@ namespace LogicUniversityTeam5.Controllers
                     departmentService.rescindAuthority(empId);
                     //To change email method to include the employeeID
                     EmailNotificationController.SendToLostApproveAuthority();
+                    roleController.ChangeRoleOfUserToEmployee(emp.EmployeeID);
 
                     return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isRescind = true });
                 }
@@ -69,6 +72,7 @@ namespace LogicUniversityTeam5.Controllers
                     departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
                     //To change email method to include the employeeID
                     EmailNotificationController.SendEmailToDelegatePerson();
+                    roleController.ChangeRoleOfUserToDelegate(emp.EmployeeID);
 
                     return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isDelegateAuthority = true });
                 }

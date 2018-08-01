@@ -29,7 +29,14 @@ namespace LogicUniversityTeam5.ApiControllers
         [HttpGet]
         [Route("api/authority/{id}")]
         public AuthorityPayload getCurrentAuthorityOfDepartment(string id)
-            => new AuthorityPayload(_departmentService.getDelegatedAuthority(id));
+        {
+            Authority a = _departmentService.getDelegatedAuthority(id);
+            if (a is null)
+                return null;
+            else
+                return new AuthorityPayload(a);
+        }
+
 
         [HttpGet]
         [Route("api/authority/employees/{deptId}")]

@@ -23,12 +23,14 @@ namespace LogicUniversityTeam5.Controllers.Order
     {
         IStockManagementService stockManagementService;
         IOrderService orderService;
+        IClassificationService classificationService;
         StationeryStoreEntities context;
 
-        public CreateOrdersController(StockManagementService sms, OrderService os)
+        public CreateOrdersController(IStockManagementService sms, IOrderService os, IClassificationService cs)
         {
             stockManagementService = sms;
             orderService = os;
+            classificationService = cs;
             context = StationeryStoreEntities.Instance;
         }
         
@@ -36,14 +38,9 @@ namespace LogicUniversityTeam5.Controllers.Order
         public ActionResult ItemCatalogue()
         {
             CombinedViewModel model = new CombinedViewModel();
-            model.reorderdetail = orderService.getReorderDetails();
-
-            model.Items = new List<Item>();
-            for (int i = 0; i < model.reorderdetail.Count ; i++)
-            {
-                string itemId = model.reorderdetail[i].ItemID;
-                model.Items.Add(stockManagementService.getItemById(itemId));
-            }
+            model.reorderdetail = orderService.getReorderDetails().OrderBy(r => r.ItemID).ToList();
+            model.Items = stockManagementService.getAllItems();
+            model.Categories = classificationService.GetCategories();
             return View(model);
         }
        
@@ -317,8 +314,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         [HttpPost]
         public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
-            var archive = Server.MapPath("~/archive.zip");
-            var temp = Server.MapPath("~/temp");
+            var temp = Server.MapPath("~/logicU_temp");
+            var archive = Server.MapPath("~/logicU_zip/archive.zip");
 
             int orderId = combinedViewModel.OrderSupplierDetails[0].OrderSupplier.OrderID;
             string folderPath = String.Format("/Invoice/OrderID_{0}",orderId);
