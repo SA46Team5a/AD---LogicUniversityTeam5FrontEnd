@@ -11,38 +11,46 @@
             <h1 class="text-center mb=3">Submit Invoice</h1>
         </div>
         <div class="row justify-content-center">
-            <div class="form-group col-md-4">
-                <label for="orderid">Order ID</label>
+
                 @{ List<SelectListItem> orderid = new List<SelectListItem>();
-                    orderid.Add(new SelectListItem { Text = "Select Order ID", Value = "" , Selected=true});
-                    foreach (int item in Model.OrderIds)
+                    if (Model.OrderIds != null && Model.OrderIds.Count > 0)
                     {
-                        orderid.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString() });
+                        orderid.Add(new SelectListItem { Text = "Select Order ID", Value = "" , Selected=true});
+                        foreach (int item in Model.OrderIds)
+                        {
+                            orderid.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString() });
+                        }
+                        <div class="form-group col-md-4">
+                            <label for="orderid">Order ID</label>
+                            @Html.DropDownListFor(m => Model.AddedText[0], orderid.Distinct(), new { @class = "form-control", @id = "dropdown" });
+                            <div class="row justify-content-center">
+                                <div class="col-8 text-center">
+                                    <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search" onclick="return Validate()" />
+                                </div>
+                            </div>
+                            <script>
+                                function Validate() {
+                                    var orderid = document.getElementById("dropdown");
+                                    if (orderid.value == "") {
+                                        //If the "Please Select" option is selected display error.
+                                        alert("Please select an option!");
+                                        return false;
+                                    }
+                                    return true;
+                                }
+                            </script>
+                        </div>
+                    }
+                    else
+                    {
+                        orderid.Add(new SelectListItem { Text = "No outstanding orders", Value = "" , Selected=true});
+                        <div class="alert alert-primary">There are no orders with outstanding invoices.</div>
                     }
                 }
-                @Html.DropDownListFor(m => Model.AddedText[0],
-                                           orderid.Distinct(),
-                                           new { @class = "form-control", @id="dropdown" })
-            </div>
-        </div>
 
-        <div class="row justify-content-center">
-            <div class="col-8 text-center">
-                <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search" onclick="return Validate()" />
-            </div>
         </div>
-        <script>
-            function Validate() {
-                var orderid = document.getElementById("dropdown");
-                if (orderid.value == "") {
-                    //If the "Please Select" option is selected display error.
-                    alert("Please select an option!");
-                    return false;
-                }
-                return true;
-            }
-        </script>
-        <div class="form-check col-4 justify-content-center">
+        
+       <div class="form-check col-4 justify-content-center">
         @if (Model.Suppliers != null)
         {
             for (int i = 0; i < Model.Suppliers.Count; i++)
@@ -53,6 +61,8 @@
         }
         </div>
 
+       @if (Model.OrderIds != null && Model.OrderIds.Count > 0)
+       {
         <div class="row justify-content-md-center">
             <div class="col-8">
                 <label>Upload Invoice</label>
@@ -68,22 +78,22 @@
                         $(this).next('.custom-file-label').html(fileName);
                     })
                 </script>
-
             </div>
-        </div>
+            </div>
+            <div class="row justify-content-center pt-5">
+                <div class="col-md-12 text-center">
+                    @if (Model.Suppliers is null) {
+                        <input type="submit" id="Sent" Name="Sent" class="btn btn-primary" disabled="disabled" value="Submit invoice" />
+                    }
+                    else
+                    {
+                        <input type="submit" id="Sent" Name="Sent" class="btn btn-primary" onclick="javascript: return ValidateRadioButton();"
+                               value="Submit invoice" />
+                    }
+               </div>
+            </div>
+        }
 
-        <div class="row justify-content-center pt-5">
-            <div class="col-md-12 text-center">
-                @if (Model.Suppliers is null) {
-                    <input type="submit" id="Sent" Name="Sent" class="btn btn-primary" disabled="disabled" value="Sent" />
-                }
-                else
-                {
-                    <input type="submit" id="Sent" Name="Sent" class="btn btn-primary" onclick="javascript: return ValidateRadioButton();"
-                           value="Sent" />
-                }
-           </div>
-        </div>
         <script>
             $("#Sent").click(function () {
                 var fileName = $("#file").val();
