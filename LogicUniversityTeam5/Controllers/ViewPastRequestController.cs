@@ -24,10 +24,7 @@ namespace LogicUniversityTeam5.Controllers
             classificationService = cs;
         }
 
-        //ViewPastRequest/SearchRequisitionForm/E026
-        //[Authorize(Roles = "Department Head")]
-        //[Authorize(Roles = "Employee")]
-        [Authorize(Roles = "Department Representative, Employee, Department Head")]        
+        [Authorize(Roles = "Department Representative, Employee")]        
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);

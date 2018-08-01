@@ -106,14 +106,14 @@ namespace LogicUniversityTeam5.ApiControllers
         {
             try
             {
-                _departmentService.updateDepartmentRepresentative(Int32.Parse(depRep["DepRepID"]), depRep["EmpID"]);
+                _departmentService.updateDepartmentRepresentative(Int32.Parse(depRep["DepRepID"]), depRep["EmployeeID"]);
                 return true;
             }
             catch (Exception)
             {
                 return false;
             }
-        }
+}
 
         [HttpGet]
         [Route("api/deprep/passcode/{id}")]

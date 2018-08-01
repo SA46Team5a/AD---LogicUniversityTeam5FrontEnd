@@ -11,6 +11,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5
 {
+    [Authorize(Roles = "Store Clerk, Store Supervisor")]
     public class ViewReceivedOrdersListController : Controller
     {
         IOrderService orderService;
@@ -23,7 +24,7 @@ namespace LogicUniversityTeam5
             this.orderService = os;
         }
 
-        [Authorize(Roles = "Store Manager, Store Clerk, Store Supervisor")]
+        
         public ActionResult ReceivedPurchaseOrdersList()
         {
             CombinedViewModel model = new CombinedViewModel();

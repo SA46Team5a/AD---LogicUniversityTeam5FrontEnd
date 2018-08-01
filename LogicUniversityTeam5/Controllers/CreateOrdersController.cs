@@ -19,6 +19,7 @@ using Rotativa.Options;
 namespace LogicUniversityTeam5.Controllers.Order
 {
     // Author: Meiting && Khim Yang
+    [Authorize(Roles = "Store Supervisor,Store Clerk")]
     public class CreateOrdersController : Controller
     {
         IStockManagementService stockManagementService;
@@ -34,7 +35,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             context = StationeryStoreEntities.Instance;
         }
         
-        [Authorize(Roles = "Store Supervisor,Store Clerk")]
+ 
         public ActionResult ItemCatalogue()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -100,7 +101,7 @@ namespace LogicUniversityTeam5.Controllers.Order
                 return View(model);
             }
         }
-        [Authorize(Roles = "Store Clerk")]
+
         public ActionResult OrderQuantity()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -131,7 +132,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             TempData["passmodel"] = passModel;
             return RedirectToAction("PlaceOrder");
         }
-        [Authorize(Roles = "Store Clerk")]
+
         public ActionResult PlaceOrder()
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
@@ -191,15 +192,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             return items;
         }
 
-        public List<Category> getcategory()
-        {
-            List<Category> category = new List<Category>();
-            category.Add(new Category() { CategoryName = "pen", CategoryID = 123 });
-            category.Add(new Category() { CategoryName = "pen", CategoryID = 123 });
-            category.Add(new Category() { });
-            return category;
-        }
-
         private List<int> AddReOrderItemQtyInPlaceOrderView(Dictionary<string, int> itemIdsAndItemQty, List<SupplierItem> supplierItems)
         {
             List<int> reOrderItemQty = new List<int>();
@@ -216,6 +208,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult PlaceOrder(CombinedViewModel model)
         {
             //creating Dictionary<int, int> supplierItemsAndQty
@@ -238,7 +231,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return RedirectToAction("OrderSummary",new { id = newOrderId });
         }
 
-        [Authorize(Roles = "Store Clerk")]
+
         [Route("CreateOrders/OrderSummary/{id}")]
         public ActionResult OrderSummary(int id)
         {
@@ -271,7 +264,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return View(combinedViewModel);
         }
 
-         public void CreatePurchaseOrders(int orderId)
+        private void CreatePurchaseOrders(int orderId)
          {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
             List<OrderSupplier> OrderSuppliers = orderService.getOrderSuppliersOfOrder(orderId);
@@ -296,11 +289,8 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
         }
 
-        [Authorize(Roles = "Store Clerk")]
         public ActionResult PrintPurchaseOrder(CombinedViewModel combinedViewModel)
         {
-            combinedViewModel.OrderSupplierDetails =
-                    orderService.getOrderDetailsOfOrderIdAndSupplier(1011, "ALPA");
             return View(combinedViewModel);
         }
         [Authorize(Roles = "Store Clerk")]
@@ -338,7 +328,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return File(archive, "application/zip", "archive.zip");
         }
-        [Authorize(Roles = "Store Clerk")]
+
         public ActionResult SubmitInvoice()
         {
 
@@ -446,16 +436,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
         }
        
-        public CombinedViewModel getmodel()
-        {
-            CombinedViewModel model = new CombinedViewModel();
-            model.Suppliers = new List<Supplier>();
-            model.OrderSuppliers = new List<OrderSupplier>();
-            model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
-            model.Suppliers = orderService.getSuppliers();
-            model.AddedText = new List<string>(2) { "", "" };
-            return model;
-        }
     }
 }
 
