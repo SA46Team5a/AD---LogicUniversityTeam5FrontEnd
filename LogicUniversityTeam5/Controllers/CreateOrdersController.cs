@@ -23,26 +23,23 @@ namespace LogicUniversityTeam5.Controllers.Order
     {
         IStockManagementService stockManagementService;
         IOrderService orderService;
+        IClassificationService classificationService;
         StationeryStoreEntities context;
 
-        public CreateOrdersController(StockManagementService sms, OrderService os)
+        public CreateOrdersController(IStockManagementService sms, IOrderService os, IClassificationService cs)
         {
             stockManagementService = sms;
             orderService = os;
+            classificationService = cs;
             context = StationeryStoreEntities.Instance;
         }
 
         public ActionResult ItemCatalogue()
         {
             CombinedViewModel model = new CombinedViewModel();
-            model.reorderdetail = orderService.getReorderDetails();
-
-            model.Items = new List<Item>();
-            for (int i = 0; i < model.reorderdetail.Count ; i++)
-            {
-                string itemId = model.reorderdetail[i].ItemID;
-                model.Items.Add(stockManagementService.getItemById(itemId));
-            }
+            model.reorderdetail = orderService.getReorderDetails().OrderBy(r => r.ItemID).ToList();
+            model.Items = stockManagementService.getAllItems();
+            model.Categories = classificationService.GetCategories();
             return View(model);
         }
        
