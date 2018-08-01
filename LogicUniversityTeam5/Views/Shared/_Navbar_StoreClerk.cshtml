@@ -40,8 +40,9 @@
                         Generate Report
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Requisition Category Analysis</a>
-                        <a class="dropdown-item" href="#">Reorder Cost Analysis</a>
+                        <a class="dropdown-item" href="@Url.Action("RequisitionCostAnalysisReport","Reporting")">Requisition Category Analysis</a>
+                        <a class="dropdown-item" href="@Url.Action("RequisitionItemAnalysisReport","Reporting")">Requisition Item Analysis</a>
+                        <a class="dropdown-item" href="@Url.Action("ReorderCostAnalysisReport","Reporting")">Reorder Cost Analysis</a>
                     </div>
                 </li>
             </ul>
