@@ -258,6 +258,7 @@
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\ManageController.cs" />
     <Compile Include="Controllers\ApproveRequisitionController.cs" />
+    <Compile Include="Controllers\ChangeRoleController.cs" />
     <Compile Include="Controllers\EmailNotificationController.cs" />
     <Compile Include="Controllers\AppointDepartmentRepController.cs" />
     <Compile Include="Controllers\ChangeCollectionPointController.cs" />
@@ -438,7 +439,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\CreateOrders\PrintPurchaseOrder.cshtml" />
-    <Content Include="Views\CreateOrders\PrintPurchaseOrder2.cshtml" />
     <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
     <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
   </ItemGroup>
@@ -448,6 +448,7 @@
     <Folder Include="Controllers\Requisition\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="UploadedInvoices\" />
+    <Folder Include="Views\ChangeRole\" />
     <Folder Include="Views\EmailNotification\" />
     <Folder Include="Views\Navigation\" />
   </ItemGroup>

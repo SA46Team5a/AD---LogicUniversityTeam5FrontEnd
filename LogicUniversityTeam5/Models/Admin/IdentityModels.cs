@@ -11,12 +11,14 @@ namespace LogicUniversityTeam5.Models
     {
         public string UserRole { get; set; }
         public string EmployeeId { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("EmployeeId", EmployeeId));
+            userIdentity.AddClaim(new Claim("UserRole", this.UserRole));
             return userIdentity;
         }
     }
