@@ -33,7 +33,8 @@ namespace LogicUniversityTeam5.Controllers.Order
             classificationService = cs;
             context = StationeryStoreEntities.Instance;
         }
-
+        
+        [Authorize(Roles = "Store Supervisor,Store Clerk")]
         public ActionResult ItemCatalogue()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -99,7 +100,7 @@ namespace LogicUniversityTeam5.Controllers.Order
                 return View(model);
             }
         }
-        
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderQuantity()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -110,8 +111,10 @@ namespace LogicUniversityTeam5.Controllers.Order
             return View(model);
         }
 
+
         [HttpPost]
         public ActionResult OrderQuantity(CombinedViewModel model)
+
         {
             CombinedViewModel passModel = new CombinedViewModel();
             passModel.Quantity = new List<int>();
@@ -128,7 +131,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             TempData["passmodel"] = passModel;
             return RedirectToAction("PlaceOrder");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult PlaceOrder()
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
@@ -235,7 +238,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return RedirectToAction("OrderSummary",new { id = newOrderId });
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("CreateOrders/OrderSummary/{id}")]
         public ActionResult OrderSummary(int id)
         {
@@ -253,7 +256,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 combinedViewModel.Items.Add(
                     context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
-                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
+                if(itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
                     combinedViewModel.ReOrderItemQty.Add(
                         itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
                 }
@@ -264,73 +267,61 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
             TempData["orderId"] = id;
             TempData.Keep("itemIdsAndItemQty");
-
+            CreatePurchaseOrders(id);
             return View(combinedViewModel);
         }
- 
-        public ActionResult PrintOrderSummary(CombinedViewModel model)
-        {
-            //Harcoded: to be removed
+
+         public void CreatePurchaseOrders(int orderId)
+         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
-            combinedViewModel.OrderSuppliers = context.OrderSuppliers.Where(x => x.OrderSupplierID == 1).ToList();
-            combinedViewModel.OrderSupplierDetails = context.OrderSupplierDetails.Where(x => x.OrderSupplierID == 1).ToList();
-            var actionPDF = new Rotativa.ActionAsPdf("PrintOrderSummary", combinedViewModel)
+            List<OrderSupplier> OrderSuppliers = orderService.getOrderSuppliersOfOrder(orderId);
+            foreach (OrderSupplier os in OrderSuppliers)
             {
-                FileName = "TestView.pdf",
-                PageSize = Size.A4,
-                PageOrientation = Rotativa.Options.Orientation.Landscape,
-                PageMargins = { Left = 1, Right = 1 }
-            };
-            byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
-            return View("OrderSummary", new {id = 1});
+                combinedViewModel.OrderSupplierDetails = 
+                    orderService.getOrderDetailsOfOrderIdAndSupplier(orderId, os.SupplierID);
+                string fileName = String.Format("OrderSupplierID_{0}.pdf",os.OrderSupplierID);
+                string folderName = String.Format("OrderID_{0}",orderId);
+                string folderPath = "/Invoice/" + folderName;
+                System.IO.Directory.CreateDirectory(Server.MapPath(folderPath));
 
-        }
-
-        private CombinedViewModel RetrieveDataForOrderSummary()
-        {
-            CombinedViewModel combinedViewModel = new CombinedViewModel();
-            int id = (int)TempData["orderId"];
-            combinedViewModel.OrderSupplierDetails =
-                context.OrderSupplierDetails.Where(x => x.OrderSupplier.OrderID == id).ToList();
-
-            //Adding Items and Required Quantity
-            Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
-
-            combinedViewModel.Items = new List<Item>();
-            combinedViewModel.ReOrderItemQty = new List<int>();
-            foreach (OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
-            {
-                combinedViewModel.Items.Add(
-                    context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
-                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID))
+                var filePath = Path.Combine(Server.MapPath(folderPath),fileName);
+                var actionResult = new ViewAsPdf("PrintPurchaseOrder", combinedViewModel)
                 {
-                    combinedViewModel.ReOrderItemQty.Add(
-                        itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
-                }
-                else
-                {
-                    combinedViewModel.ReOrderItemQty.Add(0);
-                }
+                    PageOrientation = Rotativa.Options.Orientation.Landscape
+                };
+                var byteArray = actionResult.BuildFile(ControllerContext);
+                var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+                fileStream.Write(byteArray, 0, byteArray.Length);
+                fileStream.Close();
             }
-
-            return combinedViewModel;
         }
 
+        [Authorize(Roles = "Store Clerk")]
+        public ActionResult PrintPurchaseOrder(CombinedViewModel combinedViewModel)
+        {
+            combinedViewModel.OrderSupplierDetails =
+                    orderService.getOrderDetailsOfOrderIdAndSupplier(1011, "ALPA");
+            return View(combinedViewModel);
+        }
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderSummary(CombinedViewModel model)
         {
             TempData["itemIdsAndItemQty"] = model.ItemIdAndQty;
             int id = model.AddedNumbers[0];
             return OrderSummary(id);
         }
-
-        //To be implemented later
+        
         [HttpPost]
-        public FileResult DownloadPurchaseOrders(List<string> files)
+        public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
             var archive = Server.MapPath("~/archive.zip");
             var temp = Server.MapPath("~/temp");
 
-            // clear any existing archive
+            int orderId = combinedViewModel.OrderSupplierDetails[0].OrderSupplier.OrderID;
+            string folderPath = String.Format("/Invoice/OrderID_{0}",orderId);
+
+            List<string> files =  Directory.EnumerateFiles(Server.MapPath(folderPath)).ToList();
+
             if (System.IO.File.Exists(archive))
             {
                 System.IO.File.Delete(archive);
@@ -347,7 +338,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return File(archive, "application/zip", "archive.zip");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult SubmitInvoice()
         {
 
