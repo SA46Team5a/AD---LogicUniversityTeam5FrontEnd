@@ -33,12 +33,11 @@
                {
                    decimal totalprice =
                    Model.OrderSupplierDetails[i].Quantity * Model.OrderSupplierDetails[i].UnitCost;
-                   //decimal finaltotalprice = 0;
-                   finaltotalprice = finaltotalprice + totalprice;
+                   finaltotalprice += totalprice;
+
                    decimal actualtotalprice = (decimal)
                    Model.OrderSupplierDetails[i].ActualQuantityReceived * Model.OrderSupplierDetails[i].UnitCost;
-                   //decimal finalactualtotalprice = 0;
-                   finalactualtotalprice = finalactualtotalprice + actualtotalprice;
+                   finalactualtotalprice += actualtotalprice;
             <tr>
                 <td>@Html.DisplayFor(m => Model.Items[i].Category.CategoryName)</td>
                 <td>@Html.DisplayFor(m => Model.Items[i].ItemName)</td>         
