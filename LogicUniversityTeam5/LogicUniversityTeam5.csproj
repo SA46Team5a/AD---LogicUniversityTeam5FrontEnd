@@ -305,6 +305,13 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\Box.jpg" />
+    <Content Include="Content\Image\Pencil.jpg" />
+    <Content Include="Content\Image\StationeryIcon.jpg" />
+    <Content Include="Content\Image\Title.jpg" />
+    <Content Include="Content\Image\University.jpg" />
+    <Content Include="Content\StationeryIcon.jpg" />
+    <Content Include="Content\University.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -358,6 +365,10 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Home\Box.jpg" />
+    <Content Include="Views\Home\Pencil.jpg" />
+    <Content Include="Views\Home\Title.jpg" />
+    <Content Include="Views\Home\University.jpg" />
     <Content Include="Views\Shared\StationeryIcon.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

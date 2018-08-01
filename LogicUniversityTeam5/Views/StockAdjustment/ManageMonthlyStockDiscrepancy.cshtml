@@ -50,7 +50,7 @@
                                     @Convert.ToDateTime(Model.StockVouchers[i].RaisedByDate).ToString("dd/MM/yyyy")
                                 </td>
                                 <td class="text-center">
-                                    @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "check", @name = "check[i]", @class = "form-control" })
+                                    @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "check",@type="checkbox", @name = "check", @class = "form-control"})
                                 </td>
                             </tr>
                                     count++;
@@ -63,20 +63,11 @@
     </div>
     <div class="row justify-content-md-center mt-3">
         <div class="col-4 text-center">
-            @if (Model.IsSelected[1] == false)
-            {
+          
             <button type="button" class="btn btn-primary" id="submit" data-toggle="modal" data-target="#myModalconfirm"
                     value="Confirm" disabled="disabled" onclick="validateChecks()">
                 Submit
             </button>
-            }
-            else
-            {
-                <button type="button" class="btn btn-primary" id="submit" data-toggle="modal" data-target="#myModalconfirm"
-                        value="Confirm"  onclick="validateChecks()">
-                    Submit
-                </button>
-            }
            
         </div>
         <div class="modal fade" id="myModalconfirm" role="dialog">
@@ -120,22 +111,30 @@
         else {
             $(submit).removeAttr("disabled");
         }
-    });
-        
+    });      
 </script>
 <script>
-    var checker = document.getElementById('check');
-    var sendbtn = document.getElementById('submit');
-    // when unchecked or checked, run the function
-    checker.onchange = function () {
-        if (this.checked) {
-            sendbtn.disabled = false;
-        } else {
+    var count = 0;
+    $("input[name*='IsSelected']").click(function () {
+        var sendbtn = document.getElementById('submit'); 
+        if ($(this).prop('checked')) {
+            count++;
+        }
+        else {
+            count--;
+        }
+        console.log(count);
+        if (count == 0) {
             sendbtn.disabled = true;
         }
+        else {
+            sendbtn.disabled = false;
+        }
 
-    }
+    });
+   
 </script>
+
 
 
 
