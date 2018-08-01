@@ -55,9 +55,9 @@
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => Model.Requisitions[i].Quantity, new {
-                                           @onkeypress = "return noNumbers(event)",
-                                           @onkeyup = "allownums(this.value)",
-                                           @class ="form-control" })
+                                       @onkeypress = "return noNumbers(event)",
+                                       @onfocusout = "allownums(this)",
+                                       @class ="form-control" })
                                         @Html.HiddenFor(m => Model.Requisitions[i].Quantity)
                                     </td>
                                     <td class="text-center">
@@ -158,11 +158,15 @@
                 return false
             }
         }
-        function allownums(value) {
-            var num = parseInt(value, 10);
-            if (num < 0 || num >
-                1000)
-                alert("Sorry, we can not supply so much items once")
+        function allownums(textField) {
+            var num = parseInt(textField.value, 10);
+            if (num > 1000) {
+                alert("Sorry, we can not supply so much items once,the maximum quantity is 1000");
+                textField.value = "1000";
+            } else if (num <= 0) {
+                alert("Only positive numbers are allowed");
+                textField.value = "1";
+            }
         }
     </script>
      }
