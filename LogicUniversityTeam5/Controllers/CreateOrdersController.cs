@@ -372,6 +372,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 int selectedOrderId = Convert.ToInt32(model.AddedText[0]);
                 CombinedViewModel model1 = new CombinedViewModel();
+                model1.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
                 model1.OrderSuppliers =
                         orderService.getOrderSuppliersOfOrder(selectedOrderId);
                 List<string> supplierid = new List<string>();
