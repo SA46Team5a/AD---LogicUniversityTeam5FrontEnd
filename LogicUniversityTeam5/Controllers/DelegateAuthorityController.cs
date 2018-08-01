@@ -12,6 +12,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5.Controllers
 {
+    [Authorize(Roles = "Department Head")]
     public class DelegateAuthorityController : Controller
     {
         IDepartmentService departmentService;

@@ -103,6 +103,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
            
             return RedirectToAction("StationeryRequestForm", new { Contains = true });
         }
+       
 
         [HttpGet]
         public ActionResult StationeryRequestForm()
@@ -134,17 +135,23 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             bool save = model.IsSave;
             string textBoxValue;
             //getting the logged in user
+
+            if (model.Requisitions != null)
+            {
+                for (int i = 0; i < model.Requisitions.Count; i++)
+                {
+                    textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
+                    if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
+                    {
+                        iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
+                    }
+                }
+            }
+
             string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
             ServiceLayer.DataAccess.Requisition req =
                 iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
-            for (int i = 0; i < model.Requisitions.Count; i++)
-            {
-                textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
-                if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
-                {
-                    iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
-                }
-            }
+
             if (save == true)
             {
                 return RedirectToAction("StationeryRequestForm", new { isSave = true });
@@ -163,7 +170,7 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         }
 
-
+    
         [HttpGet]
         public ActionResult ResubmitStationaryRequestForm()
         {

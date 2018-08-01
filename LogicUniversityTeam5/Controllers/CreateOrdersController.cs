@@ -23,26 +23,24 @@ namespace LogicUniversityTeam5.Controllers.Order
     {
         IStockManagementService stockManagementService;
         IOrderService orderService;
+        IClassificationService classificationService;
         StationeryStoreEntities context;
 
-        public CreateOrdersController(StockManagementService sms, OrderService os)
+        public CreateOrdersController(IStockManagementService sms, IOrderService os, IClassificationService cs)
         {
             stockManagementService = sms;
             orderService = os;
+            classificationService = cs;
             context = StationeryStoreEntities.Instance;
         }
-
+        
+        [Authorize(Roles = "Store Supervisor,Store Clerk")]
         public ActionResult ItemCatalogue()
         {
             CombinedViewModel model = new CombinedViewModel();
-            model.reorderdetail = orderService.getReorderDetails();
-
-            model.Items = new List<Item>();
-            for (int i = 0; i < model.reorderdetail.Count ; i++)
-            {
-                string itemId = model.reorderdetail[i].ItemID;
-                model.Items.Add(stockManagementService.getItemById(itemId));
-            }
+            model.reorderdetail = orderService.getReorderDetails().OrderBy(r => r.ItemID).ToList();
+            model.Items = stockManagementService.getAllItems();
+            model.Categories = classificationService.GetCategories();
             return View(model);
         }
        
@@ -102,7 +100,7 @@ namespace LogicUniversityTeam5.Controllers.Order
                 return View(model);
             }
         }
-        
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderQuantity()
         {
             CombinedViewModel model = new CombinedViewModel();
@@ -113,8 +111,10 @@ namespace LogicUniversityTeam5.Controllers.Order
             return View(model);
         }
 
+
         [HttpPost]
         public ActionResult OrderQuantity(CombinedViewModel model)
+
         {
             CombinedViewModel passModel = new CombinedViewModel();
             passModel.Quantity = new List<int>();
@@ -131,7 +131,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             TempData["passmodel"] = passModel;
             return RedirectToAction("PlaceOrder");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult PlaceOrder()
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
@@ -238,7 +238,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             return RedirectToAction("OrderSummary",new { id = newOrderId });
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("CreateOrders/OrderSummary/{id}")]
         public ActionResult OrderSummary(int id)
         {
@@ -270,18 +270,15 @@ namespace LogicUniversityTeam5.Controllers.Order
             CreatePurchaseOrders(id);
             return View(combinedViewModel);
         }
- 
-        public void CreatePurchaseOrders(int orderId)
-        {
-            //Harcoded: to be removed
+
+         public void CreatePurchaseOrders(int orderId)
+         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
             List<OrderSupplier> OrderSuppliers = orderService.getOrderSuppliersOfOrder(orderId);
-
-            foreach(OrderSupplier os in OrderSuppliers)
+            foreach (OrderSupplier os in OrderSuppliers)
             {
                 combinedViewModel.OrderSupplierDetails = 
                     orderService.getOrderDetailsOfOrderIdAndSupplier(orderId, os.SupplierID);
-
                 string fileName = String.Format("OrderSupplierID_{0}.pdf",os.OrderSupplierID);
                 string folderName = String.Format("OrderID_{0}",orderId);
                 string folderPath = "/Invoice/" + folderName;
@@ -299,13 +296,14 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
         }
 
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult PrintPurchaseOrder(CombinedViewModel combinedViewModel)
         {
             combinedViewModel.OrderSupplierDetails =
                     orderService.getOrderDetailsOfOrderIdAndSupplier(1011, "ALPA");
             return View(combinedViewModel);
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderSummary(CombinedViewModel model)
         {
             TempData["itemIdsAndItemQty"] = model.ItemIdAndQty;
@@ -316,8 +314,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         [HttpPost]
         public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
-            var archive = Server.MapPath("~/archive.zip");
-            var temp = Server.MapPath("~/temp");
+            var temp = Server.MapPath("~/logicU_temp");
+            var archive = Server.MapPath("~/logicU_zip/archive.zip");
 
             int orderId = combinedViewModel.OrderSupplierDetails[0].OrderSupplier.OrderID;
             string folderPath = String.Format("/Invoice/OrderID_{0}",orderId);
@@ -340,7 +338,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
             return File(archive, "application/zip", "archive.zip");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         public ActionResult SubmitInvoice()
         {
 

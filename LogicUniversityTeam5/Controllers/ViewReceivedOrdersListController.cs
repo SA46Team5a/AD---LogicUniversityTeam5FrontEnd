@@ -23,6 +23,8 @@ namespace LogicUniversityTeam5
             this.orderService = os;
             
         }
+
+        [Authorize(Roles = "Store Manager, Store Clerk, Store Supervisor")]
         public ActionResult ReceivedPurchaseOrdersList()
         {
             CombinedViewModel model = new CombinedViewModel();

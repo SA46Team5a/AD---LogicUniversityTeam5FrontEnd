@@ -57,7 +57,7 @@
     </Reference>
     <Reference Include="ServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
+      <HintPath>..\..\AD---ServiceLayer\ServiceLayer\ServiceLayer\bin\Debug\ServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -340,6 +340,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -359,6 +360,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Shared\StationeryIcon.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -399,9 +401,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\StockAdjustment\ManageMonthlyStockDiscrepancy.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
-    <Content Include="Views\ItemCatalogue\ItemCatalogue.cshtml" />
-    <Content Include="Views\StockAdjustment\Test.cshtml" />
-    <Content Include="Views\OrderQuantity\OrderQuantity.cshtml" />
     <Content Include="Views\Reporting\ReorderCostAnalysisReport.cshtml" />
     <Content Include="Views\Requisition\ViewStationeryCatalogue.cshtml" />
     <Content Include="Views\Requisition\StationeryRequestForm.cshtml" />
@@ -420,11 +419,11 @@
     <Content Include="Views\CreateOrders\ItemCatalogue.cshtml" />
     <Content Include="Views\CreateOrders\OrderQuantity.cshtml" />
     <Content Include="Views\CreateOrders\SubmitInvoice.cshtml" />
-    <Content Include="ViewReceivedOrdersList\ReceivedPurchaseOrdersList.cshtml" />
-    <Content Include="ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
+    <Content Include="Views\ViewReceivedOrdersList\ReceivedPurchaseOrdersList.cshtml" />
+    <Content Include="Views\ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
     <Content Include="Views\ApproveRequisition\ApproveRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
-    <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
+    <Content Include="ViewStationeryRequestForm.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Shared\_Navbar_DepartmentHead.cshtml" />
     <Content Include="Views\Shared\_Navbar_LoggedOut.cshtml" />

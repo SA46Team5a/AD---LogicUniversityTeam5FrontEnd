@@ -14,46 +14,43 @@
             {
                 if (Request.Params["isDelegateAuthority"].Equals("True"))
                 {
-                <div class="row justify-content-md-center pb-2">
-                    <div class="alert alert-success col-8">
-
-                        <div class="row justify-content-md-center pb-2">
-
-                            <strong>Success!</strong>&nbsp; New Authority added
+                    <div class="row justify-content-md-center pb-2">
+                        <div class="alert alert-success col-8">
+                            <div class="row justify-content-md-center pb-2">
+                                <strong>Success!</strong> New Authority added
+                            </div>
                         </div>
                     </div>
-                </div>
                 }
             }
         }
-
 
         @{ if (Request.Params["isRescind"] != null)
             {
                 if (Request.Params["isRescind"].Equals("True"))
                 {
-                <div class="row justify-content-md-center pb-2">
-                    <div class="alert alert-danger col-8">
+                    <div class="row justify-content-md-center pb-2">
+                        <div class="alert alert-danger col-8">
 
-                        <div class="row justify-content-md-center pb-2">
+                            <div class="row justify-content-md-center pb-2">
 
-                            <strong>Success!</strong>&nbsp; Authority is delegated to you
+                                <strong>Success!</strong>&nbsp; Authority is delegated to you
+                            </div>
                         </div>
                     </div>
-                </div>
                 }
             }
         }
-
 
         <div class="row justify-content-md-center pb-4">
             <h1 class="text-center mb=3">Delegate Authority</h1>
         </div>
         <div class="row justify-content-md-center pb-2">
-            <h5 class="text-center mb=3">Authority Holder: 
-            @Html.DisplayFor(m => Model.Authorities.Employee.EmployeeName)
+            <h5 class="text-center mb=3">
+                Authority Holder:
+                @Html.DisplayFor(m => Model.Authorities.Employee.EmployeeName)
             </h5>
-                            
+
         </div>
 
         <div class="row justify-content-md-center">
@@ -72,110 +69,42 @@
                     }
 
                     @Html.DropDownListFor(m => Model.AddedText[0],
-                      Employee,
-                      new { @class = "form-control", @id = "employee" })
+                                Employee,
+                                new { @class = "form-control", @id = "employee" })
 
                     @Html.HiddenFor(m => m.Employee)
-                    
                 </div>
-                <script>
-                    function Validate() {
-                        console.log("hello");
-                        var orderid = document.getElementById("employee");
-                        if (orderid.value == "") {
-                            //If the "Please Select" option is selected display error.
-                            alert("Please select an option!");
-                            return false;
-                        }
-                        return true;
-                    }
-
-                </script>
                 <div class="form-group">
-
                     <div class="row justify-content-md-center">
                         <div class="col-6 text-left">Start Date:</div>
                         <div class="col-6 text-left">End Date:</div>
                     </div>
                     <div class="row justify-content-md-center pb-5">
                         <div class="col-6 text-left">
-
                             @Html.TextBoxFor(m => Model.AddedText[1],
-                      new
-                      {
-                          @id = "bday",
-                          @class = "form-control",
-                          @type = "date",
-                          @min = DateTime.Today,
-                          @max = "2018-12-31"
-
-                      })
-                            @*@Html.HiddenFor(m => m.StartDate)*@
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-                            <script>
-                                function todayDate() {
-                                    var today = new Date(); // get the current date
-                                    var dd = today.getDate(); //get the day from today.
-                                    var mm = today.getMonth() + 1; //get the month from today +1 because january is 0!
-                                    var yyyy = today.getFullYear(); //get the year from today
-                                    //if day is below 10, add a zero before (ex: 9 -> 09)
-                                    if (dd < 10) {
-                                        dd = '0' + dd
-                                    }
-                                    //like the day, do the same to month (3->03)
-                                    if (mm < 10) {
-                                        mm = '0' + mm
-                                    }
-                                    //finally join yyyy mm and dd with a "-" between then
-                                    return yyyy + '-' + mm + '-' + dd;
-                                }
-
-                                $(document).ready(function () {
-                                    $('#bday').attr('min', todayDate());
-                                });
-
-                            </script>
-                            @*@Html.HiddenFor(m => m.StartDate)*@
+                                        new
+                                        {
+                                            @id = "start",
+                                            @class = "form-control",
+                                            @type = "date",
+                                            @max = "2018-12-31",
+                                            @min = "2018-01-01",
+                                            @value = "2018-03-30"
+                                        })
+                            @*@Html.HiddenFor(m => m.StartDate)*@                           
                         </div>
                         <div class="col-6 text-left">
-
                             @Html.TextBoxFor(m => Model.AddedText[2],
-                             new
-                             {
-                                 @id = "enddate",
-                                 @class = "form-control",
-                                 @type = "date",
-                                 @min = DateTime.Today,
-                                 @max = "2018-12-31"
-                             })
-                            <script>
-                                function todayDate() {
-                                    var today = new Date(); // get the current date
-                                    var dd = today.getDate(); //get the day from today.
-                                    var mm = today.getMonth() + 1; //get the month from today +1 because january is 0!
-                                    var yyyy = today.getFullYear(); //get the year from today
-                                    //if day is below 10, add a zero before (ex: 9 -> 09)
-                                    if (dd < 10) {
-                                        dd = '0' + dd
-                                    }
-                                    //like the day, do the same to month (3->03)
-                                    if (mm < 10) {
-                                        mm = '0' + mm
-                                    }
-                                    //finally join yyyy mm and dd with a "-" between then
-                                    return yyyy + '-' + mm + '-' + dd;
-                                }
-
-                                $(document).ready(function () {
-                                    $('#enddate').attr('min', todayDate());
-                                });
-
-                            </script>
+                                         new
+                                         {
+                                             @id = "end",
+                                             @type = "date",
+                                             @class = "form-control",
+                                             @value = "2018-03-31"
+                                         })
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <br>
@@ -212,24 +141,58 @@
                 });
         });
 
-            $('#rescind').click(function () {
-                $('#isRescind').val('true');
-            });
+        $('#rescind').click(function () {
+            $('#isRescind').val('true');
+        });
 
     </script>
     <script>
-            $(document).ready(function () {
-                var year = (new Date).getFullYear();
-                $("#bday").datepicker({
-                    dateFormat: "mm/dd/yy", maxDate:
-                        0
-                });
+        var start = document.getElementById('start');
+        var end = document.getElementById('end');
 
-            });
-
-
-
+        start.addEventListener('change', function () {
+            if (start.value)
+                end.min = start.value;
+        }, false);
+        end.addEventLiseter('change', function () {
+            if (end.value)
+                start.max = end.value;
+        }, false);
     </script>
+    <script>
+        function todayDate() {
+            var today = new Date(); // get the current date
+            var dd = today.getDate(); //get the day from today.
+            var mm = today.getMonth() + 1; //get the month from today +1 because january is 0!
+            var yyyy = today.getFullYear(); //get the year from today
+            //if day is below 10, add a zero before (ex: 9 -> 09)
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            //like the day, do the same to month (3->03)
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            //finally join yyyy mm and dd with a "-" between then
+            return yyyy + '-' + mm + '-' + dd;
+        }
+
+        $(document).ready(function () {
+            $('#start').attr('min', todayDate());
+        });
+        function Validate() {
+            console.log("hello");
+            var orderid = document.getElementById("employee");
+            if (orderid.value == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an option!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   
 </body>
 }
 

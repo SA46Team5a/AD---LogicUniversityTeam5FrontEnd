@@ -13,6 +13,8 @@ using ServiceLayer.DataAccess;
 namespace LogicUniversityTeam5.Controllers
 {
     // Author: Tan Khim Yang, Gong Meiting
+    
+    [Authorize(Roles = "Store Manager, Store Supervisor")]
     public class StockAdjustmentController : Controller
     {
         IStockManagementService stockManagementService;
@@ -22,7 +24,7 @@ namespace LogicUniversityTeam5.Controllers
         {
             stockManagementService = sms;
         }
-
+       
         public ActionResult ManageMonthlyStockDiscrepancy()
         {
             CombinedViewModel combinedView = new CombinedViewModel();

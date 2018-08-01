@@ -16,11 +16,9 @@
                 <div class="col-3 text-center">
                     @{ List<SelectListItem> des = new List<SelectListItem>();
                         des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
-                        foreach (var item in Model.Items)
+                        foreach (var cat in Model.Categories)
                         {
-                            string output = item.Category.CategoryName;
-                            des.Add(new SelectListItem { Text = output, Value = output });
-
+                            des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
                         }
                     }
                     @Html.DropDownListFor(m => Model.AddedText[0],
