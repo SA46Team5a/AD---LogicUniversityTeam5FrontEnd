@@ -21,6 +21,13 @@ namespace LogicUniversityTeam5.Models
             userIdentity.AddClaim(new Claim("UserRole", this.UserRole));
             return userIdentity;
         }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
+            return userIdentity;
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
