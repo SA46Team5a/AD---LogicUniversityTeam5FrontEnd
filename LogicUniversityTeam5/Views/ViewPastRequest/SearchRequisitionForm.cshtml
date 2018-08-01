@@ -75,7 +75,7 @@
     <td>@Html.DisplayFor(m => item.ApprovalStatus.ApprovalStatusName)</td>
     <td>@Html.DisplayFor(m => item.RetrievalStatus.RetrievalStatusName)</td>
 
-    @if (item.ApprovalStatus.ApprovalStatusName.Equals("Unsubmitted"))
+    @if (item.ApprovalStatusID == 1) // unsubmitted requisitions
     {
         <td>
             @Html.ActionLink("Edit", "../Requisition/StationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
