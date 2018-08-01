@@ -136,19 +136,21 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             string textBoxValue;
             //getting the logged in user
 
-            for (int i = 0; i < model.Requisitions.Count; i++)
+            if (model.Requisitions != null)
             {
-                textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
-                if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
+                for (int i = 0; i < model.Requisitions.Count; i++)
                 {
-                    iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
+                    textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
+                    if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
+                    {
+                        iRequisitionService.editRequisitionDetailQty(model.Requisitions[i].RequisitionDetailsID, Convert.ToInt32(textBoxValue));
+                    }
                 }
             }
 
             string currentLoggedInEmployeeId = User.Identity.GetEmployeeId();
             ServiceLayer.DataAccess.Requisition req =
                 iRequisitionService.getUnsubmittedRequisitionOfEmployee(currentLoggedInEmployeeId);
-
 
             if (save == true)
             {
