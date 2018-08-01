@@ -67,6 +67,8 @@ namespace LogicUniversityTeam5.Models
 
         public List<OrderSupplier> OrderSuppliers { get; set; }
 
+        public List<int> OrderIds { get; set; }
+
         public List<OrderSupplierDetail> OrderSupplierDetails { get; set; }
 
         public List<Disbursement> Disbursements { get; set; }

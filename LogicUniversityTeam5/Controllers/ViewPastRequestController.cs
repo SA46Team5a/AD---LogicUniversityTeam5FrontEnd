@@ -31,7 +31,11 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
-            ViewBag.EmpId = id;           
+            ViewBag.EmpId = id; 
+            //foreach(ServiceLayer.DataAccess.Requisition r in reqList)
+            //{
+            //    //r.RequisitionDetails.Count(i=>i.ItemID)
+            //}
             reqList=reqList.OrderByDescending(r => r.RequisitionID).ToList();
             return View(reqList);
         }
@@ -52,15 +56,13 @@ namespace LogicUniversityTeam5.Controllers
             string approvalStatus = form["approvalstatus"].ToString();
             string start = form["startdate"].ToString();
             string end = form["enddate"].ToString();
-            DateTime? startDate = null ;
+            DateTime startDate, endDate;
 
-            DateTime? endDate = null;
-
-            if ((start+end) != null && (start + end) != "")
-            {
-                startDate = Convert.ToDateTime(form["startdate"]);
-                endDate = Convert.ToDateTime(form["enddate"]);
-            }
+            //if ((start+end) != null && (start + end) != "")
+            //{
+            startDate = start == null || start == "" ? DateTime.MinValue : Convert.ToDateTime(form["startdate"]);
+            endDate = end == null || end == "" ? DateTime.MaxValue : Convert.ToDateTime(form["enddate"]);
+            //}
 
             //DateTime startDate = Convert.ToDateTime(form["startdate"]);
             //DateTime endDate = Convert.ToDateTime(form["enddate"]);
@@ -77,13 +79,19 @@ namespace LogicUniversityTeam5.Controllers
                 reqList = context.Requisitions.Where(r => r.EmployeeID == empId && r.ApprovalStatus.ApprovalStatusName == approvalStatus).ToList();
             }
 
-            if (startDate!=null && endDate!=null)
+            if (approvalStatus.Equals("All"))
+            {
+                reqList = reqList.Where(r => (r.RequestedDate >= startDate && r.RequestedDate <= endDate) || r.ApprovalStatusID == 1).ToList();
+
+            }
+            else if (!approvalStatus.Equals("Unsubmitted"))
             {
                 reqList = reqList.Where(r => r.RequestedDate >= startDate && r.RequestedDate <= endDate).ToList();
             }
-  
+
             ViewBag.SelectedApprovalStatus = approvalStatus;
             ViewBag.EmpId = empId;
+            reqList= reqList.OrderByDescending(r => r.RequisitionID).ToList();
             return View("SearchRequisitionForm", reqList);
         }
 

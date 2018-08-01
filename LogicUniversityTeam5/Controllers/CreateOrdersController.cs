@@ -70,7 +70,6 @@ namespace LogicUniversityTeam5.Controllers.Order
                         ReorderDetail detail = context.ReorderDetails.First(x => x.ItemID == id);
                         searchmodel.reorderdetail.Add(detail);
                     }
-                    //
 
                     return View(searchmodel);
                 }
@@ -103,7 +102,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 return View(model);
             }
-
         }
         [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderQuantity()
@@ -196,6 +194,15 @@ namespace LogicUniversityTeam5.Controllers.Order
             return items;
         }
 
+        public List<Category> getcategory()
+        {
+            List<Category> category = new List<Category>();
+            category.Add(new Category() { CategoryName = "pen", CategoryID = 123 });
+            category.Add(new Category() { CategoryName = "pen", CategoryID = 123 });
+            category.Add(new Category() { });
+            return category;
+        }
+
         private List<int> AddReOrderItemQtyInPlaceOrderView(Dictionary<string, int> itemIdsAndItemQty, List<SupplierItem> supplierItems)
         {
             List<int> reOrderItemQty = new List<int>();
@@ -252,7 +259,7 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 combinedViewModel.Items.Add(
                     context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
-                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
+                if(itemIdsAndItemQty.Keys.Contains(osd.ItemID)) {
                     combinedViewModel.ReOrderItemQty.Add(
                         itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
                 }
@@ -263,56 +270,41 @@ namespace LogicUniversityTeam5.Controllers.Order
             }
             TempData["orderId"] = id;
             TempData.Keep("itemIdsAndItemQty");
-
+            CreatePurchaseOrders(id);
             return View(combinedViewModel);
         }
-        [Authorize(Roles = "Store Clerk")]
-        public ActionResult PrintOrderSummary(CombinedViewModel model)
-        {
-            //Harcoded: to be removed
+
+         public void CreatePurchaseOrders(int orderId)
+         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
-            combinedViewModel.OrderSuppliers = context.OrderSuppliers.Where(x => x.OrderSupplierID == 1).ToList();
-            combinedViewModel.OrderSupplierDetails = context.OrderSupplierDetails.Where(x => x.OrderSupplierID == 1).ToList();
-            var actionPDF = new Rotativa.ActionAsPdf("PrintOrderSummary", combinedViewModel)
+            List<OrderSupplier> OrderSuppliers = orderService.getOrderSuppliersOfOrder(orderId);
+            foreach (OrderSupplier os in OrderSuppliers)
             {
-                FileName = "TestView.pdf",
-                PageSize = Size.A4,
-                PageOrientation = Rotativa.Options.Orientation.Landscape,
-                PageMargins = { Left = 1, Right = 1 }
-            };
-            byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
-            return View("OrderSummary", new {id = 1});
+                combinedViewModel.OrderSupplierDetails = 
+                    orderService.getOrderDetailsOfOrderIdAndSupplier(orderId, os.SupplierID);
+                string fileName = String.Format("OrderSupplierID_{0}.pdf",os.OrderSupplierID);
+                string folderName = String.Format("OrderID_{0}",orderId);
+                string folderPath = "/Invoice/" + folderName;
+                System.IO.Directory.CreateDirectory(Server.MapPath(folderPath));
 
-        }
-        [Authorize(Roles = "Store Clerk")]
-        private CombinedViewModel RetrieveDataForOrderSummary()
-        {
-            CombinedViewModel combinedViewModel = new CombinedViewModel();
-            int id = (int)TempData["orderId"];
-            combinedViewModel.OrderSupplierDetails =
-                context.OrderSupplierDetails.Where(x => x.OrderSupplier.OrderID == id).ToList();
-
-            //Adding Items and Required Quantity
-            Dictionary<string, int> itemIdsAndItemQty = (Dictionary<string, int>)TempData["itemIdsAndItemQty"];
-
-            combinedViewModel.Items = new List<Item>();
-            combinedViewModel.ReOrderItemQty = new List<int>();
-            foreach (OrderSupplierDetail osd in combinedViewModel.OrderSupplierDetails)
-            {
-                combinedViewModel.Items.Add(
-                    context.Items.First(x => x.ItemID.Equals(osd.ItemID)));
-                if (itemIdsAndItemQty.Keys.Contains(osd.ItemID))
+                var filePath = Path.Combine(Server.MapPath(folderPath),fileName);
+                var actionResult = new ViewAsPdf("PrintPurchaseOrder", combinedViewModel)
                 {
-                    combinedViewModel.ReOrderItemQty.Add(
-                        itemIdsAndItemQty.First(x => x.Key.Contains(osd.ItemID)).Value);
-                }
-                else
-                {
-                    combinedViewModel.ReOrderItemQty.Add(0);
-                }
+                    PageOrientation = Rotativa.Options.Orientation.Landscape
+                };
+                var byteArray = actionResult.BuildFile(ControllerContext);
+                var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+                fileStream.Write(byteArray, 0, byteArray.Length);
+                fileStream.Close();
             }
+        }
 
-            return combinedViewModel;
+        [Authorize(Roles = "Store Clerk")]
+        public ActionResult PrintPurchaseOrder(CombinedViewModel combinedViewModel)
+        {
+            combinedViewModel.OrderSupplierDetails =
+                    orderService.getOrderDetailsOfOrderIdAndSupplier(1011, "ALPA");
+            return View(combinedViewModel);
         }
         [Authorize(Roles = "Store Clerk")]
         public ActionResult OrderSummary(CombinedViewModel model)
@@ -321,17 +313,18 @@ namespace LogicUniversityTeam5.Controllers.Order
             int id = model.AddedNumbers[0];
             return OrderSummary(id);
         }
-
-
-
-        //To be implemented later
+        
         [HttpPost]
-        public FileResult DownloadPurchaseOrders(List<string> files)
+        public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
             var archive = Server.MapPath("~/archive.zip");
             var temp = Server.MapPath("~/temp");
 
-            // clear any existing archive
+            int orderId = combinedViewModel.OrderSupplierDetails[0].OrderSupplier.OrderID;
+            string folderPath = String.Format("/Invoice/OrderID_{0}",orderId);
+
+            List<string> files =  Directory.EnumerateFiles(Server.MapPath(folderPath)).ToList();
+
             if (System.IO.File.Exists(archive))
             {
                 System.IO.File.Delete(archive);
@@ -353,25 +346,8 @@ namespace LogicUniversityTeam5.Controllers.Order
         {
 
             CombinedViewModel model = new CombinedViewModel();
-            model.Suppliers = new List<Supplier>();
-            model.OrderSuppliers = context.OrderSuppliers.Where(x => x.InvoiceUploadStatus.InvoiceUploadStatusID == 2).ToList();
-            model.Suppliers = context.Suppliers.ToList();
+            model.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
             model.AddedText = new List<string>(2) { "", "" };
-            model.RadioButtonListData = new List<RadioButtonData>();     
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 1});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 2 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 3 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 4 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 5 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 6 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 7 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 8 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 9 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 10 });
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 11});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 12});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 13});
-            model.RadioButtonListData.Add(new RadioButtonData { Id = 14 });
             return View(model);
         }
 
@@ -379,16 +355,13 @@ namespace LogicUniversityTeam5.Controllers.Order
         //[ValidateAntiForgeryToken]
         public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
         {
-
-
             if (Search != null)
             {
                 CombinedViewModel searchmodel = new CombinedViewModel();
                 int selectorderid = Int32.Parse(model.AddedText[0]);
-                searchmodel.OrderSuppliers = new List<OrderSupplier>();
-                searchmodel.OrderSuppliers = orderService.getOrderSuppliersOfOrder(selectorderid);       
-                searchmodel.Suppliers = new List<Supplier>();
+                searchmodel.OrderIds = orderService.getOrderIdsWithOutStandingInvoices();
                 searchmodel.Suppliers = orderService.getSuppliersOfOrderIdWithOutstandingInvoice(selectorderid);
+
                 int size = searchmodel.Suppliers.Count;
                 searchmodel.RadioButtonListData = new List<RadioButtonData>(size);
                 for(int i = 0; i < size; i++)
@@ -473,8 +446,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             {
                 return View(model);
             }
-
-            
         }
        
         public CombinedViewModel getmodel()
@@ -487,9 +458,6 @@ namespace LogicUniversityTeam5.Controllers.Order
             model.AddedText = new List<string>(2) { "", "" };
             return model;
         }
-        
     }
-
-    
 }
 

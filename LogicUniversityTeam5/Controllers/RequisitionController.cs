@@ -76,7 +76,8 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             //Looping each item in view
             for (int i = 0; i < model.Items.Count; i++)
             {
-                string textBoxValue = model.AddedText[i].ToString().Trim();
+                string textBoxValue = null;
+                textBoxValue = model.AddedText[i].ToString().Trim();
                 string itemIdInView = model.Items[i].ItemID;
                 //if item is existing item in requistion, add to quantity
                 if (existingReqDetailsItemIds.Contains(itemIdInView) && (textBoxValue != null && textBoxValue != ""))
@@ -122,6 +123,13 @@ namespace LogicUniversityTeam5.Controllers.Requisition
             return View(newmodel);
 
         }
+
+        [HttpPost]
+        public ActionResult GoToStationaryRequestForm()
+        {
+            return RedirectToAction("StationeryRequestForm");
+        }
+
         [HttpPost]
         public ActionResult StationeryRequestForm(CombinedViewModel model)
         {
