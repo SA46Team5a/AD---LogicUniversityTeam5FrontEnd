@@ -8,35 +8,40 @@
     <h1 class="text-center">Item Catalogue</h1>
     @using (Html.BeginForm("ItemCatalogue", "CreateOrders", FormMethod.Post))
     {
-        <div class="row justify-content-md-center mt-3">
-            <span class="my-auto">
-                Category
-            </span>
-            
-                <div class="col-3 text-center">
-                    @{ List<SelectListItem> des = new List<SelectListItem>();
-                        des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
-                        foreach (var cat in Model.Categories)
-                        {
-                            des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
-                        }
-                    }
-                    @Html.DropDownListFor(m => Model.AddedText[0],
-                                                         des,
-                                                         new { @id="categoryDropDown" ,@class = "form-control", @onchange="searchByCategoryFunc()" })
-                </div>
-            </div>
-            <div class="row justify-content-md-center mt-3">
-                <span class="my-auto">
-                    Description
-                </span>
-                <div class="col-3 text-center">
-                    <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"
-                           placeholder="Search Description" onkeyup="searchbydesFunction()">
+    <div class="row justify-content-md-center mt-3">
+        <span class="my-auto mr-1">
+            Category
+        </span>
 
-                </div>
-                
+        <div class="col-4 text-center">
+            @{ List<SelectListItem> des = new List<SelectListItem>();
+            des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
+            foreach (var cat in Model.Categories)
+            {
+                des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
+            }
+            }
+            <div class="row justify-content-md-center mt-3">
+               
+
+                @Html.DropDownListFor(m => Model.AddedText[0],
+                                               des,
+                                               new { @id = "categoryDropDown", @class = "form-control ", @onchange = "searchByCategoryFunc()" })
             </div>
+        </div>
+     </div>
+    <div class="row justify-content-md-center mt-3 align-self-center">
+        <span class="my-auto">
+            Description
+        </span>
+        <div class="col-4 text-center">
+            <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"
+                   placeholder="Search Description" onkeyup="searchbydesFunction()">
+
+        </div>
+    </div>
+        
+       
 
             <div class="row justify-content-md-center mt-3">
                 <div class="col-9 text-center">
@@ -112,7 +117,7 @@
             </div>
             <div class="row justify-content-md-center mt-3 col 8">
                 <div class=" col-4 text-center">
-                    @Html.ActionLink("Cancel","Index","Home",null, new { @class="btn btn-secondary" , @value="Cancel" })
+                    @Html.ActionLink("Cancel","Index","Home",null, new { @class="btn btn-info" , @value="Cancel" })
                 </div>
                 <div class="col-4 text-center">
                     <input type="submit" value="Next" name="Next" id="btn_next" class="btn btn-primary" />

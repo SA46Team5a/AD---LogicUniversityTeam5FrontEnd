@@ -150,7 +150,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void SendEmailForChangeCollectionPoint(string DepartmentName, string CollectionPoint)
+        public static void SendEmailForChangeCollectionPoint(string DepartmentName, string CollectionPoint, string passcode)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -160,7 +160,12 @@ namespace LogicUniversityTeam5.Controllers
             MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
             mm.Subject = "Notification for change of collection point";
 
+<<<<<<< HEAD
+            mm.Body = "Dear employee:\r\n" + "The collection point for " + DepartmentName + " has been change to" + CollectionPoint + "\r\n" +
+=======
             mm.Body = "Dear employee:\r\n" + "The collection point for " + DepartmentName + "has been change to" + CollectionPoint + "\r\n" +
+                      "The Passcode is "+ passcode + ".\n\n"+
+>>>>>>> 9d9c1f0963305b500388fa82afce584035d3a24c
                       "Regards\r\n" +
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);

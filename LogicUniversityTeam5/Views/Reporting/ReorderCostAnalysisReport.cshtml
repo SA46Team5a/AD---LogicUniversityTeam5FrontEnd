@@ -26,21 +26,24 @@
         </div>
         <div class="row justify-content-md-center">
             <div class="col-8">
-                <p class="text-left">Department:</p>
+                <p class="text-left">Suppliers:</p>
             </div>
         </div>
         <div class="row justify-content-md-center">
-            @foreach (ServiceLayer.DataAccess.Supplier supplier in Model.suppliers)
-            {
-            <div class="col-3">
-                <div class="form-check">
-                    <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
-                    <label class="form-check-label">
-                        @supplier.SupplierName
-                    </label>
+          
+                @foreach (ServiceLayer.DataAccess.Supplier supplier in Model.suppliers)
+                {
+              
+                <div class="col-4 text-left">
+                    <div class="form-check">
+                        <input class="form-check-input" name="department" type="checkbox" style="width: 20px; height: 18px;" value="@supplier.SupplierID" id="@supplier.SupplierID">
+                        <label class="form-check-label">
+                            @supplier.SupplierName
+                        </label>
+                    </div>
                 </div>
-            </div>
-            }
+                }
+          
         </div>
         <div class="row justify-content-md-center mt-3 pd-0">
             <div class="col-8">
@@ -259,7 +262,7 @@
             });
         }
        //this function is called when compare data is selected.
-        function getDataCompare(pass) {            
+        function getDataCompare(pass) {              
             var data = {};
             data["category"] = $("#stationaryCategory option:selected").val();            
             var selectedDepts = [];

@@ -52,10 +52,10 @@
                     <table id="Supplier3OrderTable" class="table pb-5 pt-0">
                         <thead>
                             <tr>
-                                <th scope="col" class="text-left col-6">Description</th>
-                                <th scope="col" class="text-center col-2">Unit of Measure</th>
-                                <th scope="col" class="text-center col-1">Quantity Requested</th>
-                                <th scope="col" class="text-center">Action</th>
+                                <th scope="col" class="text-left  ">Description</th>
+                                <th scope="col" class="text-left ">Unit of Measure</th>
+                                <th scope="col" class="text-left ">Quantity Requested</th>
+                                <th scope="col" class="text-center ">Action</th>
 
                             </tr>
                         </thead>
@@ -70,23 +70,25 @@
                                 @Html.HiddenFor(m => Model.Requisitions[j].RequisitionDetailsID)
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(m => Model.Requisitions[j].Item.ItemName)
+                                        @Html.DisplayFor(m => Model.Requisitions[j].Item.ItemName, new { 
+                                       @class="text-center"})
                                         @Html.HiddenFor(m => Model.Requisitions[j].Item.ItemName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
+                                        @Html.DisplayFor(m => Model.Requisitions[j].Item.UnitOfMeasure,new{
+                                       @class="text-center"})
                                         @Html.HiddenFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => Model.Requisitions[j].Quantity, new {
-                                       @class = "form-control",
+                                       @class = "form-control col-6 text-center",
                                        @onkeypress = "return noNumbers(event)",
                                        @onfocusout = "allownums(this)",
                                    })
                                         @Html.HiddenFor(m => Model.Requisitions[j].Quantity)
                                     </td>
                                     <td class="text-center">
-                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID }, new { @class = "btn btn-danger" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = Model.Requisitions[j].RequisitionDetailsID }, new { @class = "btn btn-danger text-left" })
                                     </td>
                                 </tr>
                             }
