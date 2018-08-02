@@ -136,25 +136,22 @@
         statusInput = document.getElementById("StatusDropdownlist");
         if (statusInput.value === "All") {
             statusInput.value = "";
-            
         }
         statusfilter = statusInput.value.toUpperCase();
 
+        console.log(deptfilter);
+        console.log(statusfilter);
+
         table = document.getElementById("outstandingRequisitionTable");
         tr = table.getElementsByTagName("tr");
-
-        //Loop for dept
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
+            td = tr[i].getElementsByTagName("td")[0];
             if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(deptfilter) > -1 && td.innerHTML.toUpperCase().indexOf(statusfilter) > -1) {
-                    console.log("Hello");
+                if (td.innerHTML.toUpperCase().indexOf(deptfilter) > -1 && td.innerHTML.toUpperCase().indexOf(statusfilter) ) {
                     tr[i].style.display = "";
                 } else {
-                    console.log("Bye");
                     tr[i].style.display = "none";
-                }
-            }
+                }  
         }
     }
     function Validate() {
