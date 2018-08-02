@@ -14,7 +14,7 @@
             </div>
             <div class="form-group col-md-3 text-center">
                 @{List<SelectListItem> des = new List<SelectListItem>();
-                    des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
+                    des.Add(new SelectListItem { Text = "Please Select Category".ToString(), Value = "".ToString(), Selected = true });
                     foreach (var item in Model.Categories)
                     {
                         des.Add(new SelectListItem { Text = item.CategoryName, Value = item.CategoryName });

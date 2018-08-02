@@ -28,14 +28,14 @@ namespace LogicUniversityTeam5.Controllers
 
         public ActionResult SearchRequisitionForm(string id)
         {
-            List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
-            ViewBag.EmpId = id; 
-            //foreach(ServiceLayer.DataAccess.Requisition r in reqList)
-            //{
-            //    //r.RequisitionDetails.Count(i=>i.ItemID)
-            //}
-            reqList=reqList.OrderByDescending(r => r.RequisitionID).ToList();
-            return View(reqList);
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
+            combinedViewModel.Requisition = requisitionService.getRequisitionsOfEmployee(id);
+            combinedViewModel.ApprovalStatusNames = classificationService.GetApprovalStatusNames();
+            
+            ViewBag.EmpId = id;
+            combinedViewModel.Requisition = combinedViewModel.Requisition.OrderByDescending(r => r.RequisitionID).ToList();
+
+            return View(combinedViewModel);
         }
 
         [HttpPost]
@@ -62,9 +62,6 @@ namespace LogicUniversityTeam5.Controllers
             endDate = end == null || end == "" ? DateTime.MaxValue : Convert.ToDateTime(form["enddate"]);
             //}
 
-            //DateTime startDate = Convert.ToDateTime(form["startdate"]);
-            //DateTime endDate = Convert.ToDateTime(form["enddate"]);
-
             List <ServiceLayer.DataAccess.Requisition> reqList = new List<ServiceLayer.DataAccess.Requisition>();
             string empId = form["empId"];
             if (approvalStatus.Equals("All"))
@@ -90,7 +87,11 @@ namespace LogicUniversityTeam5.Controllers
             ViewBag.SelectedApprovalStatus = approvalStatus;
             ViewBag.EmpId = empId;
             reqList= reqList.OrderByDescending(r => r.RequisitionID).ToList();
-            return View("SearchRequisitionForm", reqList);
+
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
+            combinedViewModel.Requisition = reqList;
+
+            return View("SearchRequisitionForm", combinedViewModel);
         }
 
         //Go to Screen 2.2.2.3 View Stationery Request Form
@@ -127,7 +128,6 @@ namespace LogicUniversityTeam5.Controllers
             string textBoxValue;
             for (int i = 0; i < model.Requisitions.Count; i++)
             {
-
                 textBoxValue = model.Requisitions[i].Quantity.ToString().Trim();
                 if (!(textBoxValue.Equals(null)) && !textBoxValue.Equals(""))
                 {
@@ -155,11 +155,6 @@ namespace LogicUniversityTeam5.Controllers
             }
 
             return RedirectToAction("EditSubmittedStationeryRequestForm", new { id = reqId});
-        }
-
-        public ActionResult EmployeeHome()
-        {
-            return View();
         }
 
         public ActionResult ViewStationeryCatalogue()
@@ -224,18 +219,6 @@ namespace LogicUniversityTeam5.Controllers
 
             return RedirectToAction("EditSubmittedStationeryRequestForm", new { id = reqId });
         }
-        /*
-        public ActionResult StationeryCatalogueView(int id)
-        {
-            ServiceLayer.DataAccess.Requisition r = requisitionService.getRequisitionById(id);
-            return View(r);
-        }
-
-        //Add item?
-        public ActionResult RequestItem(int itemId, int qty, int reqId)
-        {
-            return View();
-        }*/
 
     }
 }

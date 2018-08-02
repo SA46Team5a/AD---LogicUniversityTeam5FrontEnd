@@ -434,7 +434,6 @@
     <Content Include="Views\ViewReceivedOrdersList\PurchaseOrderSummary.cshtml" />
     <Content Include="Views\ApproveRequisition\ApproveRequisitionForm.cshtml" />
     <Content Include="Views\ViewPastRequest\SearchRequisitionForm.cshtml" />
-    <Content Include="ViewStationeryRequestForm.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Shared\_Navbar_DepartmentHead.cshtml" />
     <Content Include="Views\Shared\_Navbar_LoggedOut.cshtml" />
@@ -452,6 +451,7 @@
     <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
     <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
     <Content Include="Views\Shared\_Navbar_Delegate.cshtml" />
+    <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
