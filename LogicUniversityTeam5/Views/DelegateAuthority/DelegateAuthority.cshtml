@@ -11,98 +11,125 @@
 
 
         @{ if (Request.Params["isDelegateAuthority"] != null)
-            {
-                if (Request.Params["isDelegateAuthority"].Equals("True"))
-                {
-                    <div class="row justify-content-md-center pb-2">
-                        <div class="alert alert-success col-8">
-                            <div class="row justify-content-md-center pb-2">
-                                <strong>Success!</strong> New Authority added
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
+        {
+        if (Request.Params["isDelegateAuthority"].Equals("True"))
+        {
+        <div class="row justify-content-md-center pb-2">
+            <div class="alert alert-success col-8">
+                <div class="row justify-content-md-center pb-2">
+                    <strong>Success!</strong> New Authority added
+                </div>
+            </div>
+        </div>
+        }
+        }
         }
 
         @{ if (Request.Params["isRescind"] != null)
-            {
-                if (Request.Params["isRescind"].Equals("True"))
-                {
-                    <div class="row justify-content-md-center pb-2">
-                        <div class="alert alert-danger col-8">
+        {
+        if (Request.Params["isRescind"].Equals("True"))
+        {
+        <div class="row justify-content-md-center pb-2">
+            <div class="alert alert-danger col-8">
 
-                            <div class="row justify-content-md-center pb-2">
+                <div class="row justify-content-md-center pb-2">
 
-                                <strong>Success!</strong>&nbsp; Authority is delegated to you
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
+                    <strong>Success!</strong>&nbsp; Authority is delegated to you
+                </div>
+            </div>
+        </div>
+        }
+        }
         }
 
         <div class="row justify-content-md-center pb-4">
             <h1 class="text-center mb=3">Delegate Authority</h1>
         </div>
         <div class="row justify-content-md-center pb-2">
-            <h5 class="text-center mb=3">
-                Authority Holder:
-                @Html.DisplayFor(m => Model.Authorities.Employee.EmployeeName)
-            </h5>
-
+            @if (Model.Authorities != null)
+            {
+                <h5 class="text-center mb=3">
+                    Delegated Authority: @Model.Authorities.Employee.EmployeeName
+                </h5>
+                @Html.HiddenFor(m => Model.Authorities.Employee.EmployeeName)
+            }
         </div>
 
         <div class="row justify-content-md-center">
             <div class=" col-8">
-
+                @if (Model.Authorities == null)
+                {
                 <div class="form-group">
                     <label for="Delegatedperson">Appoint Delegate:</label>
 
-                    @{List<SelectListItem> Employee = new List<SelectListItem>();
-                        Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
-                        foreach (var emp in Model.Employee)
-                        {
+                    @{List<SelectListItem>
+                        Employee = new List<SelectListItem>
+                            ();
+                            Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
+                            foreach (var emp in Model.Employee)
+                            {
                             string output = emp.EmployeeName.ToString();
                             Employee.Add(new SelectListItem { Text = output, Value = output });
-                        }
-                    }
+                            }
+                            }
 
-                    @Html.DropDownListFor(m => Model.AddedText[0],
-                                Employee,
-                                new { @class = "form-control", @id = "employee" })
+                            @Html.DropDownListFor(m => Model.AddedText[0],
+                            Employee,
+                            new { @class = "form-control", @id = "employee" })
 
-                    @Html.HiddenFor(m => m.Employee)
+                            @Html.HiddenFor(m => m.Employee)
                 </div>
+                }
                 <div class="form-group">
                     <div class="row justify-content-md-center">
                         <div class="col-6 text-left">Start Date:</div>
                         <div class="col-6 text-left">End Date:</div>
                     </div>
                     <div class="row justify-content-md-center pb-5">
-                        <div class="col-6 text-left">
-                            @Html.TextBoxFor(m => Model.AddedText[1],
-                                        new
-                                        {
-                                            @id = "start",
-                                            @class = "form-control",
-                                            @type = "date",
-                                            @max = "2018-12-31",
-                                            @min = "2018-01-01",
-                                            @value = "2018-03-30"
-                                        })
-                            @*@Html.HiddenFor(m => m.StartDate)*@                           
-                        </div>
-                        <div class="col-6 text-left">
-                            @Html.TextBoxFor(m => Model.AddedText[2],
-                                         new
-                                         {
-                                             @id = "end",
-                                             @type = "date",
-                                             @class = "form-control",
-                                             @value = "2018-03-31"
-                                         })
-                        </div>
+
+                        @{ DateTime minEndDate = Model.Authorities == null ? DateTime.Today : @Model.Authorities.StartDate;}
+                        @{var start_attr = new
+                            {
+                                @id = "AddedText[1]",
+                                @class = "form-control",
+                                @type = "date",
+                                @min = DateTime.Today.ToString("yyyy-MM-dd"),
+                            };
+                        }
+
+                        @{var end_attr = new
+                            {
+                                @id = "AddedText[2]",
+                                @class = "form-control",
+                                @type = "date",
+                                @min = minEndDate.ToString("yyyy-MM-dd"),
+                            };
+                        }
+
+                        @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
+                        {
+                            <div class="col-6 text-left">
+                                @Html.TextBoxFor(m => Model.Authorities.StartDate, "{0:MM/dd/yyyy}", end_attr)
+                            </div>
+                            <div class="col-6 text-left">
+                                @Html.TextBoxFor(m => Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
+                            </div>
+                        }
+                        else if (Model.Authorities.StartDate <= DateTime.Today)
+                        {
+                            <div class="col-6 text-center">
+                                @Html.DisplayFor(m => Model.Authorities.StartDate, new { @type = "date" })
+                                @Html.HiddenFor(m => Model.Authorities.StartDate)
+                            </div>
+                            <div class="col-6 text-center">
+                                @Html.DisplayFor(m => Model.Authorities.EndDate, new { @type = "date" })
+                                @Html.HiddenFor(m => Model.Authorities.EndDate)
+                            </div>
+                        }
+
+                        @*<div class="col-6 text-left">
+                            @Html.TextBox("txtJoiningDate", minEndDate, "{0:MM/dd/yyyy}", end_attr)
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -110,54 +137,51 @@
         <br>
         <br>
         <div class="row justify-content-md-center pt-5">
-            <div class="col-2 text-left">
-                <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
-            </div>
             <div class="col-2 text-center">
                 <button type="button" id="home" class="btn btn-info ">Home</button>
             </div>
-            <div class="col-2 text-right">
-                <input type="submit" value="Rescind" name="Rescind" class="btn btn-danger" id="rescind" />
-                @Html.HiddenFor(m => Model.IsSelected[0], new { @id = "isRescind" })
+            @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
+            {
+                <div class="col-2 text-left">
+                    <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
+                </div>
+            }
+            else
+            {
+                <div class="col-2 text-right">
+                    <input type="submit" value="Rescind" name="Rescind" class="btn btn-danger" id="rescind" />
 
-            </div>
+                </div>
+            }
+            @Html.HiddenFor(m => Model.IsSelected[0], new { @id = "isRescind" })
         </div>
     </div>
 
 
     <script type="text/javascript">
-        $(function(){
-        $("#home").click(function(){
-        window.location.href = "@Url.Action("Index","Home")";
-                    });
-        });
+        $(function () {
+            $("#home").click(function () {
+                window.location.href = "@Url.Action("Index","Home")";
+            });
 
-        var dateToday = new Date();
-            $(function () {
-                $("#bday").datepicker({
-                    numberOfMonths: 3,
-                    showButtonPanel: true,
-                    minDate: dateToday
-                });
+            $('#rescind').click(function () {
+                $('#isRescind').val('true');
+            });
         });
-
-        $('#rescind').click(function () {
-            $('#isRescind').val('true');
-        });
-
     </script>
     <script>
-        var start = document.getElementById('start');
-        var end = document.getElementById('end');
+        var start = $("#AddedText[1]");
+        var end = $("#AddedText[2]");
 
-        start.addEventListener('change', function () {
-            if (start.value)
-                end.min = start.value;
-        }, false);
-        end.addEventLiseter('change', function () {
-            if (end.value)
-                start.max = end.value;
-        }, false);
+        start.change(function () {
+            if (start.val())
+                end.attr("min", start.val());
+        })
+
+        end.change(function () {
+            if (end.val())
+                end.attr("max", end.val());
+        })
     </script>
     <script>
         function todayDate() {
@@ -192,7 +216,7 @@
         }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-   
+
 </body>
 }
 

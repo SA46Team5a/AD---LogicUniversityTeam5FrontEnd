@@ -49,40 +49,32 @@ namespace LogicUniversityTeam5.Controllers
 
             //get user from the login session
             string empId = User.Identity.GetEmployeeId();
-            string dateStart = model.AddedText[1];
-            string dateEnd = model.AddedText[2];
-            bool isRescind = model.IsSelected[0];
+            string dateStart = model.Authorities.StartDate.ToString();
+            string dateEnd = model.Authorities.EndDate.ToString();
+            bool isRescind = model.IsSelected[0];              
 
-            if (model.AddedText[0] != null)
+            if (isRescind)
             {
-                Employee emp = departmentService.getEmployeeObject(model.AddedText[0]);                  
+                Employee emp = departmentService.getEmployeeObject(model.Authorities.Employee.EmployeeName);
+                departmentService.rescindAuthority(emp.EmployeeID);
+                //To change email method to include the employeeID
+                EmailNotificationController.SendToLostApproveAuthority();
+                roleController.ChangeRoleOfUserToEmployee(emp.EmployeeID);
 
-                if (isRescind)
-                {
-                    departmentService.rescindAuthority(empId);
-                    //To change email method to include the employeeID
-                    EmailNotificationController.SendToLostApproveAuthority();
-                    roleController.ChangeRoleOfUserToEmployee(emp.EmployeeID);
-
-                    return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isRescind = true });
-                }
-                else
-                {
-                    Authority authority = departmentService.getDelegatedAuthority(emp.DepartmentID);
-                    departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
-                    //To change email method to include the employeeID
-                    EmailNotificationController.SendEmailToDelegatePerson();
-                    roleController.ChangeRoleOfUserToDelegate(emp.EmployeeID);
-
-                    return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isDelegateAuthority = true });
-                }
-                 
+                return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isRescind = true });
             }
             else
             {
-                return RedirectToAction("DelegateAuthority", "DelegateAuthority");
-            }                       
+                Employee emp = departmentService.getEmployeeObject(model.AddedText[0]);
+                Authority authority = departmentService.getDelegatedAuthority(emp.DepartmentID);
+                departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
+                //To change email method to include the employeeID
+                EmailNotificationController.SendEmailToDelegatePerson();
+                roleController.ChangeRoleOfUserToDelegate(emp.EmployeeID);
 
+                return RedirectToAction("DelegateAuthority", "DelegateAuthority", new { isDelegateAuthority = true });
+            }
+                
         }
     }
 }
