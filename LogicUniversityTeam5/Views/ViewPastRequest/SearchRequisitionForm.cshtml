@@ -81,7 +81,7 @@
             @Html.ActionLink("Edit", "../Requisition/StationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
         </td>
     }
-    else if (item.ApprovalStatus.ApprovalStatusName.Equals("Pending"))
+    else if (item.ApprovalStatusID == 2) // status 2 = pending;
     {
         <td class="form-group row">
             @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })

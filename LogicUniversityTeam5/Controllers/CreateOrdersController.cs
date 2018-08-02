@@ -208,7 +208,6 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult PlaceOrder(CombinedViewModel model)
         {
             //creating Dictionary<int, int> supplierItemsAndQty

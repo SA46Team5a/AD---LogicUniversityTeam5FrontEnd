@@ -192,7 +192,7 @@
             $("#table2").remove();
         }
 
-        function updateChart1(result) {
+        function updateChart1(result) {            
             $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
             var canvas = document.getElementById("chart1").getContext('2d');
             myChart = new Chart(canvas, {
@@ -256,7 +256,7 @@
             })
         }
         //this function is called when compare data is selected.
-        function getDataCompare(pass) {
+        function getDataCompare(pass) {            
             var data = {};
             data["category"] = $("#stationaryCategory option:selected").val();
             var selectedDepts = [];
@@ -312,20 +312,20 @@
         }
 
         $("#GenerateBtn").click(function () {
-            clearChartsAndTables();
+            clearChartsAndTables();           
             var decision = $("input[name=Duration]:checked").val();
             if (decision == 'CompareMonths') {
                 getComparemonths();
             }
             else {
-                var data = getData();
+                var data = getData();                
                 console.log(data);
                 $.ajax({
                     type: "POST",
                     data: data,
                     url: "../api/reports/requisition",
                     success: function (result) {
-                        globalData = result;
+                        globalData = result;                        
                         updateChart1(result);
                         updateTable1(result, "");
                         console.log(result);

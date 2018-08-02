@@ -51,7 +51,6 @@ namespace LogicUniversityTeam5
             }
       
             
-            
             for(int i = 0; i < model.OrderSuppliers.Count; i++)
             {
                 CombinedViewModel tempmodel = new CombinedViewModel();
