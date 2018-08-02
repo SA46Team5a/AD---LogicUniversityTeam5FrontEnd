@@ -19,13 +19,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("changeCollectionPoint","ChangeCollectionPoint")">Manage Department Information</a>
                 </li>
-                
+
             </ul>
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
-        }
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+
+            }
         </div>
     </nav>
     <script>

@@ -13,22 +13,22 @@
                 Category
             </span>
             
-                <div class="col-3 text-center">
-                    @{ List<SelectListItem> des = new List<SelectListItem>();
-                        des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
-                        foreach (var cat in Model.Categories)
-                        {
-                            des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
-                        }
+            <div class="col-3 text-center">
+                @{ List<SelectListItem> des = new List<SelectListItem>();
+                    des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
+                    foreach (var cat in Model.Categories)
+                    {
+                        des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
                     }
-                    @Html.DropDownListFor(m => Model.AddedText[0],
-                                                         des,
-                                                         new { @id="categoryDropDown" ,@class = "form-control", @onchange="searchByCategoryFunc()" })
-                </div>
-            </div>
             <div class="row justify-content-md-center mt-3">
                 <span class="my-auto">
                     Description
+                    }
+                    @Html.DropDownListFor(m => Model.AddedText[0],
+                                                  des,
+                                                  new { @id = "categoryDropDown", @class = "form-control", @onchange = "searchByCategoryFunc()" })
+            </div>
+            </div>
                 </span>
                 <div class="col-3 text-center">
                     <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"

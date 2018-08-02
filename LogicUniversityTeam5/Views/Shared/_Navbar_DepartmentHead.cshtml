@@ -17,8 +17,7 @@
                 </a>
                 <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="@Url.Action("ApproveRequisitionForm","ApproveRequisition")">
-                        Approve Requisition Form
-                        (@Model.AddedNumbers[0])
+                        Approve Requisition Form<div style="color:red">(@Model.AddedNumbers[0])</div>                       
                         <!--PendingRequisition>0? PendingRequisition: null -->
                     </a>
                     <a class="dropdown-item" href="@Url.Action("AppointDepartmentRep","AppointDepartmentRep")">Appoint Department Representative</a>

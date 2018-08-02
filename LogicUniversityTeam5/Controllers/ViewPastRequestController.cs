@@ -11,6 +11,7 @@ using System.Web.Mvc;
 namespace LogicUniversityTeam5.Controllers
 {
     //Author: Benedict
+    [Authorize(Roles = "Department Representative, Employee, Department Head")]
     public class ViewPastRequestController : Controller
     {
 
@@ -25,9 +26,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         //ViewPastRequest/SearchRequisitionForm/E026
-        //[Authorize(Roles = "Department Head")]
-        //[Authorize(Roles = "Employee")]
-        [Authorize(Roles = "Department Representative, Employee, Department Head")]        
+             
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
