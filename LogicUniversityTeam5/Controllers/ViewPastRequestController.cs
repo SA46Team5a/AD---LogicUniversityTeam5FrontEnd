@@ -90,6 +90,7 @@ namespace LogicUniversityTeam5.Controllers
 
             CombinedViewModel combinedViewModel = new CombinedViewModel();
             combinedViewModel.Requisition = reqList;
+            combinedViewModel.ApprovalStatusNames = classificationService.GetApprovalStatusNames();
 
             return View("SearchRequisitionForm", combinedViewModel);
         }
