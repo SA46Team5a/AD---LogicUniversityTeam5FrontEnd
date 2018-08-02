@@ -128,7 +128,7 @@
 </body>
 <script>
     function search() {
-        var deptInput, deptfilter, statusInput, statusfilter, table, tr, td, i;
+        var deptInput, deptfilter, statusInput, statusfilter, table, tr, tdd , tds, i;
        
         deptInput = document.getElementById("DeptDropdownlist");
         deptfilter = deptInput.value.toUpperCase();
@@ -147,11 +147,12 @@
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
             if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(deptfilter) > -1 && td.innerHTML.toUpperCase().indexOf(statusfilter) ) {
+                if (td.innerHTML.toUpperCase().indexOf(deptfilter) > -1 && td.innerHTML.toUpperCase().indexOf(statusfilter)) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
-                }  
+                }
+            }
         }
     }
     function Validate() {
