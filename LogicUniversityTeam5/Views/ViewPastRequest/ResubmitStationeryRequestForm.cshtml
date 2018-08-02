@@ -28,7 +28,7 @@
             <div class="card-body">
                 <div class="row justify-content-md-center">
                     <div class=" col-12">
-                        <table id="Supplier3OrderTable" class="table mb-5">
+                        <table id="myTable" class="table mb-5">
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-left col-6">Description</th>
@@ -74,7 +74,7 @@
                         @Html.ActionLink("View Stationery to add", "ViewStationeryCatalogue", null, new { @id = "btn_back", @class = "btn btn-secondary" } )
                     </div>
                     <div class="col-4 text-center">
-                        <button id="btn_resubmit" data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary">Resubmit Form</button>
+                        <button id="btn_resubmit" data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary" >Resubmit Form</button>
 
                     </div>
                 </div>
@@ -168,7 +168,22 @@
                 textField.value = "1";
             }
         }
+
+    
+
+            $(function () {
+                console.log($("tbody tr").length);
+                if ($("tbody tr").length == 0) {
+                    document.getElementById("btn_resubmit").disabled = true; 
+                } 
+                else {
+                    document.getElementById("btn_resubmit").disabled =false; 
+                }
+            })
     </script>
+
+    
+   
      }
 </body>
 
