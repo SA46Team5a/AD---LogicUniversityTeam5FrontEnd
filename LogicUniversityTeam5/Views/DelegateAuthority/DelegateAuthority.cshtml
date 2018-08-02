@@ -87,41 +87,49 @@
                     </div>
                     <div class="row justify-content-md-center pb-5">
 
+                        @{ DateTime minEndDate = Model.Authorities == null ? DateTime.Today : @Model.Authorities.StartDate;}
                         @{var start_attr = new
-                        {
-                        @id = "AddedText[1]",
-                        @class = "form-control",
-                        @type = "date",
-                        @min = DateTime.Today.ToString("yyyy-MM-dd"),
-                        };
+                            {
+                                @id = "AddedText[1]",
+                                @class = "form-control",
+                                @type = "date",
+                                @min = DateTime.Today.ToString("yyyy-MM-dd"),
+                            };
                         }
 
                         @{var end_attr = new
                             {
-                            @id= "AddedText[2]",
-                            @class = "form-control",
-                            @type = "date",
-                            @min = Model.Authorities.StartDate.ToString("yyyy-MM-dd"),
+                                @id = "AddedText[2]",
+                                @class = "form-control",
+                                @type = "date",
+                                @min = minEndDate.ToString("yyyy-MM-dd"),
                             };
                         }
 
                         @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
                         {
-                        <div class="col-6 text-left">
-                            @Html.TextBoxFor(m=> Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
-                        </div>
+                            <div class="col-6 text-left">
+                                @Html.TextBoxFor(m => Model.Authorities.StartDate, "{0:MM/dd/yyyy}", end_attr)
+                            </div>
+                            <div class="col-6 text-left">
+                                @Html.TextBoxFor(m => Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
+                            </div>
                         }
                         else if (Model.Authorities.StartDate <= DateTime.Today)
                         {
-                        <div class="col-6 text-left">
-                            @Html.DisplayFor( m => Model.Authorities.StartDate, new  { @type = "date"})
-                            @Html.HiddenFor(m => Model.Authorities.StartDate)
-                        </div>
+                            <div class="col-6 text-center">
+                                @Html.DisplayFor(m => Model.Authorities.StartDate, new { @type = "date" })
+                                @Html.HiddenFor(m => Model.Authorities.StartDate)
+                            </div>
+                            <div class="col-6 text-center">
+                                @Html.DisplayFor(m => Model.Authorities.EndDate, new { @type = "date" })
+                                @Html.HiddenFor(m => Model.Authorities.EndDate)
+                            </div>
                         }
 
-                        <div class="col-6 text-left">
-                            @Html.TextBox("txtJoiningDate", Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
-                        </div>
+                        @*<div class="col-6 text-left">
+                            @Html.TextBox("txtJoiningDate", minEndDate, "{0:MM/dd/yyyy}", end_attr)
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -129,16 +137,23 @@
         <br>
         <br>
         <div class="row justify-content-md-center pt-5">
-            <div class="col-2 text-left">
-                <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
-            </div>
             <div class="col-2 text-center">
                 <button type="button" id="home" class="btn btn-info ">Home</button>
             </div>
-            <div class="col-2 text-right">
-                <input type="submit" value="Rescind" name="Rescind" class="btn btn-danger" id="rescind" />
-                @Html.HiddenFor(m => Model.IsSelected[0], new { @id = "isRescind" })
-            </div>
+            @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
+            {
+                <div class="col-2 text-left">
+                    <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
+                </div>
+            }
+            else
+            {
+                <div class="col-2 text-right">
+                    <input type="submit" value="Rescind" name="Rescind" class="btn btn-danger" id="rescind" />
+
+                </div>
+            }
+            @Html.HiddenFor(m => Model.IsSelected[0], new { @id = "isRescind" })
         </div>
     </div>
 
