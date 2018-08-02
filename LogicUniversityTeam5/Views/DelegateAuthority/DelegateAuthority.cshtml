@@ -113,8 +113,8 @@
                         else if (Model.Authorities.StartDate <= DateTime.Today)
                         {
                         <div class="col-6 text-left">
-                            @Html.Label(@Model.Authorities.StartDate.ToString("MM/dd/yyyy"), new string { })
-                            @Html.Hidden("txtJoiningDate", Model.Authorities.EndDate)
+                            @Html.Label(@Model.Authorities.StartDate.ToString("MM/dd/yyyy"))
+                            @Html.HiddenFor(m=> Model.Authorities.EndDate)
                         </div>
                         }
 
