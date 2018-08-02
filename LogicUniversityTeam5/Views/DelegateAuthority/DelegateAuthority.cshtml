@@ -57,27 +57,35 @@
 
         <div class="row justify-content-md-center">
             <div class=" col-8">
-                @if (Model.Authorities == null)
-                {
+                @{
+
+                    bool showDropDown = Model.Authorities == null ? true : false;
                 <div class="form-group">
-                    <label for="Delegatedperson">Appoint Delegate:</label>
+                    @if (showDropDown)
+                    {
+                        <label for="Delegatedperson">Appoint Delegate:</label>
+                    }
+                    else
+                    {
+                        <label for="Delegatedperson" hidden>Appoint Delegate:</label>
+                    }
 
                     @{List<SelectListItem>
-                        Employee = new List<SelectListItem>
-                            ();
-                            Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
-                            foreach (var emp in Model.Employee)
-                            {
+                              Employee = new List<SelectListItem>
+                                  ();
+                        Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
+                        foreach (var emp in Model.Employee)
+                        {
                             string output = emp.EmployeeName.ToString();
                             Employee.Add(new SelectListItem { Text = output, Value = output });
-                            }
-                            }
+                        }
+                    }
 
-                            @Html.DropDownListFor(m => Model.AddedText[0],
-                            Employee,
-                            new { @class = "form-control", @id = "employee" })
+                    @Html.DropDownListFor(m => Model.AddedText[0],
+                    Employee,
+                    new { @class = "form-control", @id = "employee" , @hidden = @showDropDown })
 
-                            @Html.HiddenFor(m => m.Employee)
+                    @Html.HiddenFor(m => m.Employee)
                 </div>
                 }
                 <div class="form-group">
@@ -91,7 +99,7 @@
                         @{var start_attr = new
                             {
                                 @id = "AddedText[1]",
-                                @class = "form-control",
+                                @class = "form-control datecontrol",
                                 @type = "date",
                                 @min = DateTime.Today.ToString("yyyy-MM-dd"),
                             };
@@ -100,7 +108,7 @@
                         @{var end_attr = new
                             {
                                 @id = "AddedText[2]",
-                                @class = "form-control",
+                                @class = "form-control datecontrol",
                                 @type = "date",
                                 @min = minEndDate.ToString("yyyy-MM-dd"),
                             };
@@ -109,10 +117,10 @@
                         @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
                         {
                             <div class="col-6 text-left">
-                                @Html.TextBoxFor(m => Model.Authorities.StartDate, "{0:MM/dd/yyyy}", end_attr)
+                                @Html.TextBoxFor(m => Model.Authorities.StartDate, "{0:yyyy-MM-dd}", start_attr)
                             </div>
                             <div class="col-6 text-left">
-                                @Html.TextBoxFor(m => Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
+                                @Html.TextBoxFor(m => Model.Authorities.EndDate, "{0:yyyy-MM-dd}", end_attr)
                             </div>
                         }
                         else if (Model.Authorities.StartDate <= DateTime.Today)
@@ -137,20 +145,16 @@
         <br>
         <br>
         <div class="row justify-content-md-center pt-5">
-            <div class="col-2 text-center">
+            <div class="col-2 text-left">
                 <button type="button" id="home" class="btn btn-info ">Home</button>
             </div>
-            @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
-            {
-                <div class="col-2 text-left">
-                    <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
-                </div>
-            }
-            else
+            <div class="col-2 text-center">
+                <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate()" />
+            </div>
+           @if(Model.Authorities != null)
             {
                 <div class="col-2 text-right">
                     <input type="submit" value="Rescind" name="Rescind" class="btn btn-danger" id="rescind" />
-
                 </div>
             }
             @Html.HiddenFor(m => Model.IsSelected[0], new { @id = "isRescind" })
@@ -163,7 +167,7 @@
             $("#home").click(function () {
                 window.location.href = "@Url.Action("Index","Home")";
             });
-
+            
             $('#rescind').click(function () {
                 $('#isRescind').val('true');
             });
@@ -202,7 +206,11 @@
         }
 
         $(document).ready(function () {
-            $('#start').attr('min', todayDate());
+            $('AddedText[1]').attr('min', todayDate());
+            var x = $('AddedText[1]').val();
+            console.log(x);
+            $('AddedText[1]').text($('AddedText[1]').val());
+            $('#start').text($('#start').val());
         });
         function Validate() {
             console.log("hello");
@@ -214,6 +222,9 @@
             }
             return true;
         }
+    </script>
+    <script>
+
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
