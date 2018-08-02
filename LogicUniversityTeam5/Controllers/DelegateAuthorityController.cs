@@ -39,7 +39,8 @@ namespace LogicUniversityTeam5.Controllers
             combinedView.AddedText = new List<string>(3) { "","","" };
             combinedView.IsSelected = new List<bool>(1) { false };
             combinedView.Authorities = departmentService.getDelegatedAuthority(combinedView.DepartmentID);
-
+            //combinedView.AddedText[1] = combinedView.Authorities.StartDate.ToString();
+            //combinedView.AddedText[2] = combinedView.Authorities.EndDate.ToString();
             return View(combinedView);
         }
 
@@ -82,7 +83,6 @@ namespace LogicUniversityTeam5.Controllers
             {
                 return RedirectToAction("DelegateAuthority", "DelegateAuthority");
             }                       
-
         }
     }
 }
