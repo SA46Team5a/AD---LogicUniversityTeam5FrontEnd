@@ -93,7 +93,7 @@ namespace LogicUniversityTeam5.ApiControllers
         [HttpGet]
         [Route("api/deprep/{id}")]
         public DepartmentRepresentativePayload getDepartmentRepresentative(string id)
-            => new DepartmentRepresentativePayload(_departmentService.getCurrentDepartmentRepresentative(id));
+            => DepartmentRepresentativePayload.ConvertToDepartmentRepresentativePayload(_departmentService.getCurrentDepartmentRepresentative(id));
 
         [HttpGet]
         [Route("api/deprep/employees/{deptId}")]
