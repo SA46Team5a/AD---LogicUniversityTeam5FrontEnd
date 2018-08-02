@@ -11,10 +11,12 @@ namespace LogicUniversityTeam5
     public class RequisitionApiController : ApiController
     {
         private readonly IRequisitionService _requisitionService;
+        private readonly IDepartmentService _departmentService;
 
-        public RequisitionApiController(IRequisitionService requisitionService)
+        public RequisitionApiController(IRequisitionService requisitionService, IDepartmentService departmentService)
         {
             _requisitionService = requisitionService;
+            _departmentService = departmentService;
         }
 
         [HttpGet]
@@ -28,7 +30,7 @@ namespace LogicUniversityTeam5
         {
             try
             {
-                _requisitionService.processRequisition(reqId, empId, true);
+                _requisitionService.processRequisition(reqId, empId, true, _departmentService);
                 return true;
             }
             catch (Exception)
@@ -43,7 +45,7 @@ namespace LogicUniversityTeam5
         {
             try
             {
-                _requisitionService.processRequisition(reqId, empId, false);
+                _requisitionService.processRequisition(reqId, empId, false, _departmentService);
                 return true;
             }
             catch (Exception)
