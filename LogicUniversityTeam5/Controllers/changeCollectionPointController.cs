@@ -37,7 +37,7 @@ namespace LogicUniversityTeam5.Controllers
             string deptId = departmentService.getDepartmentID(empId);
             combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>();            
             DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(deptId);
-
+            
             combinedView.DepartmentRepresentative.Add(departmentRepresentative);
             string currentCollectionPoint = departmentService.getCollectionPointOfEmployee(empId).CollectionPointDetails;
 
@@ -55,6 +55,8 @@ namespace LogicUniversityTeam5.Controllers
 
             //get empid from the login session
             string empId = User.Identity.GetEmployeeId();
+            string deptId = departmentService.getDepartmentID(empId);
+            DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(deptId);
 
             string deptID = departmentService.getDepartmentID(empId);
             string deptName = departmentService.getDepartments()
@@ -66,7 +68,7 @@ namespace LogicUniversityTeam5.Controllers
                 if(model.AddedText[0] != null)
                 {
                     departmentService.updateCollectionPoint(deptID, Convert.ToInt32(model.AddedText[0]));
-                    EmailNotificationController.SendEmailForChangeCollectionPoint(deptName, model.AddedText[0]);
+                    EmailNotificationController.SendEmailForChangeCollectionPoint(deptName, model.AddedText[0],departmentRepresentative.Passcode);
                 }
             }
             
