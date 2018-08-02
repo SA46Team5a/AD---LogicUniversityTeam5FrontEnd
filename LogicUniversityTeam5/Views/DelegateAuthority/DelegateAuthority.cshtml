@@ -104,8 +104,8 @@
 
                         @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
                         {
-                           <div class="col-6 text-left">
-                                @Html.TextBox("txtJoiningDate", Model.Authorities.StartDate, "{0:MM/dd/yyyy}", start_attr )
+                            <div class="col-6 text-left">
+                                @Html.EditorFor(m => Model.Authorities.StartDate, "{0:MM/dd/yyyy}", start_attr )
                             </div>
                         }
                         else if (Model.Authorities.StartDate <= DateTime.Today)

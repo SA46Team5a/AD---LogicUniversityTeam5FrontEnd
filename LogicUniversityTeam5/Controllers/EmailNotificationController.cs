@@ -18,20 +18,20 @@ namespace LogicUniversityTeam5.Controllers
             departmentService = ds;
         }
         //Requisitions
-        public  void SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
+        public void SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
         {
             Authority currentAuthority = departmentService.getCurrentAuthority(deptId);
             Employee employeeIncurrentAuthority = departmentService.getEmployeeById(currentAuthority.EmployeeID);
             string emailTo = employeeIncurrentAuthority.EmailID;
 
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
+            client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("bhat.pavana@gmail.com", "bhat.pavana@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "LogicstationeryTeam5@gmail.com");
             mm.Subject = "Notification to approve Requisition Form ";
-            mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.";
+            mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.\n This is a System generated message.Please do not reply to the this mail";
             client.Send(mm);
         }
         public static void SendEmailToAppointingDepRep()

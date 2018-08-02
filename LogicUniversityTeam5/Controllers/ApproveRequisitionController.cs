@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogicUniversityTeam5.Controllers;
 using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
@@ -76,13 +77,16 @@ namespace LogicUniversityTeam5
         [HttpPost]
         public ActionResult ApproveRequisitionForm(SpecialModel model, int? Approve, int? Reject)
         {
+            
             string empid = User.Identity.GetEmployeeId();
+            string deptID = departmentService.getDepartmentID(empid);
 
             if (Approve != null)
             {
                     int reqid = (int) Approve;
                     bool toApprove = true;
                     requisitionService.processRequisition(reqid, empid, toApprove);
+                    new EmailNotificationController((DepartmentService)departmentService).SendEmailToDeptHeadToApproveRequisitions(deptID, reqid);
             }
             if(Reject != null)
             {
@@ -94,7 +98,7 @@ namespace LogicUniversityTeam5
                 }
 
             }
-
+            
             return RedirectToAction("ApproveRequisitionForm");
         }
     }
