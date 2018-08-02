@@ -159,7 +159,7 @@ namespace LogicUniversityTeam5.Controllers
             //client.UseDefaultCredentials = true;
             MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
             mm.Subject = "Notification for change of collection point";
-            mm.Body = "Dear employee:\r\n" + "The collection point for " + DepartmentName + " has been change to" + CollectionPoint + "\r\n" +
+            mm.Body = "Dear employee:\r\n" + "The collection point for " + DepartmentName + " has been change to " + CollectionPoint + "\r\n" +
                       "The Passcode is "+ passcode + ".\n\n"+
                       "Regards\r\n" +
                       "This is a system generated email. Do not reply to this email.";
