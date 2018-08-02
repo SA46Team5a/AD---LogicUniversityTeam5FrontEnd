@@ -33,8 +33,8 @@ namespace LogicUniversityTeam5.Controllers
             combinedView.DepartmentID = departmentService.getDepartmentID(empId);
 
             string DeptID = combinedView.DepartmentID;
-            combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
-
+            combinedView.Employee = departmentService.getEligibleDelegatedAuthority(combinedView.DepartmentID);
+            combinedView.Employee.Remove(departmentService.getCurrentDepartmentRepresentative(combinedView.DepartmentID).Employee);
             //AddedText[0] is the delegate, AddedText[0] is start date, AddedText[1] is end date
             combinedView.AddedText = new List<string>(3) { "","","" };
             combinedView.IsSelected = new List<bool>(1) { false };

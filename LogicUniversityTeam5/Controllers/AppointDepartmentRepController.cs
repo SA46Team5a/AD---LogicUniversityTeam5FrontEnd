@@ -42,7 +42,7 @@ namespace LogicUniversityTeam5.Controllers
 
             //To get Department of the employee
             combinedView.DepartmentID = departmentService.getDepartmentID(empId);
-            combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
+            combinedView.Employee = departmentService.getEligibleDepartmentRepresentatives(combinedView.DepartmentID);
             combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>(1)
             {
                 {departmentService.getCurrentDepartmentRepresentative(combinedView.DepartmentID)}

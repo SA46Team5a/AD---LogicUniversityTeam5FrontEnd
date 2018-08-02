@@ -11,6 +11,7 @@ using System.Web.Mvc;
 namespace LogicUniversityTeam5.Controllers
 {
     //Author: Benedict
+    [Authorize(Roles = "Department Representative, Employee, Department Head")]
     public class ViewPastRequestController : Controller
     {
 
@@ -24,8 +25,6 @@ namespace LogicUniversityTeam5.Controllers
             classificationService = cs;
         }
 
-        [Authorize(Roles = "Department Representative, Employee"
-            )]        
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);
