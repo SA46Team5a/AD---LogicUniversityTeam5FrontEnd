@@ -82,7 +82,7 @@ namespace LogicUniversityTeam5
             {
                     int reqid = (int) Approve;
                     bool toApprove = true;
-                    requisitionService.processRequisition(reqid, empid, toApprove);
+                    requisitionService.processRequisition(reqid, empid, toApprove, departmentService);
             }
             if(Reject != null)
             {
@@ -90,7 +90,7 @@ namespace LogicUniversityTeam5
                 {
                     int reqid = (int) Reject;
                     bool toApprove = false;
-                    requisitionService.processRequisition(reqid, empid, toApprove);
+                    requisitionService.processRequisition(reqid, empid, toApprove, departmentService);
                 }
 
             }

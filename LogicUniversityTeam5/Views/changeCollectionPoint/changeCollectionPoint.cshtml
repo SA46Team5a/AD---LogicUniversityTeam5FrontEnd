@@ -44,11 +44,11 @@
                                 </div>
                                 @for (int i = 0; i < Model.CollectionPoint.Count; i++)
                                 {
-                                    <div class="inline">
-                                        @Html.RadioButtonFor(m => Model.AddedText[0], Model.CollectionPoint[i].CollectionPointID, new { @class = "radio" })
-                                        @Html.DisplayFor(m => Model.CollectionPoint[i].CollectionPointDetails)
-                                        @Html.HiddenFor(m => Model.CollectionPoint[i].CollectionPointID)
-                                    </div>
+                                <div class="inline">
+                                    @Html.RadioButtonFor(m=>Model.AddedText[0], @Model.CollectionPoint[i].CollectionPointID,  new {  @name = "radio"})
+                                    @Html.DisplayFor(m => Model.CollectionPoint[i].CollectionPointDetails)
+                                    @Html.HiddenFor(m => Model.CollectionPoint[i].CollectionPointID)
+                                </div>
                                  }
 
                                 <div class="row justify-content-md-center mt-3">
@@ -68,7 +68,7 @@
                     </div>
                     <div class="row justify-content-md-center mt-5">
                         <div class="col-4 text-right">
-                            <input type="submit" value="Confirm" class="btn btn-primary" />                          
+                            <input type="submit" value="Confirm" id="confirm" class="btn btn-primary" onclick="return radioValidation();" />                          
                         </div>
                         <div class="col-4 text-left">
                             <button type="button" id="home" class="btn btn-secondary" value="Redirect">Home</button>
@@ -76,11 +76,29 @@
                     </div>                  
                    
                     <script type="text/javascript">
-                   $(function(){
-                   $("#home").click(function(){
-                   window.location.href = "@Url.Action("Index","Home")";
-                               });
-                  });
+                       $(function(){
+                       $("#home").click(function(){
+                       window.location.href = "@Url.Action("Index","Home")";
+                                   });
+                        });           
+                   
+                        function radioValidation() {
+
+                            var gender = document.getElementsByName('radio');
+                            var genValue = false;
+
+                            for (var i = 0; i < gender.length; i++) {
+                                if (gender[i].checked == true) {
+                                    genValue = true;
+                                }
+                            }
+                            if (!genValue) {
+                                alert("Please Choose the collection point");
+                                return false;
+                            }
+
+                        }
+
                     </script>
                 </div>
 </body>

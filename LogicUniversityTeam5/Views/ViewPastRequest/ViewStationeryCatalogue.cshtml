@@ -13,22 +13,22 @@
                 Category:
             </div>
             <div class="form-group col-md-3 text-center">
-                @{List<string> des = new List<string>();
+                @{List<SelectListItem> des = new List<SelectListItem>();
+                    des.Add(new SelectListItem { Text = "please select category".ToString(), Value = "".ToString(), Selected = true });
                     foreach (var item in Model.Categories)
                     {
-                        des.Add(item.CategoryName);
+                        des.Add(new SelectListItem { Text = item.CategoryName, Value = item.CategoryName });
                     }
                 }
 
                 @Html.DropDownListFor(m => Model.categorySelected,
-                                          new SelectList(des.Distinct()),
-                                          "Select Category",
+                                          des,
                                           new { @id= "Categories" , @class = "form-control" })
 
             </div>
         </div>
         <div class="row justify-content-md-center mt-3">
-            <div class="text-center"><input type="submit" class="btn btn-primary" value="Search" id="btn_search" /></div>
+            <div class="text-center"><input type="submit" onclick="return Validate();" class="btn btn-primary" value="Search" id="btn_search" /></div>
         </div>
         @using (Html.BeginForm("ViewStationeryCatalogue", "ViewPastRequest", FormMethod.Post))
         {
@@ -37,7 +37,7 @@
                     <table id="StationeryCatalogueTable" class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="text-left col-6">Description</th>
+                                <th scope="col" class="text-left ">Description</th>
                                 <th scope="col" class="text-left">Unit of Measure</th>
                                 <th scope="col" class="text-left">Quantity to Add</th>
 
@@ -127,6 +127,16 @@
             alert("Only positive numbers are allowed");
             textField.value = "1";
         }
+    }
+    function Validate() {
+        console.log("hello");
+        var orderid = document.getElementById("Categories");
+        if (orderid.value == "") {
+            //If the "Please Select" option is selected display error.
+            alert("Please select an option!");
+            return false;
+        }
+        return true;
     }
 </script>
 

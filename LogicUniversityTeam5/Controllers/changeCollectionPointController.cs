@@ -32,7 +32,7 @@ namespace LogicUniversityTeam5.Controllers
 
             CombinedViewModel combinedView = new CombinedViewModel();
             combinedView.CollectionPoint = classificationService.GetCollectionPoints();
-
+          
             string empId = User.Identity.GetEmployeeId();
             string deptId = departmentService.getDepartmentID(empId);
             combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>();            
