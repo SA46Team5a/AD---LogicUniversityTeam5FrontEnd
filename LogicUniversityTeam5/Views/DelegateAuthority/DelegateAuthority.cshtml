@@ -48,9 +48,10 @@
         <div class="row justify-content-md-center pb-2">
             @if (Model.Authorities != null)
             {
-            <h5 class="text-center mb=3">
-                Delegated Authority: @Model.Authorities.Employee.EmployeeName
-            </h5>
+                <h5 class="text-center mb=3">
+                    Delegated Authority: @Model.Authorities.Employee.EmployeeName
+                </h5>
+                @Html.HiddenFor(m => Model.Authorities.Employee.EmployeeName)
             }
         </div>
 
@@ -96,25 +97,25 @@
                         }
 
                         @{var end_attr = new
-                        {
-                        @id= "AddedText[2]",
-                        @class = "form-control",
-                        @type = "date",
-                        @min = Model.Authorities.StartDate.ToString("yyyy-MM-dd"),
-                        };
+                            {
+                            @id= "AddedText[2]",
+                            @class = "form-control",
+                            @type = "date",
+                            @min = Model.Authorities.StartDate.ToString("yyyy-MM-dd"),
+                            };
                         }
 
                         @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
                         {
                         <div class="col-6 text-left">
-                            @Html.TextBox("txtJoiningDate", Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
+                            @Html.TextBoxFor(m=> Model.Authorities.EndDate, "{0:MM/dd/yyyy}", end_attr)
                         </div>
                         }
                         else if (Model.Authorities.StartDate <= DateTime.Today)
                         {
                         <div class="col-6 text-left">
-                            @Html.Label(@Model.Authorities.StartDate.ToString("MM/dd/yyyy"))
-                            @Html.HiddenFor(m=> Model.Authorities.EndDate)
+                            @Html.DisplayFor( m => Model.Authorities.StartDate, new  { @type = "date"})
+                            @Html.HiddenFor(m => Model.Authorities.StartDate)
                         </div>
                         }
 
@@ -151,11 +152,11 @@
             $('#rescind').click(function () {
                 $('#isRescind').val('true');
             });
-
+        });
     </script>
     <script>
         var start = $("#AddedText[1]");
-        var end = $("#AddedText[2]";
+        var end = $("#AddedText[2]");
 
         start.change(function () {
             if (start.val())
@@ -166,7 +167,6 @@
             if (end.val())
                 end.attr("max", end.val());
         })
-    }, false);
     </script>
     <script>
         function todayDate() {

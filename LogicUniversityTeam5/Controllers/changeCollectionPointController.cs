@@ -68,7 +68,8 @@ namespace LogicUniversityTeam5.Controllers
                 if(model.AddedText[0] != null)
                 {
                     departmentService.updateCollectionPoint(deptID, Convert.ToInt32(model.AddedText[0]));
-                    EmailNotificationController.SendEmailForChangeCollectionPoint(deptName, model.AddedText[0],departmentRepresentative.Passcode);
+                    CollectionPoint cp = departmentService.getCollectionPointOfDepartment(deptID);
+                    EmailNotificationController.SendEmailForChangeCollectionPoint(deptName, cp.CollectionPointDetails,departmentRepresentative.Passcode);
                 }
             }
             
