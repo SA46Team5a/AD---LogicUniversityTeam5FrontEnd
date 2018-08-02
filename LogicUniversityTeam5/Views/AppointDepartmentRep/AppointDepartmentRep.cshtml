@@ -34,13 +34,15 @@
                         <div class="form-group text-center">
                             <label for="Delegatedperson">Choose Another Department Representative</label>
 
-                            @{List<string> Employee = new List<string>();
+                            @{List<SelectListItem> Employee = new List<SelectListItem>();
+                                Employee.Add(new SelectListItem { Text = "Please select employee".ToString(), Value = "".ToString(), Selected = true });
                                 foreach (var emp in Model.Employee)
                                 {
-                                    Employee.Add(emp.EmployeeName);
+                                    string output = emp.EmployeeName.ToString();
+                                    Employee.Add(new SelectListItem { Text=output,Value=output});
                                 }
                             }       
-                            @Html.DropDownListFor(m => Model.AddedText[0], new SelectList(Employee.Distinct()), "Select Employee", new { @class = "form-control" })
+                            @Html.DropDownListFor(m => Model.AddedText[0], Employee,new { @class = "form-control" ,@id="employee"})
                             @Html.HiddenFor(m => m.Employee)
                         </div>
                     </form>
@@ -49,7 +51,7 @@
             <div class="row justify-content-md-center pt-5">
 
                 <div class="col-4 text-right">
-                    <input type="submit" value="Confirm" class="btn btn-primary" />
+                    <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate();" />
                 </div>
 
                 <div class="col-4 text-left">
@@ -62,7 +64,17 @@
                    $("#home").click(function(){
                    window.location.href = "@Url.Action("Index","Home")";
                                });
-                  });
+                });
+                function Validate() {
+                    console.log("hello");
+                    var orderid = document.getElementById("employee");
+                    if (orderid.value == "") {
+                        //If the "Please Select" option is selected display error.
+                        alert("Please select an option!");
+                        return false;
+                    }
+                    return true;
+                }
             </script>
 
         </div>

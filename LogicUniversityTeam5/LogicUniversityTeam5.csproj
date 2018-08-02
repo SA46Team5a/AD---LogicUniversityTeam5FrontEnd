@@ -450,7 +450,10 @@
     <Content Include="Views\CreateOrders\PrintPurchaseOrder.cshtml" />
     <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
     <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
+<<<<<<< HEAD
+=======
     <Content Include="Views\Shared\_Navbar_Delegate.cshtml" />
+>>>>>>> 9d9c1f0963305b500388fa82afce584035d3a24c
     <Content Include="Views\ViewPastRequest\ViewStationeryRequestForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
