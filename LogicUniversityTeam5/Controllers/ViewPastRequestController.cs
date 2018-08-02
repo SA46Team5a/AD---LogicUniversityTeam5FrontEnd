@@ -25,8 +25,7 @@ namespace LogicUniversityTeam5.Controllers
             classificationService = cs;
         }
 
-        //ViewPastRequest/SearchRequisitionForm/E026
-             
+
         public ActionResult SearchRequisitionForm(string id)
         {
             List<ServiceLayer.DataAccess.Requisition> reqList = requisitionService.getRequisitionsOfEmployee(id);

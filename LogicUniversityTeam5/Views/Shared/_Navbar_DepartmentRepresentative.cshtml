@@ -1,6 +1,8 @@
-﻿    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar">
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar">
         <a class="navbar-brand" href="#">
-           
+
             Logic Stationeries
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,8 +15,8 @@
                         Manage Request
                     </a>
                     <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("ViewStationeryCatalogue","ViewPastRequest")">Make New Request</a>
-                        <a class="dropdown-item" href="@Url.Action("SearchRequisitionForm","ViewPastRequest")">View Past Requests</a>
+                        <a class="dropdown-item" href="@Url.Action("ViewStationeryCatalogue","Requisition")">Make New Request</a>
+                        <a class="dropdown-item" href="@Url.Action("SearchRequisitionForm","ViewPastRequest",new { id= Model.Employees[0].EmployeeID })">View Past Requests</a>
                     </div>
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("changeCollectionPoint","ChangeCollectionPoint")">Manage Department Information</a>
@@ -25,19 +27,23 @@
             {
                 @Html.AntiForgeryToken()
                 <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70f85118a7dca0ded516af9fb90ac8344a054a53
             }
         </div>
     </nav>
     <script>
         var prevScrollpos = window.pageYOffset;
-        window.onscroll = function() {
-        var currentScrollPos = window.pageYOffset;
-          if (prevScrollpos > currentScrollPos) {
-            document.getElementById("navbar").style.top = "0";
-          } else {
-            document.getElementById("navbar").style.top = "-100px";
-          }
-          prevScrollpos = currentScrollPos;
+        window.onscroll = function () {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navbar").style.top = "0";
+            } else {
+                document.getElementById("navbar").style.top = "-100px";
+            }
+            prevScrollpos = currentScrollPos;
         }
     </script>
+</body>

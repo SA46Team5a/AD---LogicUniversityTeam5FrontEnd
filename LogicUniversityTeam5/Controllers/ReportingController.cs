@@ -9,6 +9,7 @@ using LogicUniversityTeam5.Models;
 
 namespace LogicUniversityTeam5.Controllers
 {
+    [Authorize(Roles = "Store Clerk, Store Supervisor, Store Manager")]
     public class ReportingController : Controller
     {
         private readonly IClassificationService classificationService;

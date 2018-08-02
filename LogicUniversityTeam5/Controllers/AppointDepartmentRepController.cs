@@ -18,7 +18,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5.Controllers
 {
-    [Authorize(Roles = "Department Head")]
+    [Authorize(Roles = "Department Head,Delegate")]
     public class AppointDepartmentRepController : Controller
     {
         IDepartmentService departmentService;       
@@ -42,7 +42,7 @@ namespace LogicUniversityTeam5.Controllers
 
             //To get Department of the employee
             combinedView.DepartmentID = departmentService.getDepartmentID(empId);
-            combinedView.Employee = departmentService.getEmployeesOfDepartment(combinedView.DepartmentID);
+            combinedView.Employee = departmentService.getEligibleDepartmentRepresentatives(combinedView.DepartmentID);
             combinedView.DepartmentRepresentative = new List<DepartmentRepresentative>(1)
             {
                 {departmentService.getCurrentDepartmentRepresentative(combinedView.DepartmentID)}
