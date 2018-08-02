@@ -1,23 +1,14 @@
-﻿@using ServiceLayer.DataAccess;
-@model IEnumerable<ServiceLayer.DataAccess.Requisition>
-
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
 @{
     ViewBag.Title = "SearchRequisitionForm";
 }
-@{
-    StationeryStoreEntities context = StationeryStoreEntities.Instance;
-    List<string> approvalStatusList = new List<string>();
-    approvalStatusList.Add("All");
-    approvalStatusList.AddRange(context.ApprovalStatus1.Select(x => x.ApprovalStatusName).ToList());
-}
-
 <div class="container">
     <h1 class="text-center pb-5">Submitted Requisition Form</h1>
     <div class="row justify-content-md-center mt-3">
         <div class="col-8 text-center">
             @using (Html.BeginForm("LoadSearchRequisitionForm", "ViewPastRequest", FormMethod.Post))
             {
-                <h6 class="text-left">Filter by:</h6>
+                <h6 class="text-left"><strong>Filter by:</strong></h6>
                 <div class="form-group mt-3">
                     <div class="row justify-content-md-center">
                         <div class="col-6 text-left">Start Date:</div>
@@ -47,7 +38,8 @@
                             start.max = end.value;
                     }, false);
                 </script>
-                @Html.DropDownList("approvalstatus", new SelectList(approvalStatusList, ViewBag.SelectedApprovalStatus), new { @class = "form-control" })
+                <h6 class="text-left">Status:</h6>
+                @Html.DropDownList("approvalstatus", new SelectList(Model.ApprovalStatusNames, ViewBag.SelectedApprovalStatus), new { @class = "form-control" })
                 @Html.Hidden("empId", (object)ViewBag.EmpId)
                 <div><input type="submit" class="btn btn-primary" id="search" value="Search" /></div>
             }
@@ -67,34 +59,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Requisition)
                     { if (item.RequisitionDetails.Count >0)
                         { <tr>
-    @Html.HiddenFor(m => item.RequisitionDetails.Count)
-    <td>@Html.DisplayFor(m => item.RequestedDate)</td>
-    <td>@Html.DisplayFor(m => item.ApprovalStatus.ApprovalStatusName)</td>
-    <td>@Html.DisplayFor(m => item.RetrievalStatus.RetrievalStatusName)</td>
+                            @Html.HiddenFor(m => item.RequisitionDetails.Count)
+                            <td>@Html.DisplayFor(m => item.RequestedDate)</td>
+                            <td>@Html.DisplayFor(m => item.ApprovalStatus.ApprovalStatusName)</td>
+                            <td>@Html.DisplayFor(m => item.RetrievalStatus.RetrievalStatusName)</td>
 
-    @if (item.ApprovalStatusID == 1) // unsubmitted requisitions
-    {
-        <td>
-            @Html.ActionLink("Edit", "../Requisition/StationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
-        </td>
-    }
-    else if (item.ApprovalStatusID == 2) // status 2 = pending;
-    {
-        <td class="form-group row">
-            @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
-            @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger", @data_toggle = "modal", @data_target = "#Modaldelete", @value = item.RequisitionID })
-        </td>
-    }
-    else
-    {
-        <td>
-            @Html.ActionLink("View", "ProcessedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_view", @class = "btn btn-primary" })
-        </td>
-    }
-</tr>
+                            @if (item.ApprovalStatusID == 1) // unsubmitted requisitions
+                            {
+                                <td>
+                                    @Html.ActionLink("Edit", "../Requisition/StationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
+                                </td>
+                            }
+                            else if (item.ApprovalStatusID == 2) // status 2 = pending;
+                            {
+                                <td class="form-group row">
+                                    @Html.ActionLink("Edit", "EditSubmittedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_edit", @class = "btn btn-secondary" })
+                                    @Html.ActionLink("Delete", "DeleteStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_delete", @class = "btn btn-danger", @data_toggle = "modal", @data_target = "#Modaldelete", @value = item.RequisitionID })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("View", "ProcessedStationeryRequestForm", new { id = item.RequisitionID }, new { @id = "btn_view", @class = "btn btn-primary" })
+                                </td>
+                            }
+                        </tr>
                         }
                     }
 

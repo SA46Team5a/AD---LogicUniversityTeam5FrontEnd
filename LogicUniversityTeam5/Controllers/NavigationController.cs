@@ -42,16 +42,28 @@ namespace LogicUniversityTeam5
                 string EmpId = User.Identity.GetEmployeeId();
                 Employee employee = departmentService.getEmployeeById(EmpId);
                 string DeptId = employee.DepartmentID;
-                Authority currentAuth = departmentService.getDelegatedAuthority(DeptId);
+                Authority currentAuth = null;
 
-                if (currentAuth.EmployeeID == EmpId)
+                try
                 {
-                    List<Requisition> pendingRequisitions = GetPendingRequisitionsForDeptHead();
-                    CombinedViewModel combinedViewModel = new CombinedViewModel();
-                    combinedViewModel.AddedNumbers = new List<int>(1) {
+                    currentAuth = departmentService.getDelegatedAuthority(DeptId);
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                if ( currentAuth != null )
+                {
+                    if(EmpId == currentAuth.EmployeeID)
+                    {
+                        List<Requisition> pendingRequisitions = GetPendingRequisitionsForDeptHead();
+                        CombinedViewModel combinedViewModel = new CombinedViewModel();
+                        combinedViewModel.AddedNumbers = new List<int>(1) {
                         { pendingRequisitions.Count() } };
-         
-                    return PartialView("_Navbar_DepartmentHead", combinedViewModel);
+
+                        return PartialView("_Navbar_Delegate", combinedViewModel);
+                    }
+
                 }
                 else
                 {

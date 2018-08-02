@@ -1,0 +1,48 @@
+﻿@model LogicUniversityTeam5.Models.CombinedViewModel
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar">
+    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+        <img style="width:40px;height:40px;" src="~/Content/Image/LogicUniLogo.jpg" alt="" />
+        Logic Stationeries
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manage Request
+                </a>
+                <div class="dropdown-menu collapse" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="@Url.Action("ApproveRequisitionForm","ApproveRequisition")">
+                        Approve Requisition Form
+                        (@Model.AddedNumbers[0])
+                        <!--PendingRequisition>0? PendingRequisition: null -->
+                    </a>
+                    <a class="dropdown-item" href="@Url.Action("AppointDepartmentRep","AppointDepartmentRep")">Appoint Department Representative</a>
+                </div>
+
+            </li>
+            
+        </ul>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" class="btn btn-outline-secondary float-right mt-3" value="Logout" />
+        }
+    </div>
+</nav>
+<script>
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("navbar").style.top = "0";
+  } else {
+    document.getElementById("navbar").style.top = "-100px";
+  }
+  prevScrollpos = currentScrollPos;
+}
+</script>
