@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace LogicUniversityTeam5.Controllers
 {
     //Author: Benedict
-    [Authorize(Roles = "Department Representative, Employee, Department Head")]
+    [Authorize(Roles = "Department Representative, Employee")]
     public class ViewPastRequestController : Controller
     {
 

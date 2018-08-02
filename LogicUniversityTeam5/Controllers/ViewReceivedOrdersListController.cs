@@ -11,7 +11,7 @@ using ServiceLayer.DataAccess;
 
 namespace LogicUniversityTeam5
 {
-    [Authorize(Roles = "Store Clerk, Store Supervisor")]
+    [Authorize(Roles = "Store Clerk, Store Supervisor, Store Manager")]
     public class ViewReceivedOrdersListController : Controller
     {
         IOrderService orderService;
