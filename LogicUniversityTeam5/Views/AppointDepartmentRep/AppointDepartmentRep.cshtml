@@ -31,8 +31,10 @@
                         <div class="form-group text-center pb-3">
                             <strong>Current Department Representative:</strong> @Model.DepartmentRepresentative[0].Employee.EmployeeName
                         </div>
-                        <div class="form-group text-center">
-                            <label for="Delegatedperson">Choose Another Department Representative</label>
+                    </form>
+                    <form>
+                        <div class="form-group">
+                            <label for="Delegatedperson" >Choose Another Department Representative</label>
 
                             @{List<SelectListItem> Employee = new List<SelectListItem>();
                                 Employee.Add(new SelectListItem { Text = "Please select employee".ToString(), Value = "".ToString(), Selected = true });

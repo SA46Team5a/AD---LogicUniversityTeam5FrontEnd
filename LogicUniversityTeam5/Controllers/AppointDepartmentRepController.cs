@@ -13,6 +13,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
+using System.Net;
+using System.Net.Mail;
 
 
 
@@ -59,13 +61,14 @@ namespace LogicUniversityTeam5.Controllers
             //get user from the login session
             string empId = User.Identity.GetEmployeeId();
 
-            if (model.AddedText[0] != null)
+            if (model.AddedText != null && model.AddedText[0] != null)
             {
                 Employee neweDepRepEmployee = departmentService.getEmployeeObject(model.AddedText[0]);
                 DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(neweDepRepEmployee.DepartmentID);
                 string oldDepRepEmployeeId = departmentRepresentative.EmployeeID;
                 departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, neweDepRepEmployee.EmployeeID);
-
+                EmailNotificationController.SendEmailToAppointingDepRep();
+                
                 roleController.ChangeRoleOfUserToDepartmentRep(neweDepRepEmployee.EmployeeID);
                 roleController.ChangeRoleOfUserToEmployee(oldDepRepEmployeeId);
 

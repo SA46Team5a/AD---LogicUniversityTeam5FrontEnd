@@ -46,14 +46,15 @@
                                     @for (int n = 0; n < Model.specialmodel[i].Details.Count;n++)
                                      {
                                             <tr>
-                                                <td>
+                                                <td class="text-center">
                                                     @Model.specialmodel[i].Items[n].ItemName
                                                     @Html.HiddenFor(m => Model.specialmodel[i].Items[n].ItemName)
                                                 </td>
 
-                                                <td>@Model.specialmodel[i].Details[n].Quantity
+                                                <td class="text-center">@Model.specialmodel[i].Details[n].Quantity
                                                     @Html.HiddenFor(m=> Model.specialmodel[i].Details[n].Quantity)</td>
-                                                <td>@Model.specialmodel[i].Items[n].UnitOfMeasure
+                                                
+                                                <td class="text-center">@Model.specialmodel[i].Items[n].UnitOfMeasure
                                                     @Html.HiddenFor(m=> Model.specialmodel[i].Items[n].UnitOfMeasure)
                                                 </td>
                                             </tr>
@@ -64,7 +65,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-md-center ">
-                        <div class="col-10 text-center">
+                        <div class="col-12 text-center">
                             <div class="input-group">
                                 <textarea class="form-control" placeholder="Remark(Optional)"></textarea>
                             </div>
