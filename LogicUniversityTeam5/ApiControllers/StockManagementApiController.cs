@@ -34,8 +34,8 @@ namespace LogicUniversityTeam5
 
         [HttpGet]
         [Route("api/store/stockcount/{catId}")]
-        public List<StockCountItem> getStockCounts(int catId)
-            => _stockManagementService.getStockCountItemsByCategory(catId);
+        public List<StockVoucherPayload> getStockCounts(int catId)
+            => StockVoucherPayload.ConvertEntityToPayload(_stockManagementService.getStockCountItemsByCategory(catId), _stockManagementService);
 
         [HttpPost]
         [Route("api/store/stockcount/submit/{empId}")]

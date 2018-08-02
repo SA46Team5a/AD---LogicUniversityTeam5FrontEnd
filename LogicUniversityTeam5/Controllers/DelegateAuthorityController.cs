@@ -39,10 +39,6 @@ namespace LogicUniversityTeam5.Controllers
             combinedView.AddedText = new List<string>(3) { "","","" };
             combinedView.IsSelected = new List<bool>(1) { false };
             combinedView.Authorities = departmentService.getDelegatedAuthority(combinedView.DepartmentID);
-            if(combinedView.Authorities == null)
-            {
-                combinedView.Authorities = departmentService.getCurrentAuthority(combinedView.DepartmentID);
-            }
 
             return View(combinedView);
         }
@@ -59,7 +55,7 @@ namespace LogicUniversityTeam5.Controllers
 
             if (isRescind)
             {
-                Employee emp = model.Authorities.Employee;
+                Employee emp = departmentService.getEmployeeObject(model.Authorities.Employee.EmployeeName);
                 departmentService.rescindAuthority(emp.EmployeeID);
                 //To change email method to include the employeeID
                 EmailNotificationController.SendToLostApproveAuthority();
