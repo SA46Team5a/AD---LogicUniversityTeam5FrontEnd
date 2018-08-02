@@ -451,6 +451,7 @@
     <Content Include="Views\CreateOrders\PrintPurchaseOrder.cshtml" />
     <Content Include="Views\Reporting\RequisitionCostAnalysisReport.cshtml" />
     <Content Include="Views\Reporting\RequisitionItemAnalysisReport.cshtml" />
+    <Content Include="Views\Shared\_Navbar_Delegate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
