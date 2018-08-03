@@ -55,15 +55,15 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
-        public ActionResult AppointDepartmentRep(CombinedViewModel model)
+        public ActionResult AppointDepartmentRep(CombinedViewModel model, string confirm)
         {
            
             //get user from the login session
             string empId = User.Identity.GetEmployeeId();
 
-            if (model.AddedText != null && model.AddedText[0] != null)
+            if (confirm != null)
             {
-                Employee neweDepRepEmployee = departmentService.getEmployeeObject(model.AddedText[0]);
+                Employee neweDepRepEmployee = departmentService.getEmployeeObject(confirm);
                 DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(neweDepRepEmployee.DepartmentID);
                 string oldDepRepEmployeeId = departmentRepresentative.EmployeeID;
                 departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, neweDepRepEmployee.EmployeeID);

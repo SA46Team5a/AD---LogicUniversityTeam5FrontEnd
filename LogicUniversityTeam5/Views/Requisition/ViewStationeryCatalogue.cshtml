@@ -33,21 +33,21 @@
                 }
             </script>
         </div>
-        <div class="row justify-content-md-center mt-3">
+        <div class="row justify-content-md-center mt-3 mb-3 pb-3">
             <div class="text-center">
             <input type="submit" class="btn btn-primary" value="Search" id="btn_search" onclick="return Validate()" />
             </div>
         </div>
         @using (Html.BeginForm("ViewStationeryCatalogue", "Requisition", FormMethod.Post))
         {
-            <div class="row justify-content-md-center mt-3">
+            <div class="row justify-content-md-center mt-3 pt-5">
                 <div class="col-8">
                     <table id="StationeryCatalogueTable" class="table">
                         <thead>
                             <tr>
                                 <th scope="col" class="text-left ">Description</th>
                                 <th scope="col" class="text-left">Unit of Measure</th>
-                                <th scope="col" class="text-left">Quantity to Add</th>
+                                <th scope="col" class="text-center">Quantity to Add</th>
 
                             </tr>
                         </thead>
@@ -58,11 +58,11 @@
                                 @Html.HiddenFor(m => Model.Items[i].ItemID)
                                 <tr>
                                     @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
-                                    <td>
+                                    <td class="col-5">
                                         @Html.DisplayFor(m => Model.Items[i].ItemName)
                                         @Html.HiddenFor(m => Model.Items[i].ItemID)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(m => Model.Items[i].UnitOfMeasure)
                                         @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
                                     </td>
@@ -71,7 +71,7 @@
                                            @id = "actualcount",
                                            @onkeypress = "return noNumbers(event)",
                                            @onfocusout = "allownums(this)",
-                                           @class = "form-control col-12 mx-auto" })
+                                           @class = "form-control col-6 mx-auto" })
                                         @Html.HiddenFor(m => Model.AddedText[i])
                                     </td>
                                 </tr>
@@ -129,7 +129,7 @@
     function allownums(textField) {
         var num = parseInt(textField.value, 10);
         if (num > 1000) {
-            alert("Sorry, we can not supply so much items once, the maximum is 1000");
+            alert("Sorry, the maximum quantity to request for each item is 1000");
             textField.value = "1000";
         }
         if (num < 0) {
