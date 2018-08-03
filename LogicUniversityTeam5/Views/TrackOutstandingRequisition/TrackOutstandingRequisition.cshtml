@@ -128,7 +128,7 @@
 </body>
 <script>
     function search() {
-        var deptInput, deptfilter, statusInput, statusfilter, table, tr, td, i;
+        var deptInput, deptfilter, statusInput, statusfilter, table, tr, tdd , tds, i;
        
         deptInput = document.getElementById("DeptDropdownlist");
         deptfilter = deptInput.value.toUpperCase();
@@ -137,7 +137,7 @@
         if (statusInput.value === "All") {
             statusInput.value = "";
         }
-        statusfilter = statusInput.value.toUpperCase();
+        statusfilter = statusInput.value.toUpperCase().replace(/ /g, "");
 
         console.log(deptfilter);
         console.log(statusfilter);
@@ -145,13 +145,18 @@
         table = document.getElementById("outstandingRequisitionTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(deptfilter) > -1 && td.innerHTML.toUpperCase().indexOf(statusfilter) ) {
+            //tdd = tr[i].getElementsByTagName("td")[1];
+            tds = tr[i].getElementsByTagName("td")[8];
+            var str = tds.innerHTML.toUpperCase().replace(/ +/g, "");
+            if (tds) {
+                //console.log(tdd.innerHTML.toUpperCase());
+                console.log(tds.innerHTML.toUpperCase());
+                if (/*tdd.innerHTML.toUpperCase().indexOf(deptfilter) > -1 /*&&*/ tds.innerHTML.toUpperCase().indexOf(statusfilter)) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
-                }  
+                }
+            }
         }
     }
     function Validate() {

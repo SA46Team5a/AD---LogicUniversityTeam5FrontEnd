@@ -44,31 +44,36 @@ namespace LogicUniversityTeam5
                 innerModel.Requisition = new List<Requisition>();
 
                 Requisition requisition = requisitionService.getRequisitionById(value);
-                innerModel.Requisition.Add(requisition);
-                innerModel.Employee = new List<Employee>();
-                string employeeid = requisition.EmployeeID;
-                Employee employee = departmentService.getEmployeeById(employeeid);
-                innerModel.Employee.Add(employee);
-                innerModel.Details = new List<RequisitionDetail>();
-                innerModel.Items = new List<Item>();
-                List<string> itemid = new List<string>();
 
-                innerModel.Details = requisitionService.getRequisitionDetails(value);
-
-                for (int m = 0; m < innerModel.Details.Count; m++)
+                if(requisition.RequisitionDetails.Count > 0)
                 {
-                    string itemidelement = innerModel.Details[m].ItemID;
-                    itemid.Add(itemidelement);
+                    innerModel.Requisition.Add(requisition);
+                    innerModel.Employee = new List<Employee>();
+                    string employeeid = requisition.EmployeeID;
+                    Employee employee = departmentService.getEmployeeById(employeeid);
+                    innerModel.Employee.Add(employee);
+                    innerModel.Details = new List<RequisitionDetail>();
+                    innerModel.Items = new List<Item>();
+                    List<string> itemid = new List<string>();
 
+                    innerModel.Details = requisitionService.getRequisitionDetails(value);
+
+                    for (int m = 0; m < innerModel.Details.Count; m++)
+                    {
+                        string itemidelement = innerModel.Details[m].ItemID;
+                        itemid.Add(itemidelement);
+
+                    }
+                    for (int m = 0; m < itemid.Count; m++)
+                    {
+                        string innervalue = itemid[m];
+                        Item item = context.Items.First(z => z.ItemID == innervalue);
+                        //Item item = stockManagementService.getItemById(innervalue) ;
+                        innerModel.Items.Add(item);
+                    }
+                    model.specialmodel.Add(innerModel);
                 }
-                for (int m = 0; m < itemid.Count; m++)
-                {
-                    string innervalue = itemid[m];
-                    Item item = context.Items.First(z => z.ItemID == innervalue);
-                    //Item item = stockManagementService.getItemById(innervalue) ;
-                    innerModel.Items.Add(item);
-                }
-                model.specialmodel.Add(innerModel);
+                
             }
 
             return View(model);
