@@ -4,7 +4,7 @@
 }
 
 <div class="container">
-    <h1 class="text-center">Requisition Forms To Approve</h1>
+    <h1 class="text-center pb-5">Requisition Forms To Approve</h1>
     @using (Html.BeginForm("ApproveRequisitionForm", "ApproveRequisition", FormMethod.Post))
     {
         <div class="row justify-content-md-center mt-3">
@@ -16,28 +16,32 @@
        }
        @for (int i = 0; i < Model.specialmodel.Count; i++)
        {
-            <div class="card mt-1">
+            <div class="card mt-1 mb-3">
                 <div class="card-body">
                     <div class="row justify-content-center">
-                        <div class="col-6 text-left">
+                        <div class="col-6 text-left mb-3">
+                            
                             <label id="approvedperson">
+                                <strong>Requestor:</strong>
                                 @Model.specialmodel[i].Employee[0].EmployeeName
                                 @Html.HiddenFor(m => Model.specialmodel[i].Requisition[0].EmployeeID)
-                             </label>
+                            </label>
                         </div>
                         <div class="col-6 text-right">
                             <label id="approvedate">
-                                @Model.specialmodel[i].Requisition[0].RequestedDate
+                                <strong>Date of Request:</strong>
+                                @Html.DisplayFor(m => Model.specialmodel[i].Requisition[0].RequestedDate)
                                 @Html.HiddenFor(m => Model.specialmodel[i].Requisition[0].RequisitionID)
-                             </label>
+                            </label>
                         </div>
                     </div>
                     <div class="row justify-content-md-center mt-3">
                         <div class="col-10 text-center">
+                            <h5>Items Requested</h5>
                             <table id="ConfrimReorderQuantityTable" class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="text-center">Description</th>
+                                        <th scope="col" class="text-left">Description</th>
                                         <th scope="col" class="text-center">Quantity </th>
                                         <th scope="col" class="text-center">Unit of Measure</th>
                                     </tr>
@@ -46,7 +50,7 @@
                                     @for (int n = 0; n < Model.specialmodel[i].Details.Count;n++)
                                      {
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-left">
                                                     @Model.specialmodel[i].Items[n].ItemName
                                                     @Html.HiddenFor(m => Model.specialmodel[i].Items[n].ItemName)
                                                 </td>
@@ -64,14 +68,14 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row justify-content-md-center ">
-                        <div class="col-12 text-center">
-                            <div class="input-group">
-                                <textarea class="form-control" placeholder="Remark(Optional)"></textarea>
-                            </div>
+                    <div class="row justify-content-md-center mt-3">
+                        <div class="col-10 text-center">
+                            
+                                <textarea class="form-control col-12" placeholder="Remark(Optional)"></textarea>
+                            
                         </div>
                     </div>
-                    <div class="row justify-content-md-center mt-3">
+                    <div class="row justify-content-md-center mt-3 mb-3">
                         <div class="col-8 text-center">
 
                             <button type="submit" name="Approve" class="btn btn-success  mr-5" data-toggle="modal" data-target="#myModalapprove" value="@Model.specialmodel[i].Requisition[0].RequisitionID" >Approve</button>
@@ -85,7 +89,7 @@
                 </div>
             
        }
-            <div class="row justify-content-md-center mt-3">
+            <div class="row justify-content-md-center mt-5">
                 <button class="btn btn-info text-center" id="home" type="button">Home</button>
                 <script type="text/javascript">
                     $(document).ready(function () {

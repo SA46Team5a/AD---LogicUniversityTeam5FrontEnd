@@ -17,6 +17,12 @@ namespace LogicUniversityTeam5.Controllers
         {
             departmentService = ds;
         }
+
+        public EmailNotificationController(IDepartmentService departmentService)
+        {
+            this.departmentService = departmentService;
+        }
+
         //Requisitions
         public  void SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
         {
@@ -29,7 +35,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("bhat.pavana@gmail.com", "bhat.pavana@gmail.com");
+            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "divyashree.ga@gamil.com");
             mm.Subject = "Notification to approve Requisition Form ";
             mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.";
             client.Send(mm);
@@ -51,7 +57,7 @@ namespace LogicUniversityTeam5.Controllers
           client.Send(mm);
             
         }
-        public static void SendEmailToLoseDepRep()
+        public void SendEmailToLoseDepRep()
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -78,6 +84,23 @@ namespace LogicUniversityTeam5.Controllers
 
             mm.Body = "Dear employee:\r\nyour authority to approve stationary requisition forms has been ceased\r\n" +
                       "Regards\r\n" +
+                     
+                      "This is a system generated email. Do not reply to this email.";
+            client.Send(mm);
+        }
+        public static void SendToApproveAuthority()
+        {
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.UseDefaultCredentials = true;
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            mm.Subject = "Notification for authority change";
+
+            mm.Body = "Dear employee:\r\n Now you have  authority to approve stationary requisition forms " +
+                      "Regards\r\n" +
+
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
@@ -112,7 +135,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void SendEmailToRequisitionStatus(int RequisitionID, bool ToApprove)
+        public static void SendEmailToRequisitionStatus(bool ToApprove)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -120,10 +143,10 @@ namespace LogicUniversityTeam5.Controllers
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
             MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
-            mm.Subject = "Notification of status of Requisition Form"+RequisitionID;
+            mm.Subject = "Notification of status of Requisition Form";
             if (ToApprove == true)
             {
-                mm.Body = "Dear employee:\r\n" + "The items of Requisition Form"+RequisitionID+ " has been approved\r\n" +
+                mm.Body = "Dear employee:\r\n" + "The items of Requisition Form"+" has been approved\r\n" +
                       "Regards\r\n" +
                       "This is a system generated email. Do not reply to this email.";
             }
@@ -135,7 +158,7 @@ namespace LogicUniversityTeam5.Controllers
             }
             client.Send(mm);
         }
-        public static void SendEmailForChangeAuthorityDuration(string StartDate, string EndDate)
+        public void SendEmailForChangeAuthorityDuration(string StartDate, string EndDate)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -165,7 +188,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void ApprovStoreAdjustment(string name)
+        public void ApprovStoreAdjustment(string name)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -180,7 +203,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void SendtoApprovStoreAdjustment(string name)
+        public void SendtoApprovStoreAdjustment(string name)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -195,7 +218,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void SendtoConfirmDisbursement(string Repname)
+        public void SendtoConfirmDisbursement(string Repname)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -210,7 +233,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void SendtoConfirmDisbursement_Mobile(string Repname)
+        public void SendtoConfirmDisbursement_Mobile(string Repname)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
@@ -229,7 +252,7 @@ namespace LogicUniversityTeam5.Controllers
                       "This is a system generated email. Do not reply to this email.";
             client.Send(mm);
         }
-        public static void SubmitStoreAdhustment_Mobile(string Manager)
+        public void SubmitStoreAdhustment_Mobile(string Manager)
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
