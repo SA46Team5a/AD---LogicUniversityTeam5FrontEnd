@@ -7,6 +7,7 @@ using LogicUniversityTeam5.IdentityHelper;
 using LogicUniversityTeam5.Models;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
+using LogicUniversityTeam5.Controllers;
 
 namespace LogicUniversityTeam5
 {
@@ -83,6 +84,7 @@ namespace LogicUniversityTeam5
                     int reqid = (int) Approve;
                     bool toApprove = true;
                     requisitionService.processRequisition(reqid, empid, toApprove, departmentService);
+                EmailNotificationController.SendEmailToRequisitionStatus(toApprove);
             }
             if(Reject != null)
             {
@@ -91,6 +93,7 @@ namespace LogicUniversityTeam5
                     int reqid = (int) Reject;
                     bool toApprove = false;
                     requisitionService.processRequisition(reqid, empid, toApprove, departmentService);
+                    EmailNotificationController.SendEmailToRequisitionStatus(toApprove);
                 }
 
             }
