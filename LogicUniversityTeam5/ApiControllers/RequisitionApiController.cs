@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using LogicUniversityTeam5.Controllers;
 
 namespace LogicUniversityTeam5
 {
@@ -30,7 +31,9 @@ namespace LogicUniversityTeam5
         {
             try
             {
+          
                 _requisitionService.processRequisition(reqId, empId, true, _departmentService);
+               
                 return true;
             }
             catch (Exception)
@@ -46,6 +49,7 @@ namespace LogicUniversityTeam5
             try
             {
                 _requisitionService.processRequisition(reqId, empId, false, _departmentService);
+               
                 return true;
             }
             catch (Exception)

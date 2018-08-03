@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using LogicUniversityTeam5.Controllers;
 
 namespace LogicUniversityTeam5.ApiControllers
 {
@@ -66,6 +67,7 @@ namespace LogicUniversityTeam5.ApiControllers
             try
             {
                 _departmentService.updateAuthority(a);
+                EmailNotificationController.SendToApproveAuthority();
                 return true; 
             }
             catch (Exception)
@@ -81,6 +83,7 @@ namespace LogicUniversityTeam5.ApiControllers
             try
             {
                 _departmentService.rescindAuthority(empId);
+                EmailNotificationController.SendToLostApproveAuthority();
                 return true;
             }
             catch (Exception)
@@ -107,6 +110,7 @@ namespace LogicUniversityTeam5.ApiControllers
             try
             {
                 _departmentService.updateDepartmentRepresentative(Int32.Parse(depRep["DepRepID"]), depRep["EmployeeID"]);
+                EmailNotificationController.SendEmailToAppointingDepRep();
                 return true;
             }
             catch (Exception)
