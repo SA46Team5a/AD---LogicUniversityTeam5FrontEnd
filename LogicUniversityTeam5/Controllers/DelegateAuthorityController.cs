@@ -65,7 +65,7 @@ namespace LogicUniversityTeam5.Controllers
             }
             else
             {
-                Employee emp = departmentService.getEmployeeObject(model.AddedText[0]);
+                Employee emp = departmentService.getEmployeeObject(model.Authorities.Employee.EmployeeName);
                 Authority authority = departmentService.getDelegatedAuthority(emp.DepartmentID);
                 departmentService.addAuthority(emp, Convert.ToDateTime(dateStart), Convert.ToDateTime(dateEnd));
                 //To change email method to include the employeeID
