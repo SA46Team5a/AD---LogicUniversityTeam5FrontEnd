@@ -35,7 +35,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("bhat.pavana@gmail.com", "bhat.pavana@gmail.com");
+            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "divyashree.ga@gamil.com");
             mm.Subject = "Notification to approve Requisition Form ";
             mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.";
             client.Send(mm);
