@@ -11,9 +11,9 @@
 
 
         @{ if (Request.Params["isDelegateAuthority"] != null)
-        {
-        if (Request.Params["isDelegateAuthority"].Equals("True"))
-        {
+            {
+                if (Request.Params["isDelegateAuthority"].Equals("True"))
+                {
         <div class="row justify-content-md-center pb-2">
             <div class="alert alert-success col-8">
                 <div class="row justify-content-md-center pb-2">
@@ -21,14 +21,14 @@
                 </div>
             </div>
         </div>
-        }
-        }
+                }
+            }
         }
 
         @{ if (Request.Params["isRescind"] != null)
-        {
-        if (Request.Params["isRescind"].Equals("True"))
-        {
+            {
+                if (Request.Params["isRescind"].Equals("True"))
+                {
         <div class="row justify-content-md-center pb-2">
             <div class="alert alert-danger col-8">
 
@@ -38,21 +38,24 @@
                 </div>
             </div>
         </div>
-        }
-        }
+                }
+            }
         }
 
         <div class="row justify-content-md-center pb-4">
             <h1 class="text-center mb=3">Delegate Authority</h1>
         </div>
         <div class="row justify-content-md-center pb-2">
+
+
             @if (Model.Authorities != null)
             {
-                <h5 class="text-center mb=3">
-                    Delegated Authority: @Model.Authorities.Employee.EmployeeName
-                </h5>
-                @Html.HiddenFor(m => Model.Authorities.Employee.EmployeeName)
-            }
+        <h5 class="text-center mb=3">
+            Delegated Authority: @Model.Authorities.Employee.EmployeeName
+        </h5>
+        @Html.HiddenFor(m => Model.Authorities.Employee.EmployeeName)
+
+}
         </div>
 
         <div class="row justify-content-md-center">
@@ -60,32 +63,48 @@
                 @{
 
                     bool showDropDown = Model.Authorities == null ? true : false;
+
+
+
                 <div class="form-group">
                     @if (showDropDown)
                     {
-                        <label for="Delegatedperson">Appoint Delegate:</label>
-                    }
-                    else
-                    {
-                        <label for="Delegatedperson" hidden>Appoint Delegate:</label>
-                    }
+                <label for="Delegatedperson">Appoint Delegate:</label>
 
-                    @{List<SelectListItem>
-                              Employee = new List<SelectListItem>
-                                  ();
-                        Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
-                        foreach (var emp in Model.Employee)
+                        { List<SelectListItem> Employe = new List<SelectListItem>();
+                            Employe.Add(new SelectListItem { Text = "Please select employee".ToString(), Value = "".ToString(), Selected = true });
+                            foreach (var emp in Model.Employee)
+                            {
+                                string output = emp.EmployeeName.ToString();
+                                Employe.Add(new SelectListItem { Text = output, Value = output });
+                            }
+
+                @Html.DropDownListFor(m => Model.AddedText[0], Employe, new { @class = "form-control", @id = "employee" })
+                @Html.HiddenFor(m => m.Employee)
+                            } }
+                        else
                         {
-                            string output = emp.EmployeeName.ToString();
-                            Employee.Add(new SelectListItem { Text = output, Value = output });
-                        }
+
+                             <label for= "Delegatedperson" hidden > Appoint Delegate:</label >
+
+                    } 
+
+                    @*@{List<SelectListItem>
+Employee = new List<SelectListItem>
+();
+        Employee.Add(new SelectListItem { Text = "Select Employee".ToString(), Value = "".ToString(), Selected = true });
+        foreach (var emp in Model.Employee)
+        {
+            string output = emp.EmployeeName.ToString();
+            Employee.Add(new SelectListItem { Text = output, Value = output });
+        }
                     }
 
                     @Html.DropDownListFor(m => Model.AddedText[0],
-                    Employee,
-                    new { @class = "form-control", @id = "employee" , @hidden = @showDropDown })
+Employee,
+new { @class = "form-control", @id = "employee", @hidden = @showDropDown })
 
-                    @Html.HiddenFor(m => m.Employee)
+                    @Html.HiddenFor(m => m.Employee)*@
                 </div>
                 }
                 <div class="form-group">
@@ -97,47 +116,47 @@
 
                         @{ DateTime minEndDate = Model.Authorities == null ? DateTime.Today : @Model.Authorities.StartDate;}
                         @{var start_attr = new
-                            {
-                                @id = "AddedText[1]",
-                                @class = "form-control datecontrol",
-                                @type = "date",
-                                @min = DateTime.Today.ToString("yyyy-MM-dd"),
-                            };
+                {
+                    @id = "AddedText[1]",
+                    @class = "form-control datecontrol",
+                    @type = "date",
+                    @min = DateTime.Today.ToString("yyyy-MM-dd"),
+                };
                         }
 
                         @{var end_attr = new
-                            {
-                                @id = "AddedText[2]",
-                                @class = "form-control datecontrol",
-                                @type = "date",
-                                @min = minEndDate.ToString("yyyy-MM-dd"),
-                            };
+                {
+                    @id = "AddedText[2]",
+                    @class = "form-control datecontrol",
+                    @type = "date",
+                    @min = minEndDate.ToString("yyyy-MM-dd"),
+                };
                         }
 
                         @if (Model.Authorities == null || Model.Authorities.StartDate > DateTime.Today)
-                        {
-                            <div class="col-6 text-left">
-                                @Html.TextBoxFor(m => Model.Authorities.StartDate, "{0:yyyy-MM-dd}", start_attr)
-                            </div>
-                            <div class="col-6 text-left">
-                                @Html.TextBoxFor(m => Model.Authorities.EndDate, "{0:yyyy-MM-dd}", end_attr)
-                            </div>
-                        }
-                        else if (Model.Authorities.StartDate <= DateTime.Today)
-                        {
-                            <div class="col-6 text-center">
-                                @Html.DisplayFor(m => Model.Authorities.StartDate, new { @type = "date" })
-                                @Html.HiddenFor(m => Model.Authorities.StartDate)
-                            </div>
-                            <div class="col-6 text-center">
-                                @Html.DisplayFor(m => Model.Authorities.EndDate, new { @type = "date" })
-                                @Html.HiddenFor(m => Model.Authorities.EndDate)
-                            </div>
-                        }
+            {
+                <div class="col-6 text-left">
+                    @Html.TextBoxFor(m => Model.Authorities.StartDate, "{0:yyyy-MM-dd}", start_attr)
+                </div>
+                <div class="col-6 text-left">
+                    @Html.TextBoxFor(m => Model.Authorities.EndDate, "{0:yyyy-MM-dd}", end_attr)
+                </div>
+}
+else if (Model.Authorities.StartDate <= DateTime.Today)
+{
+            <div class="col-6 text-center">
+                @Html.DisplayFor(m => Model.Authorities.StartDate, new { @type = "date" })
+                @Html.HiddenFor(m => Model.Authorities.StartDate)
+            </div>
+            <div class="col-6 text-center">
+                @Html.DisplayFor(m => Model.Authorities.EndDate, new { @type = "date" })
+                @Html.HiddenFor(m => Model.Authorities.EndDate)
+            </div>
+}
 
-                        @*<div class="col-6 text-left">
-                            @Html.TextBox("txtJoiningDate", minEndDate, "{0:MM/dd/yyyy}", end_attr)
-                        </div>*@
+            @*<div class="col-6 text-left">
+        @Html.TextBox("txtJoiningDate", minEndDate, "{0:MM/dd/yyyy}", end_attr)
+    </div>*@
                     </div>
                 </div>
             </div>

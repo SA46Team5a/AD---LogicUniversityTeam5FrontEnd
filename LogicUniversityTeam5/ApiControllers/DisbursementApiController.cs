@@ -50,22 +50,28 @@ namespace LogicUniversityTeam5.ApiControllers
         [HttpGet]
         [Route("api/store/disbursement/{id}")]
         public List<DisbursementDetailPayload> getUncollectedDisbursementItemsOfDepartment(string id)
-            => _disbursementService.getUncollectedDisbursementDetailsByDep(id);
+        {
+            List<DisbursementDetailPayload> payload = _disbursementService.getUncollectedDisbursementDetailsByDep(id);
+            return payload;
+        }
+
 
         [HttpPost]
         [Route("api/store/disbursement/{depId}/{empId}/{passcode}")]
-        public bool submitDisbursementOfDepartment(string depId, string empId, string passcode, List<DisbursementDetailPayload> payload)
+        public bool submitDisbursementOfDepartment(List<DisbursementDetailPayload> disbursementDetailPayloads, string depId, string empId, string passcode)
         {
             try
             {
                 if (_departmentService.verifyPassCode(passcode, depId))
-                    return false;
-                else
                 {
-                    _disbursementService.submitDisbursementOfDep(depId, payload, empId);
+                    _disbursementService.submitDisbursementOfDep(depId, disbursementDetailPayloads, empId);
                     return true;
                 }
-           }
+                else
+                {
+                    return false;
+                }
+            }
             catch (Exception)
             {
                 return false;
