@@ -17,12 +17,14 @@ namespace LogicUniversityTeam5.Controllers
 
         IRequisitionService requisitionService;
         IClassificationService classificationService;
+        IDisbursementService disbursementService;
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
-        public ViewPastRequestController(RequisitionService requisitionService, ClassificationService cs)
+        public ViewPastRequestController(RequisitionService requisitionService, ClassificationService cs, DisbursementService ds)
         {
             this.requisitionService = requisitionService;
             classificationService = cs;
+            disbursementService = ds;
         }
 
 
@@ -101,7 +103,25 @@ namespace LogicUniversityTeam5.Controllers
         {
             ServiceLayer.DataAccess.Requisition r = requisitionService.getRequisitionById(id);
             List<ServiceLayer.DataAccess.RequisitionDetail> rdList = r.RequisitionDetails.ToList();
-            return View("ViewStationeryRequestForm", rdList);          
+            List<int> qtyReceived = new List<int>();
+            foreach(RequisitionDetail rd in rdList)
+            {
+                int count = disbursementService.getTotalCountOfItemDisbursedForReqDetailId(rd.RequisitionDetailsID);
+               if (disbursementService.getTotalCountOfItemDisbursedForReqDetailId(rd.RequisitionDetailsID)>0)
+                {
+                    qtyReceived.Add(disbursementService.getTotalCountOfItemDisbursedForReqDetailId(rd.RequisitionDetailsID));
+                }
+                else
+                {
+                    qtyReceived.Add(0);
+                }
+            }
+            CombinedViewModel combinedViewModel = new CombinedViewModel();
+            combinedViewModel.Requisitions = rdList;
+            combinedViewModel.QtyReceived = qtyReceived;
+            TempData["viewmodel"] = combinedViewModel;
+            TempData.Keep();
+            return View("ViewStationeryRequestForm", combinedViewModel);          
         }
 
         //Go to Screen 2.2.1.2b Resubmit Stationery Request Form
@@ -182,6 +202,16 @@ namespace LogicUniversityTeam5.Controllers
             {
                 combinedView.AddedText.Add(" ");
             }
+            return View(combinedView);
+        }
+
+        [HttpGet]
+        public ActionResult ViewStationeryRequestForm()
+        {
+            //TempData.Keep("reqID");
+            CombinedViewModel combinedView = new CombinedViewModel();
+            combinedView =(CombinedViewModel) TempData["viewmodel"];
+            
             return View(combinedView);
         }
 

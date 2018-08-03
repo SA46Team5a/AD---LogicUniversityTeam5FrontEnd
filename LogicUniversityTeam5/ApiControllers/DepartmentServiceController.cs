@@ -51,6 +51,7 @@ namespace LogicUniversityTeam5.ApiControllers
             Employee emp = _departmentService.getEmployeeById(a.EmployeeID);
             try
             {
+                EmailNotificationController.SendToApproveAuthority();
                 _departmentService.addAuthority(emp, a.StartDate, (DateTime) a.EndDate);
                 return true;
             }
@@ -110,7 +111,8 @@ namespace LogicUniversityTeam5.ApiControllers
             try
             {
                 _departmentService.updateDepartmentRepresentative(Int32.Parse(depRep["DepRepID"]), depRep["EmployeeID"]);
-                EmailNotificationController.SendEmailToAppointingDepRep();
+                DepartmentRepresentative departmentRepresentative = _departmentService.getCurrentDepartmentRepresentative(neweDepRepEmployee.DepartmentID);
+                EmailNotificationController.SendEmailToAppointingDepRep(departmentRepresentative.Passcode);
                 return true;
             }
             catch (Exception)

@@ -1,37 +1,70 @@
-﻿@model IEnumerable<ServiceLayer.DataAccess.RequisitionDetail>
+﻿@using LogicUniversityTeam5.Models
+@model LogicUniversityTeam5.Models.CombinedViewModel
 
 @{
     ViewBag.Title = "ViewStationaryRequestForm";
 }
+<body>
+    @*@using (Html.BeginForm("ViewStationaryRequestForm", "ViewPastRequest", FormMethod.Get))
+    {*@
+        <div class="container">
+            <h1 class="text-center pb-5">Stationery Requisition Form</h1>
+            <div class="row justify-content-md-center pt-3 pb-3">
+                <div class="col-8 text-center">
+                    <table id="StationeryRequisitionForm" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left">Description</th>
+                                <th scope="col" class="text-center">Unit of Measure</th>
+                                <th scope="col" class="text-center">Quantity Request</th>
+                                <th scope="col" class="text-center">Quantity Received</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(m => item.Item.ItemName)</td>
+                                        <td>@Html.DisplayFor(m => item.Item.UnitOfMeasure)</td>
+                                        <td>@Html.DisplayFor(m => item.Quantity)</td>
+                                        <td>@Html.DisplayFor(m => m.</td>
+                                    </tr>
+                                }*@
+                            @for (int j = 0; j < Model.Requisitions.Count; j++)
+                            { 
+                             @Html.HiddenFor(m => Model.Requisitions[j].RequisitionDetailsID)
 
-<div class="container">
-    <h1 class="text-center pb-5">Stationery Requisition Form</h1>
-    <div class="row justify-content-md-center pt-3 pb-3">
-        <div class="col-8 text-center">
-            <table id="StationeryRequisitionForm" class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-left">Description</th>
-                        <th scope="col" class="text-center">Unit of Measure</th>
-                        <th scope="col" class="text-center">Quantity Request</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
                         <tr>
-                            <td class="text-left">@Html.DisplayFor(m => item.Item.ItemName)</td>
-                            <td class="text-center">@Html.DisplayFor(m => item.Item.UnitOfMeasure)</td>
-                            <td class="text-center">@Html.DisplayFor(m => item.Quantity)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            <td>
+                                @Html.DisplayFor(m => Model.Requisitions[j].Item.ItemName)
+                                @Html.HiddenFor(m => Model.Requisitions[j].Item.ItemName)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(m => Model.Requisitions[j].Quantity)
+
+                                @Html.HiddenFor(m => Model.Requisitions[j].Quantity)
+                            </td>
+                            <td class="text-center">
+                                    @Html.DisplayFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
+
+                                    @Html.HiddenFor(m => Model.Requisitions[j].Item.UnitOfMeasure)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(m => Model.QtyReceived[j])
+
+                           
+                                </td class="text-center">
+                            </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-5 pt-1">
+                <div class="col-8 text-center">
+                    @Html.ActionLink("Back", "SearchRequisitionForm", new { id = Model.Requisitions.First().Requisition.EmployeeID }, new { @id = "btn_back", @class = "btn btn-secondary" })
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row justify-content-md-center mt-5 pt-1">
-        <div class="col-8 text-center">
-            @Html.ActionLink("Back", "SearchRequisitionForm", new { id = Model.First().Requisition.EmployeeID }, new { @id = "btn_back", @class = "btn btn-secondary" })
-        </div>
-    </div>
-</div>
+  
+    </body>

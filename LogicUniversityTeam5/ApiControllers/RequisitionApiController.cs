@@ -31,7 +31,8 @@ namespace LogicUniversityTeam5
         {
             try
             {
-          
+                bool toApprove = true;
+                EmailNotificationController.SendEmailToRequisitionStatus(toApprove);
                 _requisitionService.processRequisition(reqId, empId, true, _departmentService);
                
                 return true;
@@ -48,6 +49,8 @@ namespace LogicUniversityTeam5
         {
             try
             {
+                bool toApprove = false;
+                EmailNotificationController.SendEmailToRequisitionStatus(toApprove);
                 _requisitionService.processRequisition(reqId, empId, false, _departmentService);
                
                 return true;

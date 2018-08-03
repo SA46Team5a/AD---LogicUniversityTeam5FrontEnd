@@ -114,12 +114,6 @@ namespace LogicUniversityTeam5.Controllers.Requisition
 
         }
 
-        [HttpPost]
-        public ActionResult GoToStationaryRequestForm()
-        {
-            //emial
-            return RedirectToAction("StationeryRequestForm");
-        }
 
         [HttpPost]
         public ActionResult StationeryRequestForm(CombinedViewModel model)
@@ -153,9 +147,11 @@ namespace LogicUniversityTeam5.Controllers.Requisition
                 iRequisitionService.submitRequisition(req.RequisitionID);
 
                 //Send email
-                EmailNotificationController emailNotificationController = new EmailNotificationController((DepartmentService)iDepartmentService);
                 string deptId = iDepartmentService.getDepartmentID(currentLoggedInEmployeeId);
-                emailNotificationController.SendEmailToDeptHeadToApproveRequisitions(deptId, req.RequisitionID);
+                Authority currentAuthority = iDepartmentService.getCurrentAuthority(deptId);
+                Employee deptHead = iDepartmentService.getEmployeeById(currentAuthority.EmployeeID);
+                string emailTo = deptHead.EmailID;
+                EmailNotificationController.SendEmailToDeptHeadToApproveRequisitions(emailTo, req.RequisitionID);
 
                 return RedirectToAction("Index", "Home");
             }
