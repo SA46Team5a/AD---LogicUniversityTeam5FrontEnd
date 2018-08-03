@@ -12,35 +12,32 @@ namespace LogicUniversityTeam5.Controllers
     //To change all email from and Email to addresses
     public class EmailNotificationController : Controller
     {
-        IDepartmentService departmentService;
-        public  EmailNotificationController(DepartmentService ds)
+        
+        public  EmailNotificationController()
         {
-            departmentService = ds;
+            
         }
 
-        public EmailNotificationController(IDepartmentService departmentService)
-        {
-            this.departmentService = departmentService;
-        }
+        //public EmailNotificationController(IDepartmentService departmentService)
+        //{
+        //    this.departmentService = departmentService;
+        //}
 
         //Requisitions
-        public  void SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
+        public static void SendEmailToDeptHeadToApproveRequisitions(string emailTo, int reqId)
         {
-            Authority currentAuthority = departmentService.getCurrentAuthority(deptId);
-            Employee employeeIncurrentAuthority = departmentService.getEmployeeById(currentAuthority.EmployeeID);
-            string emailTo = employeeIncurrentAuthority.EmailID;
 
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            client.Credentials = new System.Net.NetworkCredential("meitingtonia@gmail.com", "GMTtonia1995");
+            client.Credentials = new System.Net.NetworkCredential("LogicstationeryTeam5@gmail.com", "logicteam5@");
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("bhat.pavana@gmail.com", "bhat.pavana@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
             mm.Subject = "Notification to approve Requisition Form ";
             mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.";
             client.Send(mm);
         }
-        public static void SendEmailToAppointingDepRep()
+        public static void SendEmailToAppointingDepRep(string passcode)
         {
            
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
@@ -52,7 +49,7 @@ namespace LogicUniversityTeam5.Controllers
             MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
             mm.Subject = "Notification to appointing department representative";
             mm.Body = "Dear employee:\r\n You have been appointed as department representative. " +
-                "Now you have right to collect stationaries and maintain the department list.\r\n" + "Regards\r\n" +
+                "Now you have right to collect stationaries and maintain the department list. Your passcode is " + passcode + ".\r\n " + "Regards\r\n" +
                 "This is a system generated email. Do not reply to this email.";
           client.Send(mm);
             
