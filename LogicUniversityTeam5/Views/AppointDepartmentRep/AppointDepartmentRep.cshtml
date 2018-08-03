@@ -28,12 +28,12 @@
             <div class="row justify-content-md-center pb-5">
                 <div class="col-8">
                     <form>
-                        <div class="form-group text-center pb-3">
+                        <div class="form-group text-center pb-5">
                             <strong>Current Department Representative:</strong> @Model.DepartmentRepresentative[0].Employee.EmployeeName
                         </div>
                     </form>
                     <form>
-                        <div class="form-group">
+                        <div class="form-group text-center">
                             <label for="Delegatedperson" >Choose Another Department Representative</label>
 
                             @{List<SelectListItem> Employee = new List<SelectListItem>();
@@ -44,8 +44,9 @@
                                     Employee.Add(new SelectListItem { Text=output,Value=output});
                                 }
                             }       
-                            @Html.DropDownListFor(m => Model.AddedText[0], Employee,new { @class = "form-control" ,@id="employee"})
-                            @Html.HiddenFor(m => m.Employee)
+                            @Html.DropDownListFor(m => Model.AddedText[0], Employee, new { @class = "form-control mx-auto" , @id="employee"})
+                 
+
                         </div>
                     </form>
                 </div>
@@ -53,7 +54,7 @@
             <div class="row justify-content-md-center pt-5">
 
                 <div class="col-4 text-right">
-                    <input type="submit" value="Confirm" class="btn btn-primary" onclick="return Validate();" />
+                    <button type="submit" value="" class="btn btn-primary" onclick="return Validate();" id="confirm" name="confirm">Confirm</button>
                 </div>
 
                 <div class="col-4 text-left">
@@ -77,6 +78,11 @@
                     }
                     return true;
                 }
+
+                $('#confirm').on("click", function () {
+                    console.log($('#employee').val());
+                    $(this).val($('#employee').val());
+                })
             </script>
 
         </div>

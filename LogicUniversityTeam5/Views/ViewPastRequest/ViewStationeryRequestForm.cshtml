@@ -11,7 +11,7 @@
             <table id="StationeryRequisitionForm" class="table">
                 <thead>
                     <tr>
-                        <th scope="col" class="text-center">Description</th>
+                        <th scope="col" class="text-left">Description</th>
                         <th scope="col" class="text-center">Unit of Measure</th>
                         <th scope="col" class="text-center">Quantity Request</th>
                     </tr>
@@ -20,9 +20,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(m => item.Item.ItemName)</td>
-                            <td>@Html.DisplayFor(m => item.Item.UnitOfMeasure)</td>
-                            <td>@Html.DisplayFor(m => item.Quantity)</td>
+                            <td class="text-left">@Html.DisplayFor(m => item.Item.ItemName)</td>
+                            <td class="text-center">@Html.DisplayFor(m => item.Item.UnitOfMeasure)</td>
+                            <td class="text-center">@Html.DisplayFor(m => item.Quantity)</td>
                         </tr>
                     }
                 </tbody>

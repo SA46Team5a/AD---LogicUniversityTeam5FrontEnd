@@ -38,8 +38,8 @@
                             start.max = end.value;
                     }, false);
                 </script>
-                <h6 class="text-left">Status:</h6>
-                @Html.DropDownList("approvalstatus", new SelectList(Model.ApprovalStatusNames, ViewBag.SelectedApprovalStatus), new { @class = "form-control" })
+                <h6 class="text-center pt-3">Status:</h6>
+                @Html.DropDownList("approvalstatus", new SelectList(Model.ApprovalStatusNames, ViewBag.SelectedApprovalStatus), new { @class = "form-control text-center mx-auto mb-5" })
                 @Html.Hidden("empId", (object)ViewBag.EmpId)
                 <div><input type="submit" class="btn btn-primary" id="search" value="Search" /></div>
             }
@@ -47,7 +47,7 @@
     </div>
 
 
-    <div class="row justify-content-md-center mt-5">
+    <div class="row justify-content-md-center mt-5 pt-3">
         <div class="col-8">
             <table id="SubmittedRequisitionForm" class="table">
                 <thead>
