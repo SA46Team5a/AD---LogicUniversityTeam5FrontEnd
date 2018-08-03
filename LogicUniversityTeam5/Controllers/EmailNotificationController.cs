@@ -33,7 +33,7 @@ namespace LogicUniversityTeam5.Controllers
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
 
-            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "divyashree.ga@gamil.com");
+            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "divyashree.ga@gmail.com");
 
             mm.Subject = "Notification to approve Requisition Form ";
             mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.";
