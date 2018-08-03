@@ -130,7 +130,9 @@ namespace LogicUniversityTeam5
             string EmpId = User.Identity.GetEmployeeId();
             Employee employee = departmentService.getEmployeeById(EmpId);
             string DeptId = employee.DepartmentID;
-            return requisitionService.getPendingRequisitionsOfDep(DeptId).ToList();
+            List<Requisition> pendingRequisitions = requisitionService.getPendingRequisitionsOfDep(DeptId).Where(r=>r.RequisitionDetails.Count>0).ToList();
+            
+            return pendingRequisitions;
         }
     }
 }

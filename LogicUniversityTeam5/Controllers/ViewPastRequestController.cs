@@ -149,11 +149,22 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult DeleteRequestedItems(int id)
         {
             int reqId = (int)TempData["reqID"];
+            string empId = User.Identity.GetEmployeeId();
+            RequisitionDetail reqDetail = requisitionService.getRequisitionDetailById(id);
+            ServiceLayer.DataAccess.Requisition requisition = reqDetail.Requisition;
+
             //Delete from existing reqDetails in DB
             if (id > 0)
             {
                 requisitionService.deleteRequisitionDetail(id);
             }
+            
+            if(requisition.RequisitionDetails.Count == 0)
+            {
+                requisitionService.deleteRequisition(reqDetail.RequisitionID);
+                return RedirectToAction("SearchRequisitionForm", new { id = empId });
+            }
+            
 
             return RedirectToAction("EditSubmittedStationeryRequestForm", new { id = reqId});
         }
