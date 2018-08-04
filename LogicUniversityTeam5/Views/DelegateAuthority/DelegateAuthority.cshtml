@@ -145,11 +145,11 @@
                         }
                         else if (Model.Authorities.StartDate <= DateTime.Today)
                         {
-                            <div class="col-6 text-center">
+                            <div class="col-6 text-left">
                                 @Html.DisplayFor(m => Model.Authorities.StartDate, new { @type = "date" })
                                 @Html.HiddenFor(m => Model.Authorities.StartDate)
                             </div>
-                            <div class="col-6 text-center">
+                            <div class="col-6 text-left">
                                 @Html.DisplayFor(m => Model.Authorities.EndDate, new { @type = "date" })
                                 @Html.HiddenFor(m => Model.Authorities.EndDate)
                             </div>

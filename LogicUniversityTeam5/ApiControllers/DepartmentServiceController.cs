@@ -111,7 +111,8 @@ namespace LogicUniversityTeam5.ApiControllers
             try
             {
                 _departmentService.updateDepartmentRepresentative(Int32.Parse(depRep["DepRepID"]), depRep["EmployeeID"]);
-                DepartmentRepresentative departmentRepresentative = _departmentService.getCurrentDepartmentRepresentative(depRep["EmployeeID"]);
+                Employee emp = _departmentService.getEmployeeById(depRep["EmployeeID"]);
+                DepartmentRepresentative departmentRepresentative = _departmentService.getCurrentDepartmentRepresentative(emp.DepartmentID);
                 EmailNotificationController.SendEmailToAppointingDepRep(departmentRepresentative.Passcode);
                 return true;
             }
