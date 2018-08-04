@@ -22,9 +22,9 @@
                         }
                         <div class="form-group col-md-4">
                             <label for="orderid">Order ID</label>
-                            @Html.DropDownListFor(m => Model.AddedText[0], orderid.Distinct(), new { @class = "form-control", @id = "dropdown" });
+                            @Html.DropDownListFor(m => Model.AddedText[0], orderid.Distinct(), new { @class = "form-control", @id = "dropdown" })
                             <div class="row justify-content-center">
-                                <div class="col-8 text-center">
+                                <div class="col-8 text-center mt-1">
                                     <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search" onclick="return Validate()" />
                                 </div>
                             </div>
@@ -68,8 +68,8 @@
             <div class="col-8">
                 <label>Upload Invoice</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="file" id="file" accept="application/pdf" />
-                    <label class="custom-file-label" for="invoicefile">Choose file</label>
+                    <input type="file" class="custom-file-input col-12" name="file" id="file" accept="application/pdf" />
+                    <label class="custom-file-label col-12" for="invoicefile">Choose file</label>
                 </div>
                 <script>
                     $('#file').on('change', function () {
