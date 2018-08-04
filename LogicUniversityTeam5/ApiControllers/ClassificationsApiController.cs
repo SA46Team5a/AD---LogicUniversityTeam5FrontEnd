@@ -22,6 +22,7 @@ namespace LogicUniversityTeam5.ApiControllers
 
         [HttpGet]
         [Route("api/classification/categories")]
+        [Authorize]
         public List<CategoryPayload> categories()
         {
             List<CategoryPayload> payload = CategoryPayload.ConvertEntityToPayload(_classificationService.GetCategories());

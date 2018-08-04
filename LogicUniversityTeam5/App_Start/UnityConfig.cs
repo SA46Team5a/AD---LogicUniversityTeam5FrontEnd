@@ -11,6 +11,7 @@ using Unity.Mvc5;
 using ServiceLayer;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using Microsoft.Owin.Security.OAuth;
 
 namespace LogicUniversityTeam5
 {
@@ -48,6 +49,9 @@ namespace LogicUniversityTeam5
             container.RegisterType<IOrderService, OrderService>(new HierarchicalLifetimeManager());
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStockManagementService, StockManagementService>();
+
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             config.DependencyResolver = new UnityResolver(container);
 

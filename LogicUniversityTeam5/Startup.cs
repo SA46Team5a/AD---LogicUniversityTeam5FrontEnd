@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Web.Http;
+using System.Web.Http.Cors;
 using LogicUniversityTeam5.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(LogicUniversityTeam5.Startup))]
@@ -12,6 +15,11 @@ namespace LogicUniversityTeam5
     {
         public void Configuration(IAppBuilder app)
         {
+            var config = new HttpConfiguration();
+            ConfigureAuth(app);
+            app.UseCors(CorsOptions.AllowAll);
+            app.UseWebApi(config);
+
             ConfigureAuth(app);
             createRoles();
         }
