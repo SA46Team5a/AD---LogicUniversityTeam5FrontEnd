@@ -12,21 +12,21 @@
             </div>
         </div>
         <div class="row justify-content-md-center mt-3">
-            <div class="col-3 text-center">
+            <div class="col-6 text-center">
                 @{
-                    List<SelectListItem> DepartmentNames = new List<SelectListItem>();
-                    DepartmentNames.Add(new SelectListItem { Text = "Select department name".ToString(), Value = "".ToString(), Selected = true });
+                                List<SelectListItem> DepartmentNames = new List<SelectListItem>();
+                                DepartmentNames.Add(new SelectListItem { Text = "All departments".ToString(), Value = "0", Selected = true});
                     foreach (var dep in Model.Departments)
                     {
                         string output = dep.DepartmentName.ToString();
-                        DepartmentNames.Add(new SelectListItem { Text=output, Value=output});
+                            DepartmentNames.Add(new SelectListItem { Text=output, Value=output});
                     }
 
                     DepartmentNames = DepartmentNames.Distinct().ToList();
                 }
 
                 @Html.DropDownList("Department Names", DepartmentNames,
-                new { @class="form-control form-control-lg",
+                new { @class="form-control form-control-lg col-12",
                     @name ="DeptDropdownlist",
                     @id ="DeptDropdownlist",
                     @text ="Department",
@@ -37,13 +37,12 @@
 
         </div>
         <div class="row justify-content-md-center mt-3">
-            <div class="col-3 text-center">
-                <select class="form-control form-control-lg" name="StatusDropdownlist" id="StatusDropdownlist"
+            <div class="col-6 text-center">
+                <select class="form-control form-control-lg col-12" name="StatusDropdownlist" id="StatusDropdownlist"
                          placeholder="Department" required>
-                    <option value="">Select Status</option>
-                    <option value="All">All</option>
+                    <option value="0">All outstanding requisitions</option>
                     <option value="Not Ordered">Not Ordered</option>
-                    <option value="Ordered">Not Delivered</option>
+                    <option value="Not Delivered">Not Delivered</option>
                     <option value="Delivered">Delivered</option>
                 </select>
             </div>
@@ -53,7 +52,7 @@
         </div>
         <div class="row justify-content-md-center mt-3 pb-5">
             <div class="col-9 text-center">
-                <button id="btn_search" type="button" onclick="search(); return Validate();" class="btn btn-primary">Search</button>
+                <button id="btn_search" type="button" onclick="search()" class="btn btn-primary">Search</button>
             </div>
         </div>
         @using (Html.BeginForm("TrackOutstandingRequisition", "TrackOutstandingRequisition", FormMethod.Post))
@@ -128,46 +127,34 @@
 </body>
 <script>
     function search() {
-        var deptInput, deptfilter, statusInput, statusfilter, table, tr, tdd , tds, i;
+        var deptInput, deptfilter, statusInput, statusfilter, table, tr, tdd , i;
        
         deptInput = document.getElementById("DeptDropdownlist");
-        deptfilter = deptInput.value.toUpperCase();
+        deptSelected = deptInput.value.toUpperCase().trim();
 
         statusInput = document.getElementById("StatusDropdownlist");
         if (statusInput.value === "All") {
             statusInput.value = "";
         }
-        statusfilter = statusInput.value.toUpperCase().replace(/ /g, "");
-
-        console.log(deptfilter);
-        console.log(statusfilter);
+        statusSelected = statusInput.value.toUpperCase().trim();
 
         table = document.getElementById("outstandingRequisitionTable");
         tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            //tdd = tr[i].getElementsByTagName("td")[1];
-            tds = tr[i].getElementsByTagName("td")[8];
-            var str = tds.innerHTML.toUpperCase().replace(/ +/g, "");
-            if (tds) {
-                //console.log(tdd.innerHTML.toUpperCase());
-                console.log(tds.innerHTML.toUpperCase());
-                if (/*tdd.innerHTML.toUpperCase().indexOf(deptfilter) > -1 /*&&*/ tds.innerHTML.toUpperCase().indexOf(statusfilter)) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
+        for (i = 1; i < tr.length; i++) {
+            var dept = tr[i].getElementsByTagName("td")[1].innerHTML.toUpperCase().trim();
+            var status = tr[i].getElementsByTagName("td")[8].innerHTML.toUpperCase().trim();
+
+            if (statusSelected == "0") statusfilter = status; else statusfilter = statusSelected;
+            if (deptSelected == "0") deptfilter = dept; else deptfilter = deptSelected;
+            console.log(statusfilter);
+            console.log(deptfilter);
+
+            if (status == statusfilter && dept == deptfilter) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
             }
         }
-    }
-    function Validate() {
-        console.log("hello");
-        var orderid = document.getElementById("DeptDropdownlist");
-        if (orderid.value == "") {
-            //If the "Please Select" option is selected display error.
-            alert("Please select an option!");
-            return false;
-        }
-        return true;
     }
    
 </script>
