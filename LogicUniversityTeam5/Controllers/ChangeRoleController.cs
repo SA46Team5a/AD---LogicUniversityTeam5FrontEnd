@@ -23,6 +23,10 @@ namespace LogicUniversityTeam5.Controllers
             if (employeeId != null)
             {
                 var user = _userManager.FindByEmployeeID(employeeId);
+                string[] allUserRoles = _userManager.GetRoles(user.Id).ToArray();
+                string[] newRole = new string[] { newRoleName };
+                _userManager.RemoveFromRoles(user.Id, allUserRoles);
+                _userManager.AddToRoles(user.Id, newRole);
                 user.UserRole = newRoleName;
                 _userManager.Update(user);
 
