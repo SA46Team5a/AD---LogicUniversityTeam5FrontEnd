@@ -259,6 +259,7 @@
     <Compile Include="ApiControllers\DepartmentServiceController.cs" />
     <Compile Include="ApiControllers\TestApiController.cs" />
     <Compile Include="ApiControllers\ClassificationsApiController.cs" />
+    <Compile Include="ApiControllers\UserApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DependencyResolver.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -476,6 +477,7 @@
     <Folder Include="Views\ChangeRole\" />
     <Folder Include="Views\EmailNotification\" />
     <Folder Include="Views\Navigation\" />
+    <Folder Include="Views\UserApi\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
