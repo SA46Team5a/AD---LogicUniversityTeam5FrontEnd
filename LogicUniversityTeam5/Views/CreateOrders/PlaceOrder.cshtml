@@ -79,7 +79,7 @@
                                                        @maxlength = "6",
                                                        @pattern = "[0-9]{1,6}",
                                                        @onfocusout = "allownums(this)",
-                                                       @class = "form-control col-12 text-center" })
+                                                       @class = "form-control col-12 text-center orderQty" })
                                                 </td>
                                             </tr>
                                         }
@@ -158,5 +158,14 @@
     window.onload = DisableBackButtonAllBrowsers;
     window.onpageshow = function (evts) { if (evts.persisted) DisableBackButtonAllBrowsers(); };
     window.onunload = function () { void (0) };
+
+    document.on("change", "orderQty", function () {
+        var sum = 0;
+        $("input[class *= 'orderQty']").each(function () {
+            sum += +$(this).val();
+        });
+        if (sum <= 0)
+            $('#btn_next').attr("disabled", "disabled");
+    });
 </script>
 
