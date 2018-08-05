@@ -62,49 +62,49 @@
                         <table class="table" id="outstandingRequisitionTable">
                         <thead>
                             <tr class="align-middle">
-                                <th scope="col" class="align-middle">Required Date</th>
+                                <th scope="col" class="align-middle">Request Date</th>
                                 <th scope="col" class="align-middle">Department</th>
                                 <th scope="col" class="align-middle">Stationery Description</th>
-                                <th scope="col" class="align-middle">Outstanding Quantity</th>
                                 <th scope="col" class="align-middle">Required Quantity</th>
+                                <th scope="col" class="align-middle">Outstanding Quantity</th>
                                 <th scope="col" class="align-middle">Order No.</th>
                                 <th scope="col" class="align-middle">Suppliers</th>
                                 <th scope="col" class="align-middle">Quantity</th>
                                 <th scope="col" class="align-middle">Order Status</th>
                             </tr>
                         <tbody>
-                            @for (int i = 0; i < Model.RequisitionDetails.Count; i++)
+                            @for (int i = 0; i < Model.OutstandingRequisitionRows.Count; i++)
                             {
-                                @Html.HiddenFor(m => Model.RequisitionDetails[i].RequisitionDetailsID)
-                                int rdId = Model.RequisitionDetails[i].RequisitionDetailsID;
+                                @Html.HiddenFor(m => Model.OutstandingRequisitionRows[i].RequisitionDetail.RequisitionDetailsID)
                                 <tr>
-                                    <td>@Html.DisplayFor(m => Model.RequisitionDetails[i].Requisition.RequestedDate) </td>
-                                    <td>@Html.DisplayFor(m => Model.RequisitionDetails[i].Requisition.Requester.Department.DepartmentName)</td>
+                                    <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].RequisitionDetail.Requisition.RequestedDate) </td>
+                                    <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].RequisitionDetail.Requisition.Requester.Department.DepartmentName)</td>
                                     <td>
-                                        @Html.DisplayFor(m => Model.RequisitionDetails[i].Item.ItemName)
-                                        @Html.HiddenFor(m => Model.RequisitionDetails[i].Item.ItemID)
+                                        @Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].RequisitionDetail.Item.ItemName)
+                                        @Html.HiddenFor(m => Model.OutstandingRequisitionRows[i].RequisitionDetail.ItemID)
                                     </td>
+                                    <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].RequisitionDetail.Quantity)</td>
                                     <td>
-                                        @Html.DisplayFor(m => Model.OutstandingRequisitionViews[i].OutStandingQuantity)
-                                        @Html.HiddenFor(m => Model.OutstandingRequisitionViews[i].OutStandingQuantity)
+                                        @Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].OutstandingRequisitionView.OutStandingQuantity)
+                                        @Html.HiddenFor(m => Model.OutstandingRequisitionRows[i].OutstandingRequisitionView.OutStandingQuantity)
                                     </td>
-                                    <td>@Html.DisplayFor(m => Model.RequisitionDetails[i].Quantity)</td>
+
                                     <td>
-                                        @Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplier.OrderID)
-                                        @Html.HiddenFor(m => Model.OrderSupplierDetails[i].OrderSupplier.OrderID)
+                                        @Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier.OrderID)
+                                        @Html.HiddenFor(m => Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier.OrderID)
                                     </td>
-                                    <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].OrderSupplier.Supplier.SupplierName)</td>
-                                    <td>@Html.DisplayFor(m => Model.OrderSupplierDetails[i].Quantity)</td>
+                                    <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier.Supplier.SupplierName)</td>
+                                    <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].OrderSupplierDetail.Quantity)</td>
                                     <td>
                                         @{  
                                             string status ="";
-                                            if(Model.OrderSupplierDetails[i].OrderSupplier == null)
+                                            if(Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier == null)
                                             {
                                                 status = "Not Ordered";
                                             }
                                             else
                                             {
-                                                status = Model.OrderSupplierDetails[i].OrderSupplier.DeliveryStatus.DeliveryStatusName;
+                                                status = Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier.DeliveryStatus.DeliveryStatusName;
                                             }
                                         }
                                         @Html.DisplayFor(m => status)

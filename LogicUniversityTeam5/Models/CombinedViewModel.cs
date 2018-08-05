@@ -23,7 +23,7 @@ namespace LogicUniversityTeam5.Models
 
         public List<StockVoucher> StockVouchers { get; set; }
 
-        
+
         public List<Order> Orders { get; set; }
 
         public List<bool> IsSelected { get; set; }
@@ -43,7 +43,7 @@ namespace LogicUniversityTeam5.Models
         public CombinedViewModel()
         {
             Items = new List<Item>();
-            reorderdetail= new List<ReorderDetail>();
+            reorderdetail = new List<ReorderDetail>();
         }
         public List<UploadModel> File { get; set; }
 
@@ -81,7 +81,7 @@ namespace LogicUniversityTeam5.Models
 
         public List<int> ReOrderItemQty { get; set; }
 
-        public Dictionary<int,int> SupplierItemIdAndQtyAvail { get; set; }
+        public Dictionary<int, int> SupplierItemIdAndQtyAvail { get; set; }
 
         public Dictionary<string, int> ItemIdAndQty { get; set; }
 
@@ -94,8 +94,8 @@ namespace LogicUniversityTeam5.Models
         public List<Requisition> Requisition { get; set; }
 
         public List<Supplier> Supplier { get; set; }
-        
-        public List<ReorderDetail> reorderdetail {get;set;}
+
+        public List<ReorderDetail> reorderdetail { get; set; }
 
         public void setAddedTextSize(int size)
         {
@@ -118,5 +118,6 @@ namespace LogicUniversityTeam5.Models
         public Authority Authorities { get; set; }
         public List<RadioButtonData> RadioButtonListData { get; set; }
         public List<string> ApprovalStatusNames { get; internal set; }
+        public List<OutstandingRequisitionRow> OutstandingRequisitionRows { get; set; }
     }
 }

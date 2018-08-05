@@ -25,35 +25,36 @@ namespace LogicUniversityTeam5.Controllers
         public ActionResult TrackOutstandingRequisition()
         {
             CombinedViewModel combinedViewModel = new CombinedViewModel();
-            combinedViewModel.OutstandingRequisitionViews = context.OutstandingRequisitionViews.ToList();
+            //combinedViewModel.OutstandingRequisitionViews = context.OutstandingRequisitionViews.ToList();
             combinedViewModel.Departments = departmentService.getDepartments();
-            combinedViewModel.RequisitionDetails = new List<RequisitionDetail>();
+            //combinedViewModel.RequisitionDetails = new List<RequisitionDetail>();
 
-            //Linking each ReqDetail to OrderSupplierDetail
-            Dictionary<int, List<OrderSupplierDetail>> ReqDetailIdAndOrderSupplierId = new Dictionary<int, List<OrderSupplierDetail>>();
+            ////Linking each ReqDetail to OrderSupplierDetail
+            //Dictionary<int, List<OrderSupplierDetail>> ReqDetailIdAndOrderSupplierId = new Dictionary<int, List<OrderSupplierDetail>>();
 
-            //Adding OrderSupplierDetails for each RequisitionDetails to combinedViewModel.OrderSupplierDetails
-            combinedViewModel.OrderSupplierDetails = new List<OrderSupplierDetail>();
+            ////Adding OrderSupplierDetails for each RequisitionDetails to combinedViewModel.OrderSupplierDetails
+            //combinedViewModel.OrderSupplierDetails = new List<OrderSupplierDetail>();
 
-            combinedViewModel.OutstandingRequisitionViews.ForEach(orv => {
-                combinedViewModel.OrderSupplierDetails
-                    .AddRange(orderService.getOrdersServingOutstandingRequisitions(orv.RequisitionDetailsID));
+            //combinedViewModel.OutstandingRequisitionViews.ForEach(orv => {
+            //    combinedViewModel.OrderSupplierDetails
+            //        .AddRange(orderService.getOrdersServingOutstandingRequisitions(orv.RequisitionDetailsID));
 
-                //Linking each ReqDetail to OrderSupplierDetail
-                ReqDetailIdAndOrderSupplierId.Add(orv.RequisitionDetailsID, orderService.getOrdersServingOutstandingRequisitions(orv.RequisitionDetailsID));
-            });
+            //    //Linking each ReqDetail to OrderSupplierDetail
+            //    ReqDetailIdAndOrderSupplierId.Add(orv.RequisitionDetailsID, orderService.getOrdersServingOutstandingRequisitions(orv.RequisitionDetailsID));
+            //});
 
 
-            // Match size of combinedViewModel.RequisitionDetails and combinedViewModel.OrderSupplierDetails
-            foreach (KeyValuePair <int, List<OrderSupplierDetail>> entry in ReqDetailIdAndOrderSupplierId)
-            {
-                List<OrderSupplierDetail> orderSupplierDetails = entry.Value;
-                foreach (OrderSupplierDetail osd in orderSupplierDetails)
-                {
-                    combinedViewModel.RequisitionDetails.Add(context.RequisitionDetails.First(rd => rd.RequisitionDetailsID == entry.Key));
-                }
-            }
-
+            //// Match size of combinedViewModel.RequisitionDetails and combinedViewModel.OrderSupplierDetails
+            //foreach (KeyValuePair <int, List<OrderSupplierDetail>> entry in ReqDetailIdAndOrderSupplierId)
+            //{
+            //    List<OrderSupplierDetail> orderSupplierDetails = entry.Value;
+            //    foreach (OrderSupplierDetail osd in orderSupplierDetails)
+            //    {
+            //        combinedViewModel.RequisitionDetails.Add(context.RequisitionDetails.First(rd => rd.RequisitionDetailsID == entry.Key));
+            //    }
+            //}
+            combinedViewModel.OutstandingRequisitionRows = orderService.getOutstandingRequisitionRows();
+               
             return View(combinedViewModel);
         }
 
