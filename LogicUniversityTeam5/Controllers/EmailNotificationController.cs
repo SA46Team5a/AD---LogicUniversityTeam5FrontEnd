@@ -33,7 +33,7 @@ namespace LogicUniversityTeam5.Controllers
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
 
-            MailMessage mm = new MailMessage("meitingtonia@gmail.com", "divyashree.ga@gmail.com");
+            MailMessage mm = new MailMessage("divyashree.ga@gmail.com", "divyashree.ga@gmail.com");
 
             mm.Subject = "Notification to approve Requisition Form ";
             mm.Body = "Dear Department Head ,You have the requisition  id(" + reqId + ")for your approval.";
@@ -65,7 +65,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "  Notification change of department representative";
 
             mm.Body = "Dear employee:\r\nPlease take note, you are no long the department representative.\r\n" +
@@ -80,7 +80,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for authority change";
 
             mm.Body = "Dear employee:\r\nyour authority to approve stationary requisition forms has been ceased\r\n" +
@@ -96,7 +96,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for authority change";
 
             mm.Body = "Dear employee:\r\n Now you have  authority to approve stationary requisition forms " +
@@ -112,7 +112,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for authority change";
 
             mm.Body = "Dear employee:\r\n" + "your authority to approve stationary requisition forms has been ceased\r\n" +
@@ -127,7 +127,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification to delegating authority";
 
             mm.Body = "Dear employee:\r\n" +
@@ -143,7 +143,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification of status of Requisition Form";
             if (ToApprove == true)
             {
@@ -166,7 +166,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for authority duration change";
 
             mm.Body = "Dear employee:\r\n" + "Your authority period has been change from " + StartDate + " to" + EndDate + " to approve Stationery Requisition Forms.\r\n" +
@@ -181,7 +181,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for change of collection point";
             mm.Body = "Dear employee:\r\n" + "The collection point for " + DepartmentName + " has been change to " + CollectionPoint + "\r\n" +
                       "The Passcode is " + passcode + ".\n\n" +
@@ -196,7 +196,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for approve store adjustment";
 
             mm.Body = "Dear" + name + ":\r\n" + "New stock voucher has been added. Please review the voucher.\r\n" +
@@ -211,7 +211,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for approve store adjustment";
 
             mm.Body = "Dear" + name + ":\r\n" + "New stock voucher has been added. Please review the voucher.\r\n" +
@@ -226,7 +226,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for collection of items";
 
             mm.Body = "Dear all:\r\n" + "The items are available for collection, please collect from" + Repname + "\r\n" +
@@ -260,7 +260,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "divyashree.ga@gmail.com");
             mm.Subject = "Notification for approve store adjustment";
 
             mm.Body = "Dear" + Manager + ":\r\n" + "New stock voucher has been added, please review the voucher\r\n" +

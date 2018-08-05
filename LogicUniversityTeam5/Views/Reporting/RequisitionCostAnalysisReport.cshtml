@@ -120,17 +120,18 @@
                        value="Generate" />
             </div>
         </div>
-       
-        <div id="canvas1" class="row justify-content-center pt-5">
+             <div id="head"  class="row justify-content-center pt-5">
+            
+            </div>
+            <div id="canvas1" class="row justify-content-center pt-5">
+            </div>
+            <div id="canvas2" class="row justify-content-center pt-5">
+            </div>
+            <div id="outputTable1">
+            </div>
+            <div id="outputTable2">
+            </div>
         </div>
-       
-        <div id="canvas2" class="row justify-content-center pt-5">
-        </div>
-        <div id="outputTable1">
-        </div>
-        <div id="outputTable2">
-        </div>
-    </div>
     <script>
         // Toggle radio buttons and disable duration fields accordingly
         function disableOneMonthDD(bool) {
@@ -195,8 +196,10 @@
             $("#table2").remove();
         }
 
-        function updateChart1(result) {      
-            
+        function updateChart1(result) {   
+          //  if ($("input[name=Duration]:checked").val()==)
+          //  $("#CompareMonthDD1").val()
+            //$("#head").html("<h1>" +monthNames[$("#CompareMonthDD1").val()] + "</h1>");
             $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
             var canvas = document.getElementById("chart1").getContext('2d');
             myChart = new Chart(canvas, {

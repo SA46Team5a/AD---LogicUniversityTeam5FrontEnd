@@ -202,8 +202,8 @@
         }
         function updateChart1(result) {
             alert('update chart1');
-            $("#chart1").remove();
-            $("#chart2").remove();
+           // $("#chart1").remove();
+           // $("#chart2").remove();
             $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
             var canvas = document.getElementById("chart1").getContext('2d');
             myChart = new Chart(canvas, {
