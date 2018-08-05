@@ -81,6 +81,7 @@
                                         @Html.TextBoxFor(m => Model.Requisitions[j].Quantity, new {
                                        @class = "form-control col-12 text-center mx-auto",
                                        @onkeypress = "return noNumbers(event)",
+                                       @maxlength="6",
                                        @onfocusout = "allownums(this)",
                                    })
                                         @Html.HiddenFor(m => Model.Requisitions[j].Quantity)
@@ -180,15 +181,19 @@
                 {
                     keynum = e.which;
                 }
+                var possivel = "xX0123456789";
                 keychar = String.fromCharCode(keynum);
 
                 numcheck = /\d/;
-                if (numcheck.test(keychar)) {
+                if (possivel.indexOf(keychar) != -1 ||
+                    keynum == 8 ||//Backspace 
+                    keynum == 9 ||//Tab
+                    keynum == 37 ||//Setas 
+                    keynum == 39 || //Setas 
+                    keynum == 46) {//Delete
                     return true;
-                }
-                else {
-                    alert("Only positive numbers are allowed");
-                    return false
+                } else {
+                    return false;
                 }
             }
             function allownums(textField) {
