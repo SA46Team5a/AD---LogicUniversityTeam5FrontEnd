@@ -38,7 +38,7 @@ namespace LogicUniversityTeam5.Controllers
                 combinedView.StockVouchers = stockManagementService.getOpenVouchers(false);
             }
 
-            combinedView.StockVouchers = stockManagementService.getOpenVouchers(true);
+            //combinedView.StockVouchers = stockManagementService.getOpenVouchers(true);
             combinedView.IsSelected = new List<bool>();
             foreach (StockVoucher voucher in combinedView.StockVouchers)
 
@@ -48,6 +48,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
             string approverEmpId = User.Identity.GetEmployeeId();

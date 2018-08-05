@@ -59,8 +59,10 @@
                                         @Html.HiddenFor(m => Model.Items[i].UnitOfMeasure)
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-9 mx-auto",
+                                        @Html.TextBoxFor(m => Model.AddedText[i], new { @id = "actualcount", @class = "form-control col-6 mx-auto",
                                        @onkeypress = "return noNumbers(event)",
+                                       @maxlength = "6",
+                                       @pattern = "[0-9]{1,6}",
                                        @onfocusout = "allownums(this)",
                                    })
                                         @Html.HiddenFor(m => Model.AddedText[i])
@@ -107,15 +109,19 @@
         {
             keynum = e.which;
         }
+        var possivel = "xX0123456789";
         keychar = String.fromCharCode(keynum);
 
         numcheck = /\d/;
-        if (numcheck.test(keychar)) {
+        if (possivel.indexOf(keychar) != -1 ||
+            keynum == 8 ||//Backspace 
+            keynum == 9 ||//Tab
+            keynum == 37 ||//Setas 
+            keynum == 39 || //Setas 
+            keynum == 46) {//Delete
             return true;
-        }
-        else {
-            alert("Only positive numbers are allowed");
-            return false
+        } else {
+            return false;
         }
     }
     function allownums(textField) {

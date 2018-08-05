@@ -55,6 +55,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AppointDepartmentRep(CombinedViewModel model, string confirm)
         {
            
@@ -67,7 +68,7 @@ namespace LogicUniversityTeam5.Controllers
                 DepartmentRepresentative departmentRepresentative = departmentService.getCurrentDepartmentRepresentative(neweDepRepEmployee.DepartmentID);
                 string oldDepRepEmployeeId = departmentRepresentative.EmployeeID;
                 departmentService.updateDepartmentRepresentative(departmentRepresentative.DeptRepID, neweDepRepEmployee.EmployeeID);
-                EmailNotificationController.SendEmailToAppointingDepRep(departmentRepresentative.Passcode);
+                //EmailNotificationController.SendEmailToAppointingDepRep(departmentRepresentative.Passcode);
                 
                 roleController.ChangeRoleOfUserToDepartmentRep(neweDepRepEmployee.EmployeeID);
                 roleController.ChangeRoleOfUserToEmployee(oldDepRepEmployeeId);

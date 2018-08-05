@@ -46,6 +46,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
        
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ItemCatalogue(string Next, CombinedViewModel model,string Search)      
         {
             
@@ -114,6 +115,7 @@ namespace LogicUniversityTeam5.Controllers.Order
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult OrderQuantity(CombinedViewModel model)
 
         {
@@ -208,6 +210,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult PlaceOrder(CombinedViewModel model)
         {
             //creating Dictionary<int, int> supplierItemsAndQty
@@ -301,6 +304,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public FileResult DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
         {
             var temp = Server.MapPath("~/logicU_temp");
@@ -338,7 +342,7 @@ namespace LogicUniversityTeam5.Controllers.Order
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
         {
             if (Search != null)

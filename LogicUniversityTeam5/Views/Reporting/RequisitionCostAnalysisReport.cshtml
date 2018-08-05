@@ -1,4 +1,5 @@
-﻿@model ServiceLayer.ReportingModel
+﻿
+@model ServiceLayer.ReportingModel
 @{
     ViewBag.Title = "Requisition Cost Analysis Report";
 }
@@ -52,7 +53,7 @@
                 <div class="form-check">
                     <input class="form-check-input radio" type="radio" name="Duration" id="LastThreeMonthsRB" value="PastThreeMonths" checked="checked">
                     <label class="form-check-label">
-                        Past Three Month
+                        Past Four Months (including current month)
                     </label>
                 </div>
             </div>
@@ -119,15 +120,18 @@
                        value="Generate" />
             </div>
         </div>
-        <div id="canvas1" class="row justify-content-center pt-5">
+             <div id="head"  class="row justify-content-center pt-5">
+            
+            </div>
+            <div id="canvas1" class="row justify-content-center pt-5">
+            </div>
+            <div id="canvas2" class="row justify-content-center pt-5">
+            </div>
+            <div id="outputTable1">
+            </div>
+            <div id="outputTable2">
+            </div>
         </div>
-        <div id="canvas2" class="row justify-content-center pt-5">
-        </div>
-        <div id="outputTable1">
-        </div>
-        <div id="outputTable2">
-        </div>
-    </div>
     <script>
         // Toggle radio buttons and disable duration fields accordingly
         function disableOneMonthDD(bool) {
@@ -192,11 +196,14 @@
             $("#table2").remove();
         }
 
-        function updateChart1(result) {            
+        function updateChart1(result) {   
+          //  if ($("input[name=Duration]:checked").val()==)
+          //  $("#CompareMonthDD1").val()
+            //$("#head").html("<h1>" +monthNames[$("#CompareMonthDD1").val()] + "</h1>");
             $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
             var canvas = document.getElementById("chart1").getContext('2d');
             myChart = new Chart(canvas, {
-                type: 'bar',
+                type: 'bar',                
                 data: result,
                 options: {
                     scales: {
@@ -210,6 +217,7 @@
             });
         }
         function updateChart2(result) {
+            
             $("#canvas2").html("<canvas id='chart2' width='400' height='100'>");
             var canvas = document.getElementById("chart2").getContext('2d');
             myChart = new Chart(canvas, {
@@ -227,6 +235,7 @@
             });
         }
         function updateTable1(result, month) {
+            
             $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th>" + month + "</th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
@@ -241,7 +250,7 @@
             });
         }
         function updateTable2(result, month) {
-
+            
             $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th>" + month + "</th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
@@ -256,7 +265,8 @@
             })
         }
         //this function is called when compare data is selected.
-        function getDataCompare(pass) {            
+        function getDataCompare(pass) {   
+            alert(pass);
             var data = {};
             data["category"] = $("#stationaryCategory option:selected").val();
             var selectedDepts = [];
@@ -291,13 +301,13 @@
                 url: "../api/reports/requisition",
                 success: function (result) {
                     console.log(result);
-                    updateChart1(result);
+                    updateChart1(result);                    
                     updateTable1(result, monthNames[month1])
                 }
             })
-            pass = "2";
+            pass = "2";            
             data = getDataCompare(pass);
-            month2 = data["option"];
+            month2 = data["option"];            
             console.log(data);
             $.ajax({
                 type: "POST",

@@ -3,6 +3,7 @@ using LogicUniversityTeam5.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(LogicUniversityTeam5.Startup))]
@@ -36,6 +37,7 @@ namespace LogicUniversityTeam5
                 }
             }
         }
+
 
     }
 }

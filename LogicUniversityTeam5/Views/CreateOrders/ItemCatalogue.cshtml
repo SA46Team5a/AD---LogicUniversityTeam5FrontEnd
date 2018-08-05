@@ -8,122 +8,124 @@
     <h1 class="text-center">Item Catalogue</h1>
     @using (Html.BeginForm("ItemCatalogue", "CreateOrders", FormMethod.Post))
     {
+        @Html.AntiForgeryToken()
 
 
-        
         <div class="row col-12 justify-content-center">
             <span class="my-auto col-2">
                 Category
             </span>
             @{ List<SelectListItem> des = new List<SelectListItem>();
-            des.Add(new SelectListItem { Text = "All", Value = "", Selected = true });
-            foreach (var cat in Model.Categories)
-            {
-                des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
-            }
+                des.Add(new SelectListItem { Text = "All", Value = "", Selected = true });
+                foreach (var cat in Model.Categories)
+                {
+                    des.Add(new SelectListItem { Text = cat.CategoryName, Value = cat.CategoryName });
+                }
             }
             <div class="col-4">
                 @Html.DropDownListFor(m => Model.AddedText[0],
                                                des,
-                                               new { @id = "categoryDropDown", @class = "form-control ", @onchange = "filter()" })
+                                               new { @id = "categoryDropDown", @class = "form-control mb-1", @onchange = "filter()" })
             </div>
-         </div>
+        </div>
         <div class="row col-12 justify-content-center">
             <span class="my-auto col-2">
                 Description
             </span>
             <div class="col-4">
                 <input class="form-control form-control" type="text" name="descriptiontext" id="descriptiontext"
-                       placeholder="Search Description" onkeyup="filter()">
+                       placeholder="Search Description" onkeyup="filter()" maxlength="50">
 
             </div>
         </div>
-            <div class="mt-6 mb-6"> </div>
-            <div class="row justify-content-md-center mt-3">
-                <div class="col-8 text-center">
-                    <table class="table" id="cataloguetable">
-                        <thead>
+        <div class="mt-6 mb-6"> </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-10 text-center">
+                <table class="table" id="cataloguetable">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-left">Category</th>
+                            <th scope="col" class="text-left col-3">Description</th>
+                            <th scope="col" class="text-center">Reorder level</th>
+                            <th scope="col" class="text-center">Current Stock</th>
+                            <th scope="col" class="text-left">Reorder Quantity</th>
+                            <th scope="col" class="text-left col-2">Reorder</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="itemCatalogue">
+
+                        @for (int i = 0; i < Model.reorderdetail.Count; i++)
+                        {
+
                             <tr>
-                                <th scope="col" class="text-left">Category</th>
-                                <th scope="col" class="text-left  col-4">Description</th>
-                                <th scope="col" class="text-center">Reorder level</th>
-                                <th scope="col" class="text-center">Current Stock</th>
-                                <th scope="col" class="text-left">Reorder Quantity</th>
-                                <th scope="col" class="text-left">Reorder</th>
+                                <td>
+                                    @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
+                                    @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
+                                    @Html.HiddenFor(m => Model.Items[i].ItemID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
+                                    @Html.HiddenFor(m => Model.reorderdetail[i].ItemName)
+                                    @Html.HiddenFor(m => Model.reorderdetail[i].ItemID)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(m => Model.reorderdetail[i].ReorderLevel)
+                                    @Html.HiddenFor(m => Model.reorderdetail[i].ReorderLevel)
+                                </td>
+                                <td class="text-center">
+
+                                    @Html.DisplayFor(m => Model.reorderdetail[i].QtyInStock)
+                                    @Html.HiddenFor(m => Model.reorderdetail[i].QtyInStock)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(m => Model.reorderdetail[i].ReorderQuantity)
+                                    @Html.HiddenFor(m => Model.reorderdetail[i].ReorderQuantity)
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(m => Model.Quantity[i], new
+                               {
+
+                                   @class = "form-control",
+                                   @onfocusout = "allownums(this)",
+                                   @maxlength = "6",
+                                   @pattern = "[0-9]{1,6}",
+                                   @onkeypress = "return noNumbers(event)",
+                                   @Value = Model.reorderdetail[i].ReorderLevel > Model.reorderdetail[i].QtyInStock ? Model.reorderdetail[i].ReorderQuantity : 0,
+                               })
+                                    @Html.HiddenFor(m => Model.Quantity[i])
+
+                                </td>
+
                             </tr>
-                        </thead>
 
-                        <tbody id="itemCatalogue">
+                        }
+                    </tbody>
+                </table>
 
-                            @for (int i = 0; i < Model.reorderdetail.Count; i++)
-                            {
-
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(m => Model.Items[i].Category.CategoryName)
-                                        @Html.HiddenFor(m => Model.Items[i].Category.CategoryName)
-                                        @Html.HiddenFor(m => Model.Items[i].ItemID)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(m => Model.reorderdetail[i].ItemName)
-                                        @Html.HiddenFor(m => Model.reorderdetail[i].ItemName)
-                                        @Html.HiddenFor(m => Model.reorderdetail[i].ItemID)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(m => Model.reorderdetail[i].ReorderLevel)
-                                        @Html.HiddenFor(m => Model.reorderdetail[i].ReorderLevel)
-                                    </td>
-                                    <td class="text-center">
-
-                                        @Html.DisplayFor(m => Model.reorderdetail[i].QtyInStock)
-                                        @Html.HiddenFor(m => Model.reorderdetail[i].QtyInStock)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(m => Model.reorderdetail[i].ReorderQuantity)
-                                        @Html.HiddenFor(m => Model.reorderdetail[i].ReorderQuantity)
-                                    </td>
-                                   
-                                    <td>
-                                        @Html.TextBoxFor(m => Model.Quantity[i], new
-                                   {
-
-                                       @class = "form-control",
-                                       @onfocusout = "allownums(this)",
-                                       @Value = Model.reorderdetail[i].ReorderLevel > Model.reorderdetail[i].QtyInStock ? Model.reorderdetail[i].ReorderQuantity : 0,
-                                   })
-                                        @Html.HiddenFor(m => Model.Quantity[i])
-                                     
-                                    </td>
-                                     
-                                </tr>
-
-                            }
-                        </tbody>
-                    </table>
-
-                </div>
             </div>
-            <div class="row justify-content-md-center mt-3 col 8">
-                <div class=" col-4 text-center">
-                    @Html.ActionLink("Cancel","Index","Home",null, new { @class="btn btn-info" , @value="Cancel" })
-                </div>
-                <div class="col-4 text-center">
-                    <input type="submit" value="Next" name="Next" id="btn_next" class="btn btn-primary" />
-                </div>
-            </div>
-     }
-
         </div>
+        <div class="row justify-content-md-center mt-3 col 8">
+            <div class=" col-4 text-center">
+                @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-info", @value = "Cancel" })
+            </div>
+            <div class="col-4 text-center">
+                <input type="submit" value="Next" name="Next" id="btn_next" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+
+</div>
     <script type="text/javascript">
         function allownums(textField) {
             try {
                 var num = parseInt(textField.value, 10);
                 textField.value = num;
             } catch (error) {
-                alert("Only positive numbers are allowed");
-                textField.value = ""
+                textField.value = "0"
             }
-            if (num <= 0) {
+            if (num < 0) {
                 alert("Only positive numbers are allowed");
                 textField.value = "";
             }
@@ -138,6 +140,46 @@
                     (this.children[1].textContent.toLowerCase().trim().indexOf(desc) > -1 || desc.length == 0)
                 )
             });
+        }
+
+        function noNumbers(e) {
+            var keynum;
+            var keychar;
+            var numcheck;
+
+            if (window.event) // IE
+            {
+                keynum = e.keyCode;
+            }
+            else if (e.which) // Netscape/Firefox/Opera
+            {
+                keynum = e.which;
+            }
+            var possivel = "xX0123456789";
+            keychar = String.fromCharCode(keynum);
+
+            numcheck = /\d/;
+            if (possivel.indexOf(keychar) != -1 ||
+                keynum == 8 ||//Backspace 
+                keynum == 9 ||//Tab
+                keynum == 37 ||//Setas 
+                keynum == 39 || //Setas 
+                keynum == 46) {//Delete
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function allownums(textField) {
+            var num = parseInt(textField.value, 10);
+            if (num > 1000) {
+                alert("Sorry, the maximum quantity to order is 1000");
+                textField.value = "1000";
+            } else if (num < 0) {
+                alert("Only positive numbers are allowed");
+                textField.value = "1";
+            }
         }
     </script>
 

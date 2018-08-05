@@ -6,102 +6,104 @@
 
 @using (Html.BeginForm("ManageMonthlyStockDiscrepancy", "StockAdjustment", FormMethod.Post))
 {
-<div class="container">
-    <h1 class="text-center">Discrepancy Item</h1>
-    <div class="row justify-content-md-center mt-5">
-        <div class="col-8">
-            <form id="discrepancy">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-left">Stationery Description</th>
-                            <th scope="col" class="text-left">Quantity to be adjusted</th>
-                            <th scope="col" class="text-left">Amount</th>
-                            <th scope="col" class="text-center col-4">Reason</th>
-                            <th scope="col" class="text-left">Date of Report</th>
-                            <th scope="col" class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int count = 0;
-                        }
-                        @for (int i = 0; i < Model.StockVouchers.Count; i++)
-                        {
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <h1 class="text-center">Discrepancies</h1>
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-12">
+                <form id="discrepancy">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                @{var gap = Model.StockVouchers[i].ActualCount - Model.StockVouchers[i].OriginalCount;
-                                }
-                                @{var amount = Model.StockVouchers[i].ItemCost * -gap;
-                                }
-                                @Html.HiddenFor(m => Model.StockVouchers[i].DiscrepancyID)
-                                <td>
-                                    @Html.DisplayFor(m => Model.StockVouchers[i].Item.ItemName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => gap)
-                                    @Html.DisplayFor(m => Model.StockVouchers[i].Item.UnitOfMeasure)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => amount)
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(m => Model.StockVouchers[i].Reason, new { @class = "form-control" })
-                                </td>
-                                <td>
-                                    @Convert.ToDateTime(Model.StockVouchers[i].RaisedByDate).ToString("dd/MM/yyyy")
-                                </td>
-                                <td class="text-center">
-                                    @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "check",@type="checkbox", @name = "check", @class = "form-control"})
-                                </td>
+                                <th scope="col" class="text-left">Description</th>
+                                <th scope="col" class="text-left">Quantity to adjust</th>
+                                <th scope="col" class="text-left">Amount</th>
+                                <th scope="col" class="text-center">Reason</th>
+                                <th scope="col" class="text-left">Date of Report</th>
+                                <th scope="col" class="text-center">Action</th>
                             </tr>
-                                    count++;
-                         }
-                    </tbody>
-                </table>
-            </form>
-            
-        </div>
-    </div>
-    <div class="row justify-content-md-center mt-3">
-        <div class="col-4 text-center">
-          
-            <button type="button" class="btn btn-primary" id="submit" data-toggle="modal" data-target="#myModalconfirm"
-                    value="Confirm" disabled="disabled" onclick="validateChecks()">
-                Submit
-            </button>
-           
-        </div>
-        <div class="modal fade" id="myModalconfirm" role="dialog">
-            <div class="modal-dialog">
-                Modal content
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h6 class="modal-title text-right">Submit Adjustment Vouchers</h6>
-                    </div>
-                    <div class="modal-body text-left">
-                        <p>The adjustments to stock levels and the reason for discrepancies will be saved. Do you wish to continue?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="row justify-content-md ">
-                            <div class="col-6 text-center"><button data-dismiss="modal" class="btn btn-default">Cancel</button></div>
-                            <div class="col-6 text-right ">
-                            <input class="btn btn-primary" type="submit" data-toggle="modal" data-target="#myModalconfirm" id="btn_Confirm"
-                                                value="Confirm" /></div>
-                        </div>
-                    </div>
-                </div>
+                        </thead>
+                        <tbody>
+                            @{int count = 0;
+                            }
+                            @for (int i = 0; i < Model.StockVouchers.Count; i++)
+                            {
+                                <tr>
+                                    @{var gap = Model.StockVouchers[i].ActualCount - Model.StockVouchers[i].OriginalCount;
+                                    }
+                                    @{var amount = Model.StockVouchers[i].ItemCost * gap;
+                                    }
+                                    @Html.HiddenFor(m => Model.StockVouchers[i].DiscrepancyID)
+                                    <td>
+                                        @Html.DisplayFor(m => Model.StockVouchers[i].Item.ItemName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => gap)
+                                        @Html.DisplayFor(m => Model.StockVouchers[i].Item.UnitOfMeasure)
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:C2}",amount)
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(m => Model.StockVouchers[i].Reason, new { @class = "form-control col-12", @maxlength = "50" })
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => Model.StockVouchers[i].RaisedByDate)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.CheckBoxFor(m => Model.IsSelected[count], new { @style = "width: 15px; height: 15px;", @id = "check", @type = "checkbox", @name = "check", @class = "form-control" })
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </form>
 
             </div>
         </div>
-        <div class="col-4 text-center">
-            @Html.ActionLink("Home", "Index", "Home", null, new { @class="btn btn-secondary"})
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-4 text-center">
+
+                <button type="button" class="btn btn-primary" id="submit" data-toggle="modal" data-target="#myModalconfirm"
+                        value="Confirm" disabled="disabled" onclick="validateChecks()">
+                    Submit
+                </button>
+
+            </div>
+            <div class="modal fade" id="myModalconfirm" role="dialog">
+                <div class="modal-dialog">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title text-right">Submit Adjustment Vouchers</h6>
+                        </div>
+                        <div class="modal-body text-left">
+                            <p>The adjustments to stock levels and the reason for discrepancies will be saved. Do you wish to continue?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row justify-content-md ">
+                                <div class="col-6 text-center"><button data-dismiss="modal" class="btn btn-default">Cancel</button></div>
+                                <div class="col-6 text-right ">
+                                    <input class="btn btn-primary" type="submit" data-toggle="modal" data-target="#myModalconfirm" id="btn_Confirm"
+                                           value="Confirm" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-4 text-center">
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-secondary" })
+            </div>
         </div>
     </div>
-</div>
 }
 <script>
     $("#btn_Confirm").on("click", function () {
         alert("Stock Adjustment Updated");
-    });   
+    });
 </script>
 <script>
     $(".checkbox").click(function () {
@@ -111,12 +113,12 @@
         else {
             $(submit).removeAttr("disabled");
         }
-    });      
+    });
 </script>
 <script>
     var count = 0;
     $("input[name*='IsSelected']").click(function () {
-        var sendbtn = document.getElementById('submit'); 
+        var sendbtn = document.getElementById('submit');
         if ($(this).prop('checked')) {
             count++;
         }
@@ -132,7 +134,7 @@
         }
 
     });
-   
+
 </script>
 
 
