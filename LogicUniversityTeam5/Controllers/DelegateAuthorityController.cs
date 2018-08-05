@@ -44,6 +44,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult DelegateAuthority(CombinedViewModel model)
         {
 

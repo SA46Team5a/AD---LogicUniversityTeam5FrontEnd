@@ -48,6 +48,7 @@ namespace LogicUniversityTeam5.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ChangeCollectionPoint(CombinedViewModel model)
         {
             List<CollectionPoint> collectionPoint = model.CollectionPoint;

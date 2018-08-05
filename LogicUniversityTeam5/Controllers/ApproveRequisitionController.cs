@@ -80,6 +80,7 @@ namespace LogicUniversityTeam5
             return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ApproveRequisitionForm(SpecialModel model, int? Approve, int? Reject)
         {
             string empid = User.Identity.GetEmployeeId();

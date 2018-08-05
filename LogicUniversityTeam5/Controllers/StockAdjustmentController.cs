@@ -48,6 +48,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ManageMonthlyStockDiscrepancy(CombinedViewModel model)
         {
             string approverEmpId = User.Identity.GetEmployeeId();

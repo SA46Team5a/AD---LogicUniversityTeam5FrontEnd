@@ -6,6 +6,7 @@
 <body>
     @using (Html.BeginForm("DownloadPurchaseOrders", "CreateOrders", FormMethod.Post))
     {
+        @Html.AntiForgeryToken()
         <div class="container">
             <div class="row justify-content-md-center pb-5">
                 <h1 class="text-center mb=3">Order Summary</h1>
@@ -60,11 +61,11 @@
                                             </td>
                                             <td>
                                                 @{decimal itemTotalPrice = Model.OrderSupplierDetails[i].UnitCost *
-                                                                                             Model.OrderSupplierDetails[i].Quantity;}
+                                                                                               Model.OrderSupplierDetails[i].Quantity;}
                                                 @Html.DisplayFor(m => itemTotalPrice)
                                             </td>
                                         </tr>
-                                        orderTotalPrice+= itemTotalPrice;
+                                        orderTotalPrice += itemTotalPrice;
                                     }
                                     <tr>
                                         <td></td>
@@ -73,7 +74,7 @@
                                         <td></td>
                                         <td>Total:</td>
                                         <td>
-                                            <label>@String.Format("{0:C}",orderTotalPrice)</label>
+                                            <label>@String.Format("{0:C}", orderTotalPrice)</label>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -88,11 +89,19 @@
                     <button type="submit" class="btn btn-primary">Download PO</button>
                 </div>
                 <div class="col-4 text-center">
-                    @Html.ActionLink("Home","Index",new { controller= "Home" }, new { @class= "btn btn-info" , @disabled ="true"})
+                    @Html.ActionLink("Home", "Index", new { controller = "Home" }, new { @class = "btn btn-info", @disabled = "true" })
                 </div>
             </div>
         </div>
     }
 </body>
+<script>
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+</script>
+
 
 

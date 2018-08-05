@@ -5,6 +5,7 @@
 }
 @using (Html.BeginForm("AppointDepartmentRep", "AppointDepartmentRep", FormMethod.Post))
 {
+     @Html.AntiForgeryToken()
 <body>
     <div class="container">
         @{ if (Request.Params["isAppointDepartmentRep"] != null)

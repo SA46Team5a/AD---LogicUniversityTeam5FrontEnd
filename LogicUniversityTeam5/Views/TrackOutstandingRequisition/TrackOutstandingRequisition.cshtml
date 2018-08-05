@@ -14,12 +14,12 @@
         <div class="row justify-content-md-center mt-3">
             <div class="col-6 text-center">
                 @{
-                                List<SelectListItem> DepartmentNames = new List<SelectListItem>();
-                                DepartmentNames.Add(new SelectListItem { Text = "All departments".ToString(), Value = "0", Selected = true});
+                    List<SelectListItem> DepartmentNames = new List<SelectListItem>();
+                    DepartmentNames.Add(new SelectListItem { Text = "All departments".ToString(), Value = "0", Selected = true });
                     foreach (var dep in Model.Departments)
                     {
                         string output = dep.DepartmentName.ToString();
-                            DepartmentNames.Add(new SelectListItem { Text=output, Value=output});
+                        DepartmentNames.Add(new SelectListItem { Text = output, Value = output });
                     }
 
                     DepartmentNames = DepartmentNames.Distinct().ToList();
@@ -32,14 +32,14 @@
                     @text ="Department",
                     @required ="true"
                 })
-                
+
             </div>
 
         </div>
         <div class="row justify-content-md-center mt-3">
             <div class="col-6 text-center">
                 <select class="form-control form-control-lg col-12" name="StatusDropdownlist" id="StatusDropdownlist"
-                         placeholder="Department" required>
+                        placeholder="Department" required>
                     <option value="0">All outstanding requisitions</option>
                     <option value="Not Ordered">Not Ordered</option>
                     <option value="Not Delivered">Not Delivered</option>
@@ -57,9 +57,10 @@
         </div>
         @using (Html.BeginForm("TrackOutstandingRequisition", "TrackOutstandingRequisition", FormMethod.Post))
         {
+            @Html.AntiForgeryToken()
             <div class="row justify-content-md-center mt-3">
                 <div class="col-10 text-center">
-                        <table class="table" id="outstandingRequisitionTable">
+                    <table class="table" id="outstandingRequisitionTable">
                         <thead>
                             <tr class="align-middle">
                                 <th scope="col" class="align-middle">Request Date</th>
@@ -96,9 +97,9 @@
                                     <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier.Supplier.SupplierName)</td>
                                     <td>@Html.DisplayFor(m => Model.OutstandingRequisitionRows[i].OrderSupplierDetail.Quantity)</td>
                                     <td>
-                                        @{  
-                                            string status ="";
-                                            if(Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier == null)
+                                        @{
+                                            string status = "";
+                                            if (Model.OutstandingRequisitionRows[i].OrderSupplierDetail.OrderSupplier == null)
                                             {
                                                 status = "Not Ordered";
                                             }
@@ -111,8 +112,8 @@
                                     </td>
                                 </tr>
                             }
-                         </tbody>
-                    </table>  
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="row justify-content-md-center mt-3 pb-5">

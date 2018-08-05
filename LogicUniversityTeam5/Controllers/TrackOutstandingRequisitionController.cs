@@ -32,6 +32,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult TrackOutstandingRequisition(CombinedViewModel model)
         {
             //getting the list of itemsId and itemQty from view

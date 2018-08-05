@@ -55,6 +55,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AppointDepartmentRep(CombinedViewModel model, string confirm)
         {
            

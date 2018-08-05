@@ -41,6 +41,7 @@ namespace LogicUniversityTeam5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteRequisitionForm(int id)
         {            
             requisitionService.deleteRequisition(id);
