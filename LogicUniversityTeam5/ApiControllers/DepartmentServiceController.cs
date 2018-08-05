@@ -151,5 +151,26 @@ namespace LogicUniversityTeam5.ApiControllers
                 return false;
             }
         }
+
+        [HttpGet]
+        [Route("api/deprep/newpasscode/{id}")]
+        public bool getNewPasscodeOfDep(string id)
+        {
+            try
+            {
+                string newPasscode = _departmentService.generateNewPasscode(id);
+                Employee deptRep = _departmentService.getCurrentDepartmentRepresentative(id).Employee;
+                string deptRepEmail = deptRep.EmailID;
+                EmailNotificationController.SendEmailForNewPasscode(deptRepEmail,newPasscode);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+           
+        }
+
+
     }
 }
