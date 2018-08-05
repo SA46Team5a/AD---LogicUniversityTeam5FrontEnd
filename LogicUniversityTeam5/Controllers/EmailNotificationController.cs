@@ -48,7 +48,9 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "wanglu19@u.nus.edu");
+
             mm.Subject = "Notification to appointing department representative";
             mm.Body = "Dear employee:\r\n You have been appointed as department representative. " +
                 "Now you have right to collect stationaries and maintain the department list. Your passcode is " + passcode + ".\r\n " + "Regards\r\n" +
@@ -239,7 +241,7 @@ namespace LogicUniversityTeam5.Controllers
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             //client.UseDefaultCredentials = true;
-            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "meitingtonia@gmail.com");
+            MailMessage mm = new MailMessage("LogicstationeryTeam5@gmail.com", "wanglu19@u.nus.edu");
             MailAddress copy1 = new MailAddress("e0283995@u.nus.edu");
             MailAddress copy2 = new MailAddress("Khimyang22@gmail.com");
             mm.CC.Add(copy1);

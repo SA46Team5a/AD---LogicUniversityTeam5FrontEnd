@@ -23,8 +23,8 @@
                         <div class="form-group col-md-4">
                             <label for="orderid">Order ID</label>
                             @Html.DropDownListFor(m => Model.AddedText[0], orderid.Distinct(), new { @class = "form-control", @id = "dropdown" })
-                            <div class="row justify-content-center">
-                                <div class="col-8 text-center mt-1">
+                            <div class="row justify-content-center pt-5">
+                                <div class="col-8 text-center">
                                     <input type="submit" class="btn btn-primary" name="Search" value="Search" id="Search" onclick="return Validate()" />
                                 </div>
                             </div>

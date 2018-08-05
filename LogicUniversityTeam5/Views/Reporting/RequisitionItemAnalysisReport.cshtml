@@ -201,7 +201,7 @@
             }
         }
         function updateChart1(result) {
-            
+            alert('update chart1');
             $("#chart1").remove();
             $("#chart2").remove();
             $("#canvas1").html("<canvas id='chart1' width='400' height='100'>");
@@ -221,7 +221,7 @@
             });
         }
         function updateChart2(result) {           
-            
+            alert('updatechart2');
             $("#canvas2").html("<canvas id='chart2' width='400' height='100'>");
             var canvas = document.getElementById("chart2").getContext('2d');
             myChart = new Chart(canvas, {
@@ -239,21 +239,39 @@
             });
         }
         function updateTable1(result) {
-                       
+            var comparevalue = $("#compareElement option:selected").val();            
             $("#outputTable1").html("<table id='table1' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
-            $.each(result.datasets, function (i, item) {
-                var tr = $('<tr>').append(
-                    $('<td >').text(item.label),
-                    $('<td>').text(item.data[0]),
-                    $('<td>').text(item.data[1]),
-                    $('<td>').text(item.data[2]),
-                    $('<td>').text(item.data[3])
-                );
-                $('#table1 > tbody:last-child').append(tr)
-            });
+            if (comparevalue == 'Quantity') {
+                alert('quantity');
+                $.each(result.datasets, function (i, item) {
+                    var tr = $('<tr>').append(
+                        $('<td >').text(item.label),
+                        $('<td>').text(item.data[0]),
+                        $('<td>').text(item.data[1]),
+                        $('<td>').text(item.data[2]),
+                        $('<td>').text(item.data[3])
+                    );
+
+                    $('#table1 > tbody:last-child').append(tr)
+                });
+            } else
+            {
+                alert('costs');
+                $.each(result.datasets, function (i, item) {
+                    var tr = $('<tr>').append(
+                        $('<td>').text(item.label),
+                        $('<td>').text(accounting.formatMoney(item.data[0])),
+                        $('<td>').text(accounting.formatMoney(item.data[1])),
+                        $('<td>').text(accounting.formatMoney(item.data[2])),
+                        $('<td>').text(accounting.formatMoney(item.data[3]))
+                    );
+                    $('#table1 > tbody:last-child').append(tr)
+                });
+            }
         }
         function updateTable2(result) {
+            alert('update table2');
             $("#outputTable2").html("<table id='table2' width='400' height='100' class='table' ><tr><th><Department></th><th>" + result.labels[0] + "</th><th>" + result.labels[1] + "</th><th>" + result.labels[2] + "</th><th>" + result.labels[3] + "</th></tr></table > ");
             // var rows;
             $.each(result.datasets, function (i, item) {
