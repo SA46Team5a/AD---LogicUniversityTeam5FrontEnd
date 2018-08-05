@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using LogicUniversityTeam5.Models;
+using Microsoft.AspNet.Identity;
 using ServiceLayer;
 using ServiceLayer.DataAccess;
 
@@ -58,12 +60,12 @@ namespace LogicUniversityTeam5
             => StockVoucherPayload.ConvertEntityToPayload(_stockManagementService.getOpenVouchers(isManager));
 
         [HttpPost]
-        [Route("api/store/vouchers/submit")]
-        public bool submitStockVouchers(List<StockVoucherPayload> payload)
+        [Route("api/store/vouchers/submit/{empId}")]
+        public bool submitStockVouchers(List<StockVoucherPayload> payload, string empId)
         {
             try
             {
-                _stockManagementService.submitVouchers(payload);
+                _stockManagementService.submitVouchers(payload, empId);
                 return true;
             }
             catch (Exception)
