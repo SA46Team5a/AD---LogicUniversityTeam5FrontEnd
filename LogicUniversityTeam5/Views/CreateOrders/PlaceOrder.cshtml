@@ -159,13 +159,26 @@
     window.onpageshow = function (evts) { if (evts.persisted) DisableBackButtonAllBrowsers(); };
     window.onunload = function () { void (0) };
 
-    document.on("change", "orderQty", function () {
-        var sum = 0;
-        $("input[class *= 'orderQty']").each(function () {
-            sum += +$(this).val();
+    $(".orderQty").change(toggleBtnNext)
+
+    function toggleBtnNext() {
+        console.log(checkPositiveValues());
+        if (checkPositiveValues()) {
+            $("#btn_next").removeAttr("disabled");
+        } else {
+            $("#btn_next").attr("disabled", "disabled");
+        }
+    }
+
+    function checkPositiveValues() {
+        var flag = false;
+        $(".orderQty").each(function () {
+            if (parseInt($(this).val()) > 0)
+                flag =  true;
         });
-        if (sum <= 0)
-            $('#btn_next').attr("disabled", "disabled");
-    });
+        return flag;
+    }
+
+    toggleBtnNext();
 </script>
 
